@@ -1,8 +1,4 @@
 <!---------------------------------- STYLES BUNDLE ---------------------------------------->
-<link rel="stylesheet" href="{{ asset('css/site.css') }}">
-<link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
-<link rel="stylesheet" href="{{ asset('css/dropdown.css') }}">
-<link rel="stylesheet" href="{{ asset('css/notification.css') }}">
-<link rel="stylesheet" href="{{ asset('css/popup.css') }}">
-
+<link rel="stylesheet" href="{{ asset('css/app.css') }}">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 <!----------------------------------------------------------------------------------------->
