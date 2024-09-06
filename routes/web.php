@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('home.feed');
+    return view('events.eventPage');
 });
 
 Route::get('/home', function () {
