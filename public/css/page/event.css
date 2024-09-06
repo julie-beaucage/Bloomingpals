@@ -9,9 +9,7 @@
 }
 
 @media screen and (max-width: 600px) {
-    .event_image {
-
-    }
+    
 }
 @media screen and (min-width: 600px) {
     .event_image {
@@ -21,6 +19,7 @@
 
 .detail_container {
     margin: 0px 30px 0px 30px;
+    width: calc(100% - 60px);
 }
 
 .principal_info {
@@ -55,11 +54,7 @@
     border-radius: 6px;
 }
 
-.greyText {
-    color: rgb(168, 168, 168);
-}
-
-.blueButton {
+.blue_button {
     background-color: blue;
     color: white;
     width: max-content;

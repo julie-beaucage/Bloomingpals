@@ -134,7 +134,7 @@ body {
 }
 
 /*-------------------- General styles --------------------*/
-.no-select {
+.no_select {
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
     -moz-user-select: none; /* Old versions of Firefox and Internet Explorer */
@@ -157,4 +157,16 @@ a {
 
 .icon-md {
     font-size: 2em !important;
+}
+
+.grey_text {
+    color: rgb(168, 168, 168);
+}
+.profile_icon {
+    width: 50px;
+    height: 50px;
+    background-size: cover;
+    border-radius: 50px;
+    display: inline-block;
+    background-position: center;
 }

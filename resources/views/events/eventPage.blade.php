@@ -1,39 +1,41 @@
 @extends("master")
 
 @section("style")
-    <link rel="stylesheet" href="{{ asset('css/event.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/page/event.css') }}">
 @endsection()
 
 @section("content")
-    <div class="event-image" src="https://img.freepik.com/photos-gratuite/beaute-abstraite-automne-dans-motif-veines-feuilles-multicolores-genere-par-ia_188544-9871.jpg">
+    <div class="event_image" style="background-image: url(https://img.freepik.com/photos-gratuite/beaute-abstraite-automne-dans-motif-veines-feuilles-multicolores-genere-par-ia_188544-9871.jpg)">
         
     </div>
-    <div class="detail-container">
-        <div class="principal-info">
-            <div class="organisaton-profile">
-                <img class="profile-icon no-select" src="https://img.freepik.com/photos-gratuite/beaute-abstraite-automne-dans-motif-veines-feuilles-multicolores-genere-par-ia_188544-9871.jpg"/>
-                <div class="username-container">
-                    <div>Nom</div>
-                    <div class="greyText">surnom</div>
+    <div class="detail_container">
+        <div class="principal_info">
+            <div class="organisator_profile">
+                <div class="profile_icon no_select" style="background-image: url(https://img.freepik.com/photos-gratuite/beaute-abstraite-automne-dans-motif-veines-feuilles-multicolores-genere-par-ia_188544-9871.jpg)">
+                    
+                </div>
+                <div class="username_container">
+                    <div class="title5">Nom</div>
+                    <div class="grey_text">surnom</div>
                 </div>
             </div>
-            <div class="event-name-container">
-                <div class="right-text">
+            <div class="event_name_container">
+                <div class="title4 right_text">
                     Nom de l'event
                 </div>
-                <div>
-                    <div class="tag">
+                <div class="tags">
+                    <div>
                         tag1
                     </div>
-                    <div class="tag">
+                    <div>
                         tag2
                     </div>
                 </div>
             </div>
         </div>
-        <div class="button-primary">
+        <div class="blueButton">
             rejoindre
         </div><br>
-        <div class="no-select">Information</div>
+        <div class="title6 noSelect">Information</div>
     </div>
 @endsection()
