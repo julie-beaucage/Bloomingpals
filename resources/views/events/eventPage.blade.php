@@ -33,9 +33,11 @@
                 </div>
             </div>
         </div>
-        <div class="blueButton">
-            rejoindre
-        </div><br>
-        <div class="title6 noSelect">Information</div>
+        <a href="">
+            <div class="blue_button">
+                rejoindre
+            </div><br>
+        </a>
+        <div class="title6 no_select">Information</div>
     </div>
 @endsection()

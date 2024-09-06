@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EventController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,3 +29,5 @@ Route::get('/search', function () {
 Route::get('/profile', function () {
     return view('profile.profile');
 });
+
+Route::get('/eventPage', [EventController::class, 'EventPage'])->name('eventPage');
