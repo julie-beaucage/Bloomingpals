@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
 {
-    public function EventPage() {
+    public function EventPage($eventId) {
         return view("events.eventPage");
     }
 }

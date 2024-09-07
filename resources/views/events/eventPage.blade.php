@@ -33,7 +33,7 @@
                 </div>
             </div>
         </div>
-        <a href="">
+        <a href="{{ route('eventPage', ['eventId' => 1])}}">
             <div class="blue_button">
                 rejoindre
             </div><br>
