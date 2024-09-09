@@ -3,10 +3,11 @@
     $conn = mysqli_connect("localhost", "root", "", "db");
 
     $idOrganitsator;
-    $name;
+    $meetupName;
     $description;
     $adress;
     $date;
+    $hour;
     $nb_participant;
     $image;
     $public;
@@ -35,10 +36,13 @@
         $data = $result->fetch_assoc();
         $id = $data["id"];
         $idOrganitsator = $data["id_organisateur"];
-        $name = $data["nom"];
+        $meetupName = $data["nom"];
         $description = $data["description"];
         $adress = $data["adresse"];
-        $date = $data["date"];
+        $fullDate = explode(" ", $data["date"]);
+        $date = $fullDate[0];
+        $fullHour = explode(":", $fullDate[1]);
+        $hour = $fullHour[0].":".$fullHour[1];
         $nb_participant = $data["nb_participant"];
         $image = $data["image"];
         $public = $data["public"];
@@ -51,6 +55,12 @@
     if (isset($image)) {
         $imageHtml = <<<HTML
             <div class="event_image" style="background-image: url({$image})">
+
+            </div>
+        HTML;
+    } else {
+        $imageHtml = <<<HTML
+            <div class="event_image" style="background-image: url(https://img.freepik.com/photos-gratuite/beaute-abstraite-automne-dans-motif-veines-feuilles-multicolores-genere-par-ia_188544-9871.jpg)">
 
             </div>
         HTML;
@@ -129,19 +139,19 @@
         $imageHtml
         <div class="detail_container">
             <div class="principal_info">
+                <div class="meetup_name_container">
+                    <div class="title4 right_text">
+                        $meetupName
+                    </div>
+                    <div class="tags">
+                        $tagsHtml
+                    </div>
+                </div>
                 <div class="organisator_profile">
                     $imageUtilisateurHtml
                     <div class="username_container">
                         <div class="title5">$firstName $lastName</div>
                         <div class="grey_text">surnom</div>
-                    </div>
-                </div>
-                <div class="event_name_container">
-                    <div class="title4 right_text">
-                        $name
-                    </div>
-                    <div class="tags">
-                        $tagsHtml
                     </div>
                 </div>
             </div>
@@ -151,7 +161,25 @@
                     rejoindre
                 </div><br>
             </a>
-            <div class="title6 no_select">Information</div>
+            <div class="title6 no_select">Information</div> <br>
+            <div class="info_container">
+                <div>
+                    <div class="dark_grey_text">Date</div>
+                    <div class="grey_text">$date</div>
+                </div>
+                <div>
+                    <div class="dark_grey_text">Adresse</div>
+                    <div class="grey_text">$adress</div>
+                </div>
+                <div>
+                    <div class="dark_grey_text">Heure</div>
+                    <div class="grey_text">$hour</div>
+                </div>
+                <div>
+                    <div class="dark_grey_text">Groupe</div>
+                    <div class="grey_text">$nb_participant</div>
+                </div>
+            </div>
         </div>
     HTML;
     echo $html?>

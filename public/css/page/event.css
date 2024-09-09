@@ -6,14 +6,34 @@
     display: inline-block;
     position: relative;
     background-position: center center;
+    border-radius: 20px;
 }
 
+.info_container {
+    display: grid;
+    gap: 10px;
+    text-align: center;
+}
+
+.info_container > div {
+
+}
+
+
 @media screen and (max-width: 600px) {
-    
+    .principal_info {
+        flex-direction: column;
+    }
+    .info_container {
+        grid-template-columns: 50% 50%;
+    }
 }
 @media screen and (min-width: 600px) {
-    .event_image {
-        border-radius: 20px;
+    .principal_info {
+        flex-direction: row-reverse;
+    }
+    .info_container {
+        grid-template-columns: 25% 25% 25% 25%;
     }
 }
 
@@ -36,8 +56,9 @@
 .organisator_profile > div {
     display: inline-block;
 }
-.event_name_container {
+.meetup_name_container {
     right: 0px;
+    margin-top: 15px;
 }
 
 .tags {
