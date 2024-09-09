@@ -8,7 +8,8 @@
     $adress;
     $date;
     $hour;
-    $nb_participant;
+    $nbParticipantMax;
+    $nbParticipants = "Not imlemented";
     $image;
     $public;
     /* run this for the first time for test
@@ -43,7 +44,7 @@
         $date = $fullDate[0];
         $fullHour = explode(":", $fullDate[1]);
         $hour = $fullHour[0].":".$fullHour[1];
-        $nb_participant = $data["nb_participant"];
+        $nbParticipantMax = $data["nb_participant"];
         $image = $data["image"];
         $public = $data["public"];
 
@@ -120,6 +121,35 @@
         }
     }
 
+
+    /*get participants data*/
+    $str = 'SELECT * FROM `rencontre_utilisateur` WHERE id_rencontre = '.$eventId.';';
+    $result = $conn->query($str);
+    if ($result->num_rows > 0) {
+        while ($data = $result->fetch_assoc()) {
+
+            $str = 'SELECT * FROM `tags` WHERE id = '.$data["id_utilisateur"].';';
+            $result = $conn->query($str);
+
+            if ($result->num_rows > 0) {
+                $data1 = $result->fetch_assoc();
+                $tagsHtml += <<<HTML
+                    <div>
+                        <div class="profile_icon no_select" style="background-image: url({$data1['image_profil']})">
+                        
+                        </div>
+                        <div>
+                            $nom
+                        </div>
+                        <div>
+                            <!--affiniter utilisateur-->
+                        </div>
+                    </div>
+                HTML;
+            }
+        }
+    }
+
 ?>
 
 
@@ -138,7 +168,8 @@
     $html = <<<HTML
         $imageHtml
         <div class="detail_container">
-            <div class="principal_info">
+            <div class="principal_info section">
+                <!--meetup name section-->
                 <div class="meetup_name_container">
                     <div class="title4 right_text">
                         $meetupName
@@ -147,38 +178,53 @@
                         $tagsHtml
                     </div>
                 </div>
-                <div class="organisator_profile">
-                    $imageUtilisateurHtml
-                    <div class="username_container">
-                        <div class="title5">$firstName $lastName</div>
-                        <div class="grey_text">surnom</div>
+                
+                <!--organisator profile section-->
+                <div class="joining_Conainter">
+                    <div class="organisator_profile">
+                        $imageUtilisateurHtml
+                        <div class="username_container">
+                            <div class="title5">$firstName $lastName</div>
+                            <div class="grey_text">surnom</div>
+                        </div>
+                    </div>
+                    <div>
+                        <a href="{$routing}">
+                            <div class="blue_button no_select">
+                                rejoindre
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>
-
-            <a href="{$routing}">
-                <div class="blue_button">
-                    rejoindre
-                </div><br>
-            </a>
-            <div class="title6 no_select">Information</div> <br>
-            <div class="info_container">
+            <div class="title6 no_select">Information</div>
+            <div class="info_container section">
                 <div>
-                    <div class="dark_grey_text">Date</div>
+                    <div class="dark_grey_text no_select">Date</div>
                     <div class="grey_text">$date</div>
                 </div>
                 <div>
-                    <div class="dark_grey_text">Adresse</div>
+                    <div class="dark_grey_text no_select">Adresse</div>
                     <div class="grey_text">$adress</div>
                 </div>
                 <div>
-                    <div class="dark_grey_text">Heure</div>
+                    <div class="dark_grey_text no_select">Heure</div>
                     <div class="grey_text">$hour</div>
                 </div>
                 <div>
-                    <div class="dark_grey_text">Groupe</div>
-                    <div class="grey_text">$nb_participant</div>
+                    <div class="dark_grey_text no_select">Groupe</div>
+                    <div class="grey_text">$nbParticipantMax participants maximum</div>
                 </div>
+            </div>
+            <div class="title6 no_select">Description</div>
+            <div class="section">
+                $description
+            </div>
+            <div class="title6 no_select">
+                Participants
+                <span class="grey_text">
+                    ({$nbParticipants})
+                </span>
             </div>
         </div>
     HTML;
