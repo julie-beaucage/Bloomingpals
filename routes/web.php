@@ -14,9 +14,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('home.feed');
+    return view('home.feed'); // TODO: Change this with the controller when it's ready.
 });
 
+// TODO: remove when all controller are done.
 Route::get('/home', function () {
     return view('home.feed');
 });

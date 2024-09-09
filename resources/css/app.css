@@ -71,6 +71,7 @@ body {
     flex-direction: column;
     align-items: center;
     padding: 1em;
+    overflow: scroll;
 }
 
 #navbar {
