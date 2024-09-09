@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Auth;
 class EventController extends Controller
 {
     public function EventPage($eventId) {
-        return view("events.eventPage");
+        if (isset($eventId)) {
+            return view("events.eventPage", ['eventId' => strval($eventId)]);
+        } else {
+            return view("events.eventPage", ['eventId' => 1]);
+        }
     }
 }

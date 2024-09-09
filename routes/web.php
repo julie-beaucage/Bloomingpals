@@ -15,7 +15,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('events.eventPage');
+    $eventId = 1;
+    return view('events.eventPage', ['eventId' => strval($eventId)]);
 });
 
 Route::get('/home', function () {
