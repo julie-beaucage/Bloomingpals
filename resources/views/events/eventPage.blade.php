@@ -88,9 +88,29 @@
         HTML;
     }
 
+    /*get tags data*/
+    $tagsHtml = "";
+
+    $str = 'SELECT * FROM `tags_rencontre` WHERE id_rencontre = '.$eventId.';';
+    $result = $conn->query($str);
+    if ($result->num_rows > 0) {
+        while ($data = $result->fetch_assoc()) {
+
+            $str = 'SELECT * FROM `tags` WHERE id = '.$data["id_tags"].';';
+            $result = $conn->query($str);
+
+            if ($result->num_rows > 0) {
+                $data1 = $result->fetch_assoc();
+                $tagsHtml += <<<HTML
+                    <div>
+                        {$data1["nom"]}
+                    </div>
+                HTML;
+            }
+        }
+    }
+
 ?>
-<!--event id-->
-{{ $eventId }}
 
 
 @extends("master")
@@ -101,7 +121,10 @@
 
 @section("content")
     <?php
+    /*variable de test*/
     $routing = route('eventPage', ['eventId' => 1]);
+
+
     $html = <<<HTML
         $imageHtml
         <div class="detail_container">
@@ -118,12 +141,7 @@
                         $name
                     </div>
                     <div class="tags">
-                        <div>
-                            tag1
-                        </div>
-                        <div>
-                            tag2
-                        </div>
+                        $tagsHtml
                     </div>
                 </div>
             </div>
