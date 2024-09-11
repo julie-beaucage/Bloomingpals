@@ -2,7 +2,9 @@
 
     <span class="title no-select">BloomingPals</span>
 
-
+    <span class="utilisateurNom">
+        <p>Bonjour {{auth()->user()->prenom}}</p>
+    </span>
 
     <a class="navbar-item no-select" href="{{url('home')}}">
         <span class="material-symbols-rounded icon-md">home</span>
@@ -14,6 +16,10 @@
         <span class="title">Search</span>
     </a>
 
+    <a class="navbar-item no-select" href="{{url('profile')}}">
+        <span class="material-symbols-rounded icon-md">account_circle</span>
+        <span class="title">Profile</span>
+    </a>
     <a class="navbar-item no-select" href="{{url('profile')}}">
         <span class="material-symbols-rounded icon-md">account_circle</span>
         <span class="title">Profile</span>

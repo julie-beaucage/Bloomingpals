@@ -1,6 +1,4 @@
-@extends("master")
 
-@section("content")
 <link rel="stylesheet" href="{{ asset('./css/login.css') }}">
     <div class="formContainerLogin">
         <header>
@@ -30,4 +28,4 @@
             <p>Vous n'avez pas de compte? <a href="/signIn">S'inscrire</a></p>
         </form>
     </div>
-@endsection
+

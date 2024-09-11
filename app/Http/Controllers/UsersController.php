@@ -72,6 +72,7 @@ class usersController extends Controller
     {
         return view('login.login');
     }
+    /*
     public function login(Request $request)
     {
         $data = array(
@@ -83,6 +84,21 @@ class usersController extends Controller
             return redirect('/')->with('message', 'Bienvenue sur BloomingPals, '.auth()->user()->prenom);
         }
         return back()->withErrors(['email'=>'Le courriel et le mot de passe ne correspondent pas'])->onlyInput('email');
+    }*/
+    public function login(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
+    
+        if (Auth::attempt([
+            'courriel' => $credentials['email'],
+            'password' => $credentials['password']
+        ])) {
+            $request->session()->regenerate();
+            return redirect('/');
+        }
+    
+        return back()->withErrors(['email' => 'Le courriel et le mot de passe ne correspondent pas'])->onlyInput('email');
     }
+    
 
 }

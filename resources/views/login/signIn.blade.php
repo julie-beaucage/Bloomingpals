@@ -43,7 +43,7 @@
             </div>
             <div class="inputContainer">
                 <div class="entryarea entryarealogin">
-                    <input type="password" id="password" placeholder="Mot de passe" name="password" required/>
+                    <input type="password" id="password" placeholder="Mot de passe" name="password" value="{{ old('password') }}" required/>
                 </div>
                 @error('password')
                 <div class="error-message">{{ $message }}</div>
