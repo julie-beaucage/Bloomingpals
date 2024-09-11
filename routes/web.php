@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\MeetupController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,8 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    $eventId = 1;
-    return view('events.eventPage', ['eventId' => strval($eventId)]);
+    return view("meetups.meetupPage", ['meetupId' => 1]);
 });
 
 // TODO: remove when all controller are done.
@@ -32,4 +32,4 @@ Route::get('/profile', function () {
     return view('profile.profile');
 });
 /*this route need an id for the event*/
-Route::get('/eventPage/{eventId}', [EventController::class, 'EventPage'])->name('eventPage');
+Route::get('/meetupPage/{meetupId}', [MeetupController::class, 'MeetupPage'])->name('meetupPage');

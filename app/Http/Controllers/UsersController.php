@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 
-class usersController extends Controller
+class UsersController extends Controller
 {
     public function index()
     {
