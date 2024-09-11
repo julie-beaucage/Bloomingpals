@@ -12,12 +12,12 @@ class usersController extends Controller
 {
     public function index()
     {
-        return view('users.index');
+        return view('Auth.index');
     }
 
     public function registerForm()
     {
-        return view('login.signIn');
+        return view('Auth.signIn');
     }
 
     public function create(Request $request)
@@ -51,7 +51,7 @@ class usersController extends Controller
 
     public function loginForm()
     {
-        return view('login.login');
+        return view('Auth.login');
     }
 
     public function login(Request $request)

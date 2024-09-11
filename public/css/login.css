@@ -10,60 +10,60 @@ body {
 
 .formContainerLogin {
     background-color: white;
-    padding: 40px;
-    width: 400px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    padding: 2.5em;
+    width: 25em;
+    box-shadow: 0 0.125em 0.625em rgba(0, 0, 0, 0.1);
+    border-radius: 0.5em;
     text-align: center;
     border-width: 1px;
     border-color: #606770;
 }
 
 header h2 {
-    font-size: 24px;
+    font-size: 1.5em;
     color: #f42da8;
 }
 
-input[type="text"], input[type="password"],input[type="email"],input[type="date"] {
+input[type="text"], input[type="password"], input[type="email"], input[type="date"] {
     width: 100%;
-    padding: 15px;
-    margin: 10px 0;
-    border-radius: 6px;
+    padding: 0.9375em;
+    margin: 0.625em 0;
+    border-radius: 0.375em;
     border: 1px solid #dddfe2;
-    font-size: 16px;
+    font-size: 1em;
 }
 
 input:focus {
-    border-color: #f218e7;
+    border-color: #4a4c93;
     outline: none;
 }
 
 label {
-    font-size: 14px;
+    font-size: 0.875em;
     color: #606770;
     text-align: left;
     display: block;
-    margin-top: 10px;
+    margin-top: 0.625em;
 }
 
 .errorMessage {
     color: red;
-    font-size: 12px;
+    font-size: 0.75em;
     text-align: left;
 }
 
 .formButton {
-    margin-top: 20px;
+    margin-top: 1.25em;
 }
 
 .formButton button {
     width: 100%;
     background-color: #ea69cc;
     color: white;
-    padding: 15px;
+    padding: 0.9375em;
     border: none;
-    border-radius: 6px;
-    font-size: 16px;
+    border-radius: 0.375em;
+    font-size: 1em;
     cursor: pointer;
 }
 
@@ -72,8 +72,8 @@ label {
 }
 
 p {
-    font-size: 14px;
-    margin-top: 20px;
+    font-size: 0.875em;
+    margin-top: 1.25em;
 }
 
 a {

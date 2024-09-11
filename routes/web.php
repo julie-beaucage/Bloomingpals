@@ -5,7 +5,7 @@ use App\Http\Controllers\UsersController;
 
 
 Route::get('/', function () {
-    return view('login.login');
+    return view('Auth.login');
 });
 
 Route::get('/signIn', [UsersController::class, 'registerForm'])->middleware('guest');
