@@ -27,7 +27,7 @@
             <div class="formButton">
                 <button type="submit" id="submitBtn" class="btn">Accéder</button>
             </div>
-            <p>Vous n'avez pas de compte? <a href="/register">S'inscrire</a></p>
+            <p>Vous n'avez pas de compte? <a href="/signIn">S'inscrire</a></p>
         </form>
     </div>
 @endsection
