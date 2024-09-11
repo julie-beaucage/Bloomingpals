@@ -5,20 +5,13 @@
     --text: #000;
     --background: #fff;
     
-    --primary-700: #2631c5;
-    --primary-600: #3c38ce;
-    --primary-500: #4a3dd4;
-
-    --secondary-500: #7e76e5;
-    --secondary-400: #9491eb;
-    --secondary-300: #b2b1f1;
-    
-    --neutral-400: #cccccc;
-    --neutral-300: #ededed;
-    --neutral-200: #f7f7f7;
+    --primary: #3c38ce;
+    --secondary: #9491eb;
+    --neutral: #cccccc;
 
     --success: #28a745;
     --danger: #dc3545;
+    
     --link: #007bff;
     --selection: #90c6ff;
 
