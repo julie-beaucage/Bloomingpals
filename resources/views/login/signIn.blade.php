@@ -5,7 +5,7 @@
             <h2>Créer un compte</h2>
             <hr>
         </header>
-        <form action="/signIn" method="POST">
+        <form action="/signIn " method="POST">
             @csrf
             <div class="inputContainer">
                 <div class="entryarea entryarealogin">
