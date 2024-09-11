@@ -36,11 +36,12 @@ class usersController extends Controller
 
         return redirect('/login')->with('message', 'Compte créer avec succès');
     }
-
+    
     public function loginForm()
     {
         return view('users.login');
     }
+
     public function login(Request $request)
     {
         $data = array(

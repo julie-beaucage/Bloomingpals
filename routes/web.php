@@ -19,6 +19,7 @@ Route::get('/', function () {
     return view('events.eventPage', ['eventId' => strval($eventId)]);
 });
 
+// TODO: remove when all controller are done.
 Route::get('/home', function () {
     return view('home.feed');
 });
