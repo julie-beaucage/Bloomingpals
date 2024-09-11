@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RencontresController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('home.feed'); // TODO: Change this with the controller when it's ready.
+    return redirect()->action([RencontresController::class, 'create']);
 });
 
 // TODO: remove when all controller are done.
