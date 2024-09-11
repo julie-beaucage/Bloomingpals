@@ -5,7 +5,7 @@ use App\Http\Controllers\UsersController;
 
 /*
 Route::get('/', function () {
-    return view('home.feed');
+    return view('home.feed'); // TODO: Change this with the controller when it's ready.
 });
 */
 
@@ -23,6 +23,7 @@ Route::post('/login', [UsersController::class, 'login'])->name('login');
 
 Route::get('/logout', [UsersController::class, 'logout']);
 
+// TODO: remove when all controller are done.
 Route::get('/home', function () {
     return view('home.feed');
 });

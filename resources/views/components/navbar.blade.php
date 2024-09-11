@@ -1,6 +1,6 @@
 <div id="navbar">
 
-    <span class="title no-select">BloomingPals</span>
+    <span class="title no_select">BloomingPals</span>
 
     <span class="utilisateurNom">
         <p>Bonjour {{auth()->user()->prenom}}</p>
@@ -11,13 +11,13 @@
         <span class="title">Home</span>
     </a>
 
-    <a class="navbar-item no-select" href="{{url('search')}}">
-        <span class="material-symbols-rounded icon-md">search</span>
+    <a class="navbar_item no_select" href="{{url('search')}}">
+        <span class="material-symbols-rounded icon_md">search</span>
         <span class="title">Search</span>
     </a>
 
-    <a class="navbar-item no-select" href="{{url('profile')}}">
-        <span class="material-symbols-rounded icon-md">account_circle</span>
+    <a class="navbar_item no_select" href="{{url('profile')}}">
+        <span class="material-symbols-rounded icon_md">account_circle</span>
         <span class="title">Profile</span>
     </a>
     <a class="navbar-item no-select" href="{{url('logout')}}">
