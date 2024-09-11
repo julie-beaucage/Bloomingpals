@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="{{ asset('css/login.css') }}">
     <div class="formContainerLogin">
         <header>
-            <h2>Créer un compte</h2>
+            <h2>Créer un compte </h2>
             <hr>
         </header>
         <form action="/signIn " method="POST">
