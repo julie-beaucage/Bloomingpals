@@ -20,9 +20,9 @@
         <span class="material-symbols-rounded icon-md">account_circle</span>
         <span class="title">Profile</span>
     </a>
-    <a class="navbar-item no-select" href="{{url('profile')}}">
-        <span class="material-symbols-rounded icon-md">account_circle</span>
-        <span class="title">Profile</span>
+    <a class="navbar-item no-select" href="{{url('logout')}}">
+    <span class="material-symbols-rounded icon-md">logout</span>
+    <span class="title">déconnexion</span> 
     </a>
 
     @guest

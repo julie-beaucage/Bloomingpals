@@ -21,6 +21,8 @@ Route::post('/signIn', [UsersController::class, 'create']);
 
 Route::post('/login', [UsersController::class, 'login'])->name('login');
 
+Route::get('/logout', [UsersController::class, 'logout']);
+
 Route::get('/home', function () {
     return view('home.feed');
 });

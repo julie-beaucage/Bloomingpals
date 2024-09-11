@@ -1,7 +1,8 @@
 
-<link rel="stylesheet" href="{{ asset('./css/login.css') }}">
+<link rel="stylesheet" href="{{ asset('css/login.css') }}">
     <div class="formContainerLogin">
         <header>
+           <h1>BloomingPals</h1>
             <h2>Se connecter</h2>
             <hr>
         </header>
@@ -9,13 +10,12 @@
             @csrf
             <div class="inputContainer">
                 <div class="entryarea entryarealogin">
-                    <input type="text" id="email"  placeholder="courriel" name="email" value="{{ old('email') }}" required/>
+                    <input type="text" id="email"  placeholder="Adresse courriel" name="email" value="{{ old('email') }}" required/>
                 </div>
             </div>
             <div class="inputContainer">
                 <div class="entryarea entryarealogin">
-                    <input type="password" id="password" class="alpha" name="password" value="{{ old('password') }}" required/>
-                    <label for="password">Mot de passe</label>
+                    <input type="password" id="password" placeholder="Mot de passe" class="alpha" name="password" value="{{ old('password') }}" required/>
                 </div>
                 <input type='hidden' class="errorMessage" name='error'></input>
                     @error('email')
@@ -25,7 +25,7 @@
             <div class="formButton">
                 <button type="submit" id="submitBtn" class="btn">Accéder</button>
             </div>
-            <p>Vous n'avez pas de compte? <a href="/signIn">S'inscrire</a></p>
+            <p>Vous n'avez pas de compte? <a href="/signIn"> Inscrivez-vous</a></p>
         </form>
     </div>
 

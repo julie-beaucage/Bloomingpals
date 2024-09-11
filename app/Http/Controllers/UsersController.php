@@ -99,6 +99,14 @@ class usersController extends Controller
     
         return back()->withErrors(['email' => 'Le courriel et le mot de passe ne correspondent pas'])->onlyInput('email');
     }
+
+    public function logout(Request $request){
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/login');
+    }
+
     
 
 }
