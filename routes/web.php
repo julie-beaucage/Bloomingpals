@@ -1,27 +1,21 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UsersController;
 
 /*
-Route::get('/', function () {
-    return view('home.feed'); // TODO: Change this with the controller when it's ready.
-});
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
 */
 
 Route::get('/', function () {
-    return view('login.login');
+    return view('home.feed'); // TODO: Change this with the controller when it's ready.
 });
-
-Route::get('/signIn', [UsersController::class, 'registerForm'])->middleware('guest');
-
-Route::get('/login', [UsersController::class, 'loginForm'])->middleware('guest');
-
-Route::post('/signIn', [UsersController::class, 'create']);
-
-Route::post('/login', [UsersController::class, 'login'])->name('login');
-
-Route::get('/logout', [UsersController::class, 'logout']);
 
 // TODO: remove when all controller are done.
 Route::get('/home', function () {
@@ -34,4 +28,4 @@ Route::get('/search', function () {
 
 Route::get('/profile', function () {
     return view('profile.profile');
-})->middleware('auth')->name('profile');;
+});
