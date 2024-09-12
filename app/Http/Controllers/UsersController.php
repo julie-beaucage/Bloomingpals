@@ -6,17 +6,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\QueryException;
 
 class usersController extends Controller
 {
     public function index()
     {
-        return view('users.index');
+        return view('Auth.index');
     }
 
     public function registerForm()
     {
-        return view('users.register');
+        return view('Auth.signIn');
     }
 
     public function create(Request $request)
@@ -28,18 +29,29 @@ class usersController extends Controller
             'email' => ['required', 'email', 'max:100', Rule::unique('utilisateur', 'courriel')],
             'password' => ['required', 'confirmed', 'min:6', 'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/']
         ], [
-            'password.regex' => "Le mot de passe doit respecter les critères suivants : <br>- Au moins un caractère spécial <br>- Au moins une majuscule <br>- Au moins une minucules <br>- Au moins un chiffre."
+            'password.regex' => "Le mot de passe doit respecter les critères suivants : <br>- Au moins un caractère spécial <br>- Au moins une majuscule <br>- Au moins une minuscule <br>- Au moins un chiffre."
         ]);
-        $formFields['password'] = bcrypt($formFields['password']);
-
-         DB::statement("CALL creerUtilisateur('".$formFields['lastname']."', '".$formFields['firstname']."', '".$formFields['birthdate']."', '".$formFields['email']."', '".$formFields['password']."')");
-
-        return redirect('/login')->with('message', 'Compte créer avec succès');
-    }
     
+        $password = bcrypt($formFields['password']);
+    
+        try {
+            DB::statement("CALL creerUsager(?, ?, ?, ?, ?)", [
+                $formFields['email'],
+                $formFields['lastname'],
+                $formFields['firstname'],
+                $formFields['birthdate'],
+                $password
+            ]);
+    
+            return redirect('/login')->with('message', 'Compte créé avec succès');
+        } catch (QueryException $e) {
+            return back()->withErrors(['error' => $e->getMessage()]);
+        }
+    }
+
     public function loginForm()
     {
-        return view('users.login');
+        return view('Auth.login');
     }
 
     public function login(Request $request)
@@ -50,9 +62,18 @@ class usersController extends Controller
         );
         if(auth()->attempt($data)) {
             $request->session()->regenerate();
-            return redirect('/')->with('message', 'Bienvenue sur BloomingPals, '.auth()->user()->alias);
+            return redirect('/profile')->with('message', 'Bienvenue sur BloomingPals, '.auth()->user()->prenom);
         }
         return back()->withErrors(['email'=>'Le courriel et le mot de passe ne correspondent pas'])->onlyInput('email');
     }
+
+    public function logout(Request $request){
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/login');
+    }
+
+    
 
 }
