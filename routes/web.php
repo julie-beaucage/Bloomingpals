@@ -15,7 +15,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return redirect()->action([RencontresController::class, 'create']);
+    return view('home.feed');
+    //return view('rencontres.formRencontre');
+  // return redirect()->action([RencontresController::class, 'index']);
 });
 
 // TODO: remove when all controller are done.
@@ -27,6 +29,9 @@ Route::get('/search', function () {
     return view('search.search');
 });
 
+//Route::get('/profile', function () {
+  //  return view('profile.profile');
+//});
 Route::get('/profile', function () {
-    return view('profile.profile');
+    return redirect()->action([RencontresController::class, 'index']);
 });

@@ -1,8 +1,3 @@
-<?php
-
-?>
-
-
 @endphp
 @extends("master")
 @php
