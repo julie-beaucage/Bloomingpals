@@ -1,18 +1,5 @@
 <?php
-    use App\Models\DB;
-    $conn = mysqli_connect("localhost", "root", "", "bloomingpal");
-
-    $idOrganitsator;
-    $meetupName;
-    $description;
-    $adress;
-    $date;
-    $hour;
-    $nbParticipantMax;
-    $nbParticipants = "Not imlemented";
-    $image;
-    $public;
-    /* run this for the first time for test
+    /* run this for the first time for test*//*
     $str = 'INSERT INTO type_personnalite(id, nom) VALUES(1, "personalité")';
     $result = $conn->query($str);
 
@@ -27,65 +14,19 @@
         $meetupId = 1;
     }
 
-    $str = 'SELECT * FROM `rencontre` WHERE id = '.$meetupId.';';
-    $result = $conn->query($str);
 
-    /*code pris de https://www.w3schools.com/php/php_mysql_select.asp et modifer*/
-
-    /*get meetup data*/
-    if ($result->num_rows > 0) {
-        $data = $result->fetch_assoc();
-        $id = $data["id"];
-        $idOrganitsator = $data["id_organisateur"];
-        /*$meetupName = $data["nom"];*/
-        $description = $data["description"];
-        $adress = $data["adresse"];
-        $fullDate = explode(" ", $data["date"]);
-        $date = $fullDate[0];
-        $fullHour = explode(":", $fullDate[1]);
-        $hour = $fullHour[0].":".$fullHour[1];
-        $nbParticipantMax = $data["nb_participant"];
-        $image = $data["image"];
-        $public = $data["public"];
-
-      } else {
-        view('search.search');
+    /*done*/
+    if (!$meetupData->public) {
+        /*check if the user is a friend*/
     }
 
-    $imageHtml = "";
-    if (isset($image)) {
-        $imageHtml = <<<HTML
-            <div class="event_image" style="background-image: url({$image})">
+    /*variables*/
+    $date = explode(" ",$meetupData->date);
+    $participantCount = count($participantsData);
 
-            </div>
-        HTML;
-    } else {
-        $imageHtml = <<<HTML
-            <div class="event_image" style="background-image: url(https://img.freepik.com/photos-gratuite/beaute-abstraite-automne-dans-motif-veines-feuilles-multicolores-genere-par-ia_188544-9871.jpg)">
-
-            </div>
-        HTML;
-    }
-
-
-    /*get organisator data*/
-    if (isset($idOrganitsator)) {
-        $str = 'SELECT * FROM `utilisateur` WHERE id = '.$idOrganitsator.';';
-        $result = $conn->query($str);
-
-        if ($result->num_rows > 0) {
-            $data = $result->fetch_assoc();
-            $firstName = $data["prenom"];
-            $lastName = $data["nom"];
-            $imageUtilisateur = $data["image_profil"];
-        } else {
-            echo "L'utilisateur qui a fait l'event n'existe pas";
-        }
-    } else {
-        echo "L'utilisateur qui a fait l'event n'existe pas";
-    }
+    /*Get organisator image*/
     $imageUtilisateurHtml = "";
-    if (isset($imageUtilisateur)) {
+    if (isset($organisatorData->image)) {
         $imageUtilisateurHtml = <<<HTML
             <div class="profile_icon no_select" style="background-image: url({$imageUtilisateur})">
                         
@@ -99,57 +40,51 @@
         HTML;
     }
 
+    /*Get image data*/
+    $imageHtml = "";
+    if (isset($meetupData[0]->image)) {
+        $imageHtml = <<<HTML
+            <div class="event_image" style="background-image: url({$meetupData->image})">
+
+            </div>
+        HTML;
+    } else {
+        $imageHtml = <<<HTML
+            <div class="event_image" style="background-image: url(https://img.freepik.com/photos-gratuite/beaute-abstraite-automne-dans-motif-veines-feuilles-multicolores-genere-par-ia_188544-9871.jpg)">
+
+            </div>
+        HTML;
+    }
+
     /*get tags data*/
     $tagsHtml = "";
 
-    $str = 'SELECT * FROM `tags_rencontre` WHERE id_rencontre = '.$meetupId.';';
-    $result = $conn->query($str);
-    if ($result->num_rows > 0) {
-        while ($data = $result->fetch_assoc()) {
-
-            $str = 'SELECT * FROM `tags` WHERE id = '.$data["id_tags"].';';
-            $result = $conn->query($str);
-
-            if ($result->num_rows > 0) {
-                $data1 = $result->fetch_assoc();
-                $tagsHtml += <<<HTML
-                    <div>
-                        {$data1["nom"]}
-                    </div>
-                HTML;
-            }
-        }
+    foreach ($meetupTagsData as $tag) {
+        $tagsHtml += <<<HTML
+            <div>
+                {$tag->nom}
+            </div>
+        HTML;
     }
-
 
     /*get participants data*/
-    $str = 'SELECT * FROM `rencontre_utilisateur` WHERE id_rencontre = '.$meetupId.';';
-    $result = $conn->query($str);
-    if ($result->num_rows > 0) {
-        while ($data = $result->fetch_assoc()) {
 
-            $str = 'SELECT * FROM `tags` WHERE id = '.$data["id_utilisateur"].';';
-            $result = $conn->query($str);
+    $participantHtml = "";
 
-            if ($result->num_rows > 0) {
-                $data1 = $result->fetch_assoc();
-                $tagsHtml += <<<HTML
-                    <div>
-                        <div class="profile_icon no_select" style="background-image: url({$data1['image_profil']})">
-                        
-                        </div>
-                        <div>
-                            $nom
-                        </div>
-                        <div>
-                            <!--affiniter utilisateur-->
-                        </div>
-                    </div>
-                HTML;
-            }
-        }
+    foreach ($participantsData as $participantData) {
+        $tagsHtml += <<<HTML
+            <div>
+                {$participantData->nom}
+                <div class="profile_icon no_select" style="background-image: url({$participantData->image_profil})"></div>
+                <div>
+                    {$participantData->nom}
+                </div>
+                <div>
+                    <!--affiniter utilisateur-->
+                </div>
+            </div>
+        HTML;
     }
-
 ?>
 
 
@@ -172,9 +107,10 @@
                 <!--meetup name section-->
                 <div class="meetup_name_container">
                     <div class="title4 right_text">
-                        $meetupName
+                        {$meetupData->nom}
                     </div>
                     <div class="tags">
+                        
                         $tagsHtml
                     </div>
                 </div>
@@ -184,7 +120,7 @@
                     <div class="organisator_profile">
                         $imageUtilisateurHtml
                         <div class="username_container">
-                            <div class="title5">$firstName $lastName</div>
+                            <div class="title5">{$organisatorData->prenom} {$organisatorData->nom}</div>
                             <div class="grey_text">surnom</div>
                         </div>
                     </div>
@@ -201,32 +137,99 @@
             <div class="info_container section">
                 <div>
                     <div class="dark_grey_text no_select">Date</div>
-                    <div class="grey_text">$date</div>
+                    <div class="grey_text">{$date[0]}</div>
                 </div>
                 <div>
                     <div class="dark_grey_text no_select">Adresse</div>
-                    <div class="grey_text">$adress</div>
+                    <div class="grey_text">{$meetupData->adresse}</div>
                 </div>
                 <div>
                     <div class="dark_grey_text no_select">Heure</div>
-                    <div class="grey_text">$hour</div>
+                    <div class="grey_text">{$date[1]}</div>
                 </div>
                 <div>
                     <div class="dark_grey_text no_select">Groupe</div>
-                    <div class="grey_text">$nbParticipantMax participants maximum</div>
+                    <div class="grey_text">{$meetupData->nb_participant} participants maximum</div>
                 </div>
             </div>
             <div class="title6 no_select">Description</div>
             <div class="section">
-                $description
+                {$meetupData->description}
             </div>
             <div class="title6 no_select">
                 Participants
                 <span class="grey_text">
-                    ({$nbParticipants})
+                    ($participantCount)
                 </span>
+            </div>
+            <div>
+                $participantHtml
             </div>
         </div>
     HTML;
+    /*
+    $html = <<<HTML
+    $imageHtml
+    <div class="detail_container">
+        <div class="principal_info section">
+            <!--meetup name section-->
+            <div class="meetup_name_container">
+                <div class="title4 right_text">
+                    $meetupName
+                </div>
+                <div class="tags">
+                    $tagsHtml
+                </div>
+            </div>
+            
+            <!--organisator profile section-->
+            <div class="joining_Conainter">
+                <div class="organisator_profile">
+                    $imageUtilisateurHtml
+                    <div class="username_container">
+                        <div class="title5">$firstName $lastName</div>
+                        <div class="grey_text">surnom</div>
+                    </div>
+                </div>
+                <div>
+                    <a href="{$routing}">
+                        <div class="blue_button no_select">
+                            rejoindre
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="title6 no_select">Information</div>
+        <div class="info_container section">
+            <div>
+                <div class="dark_grey_text no_select">Date</div>
+                <div class="grey_text">$date</div>
+            </div>
+            <div>
+                <div class="dark_grey_text no_select">Adresse</div>
+                <div class="grey_text">$adress</div>
+            </div>
+            <div>
+                <div class="dark_grey_text no_select">Heure</div>
+                <div class="grey_text">$hour</div>
+            </div>
+            <div>
+                <div class="dark_grey_text no_select">Groupe</div>
+                <div class="grey_text">$nbParticipantMax participants maximum</div>
+            </div>
+        </div>
+        <div class="title6 no_select">Description</div>
+        <div class="section">
+            $description
+        </div>
+        <div class="title6 no_select">
+            Participants
+            <span class="grey_text">
+                ({$nbParticipants})
+            </span>
+        </div>
+    </div>
+HTML;*/
     echo $html?>
 @endsection()

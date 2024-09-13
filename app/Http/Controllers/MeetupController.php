@@ -2,22 +2,21 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
-use App\Models\Meetup;
+use App\Models\Rencontre;
+use App\Models\utilisateur;
 
 class MeetupController extends Controller
 {
     public function MeetupPage($meetupId) {
-        $meetupName = "";
-        $meetupData = Meetup::where("id", $meetupId);
-        
-        $meetupTags = Meetup::where("id", $meetupId);
-
-
-        
         if (isset($meetupId)) {
-            return view("meetups.meetupPage", ['meetupId' => strval($meetupId), 'meetup' => $meetupData]);
-        } else {
-            return view("meetups.meetupPage", ['meetupId' => 1]);
+            $meetupData = rencontre::where("id", $meetupId)->get()[0];
+            $meetupTags = rencontre::GetTags($meetupId);
+            $organisator = rencontre::GetOrganisator($meetupId);
+            $participants = rencontre::GetParticipants($meetupId);
+
+
+            return view("meetups.meetupPage", ['meetupData' => $meetupData, "meetupTagsData" => $meetupTags, 
+                "organisatorData" => $organisator, "participantsData" => $participants]);
         }
     }
 }

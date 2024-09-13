@@ -10,4 +10,8 @@ class utilisateur extends Model
     protected $table= 'utilisateur';
 
     public $timestamps = false;
+
+    public static function GetOrganisator() {
+
+    }
 }

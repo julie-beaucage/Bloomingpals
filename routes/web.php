@@ -7,11 +7,8 @@ use App\Http\Controllers\UsersController;
 
 
 Route::get('/', function () {
-<<<<<<< HEAD
     return view("meetups.meetupPage", ['meetupId' => 1]);
-=======
-    return view('Auth.login');
->>>>>>> main
+    //return view('Auth.login');
 });
 
 Route::get('/signIn', [UsersController::class, 'registerForm'])->middleware('guest');
@@ -35,10 +32,8 @@ Route::get('/search', function () {
 
 Route::get('/profile', function () {
     return view('profile.profile');
-<<<<<<< HEAD
-});
+})->middleware('auth')->name('profile');
+
+
 /*this route need an id for the event*/
 Route::get('/meetupPage/{meetupId}', [MeetupController::class, 'MeetupPage'])->name('meetupPage');
-=======
-})->middleware('auth')->name('profile');;
->>>>>>> main
