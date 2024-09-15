@@ -8,7 +8,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
 
-class usersController extends Controller
+class UsersController extends Controller
 {
     public function index()
     {
