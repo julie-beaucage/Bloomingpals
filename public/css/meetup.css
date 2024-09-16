@@ -1,0 +1,23 @@
+.meetup-container{
+    width: 80%;
+    margin-top: 10em;    
+}
+.meetup-form-container{
+    display: grid;
+    border:0.1em solid var(--border);
+    border-radius: 0.8em;
+    padding: 1em;
+}
+.underline{
+    border-bottom: 2px solid var(--pink);
+    padding-bottom:0.3em;
+}
+
+label {
+    color: #606770;
+    text-align: left;
+    display: block;
+}
+input, textarea,select{
+    background-color: #f7edf7 !important;
+}

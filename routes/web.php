@@ -6,9 +6,9 @@ use App\Http\Controllers\UsersController;
 
 
 Route::get('/', function () {
-   return view('home.feed');
-   //return view('meetups.meetupForm');
-  // return redirect()->action([meetupController::class,'index']);
+   
+   //return view('auth.login');
+   return redirect()->action([meetupController::class,'createForm']);
 });
 
 Route::get('/signIn', [UsersController::class, 'registerForm'])->middleware('guest');
@@ -21,7 +21,7 @@ Route::post('/login', [UsersController::class, 'login'])->name('login');
 
 Route::get('/logout', [UsersController::class, 'logout']);
 
-//Route::get('/meetupForm', [meetupController::class, 'index']);
+Route::get('/meetupForm', [meetupController::class, 'createForm']);
 
 // TODO: remove when all controller are done.
 Route::post('/home', function () {
