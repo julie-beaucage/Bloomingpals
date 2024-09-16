@@ -3,18 +3,28 @@
 namespace App\Models;
 
 use Auth;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+
+
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
     protected $table = 'utilisateur';
-    protected $primaryKey = 'idutilisateur';
+    protected $primaryKey = 'id';
+
+   /* public function sendEmailVerificationNotification()
+{
+    \Log::info('Détails de l\'utilisateur : ', (array) $this);
+    \Log::info('Envoi de l\'email de vérification à : ' . $this->courriel);
+    $this->notify(new VerifyEmailNotification);
+}*/
+
+
 
 }
 

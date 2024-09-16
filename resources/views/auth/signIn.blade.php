@@ -1,11 +1,16 @@
+@extends("master")
 
-<link rel="stylesheet" href="{{ asset('css/login.css') }}">
+@section("style")
+   <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+@endsection()
+
+@section("content")
     <div class="formContainerLogin">
         <header>
             <h2>Créer un compte </h2>
             <hr>
         </header>
-        <form action="/signIn " method="POST">
+        <form action="/signIn" method="POST">
             @csrf
             <div class="inputContainer">
                 <div class="entryarea entryarealogin">
@@ -62,3 +67,4 @@
         </form>
     </div>
 
+    @endsection()
