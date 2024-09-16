@@ -9,20 +9,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Auth\Notifications\VerifyEmail;
-use Illuminate\Support\Facades\Notification;
-use Illuminate\Auth\Events\Verified;
-
 
 class usersController extends Controller
 {
 
-
-    public function showVerificationNotice()
-    {
-        return view('auth.verify-email');
-    }
     public function index()
     {
         return view('auth.index');
@@ -61,9 +51,8 @@ class usersController extends Controller
 
             if ($user) {
                 if (!$user->hasVerifiedEmail()) {
-                    $user->sendEmailVerificationNotification();
+                     $user->sendEmailVerificationNotification();
                 }
-                event(new Registered($user));
             }
             DB::commit(); 
             return view('auth.verify'); 
