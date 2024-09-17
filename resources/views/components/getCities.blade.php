@@ -1,4 +1,4 @@
 @props(['city'])
 
-<option> {{$city->city}}</option>;
+<option value="{{$city->city}}"> {{$city->city}}</option>
 

@@ -21,7 +21,7 @@ class meetupController extends BaseController
     }
 
     private function getCities(){
-        $cities= cities::orderBy('province_id','ASC')->get();
+        $cities= cities::orderBy('city_ascii','ASC')->get();
         return $cities;
         
     }
