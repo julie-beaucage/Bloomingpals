@@ -17,5 +17,6 @@
     </div>
     @include("bundles.scriptsBundle")
     @yield("scripts", "")
+    <x-footer/>
 </body>
 </html>

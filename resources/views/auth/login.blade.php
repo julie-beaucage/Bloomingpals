@@ -1,11 +1,23 @@
+@extends("master")
 
-<link rel="stylesheet" href="{{ asset('css/login.css') }}">
+@section("style")
+   <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+@endsection()
+
+@section("content")
+
+<div class="pageContainer">
+    <header class="headerContainer">
+        <div class="image_login">
+            <img src="{{asset("../images/logoBloom.png")}}" alt="logo" class="imgLogo" />
+        </div>
+        <h1>BloomingPals</h1>
+        <p>Une expérience d'amitiée nouvelle et captivante!</p>
+    </header>
+
     <div class="formContainerLogin">
-        <header>
-           <h1>BloomingPals </h1>
-            <h2>Se connecter</h2>
-            <hr>
-        </header>
+        <h2>Se connecter</h2>
+        <hr>
         <form action="/login" method="POST">
             @csrf
             <div class="inputContainer">
@@ -28,4 +40,6 @@
             <p>Vous n'avez pas de compte? <a href="/signIn"> Inscrivez-vous</a></p>
         </form>
     </div>
+</div>
+@endsection()
 
