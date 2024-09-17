@@ -19,7 +19,7 @@ class meetupController extends BaseController
     public function createForm($errors=null){
        $listCities= $this->getCities();
 
-        return view('meetups.meetupForm', compact('listCities'));
+        return view('meetups.meetupForm', compact('listCities','errors'));
     }
     
     public function create(Request $req){
