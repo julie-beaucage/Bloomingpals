@@ -4,10 +4,19 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\MeetupController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
+use App\Models\Rencontre;
 
 
 Route::get('/', function () {
-    return view("meetups.meetupPage", ['meetupId' => 1]);
+    $meetupId = 1;
+    $meetupData = rencontre::where("id", $meetupId)->get()[0];
+    $meetupTags = rencontre::GetTags($meetupId);
+    $organisator = rencontre::GetOrganisator($meetupId);
+    $participants = rencontre::GetParticipants($meetupId);
+
+
+    return view("meetups.meetupPage", ['meetupData' => $meetupData, "meetupTagsData" => $meetupTags, 
+        "organisatorData" => $organisator, "participantsData" => $participants]);
     //return view('Auth.login');
 });
 

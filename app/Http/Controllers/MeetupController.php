@@ -19,4 +19,8 @@ class MeetupController extends Controller
                 "organisatorData" => $organisator, "participantsData" => $participants]);
         }
     }
+
+    public function JoinMeetup($meetupId) {
+        
+    }
 }
