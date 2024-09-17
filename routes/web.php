@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\MeetupController;
+use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
 use App\Models\Rencontre;
@@ -9,12 +10,13 @@ use App\Models\Rencontre;
 
 Route::get('/', function () {
     $meetupId = 1;
+
     $meetupData = rencontre::where("id", $meetupId)->get()[0];
     $meetupTags = rencontre::GetTags($meetupId);
     $organisator = rencontre::GetOrganisator($meetupId);
     $participants = rencontre::GetParticipants($meetupId);
 
-
+    /*check if public then if public set button to join*/
     return view("meetups.meetupPage", ['meetupData' => $meetupData, "meetupTagsData" => $meetupTags, 
         "organisatorData" => $organisator, "participantsData" => $participants]);
     //return view('Auth.login');
@@ -53,5 +55,7 @@ Route::get('/profile', function () {
 })->middleware('auth')->name('profile');
 
 
-/*this route need an id for the event*/
-Route::get('/meetupPage/{meetupId}', [MeetupController::class, 'MeetupPage'])->name('meetupPage');
+/*this route need an id for the meetup*/
+Route::get('/meetupPage/{meetupId}', [MeetupController::class, 'MeetupPage'])/*->Middleware('auth')*/->name('meetupPage');
+
+Route::get('/meetupPage/{meetupId}/{userId}', [MeetupController::class, 'JoinMeetup'])/*->Middleware('auth')*/->name('joinMeetup');

@@ -14,8 +14,8 @@
         $meetupId = 1;
     }
 
+    $idCurrentUser = 1;
 
-    /*done*/
     if (!$meetupData->public) {
         /*check if the user is a friend*/
     }
@@ -28,7 +28,7 @@
     $imageUtilisateurHtml = "";
     if (isset($organisatorData->image)) {
         $imageUtilisateurHtml = <<<HTML
-            <div class="profile_icon no_select" style="background-image: url({$imageUtilisateur})">
+            <div class="profile_icon no_select" style="background-image: url({$organisatorData->image})">
                         
             </div>
         HTML;
@@ -60,7 +60,7 @@
     $tagsHtml = "";
 
     foreach ($meetupTagsData as $tag) {
-        $tagsHtml += <<<HTML
+        $tagsHtml .= <<<HTML
             <div>
                 {$tag->nom}
             </div>
@@ -71,19 +71,33 @@
 
     $participantHtml = "";
 
-    foreach ($participantsData as $participantData) {
-        $tagsHtml += <<<HTML
-            <div>
-                {$participantData->nom}
-                <div class="profile_icon no_select" style="background-image: url({$participantData->image_profil})"></div>
-                <div>
-                    {$participantData->nom}
+    if ($participantCount != 0) {
+        foreach ($participantsData as $participantData) {
+            /*Get organisator image*/
+            $imageParticipantHtml = "";
+            if (isset($participantData->image_profil)) {
+                $imageParticipantHtml = <<<HTML
+                    <div class="profile_icon no_select" style="background-image: url({$participantData->image_profil})">
+                                
+                    </div>
+                HTML;
+            } else {
+                $imageParticipantHtml = <<<HTML
+                    <div class="profile_icon no_select" style="background-image: url(https://img.freepik.com/photos-gratuite/beaute-abstraite-automne-dans-motif-veines-feuilles-multicolores-genere-par-ia_188544-9871.jpg)">
+                                
+                    </div>
+                HTML;
+            }
+            $participantHtml .= <<<HTML
+                <div class="organisator_profile">
+                    $imageParticipantHtml
+                    <div class="username_container">
+                        <div>{$participantData->prenom}</div>
+                        <div class="grey_text">{$participantData->nom}</div>
+                    </div>
                 </div>
-                <div>
-                    <!--affiniter utilisateur-->
-                </div>
-            </div>
-        HTML;
+            HTML;
+        }
     }
 ?>
 
@@ -97,7 +111,7 @@
 @section("content")
     <?php
     /*variable de test*/
-    $routing = route('meetupPage', ['meetupId' => 1]);
+    $routing = route('joinMeetup', ['meetupId' => 1, "userId" => 7]);
 
 
     $html = <<<HTML
@@ -167,69 +181,5 @@
             </div>
         </div>
     HTML;
-    /*
-    $html = <<<HTML
-    $imageHtml
-    <div class="detail_container">
-        <div class="principal_info section">
-            <!--meetup name section-->
-            <div class="meetup_name_container">
-                <div class="title4 right_text">
-                    $meetupName
-                </div>
-                <div class="tags">
-                    $tagsHtml
-                </div>
-            </div>
-            
-            <!--organisator profile section-->
-            <div class="joining_Conainter">
-                <div class="organisator_profile">
-                    $imageUtilisateurHtml
-                    <div class="username_container">
-                        <div class="title5">$firstName $lastName</div>
-                        <div class="grey_text">surnom</div>
-                    </div>
-                </div>
-                <div>
-                    <a href="{$routing}">
-                        <div class="blue_button no_select">
-                            rejoindre
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="title6 no_select">Information</div>
-        <div class="info_container section">
-            <div>
-                <div class="dark_grey_text no_select">Date</div>
-                <div class="grey_text">$date</div>
-            </div>
-            <div>
-                <div class="dark_grey_text no_select">Adresse</div>
-                <div class="grey_text">$adress</div>
-            </div>
-            <div>
-                <div class="dark_grey_text no_select">Heure</div>
-                <div class="grey_text">$hour</div>
-            </div>
-            <div>
-                <div class="dark_grey_text no_select">Groupe</div>
-                <div class="grey_text">$nbParticipantMax participants maximum</div>
-            </div>
-        </div>
-        <div class="title6 no_select">Description</div>
-        <div class="section">
-            $description
-        </div>
-        <div class="title6 no_select">
-            Participants
-            <span class="grey_text">
-                ({$nbParticipants})
-            </span>
-        </div>
-    </div>
-HTML;*/
     echo $html?>
 @endsection()
