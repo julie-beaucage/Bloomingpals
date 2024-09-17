@@ -1,11 +1,31 @@
 body {
-    background-color: #f0f2f5;
+    background-color: #fdf7df;
     font-family: 'Helvetica', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
+    flex-direction: column;
+}
+
+.pageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2em; 
+    flex-wrap: wrap;
+
+}
+
+.headerContainer {
+    margin-bottom: 20px;
+}
+
+.image_login img {
+    width: 120px;
+    height: auto;
+    margin-bottom: 10px;
 }
 
 .formContainerLogin {
@@ -19,11 +39,6 @@ body {
     border-color: #606770;
 }
 
-header h2 {
-    font-size: 1.5em;
-    color: #f42da8;
-}
-
 input[type="text"], input[type="password"], input[type="email"], input[type="date"] {
     width: 100%;
     padding: 0.9375em;
@@ -33,19 +48,15 @@ input[type="text"], input[type="password"], input[type="email"], input[type="dat
     font-size: 1em;
 }
 
-input:focus {
-    border-color: #4a4c93;
-    outline: none;
+header h1 {
+    font-size: 2em;
+    color: #333;
 }
 
-label {
-    font-size: 0.875em;
-    color: #606770;
-    text-align: left;
-    display: block;
-    margin-top: 0.625em;
+header h2 {
+    font-size: 1.5em;
+    color: hsl(0, 0%, 0%);
 }
-
 .errorMessage {
     color: red;
     font-size: 0.75em;
@@ -58,7 +69,7 @@ label {
 
 .formButton button {
     width: 100%;
-    background-color: #ea69cc;
+    background-color: #f1ae94;
     color: white;
     padding: 0.9375em;
     border: none;
@@ -68,7 +79,7 @@ label {
 }
 
 .formButton button:hover {
-    background-color: #bd1582;
+    background-color: #efb8a3;
 }
 
 p {
@@ -83,4 +94,25 @@ a {
 
 a:hover {
     text-decoration: underline;
+}
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+    width: 100%;
+    font-family: "Roboto", sans-serif;
+    z-index: 100;
+}
+
+.footer p {
+    padding: 5px;
+    margin: 0;
+    border-color: #888888;
+}
+
+@media only screen and (max-width: 1075px) {
+    .formContainerLogin {
+        float: right;
+    }
 }
