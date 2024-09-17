@@ -75,10 +75,13 @@ input[type="file"]::file-selector-button {
     height: 1.94em;
     background-color:  #f7edf7 !important;
     margin-right: 1em;
+    border: 1px solid #ced4da;
+    
     }
 
   input[type="file"]{
     background-color: var(--background) !important;
+    content:"GRR";
 
   }
 .btn-pink{
