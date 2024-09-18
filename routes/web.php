@@ -8,7 +8,7 @@ use App\Http\Controllers\CustomVerificationController;
 
 
 Route::get('/', function () {
-    return view('auth.login');
+    
 
     return view('auth.login');
 
