@@ -9,22 +9,22 @@ use App\Http\Controllers\CustomVerificationController;
 
 Route::get('/', function () {
     return view('auth.login');
-   
-   return view('auth.login');
+
+    return view('auth.login');
 
 });
 
 Route::get('/email/verify/{id}/{hash}', [CustomVerificationController::class, 'verify'])->name('verification.verify');
-    
+
 Route::get('/email/verify', function () {
-        return view('auth.verify');
-    })->middleware('auth')->name('verification.notice');
+    return view('auth.verify');
+})->middleware('auth')->name('verification.notice');
 
 Route::get('/email/verify/{id}/{hash}', [CustomVerificationController::class, 'verify'])->name('verification.verify');
-    
+
 Route::get('/email/verify', function () {
-        return view('auth.verify');
-    })->middleware('auth')->name('verification.notice');
+    return view('auth.verify');
+})->middleware('auth')->name('verification.notice');
 
 Route::get('/signIn', [UsersController::class, 'registerForm'])->middleware('guest');
 
@@ -54,4 +54,5 @@ Route::get('/search', function () {
 
 Route::get('/profile', function () {
     return view('profile.profile');
-})->middleware('auth')->name('profile');;
+})->middleware('auth')->name('profile');
+;
