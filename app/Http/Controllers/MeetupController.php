@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\demande_rencontre;
 use Illuminate\Http\Request;
 use App\Models\Rencontre;
 use App\Models\utilisateur;
@@ -14,6 +15,7 @@ class MeetupController extends Controller
             $meetupTags = rencontre::GetTags($meetupId);
             $organisator = rencontre::GetOrganisator($meetupId);
             $participants = rencontre::GetParticipants($meetupId);
+            $GetRequestMeetupCount = demande_rencontre::GetRequestMeetupCount($organisator->id);
 
             /** a faire: 
              * -s'assurer que le client peut y accéder car il doit être amis si l'événement est priver
@@ -21,12 +23,26 @@ class MeetupController extends Controller
 
 
             return view("meetups.meetupPage", ['meetupData' => $meetupData, "meetupTagsData" => $meetupTags, 
-                "organisatorData" => $organisator, "participantsData" => $participants, "actionButtonState" => 0]);
+                "organisatorData" => $organisator, "participantsData" => $participants, 
+                "requestsParticipantsCount" => $GetRequestMeetupCount]);
         }
     }
 
-    public function LeaveMeetup() {
+    public function LeaveMeetup($meetupId) {
+        $meetupData = rencontre::where("id", $meetupId)->get()[0];
+        rencontre_utlisateur::DeleteParticipant(Auth::user()->id, $meetupId);
+    }
+    public function ModifyMeetup($newMeetupData) {
+        $meetupData = rencontre::where("id", $newMeetupData->id)->get()[0];
 
+        $meetupData::update([
+            "nom" => $newMeetupData->nom, 
+            "description" => $newMeetupData->description,
+            "adresse" => $newMeetupData->adresse,
+            "date" => $newMeetupData->date,
+            "nb_participant" => $newMeetupData->nb_participant,
+            "image" => $newMeetupData->image,
+            "public" => $newMeetupData->public]);
     }
 
     public function JoinMeetup($meetupId) {

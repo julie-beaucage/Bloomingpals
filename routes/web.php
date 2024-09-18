@@ -7,10 +7,25 @@ use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
 use App\Models\Rencontre;
+use App\Models\demande_rencontre;
 
 
 Route::get('/', function () {
+    $meetupId = 1;
+    $meetupData = rencontre::where("id", $meetupId)->get()[0];
+    $meetupTags = rencontre::GetTags($meetupId);
+    $organisator = rencontre::GetOrganisator($meetupId);
+    $participants = rencontre::GetParticipants($meetupId);
+    $GetRequestMeetupCount = demande_rencontre::GetRequestMeetupCount($organisator->id);
 
+    /** a faire: 
+     * -s'assurer que le client peut y accéder car il doit être amis si l'événement est priver
+     * -faire que le boutton pour rejoindre, modifier, ou quitter soit présent. */
+
+
+    return view("meetups.meetupPage", ['meetupData' => $meetupData, "meetupTagsData" => $meetupTags, 
+        "organisatorData" => $organisator, "participantsData" => $participants, 
+        "requestsParticipantsCount" => $GetRequestMeetupCount]);
     //return view('Auth.login');
 });
 
@@ -52,6 +67,6 @@ Route::get('/meetupPage/{meetupId}', [MeetupController::class, 'MeetupPage'])/*-
 
 Route::get('/meetupPage/{meetupId}', [MeetupController::class, 'JoinMeetup'])/*->Middleware('auth')*/->name('joinMeetup');
 
-Route::get('/meetupPage/{meetupId}', [MeetupController::class, 'JoinMeetup'])/*->Middleware('auth')*/->name('joinMeetup');
+Route::get('/meetupPage/{meetupId}', [MeetupController::class, 'LeaveMeetup'])/*->Middleware('auth')*/->name('leaveMeetup');
 
-Route::get('/meetupPage/{meetupId}', [MeetupController::class, 'JoinMeetup'])/*->Middleware('auth')*/->name('joinMeetup');
+Route::get('/meetupPage/{meetupId}', [MeetupController::class, 'ModifyMeetup'])/*->Middleware('auth')*/->name('modifyMeetup');

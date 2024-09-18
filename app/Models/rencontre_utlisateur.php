@@ -19,6 +19,13 @@ class rencontre_utlisateur extends Model
         $rencontreUtilisateur->save();
     }
 
+    public static function DeleteParticipant($userId, $meetupId) {
+        /*a revoir*/
+        if (rencontre_utlisateur::IsInRencontre($meetupId, $userId)) {
+            rencontre_utlisateur::where("id_rencontre", $meetupId)->where("id_utilisateur", $userId)->delete();
+        }
+    }
+
     public static function IsInRencontre($meetupId, $userId) {
         return rencontre_utlisateur::where("id_rencontre", $meetupId)->where("id_utilisateur", $userId)->count() >= 1;
     }

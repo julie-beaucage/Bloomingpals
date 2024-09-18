@@ -32,9 +32,9 @@ class rencontre extends Model
      * @param mixed $id meetup id
      * @return array
      */
-    public static function GetParticipants($id) {
+    public static function GetParticipants($meetupId) {
         $users = [];
-        $participants = rencontre_utlisateur::where("id_rencontre", $id)->get();
+        $participants = rencontre_utlisateur::where("id_rencontre", $meetupId)->get();
         if ($participants->count() > 0) {
             foreach ($participants as $recontre_utilisateur) {
                 $user = utilisateur::where("id", $recontre_utilisateur->id_utilisateur)->get()[0];

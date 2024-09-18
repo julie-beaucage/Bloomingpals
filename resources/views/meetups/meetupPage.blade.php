@@ -20,7 +20,10 @@
     $participantHtml = "";
     $imageParticipantHtml = "";
     $actionButtonHtml = "";
+    $voirDemandeHtml = "";
 
+    /*
+    tout fonctionne mais pas sans connection ou sinon il y a un bug
     if ($currentUser->id == $organisatorData->id) {
         $routing = route('modifyMeetup', ['meetupId' => $meetupData->id]);
         $actionButtonHtml = <<<HTML
@@ -30,11 +33,13 @@
                 </div>
             </a>
         HTML;
+
+        $routing2 = route('meetupRequestPage', ['meetupId' => $meetupData->id]);
     } else {
         $isCurrentUserParticipant = false;
         if ($participantCount != 0) {
             foreach ($participantsData as $participantData) {
-                /*if it is the participant*/
+                //if it is the participant
                 if ($participantData->id == $currentUser->id) {
                     $routing = route('leaveMeetup', ['meetupId' => $meetupData->id]);
                     $actionButtonHtml = <<<HTML
@@ -47,7 +52,7 @@
                     $isCurrentUserParticipant = true;
                 }
 
-                /*Get organisator image*/
+                //Get organisator image
                 $imageParticipantHtml = "";
                 if (isset($participantData->image_profil)) {
                     $imageParticipantHtml = <<<HTML
@@ -83,7 +88,7 @@
                 </a>
             HTML;
         }
-    }
+    }*/
 
     if(!isset($meetupId)) {
         /*à changer*/
@@ -152,7 +157,7 @@
 
 @section("content")
     <?php
-
+    //$routing = route('meetupPage', ['meetupId' => $meetupData->id]);
 
     $html = <<<HTML
         <div class="meetupImageContainer">
@@ -181,7 +186,7 @@
                         </div>
                     </div>
                     <div>
-                        <a href="{$routing}">
+                        <a href="">
                             $actionButtonHtml
                         </a>
                     </div>
@@ -210,11 +215,22 @@
             <div class="section">
                 {$meetupData->description}
             </div>
-            <div class="title6 no_select">
-                Participants
-                <span class="grey_text">
-                    ($participantCount)
-                </span>
+            <div class="title6 no_select participantCountContainer">
+                <div>
+                    Participants
+                    <span class="grey_text">
+                        ($participantCount)
+                    </span>
+                </div>
+                $voirDemandeHtml
+                <div class="grey_text">
+                    <a href="">
+                        Voir les demandes 
+                        <span>
+                            ($requestsParticipantsCount)
+                        </span>
+                    </a>
+                </div>
             </div>
             <div>
                 $participantHtml

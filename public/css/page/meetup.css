@@ -9,6 +9,12 @@
     border-radius: 20px;
 }
 
+.participantCountContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
 .meetupImageContainer {
     width: 100%;
 }
