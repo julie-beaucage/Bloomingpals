@@ -9,14 +9,14 @@
 </header>
 <body>
     <div id="main">
-        @include("components.navbar")
-
+        <x-navbar/>
+        
         <div id="content">
             @yield("content", "")
+            <x-footer/>
         </div>
     </div>
     @include("bundles.scriptsBundle")
-    @yield("scripts", "")
-    <x-footer/>
+    @yield("script", "")
 </body>
 </html>
