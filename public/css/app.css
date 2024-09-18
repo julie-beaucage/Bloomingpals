@@ -23,6 +23,9 @@
     --link: #007bff;
     --selection: #90c6ff;
 
+    --border: #606770;
+    --pink: #f42da8;
+
     font-family: "Poppins", sans-serif;
 }
 
@@ -160,3 +163,4 @@ a {
 .icon_md {
     font-size: 2em !important;
 }
+
