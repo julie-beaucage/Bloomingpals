@@ -164,6 +164,6 @@
 </div>
 @endsection()
 
-@section("extraScript")
+@section("scripts")
 <script src="/js/meetupForm.js"></script>
 @endsection

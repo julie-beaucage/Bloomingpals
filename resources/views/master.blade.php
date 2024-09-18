@@ -18,6 +18,5 @@
     </div>
     @include("bundles.scriptsBundle")
     @yield("scripts", "")
-    @yield("extraScript")
 </body>
 </html>
