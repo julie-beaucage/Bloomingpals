@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Rencontre;
 use App\Models\utilisateur;
+use App\Models\rencontre_utlisateur;
 
 class MeetupController extends Controller
 {
@@ -23,25 +24,19 @@ class MeetupController extends Controller
                 "organisatorData" => $organisator, "participantsData" => $participants, "actionButtonState" => 0]);
         }
     }
-    public function MeetupPageTest() {
-        $meetupId = 1;
-        if (isset($meetupId)) {
-            $meetupData = rencontre::where("id", $meetupId)->get()[0];
-            $meetupTags = rencontre::GetTags($meetupId);
-            $organisator = rencontre::GetOrganisator($meetupId);
-            $participants = rencontre::GetParticipants($meetupId);
 
-            /** a faire: 
-             * -s'assurer que le client peut y accéder car il doit être amis si l'événement est priver
-             * -faire que le boutton pour rejoindre, modifier, ou quitter soit présent. */
+    public function JoinMeetup($meetupId, $userId) {
+        /*join if public*/
+        $meetupData = rencontre::where("id", $meetupId)->get()[0];
 
+        if ($meetupData->public) {
 
-            return view("meetups.meetupPage", ['meetupData' => $meetupData, "meetupTagsData" => $meetupTags, 
-                "organisatorData" => $organisator, "participantsData" => $participants, "actionButtonState" => 0]);
+            if ()
+            rencontre_utlisateur::AddParticipant($userId, $meetupId);
+            MeetupPage($meetupId);
+        } else {
+            MeetupPage($meetupId);
         }
-    }
-
-    public function JoinMeetup($meetupId) {
-        MeetupController::MeetupPage($meetupId);
+        //return Redirect::back();
     }
 }

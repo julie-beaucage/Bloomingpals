@@ -9,6 +9,13 @@
     $str = 'INSERT INTO rencontre(id, nom, description, id_organisateur, adresse, date, nb_participant, public) VALUES(1, "Nom de la rencontre", "Voici la description", 1, "1234 rue popcorn", DATE "2025-01-01", 100, 1)';
     $result = $conn->query($str);*/
 
+    if(!isset($meetupId)) {
+        /*à changer*/
+        $meetupId = 1;
+    }
+
+    $idCurrentUser = 1;
+
     if (!$meetupData->public) {
         /*check if the user is a friend*/
     }
@@ -21,7 +28,7 @@
     $imageUtilisateurHtml = "";
     if (isset($organisatorData->image)) {
         $imageUtilisateurHtml = <<<HTML
-            <div class="profile_icon no_select" style="background-image: url({$imageUtilisateur})">
+            <div class="profile_icon no_select" style="background-image: url({$organisatorData->image})">
                         
             </div>
         HTML;
@@ -53,7 +60,7 @@
     $tagsHtml = "";
 
     foreach ($meetupTagsData as $tag) {
-        $tagsHtml += <<<HTML
+        $tagsHtml .= <<<HTML
             <div>
                 {$tag->nom}
             </div>
@@ -63,21 +70,34 @@
     /*get participants data*/
     $participantHtml = "";
 
-    foreach ($participantsData as $participantData) {
-        $tagsHtml += <<<HTML
-            <div>
-                {$participantData->nom}
-                <div class="profile_icon no_select" style="background-image: url({$participantData->image_profil})"></div>
-                <div>
-                    {$participantData->nom}
-                </div>
-                <div>
-                    <!--afinité a faire-->
+    if ($participantCount != 0) {
+        foreach ($participantsData as $participantData) {
+            /*Get organisator image*/
+            $imageParticipantHtml = "";
+            if (isset($participantData->image_profil)) {
+                $imageParticipantHtml = <<<HTML
+                    <div class="profile_icon no_select" style="background-image: url({$participantData->image_profil})">
+                                
+                    </div>
+                HTML;
+            } else {
+                $imageParticipantHtml = <<<HTML
+                    <div class="profile_icon no_select" style="background-image: url(https://img.freepik.com/photos-gratuite/beaute-abstraite-automne-dans-motif-veines-feuilles-multicolores-genere-par-ia_188544-9871.jpg)">
+                                
+                    </div>
+                HTML;
+            }
+            $participantHtml .= <<<HTML
+                <div class="organisator_profile">
+                    $imageParticipantHtml
+                    <div class="username_container">
+                        <div>{$participantData->prenom}</div>
+                        <div class="grey_text">{$participantData->nom}</div>
+                    </div>
                 </div>
             </div>
         HTML;
     }
-    use Illuminate\Support\Facades\Route;
 
     /*Get the action button*/
     $actionButtonHtml = "";
@@ -107,6 +127,8 @@
 
 @section("content")
     <?php
+    /*variable de test*/
+    $routing = route('joinMeetup', ['meetupId' => 1, "userId" => 7]);
 
 
     $html = <<<HTML

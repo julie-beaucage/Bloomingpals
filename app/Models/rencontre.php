@@ -34,9 +34,12 @@ class rencontre extends Model
      */
     public static function GetParticipants($id) {
         $users = [];
-        foreach (rencontre_utlisateur::where("id_rencontre", $id)->get() as $recontre_utilisateur) {
-            $user = utilisateur::where("id", $recontre_utilisateur->id_utilisateur)->get();
-            array_push($users, $user);
+        $participants = rencontre_utlisateur::where("id_rencontre", $id)->get();
+        if ($participants->count() > 0) {
+            foreach ($participants as $recontre_utilisateur) {
+                $user = utilisateur::where("id", $recontre_utilisateur->id_utilisateur)->get()[0];
+                array_push($users, $user);
+            }
         }
         return $users;
     }
