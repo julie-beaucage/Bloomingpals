@@ -19,11 +19,12 @@ class meetupController extends BaseController
     {
         return view('home.feed');
     }
-    public function createForm($errors = null, $data = null)
+    public function Form($actionCreate, $errors = null, $data = null)
     {
+        dd("teste");
         $listCities = $this->getCities();
 
-        return view('meetups.meetupForm', compact('listCities', 'errors', 'data'));
+        return view('meetups.meetupForm', compact($actionCreate,'listCities', 'errors', 'data','action'));
     }
 
     public function create(Request $req)
@@ -40,10 +41,11 @@ class meetupController extends BaseController
                 'date' => $req->date,
                 'heure' => $req->heure,
                 'participant' => $req->nb_participant,
-                'image' => $req->image
+                'image' => $req->image,
+                'public' => $public= $req->prive != null,
             ];
 
-            return $this->createForm($errors, $data);
+            return $this->Form(true,$errors, $data);
         } else {
             $id=Auth::user()->Id;
             if(isset($id)){
