@@ -40,12 +40,15 @@
         HTML;
     }
 
+
+
     /*Get image data*/
     $imageHtml = "";
-    if (isset($meetupData[0]->image)) {
+    if (isset($meetupData->image)) {
         $imageHtml = <<<HTML
+            test
             <div class="event_image" style="background-image: url({$meetupData->image})">
-
+                test
             </div>
         HTML;
     } else {
@@ -95,15 +98,13 @@
                         <div class="grey_text">{$participantData->nom}</div>
                     </div>
                 </div>
-            </div>
-        HTML;
+            HTML;
+        }
     }
-
     /*Get the action button*/
     $actionButtonHtml = "";
     if ($actionButtonState == 0) {
-        $routing = route('meetupPage', ['meetupId' => 1]);
-
+        $routing = route('joinMeetup', ['meetupId' => 1, "userId" => 2]);
         $actionButtonHtml = <<<HTML
             <a href="{$routing}">
                 <div class="blue_button no_select">
@@ -127,12 +128,12 @@
 
 @section("content")
     <?php
-    /*variable de test*/
-    $routing = route('joinMeetup', ['meetupId' => 1, "userId" => 7]);
 
 
     $html = <<<HTML
-        $imageHtml
+        <div class="meetupImageContainer">
+            $imageHtml
+        </div>
         <div class="detail_container">
             <div class="principal_info section">
                 <!--meetup name section-->
@@ -196,5 +197,6 @@
             </div>
         </div>
     HTML;
-    echo $html?>
+    echo $html;
+?>
 @endsection()

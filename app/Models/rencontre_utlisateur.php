@@ -11,15 +11,15 @@ class rencontre_utlisateur extends Model
 
     public $timestamps = false;
 
-    public static function AddParticipant($userId, $rencontreId) 
+    public static function AddParticipant($userId, $meetupId) 
     {
         $rencontreUtilisateur = new rencontre_utlisateur();
-        $rencontreUtilisateur->id_rencontre  = $rencontreId;
+        $rencontreUtilisateur->id_rencontre  = $meetupId;
         $rencontreUtilisateur->id_utilisateur = $userId;
         $rencontreUtilisateur->save();
     }
 
-    public static function IsInRencontre($rencontreId, $userId) {
-        return rencontre_utlisateur::where("id_rencontre", $idRencontre);
+    public static function IsInRencontre($meetupId, $userId) {
+        return rencontre_utlisateur::where("id_rencontre", $meetupId)->where("id_utilisateur", $userId)->count() >= 1;
     }
 }

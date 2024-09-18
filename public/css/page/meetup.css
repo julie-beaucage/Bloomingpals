@@ -9,6 +9,9 @@
     border-radius: 20px;
 }
 
+.meetupImageContainer {
+    width: 100%;
+}
 .info_container {
     display: grid;
     gap: 10px;

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\MeetupController;
+use App\Http\Controllers\CustomVerificationController;
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
@@ -9,6 +10,9 @@ use App\Models\Rencontre;
 
 
 Route::get('/', function () {
+    /*
+    //code for testing the meetup page
+
     $meetupId = 1;
 
     $meetupData = rencontre::where("id", $meetupId)->get()[0];
@@ -16,10 +20,10 @@ Route::get('/', function () {
     $organisator = rencontre::GetOrganisator($meetupId);
     $participants = rencontre::GetParticipants($meetupId);
 
-    /*check if public then if public set button to join*/
+    //check if public then if public set button to join
     return view("meetups.meetupPage", ['meetupData' => $meetupData, "meetupTagsData" => $meetupTags, 
-        "organisatorData" => $organisator, "participantsData" => $participants]);
-    //return view('Auth.login');
+        "organisatorData" => $organisator, "participantsData" => $participants, "actionButtonState" => 0]);*/
+    return view('Auth.login');
 });
 
 Route::get('/email/verify/{id}/{hash}', [CustomVerificationController::class, 'verify'])->name('verification.verify');

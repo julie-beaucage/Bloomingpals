@@ -30,13 +30,12 @@ class MeetupController extends Controller
         $meetupData = rencontre::where("id", $meetupId)->get()[0];
 
         if ($meetupData->public) {
-
-            if ()
-            rencontre_utlisateur::AddParticipant($userId, $meetupId);
-            MeetupPage($meetupId);
+            if (!rencontre_utlisateur::IsInRencontre($meetupId, $userId)) {
+                rencontre_utlisateur::AddParticipant($userId, $meetupId);
+            }
+            return $this->MeetupPage($meetupId);
         } else {
-            MeetupPage($meetupId);
+            return $this->MeetupPage($meetupId);
         }
-        //return Redirect::back();
     }
 }
