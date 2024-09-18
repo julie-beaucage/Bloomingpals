@@ -44,7 +44,7 @@ Route::post('/meetupForm', [meetupController::class, 'createForm']);
 Route::post('/meetup/create', [meetupController::class, 'create'])->name('/meetupForm');
 
 // TODO: remove when all controller are done.
-Route::post('/home', function () {
+Route::get('/home', function () {
     return view('home.feed');
 });
 
@@ -55,4 +55,3 @@ Route::get('/search', function () {
 Route::get('/profile', function () {
     return view('profile.profile');
 })->middleware('auth')->name('profile');
-;

@@ -9,5 +9,7 @@ class cities extends Model
     protected $table= 'canadacities';
 
     public $timestamps = false;
+
+    
 }
 

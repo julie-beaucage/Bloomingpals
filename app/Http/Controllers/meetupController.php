@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\cities;
+use Auth;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+
 
 
 class meetupController extends BaseController
@@ -27,9 +29,6 @@ class meetupController extends BaseController
     public function create(Request $req)
     {
         $errors = $this->verifErrors($req);
-
-
-
         // verification fail
         if ($errors['error'] == true) {
 
@@ -46,6 +45,20 @@ class meetupController extends BaseController
 
             return $this->createForm($errors, $data);
         } else {
+            $id=Auth::user()->Id;
+            if(isset($id)){
+                $public= $req->prive != null;
+                DB::statement("Call create_rencontre(?,?,?,?,?,?,?,?)",[
+                    $req->nom,
+                    $req->description,
+                    $id,
+                    $req->ville,
+                    date_create($req->date + $req->heure),
+                    $req->nb_participant,
+                    $req->image,
+                    $public
+                ]);
+            }
             dd("Form submit");
         }
     }
@@ -93,7 +106,6 @@ class meetupController extends BaseController
 
             $errors['adresse'] = "L'adresse doit contenir au moins une lettre !";
         }
-
         // Description
         if (strlen($req->description) > 1024) {
             $errors['error'] = true;
