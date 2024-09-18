@@ -37,7 +37,3 @@ Route::get('/home', function () {
 Route::get('/search', function () {
     return view('search.search');
 });
-
-Route::get('/profile', function () {
-    return view('profile.profile');
-})->middleware('auth')->name('profile');;
