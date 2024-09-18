@@ -22,7 +22,8 @@ Route::post('/login', [UsersController::class, 'login'])->name('login');
 Route::get('/logout', [UsersController::class, 'logout']);
 
 Route::get('/meetupForm', [meetupController::class, 'createForm']);
-Route::post('/meetup/create', [meetupController::class, 'create']);
+Route::post('/meetupForm', [meetupController::class, 'createForm']);
+Route::post('/meetup/create', [meetupController::class, 'create'])->name('/meetupForm');
 
 // TODO: remove when all controller are done.
 Route::post('/home', function () {
