@@ -14,9 +14,34 @@ class MeetupController extends Controller
             $organisator = rencontre::GetOrganisator($meetupId);
             $participants = rencontre::GetParticipants($meetupId);
 
+            /** a faire: 
+             * -s'assurer que le client peut y accéder car il doit être amis si l'événement est priver
+             * -faire que le boutton pour rejoindre, modifier, ou quitter soit présent. */
+
 
             return view("meetups.meetupPage", ['meetupData' => $meetupData, "meetupTagsData" => $meetupTags, 
-                "organisatorData" => $organisator, "participantsData" => $participants]);
+                "organisatorData" => $organisator, "participantsData" => $participants, "actionButtonState" => 0]);
         }
+    }
+    public function MeetupPageTest() {
+        $meetupId = 1;
+        if (isset($meetupId)) {
+            $meetupData = rencontre::where("id", $meetupId)->get()[0];
+            $meetupTags = rencontre::GetTags($meetupId);
+            $organisator = rencontre::GetOrganisator($meetupId);
+            $participants = rencontre::GetParticipants($meetupId);
+
+            /** a faire: 
+             * -s'assurer que le client peut y accéder car il doit être amis si l'événement est priver
+             * -faire que le boutton pour rejoindre, modifier, ou quitter soit présent. */
+
+
+            return view("meetups.meetupPage", ['meetupData' => $meetupData, "meetupTagsData" => $meetupTags, 
+                "organisatorData" => $organisator, "participantsData" => $participants, "actionButtonState" => 0]);
+        }
+    }
+
+    public function JoinMeetup($meetupId) {
+        MeetupController::MeetupPage($meetupId);
     }
 }

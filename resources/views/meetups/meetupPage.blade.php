@@ -9,13 +9,6 @@
     $str = 'INSERT INTO rencontre(id, nom, description, id_organisateur, adresse, date, nb_participant, public) VALUES(1, "Nom de la rencontre", "Voici la description", 1, "1234 rue popcorn", DATE "2025-01-01", 100, 1)';
     $result = $conn->query($str);*/
 
-    if(!isset($meetupId)) {
-        /*à changer*/
-        $meetupId = 1;
-    }
-
-
-    /*done*/
     if (!$meetupData->public) {
         /*check if the user is a friend*/
     }
@@ -68,7 +61,6 @@
     }
 
     /*get participants data*/
-
     $participantHtml = "";
 
     foreach ($participantsData as $participantData) {
@@ -80,10 +72,29 @@
                     {$participantData->nom}
                 </div>
                 <div>
-                    <!--affiniter utilisateur-->
+                    <!--afinité a faire-->
                 </div>
             </div>
         HTML;
+    }
+    use Illuminate\Support\Facades\Route;
+
+    /*Get the action button*/
+    $actionButtonHtml = "";
+    if ($actionButtonState == 0) {
+        $routing = route('meetupPage', ['meetupId' => 1]);
+
+        $actionButtonHtml = <<<HTML
+            <a href="{$routing}">
+                <div class="blue_button no_select">
+                    rejoindre
+                </div>
+            </a>
+        HTML;
+    } else if ($actionButtonState == 1) {
+
+    } else if ($actionButtonState == 2) {
+
     }
 ?>
 
@@ -96,8 +107,6 @@
 
 @section("content")
     <?php
-    /*variable de test*/
-    $routing = route('meetupPage', ['meetupId' => 1]);
 
 
     $html = <<<HTML
@@ -121,14 +130,12 @@
                         $imageUtilisateurHtml
                         <div class="username_container">
                             <div class="title5">{$organisatorData->prenom} {$organisatorData->nom}</div>
-                            <div class="grey_text">surnom</div>
+                            <div class="grey_text"><!--afinité a faire--></div>
                         </div>
                     </div>
                     <div>
                         <a href="{$routing}">
-                            <div class="blue_button no_select">
-                                rejoindre
-                            </div>
+                            $actionButtonHtml
                         </a>
                     </div>
                 </div>
@@ -167,69 +174,5 @@
             </div>
         </div>
     HTML;
-    /*
-    $html = <<<HTML
-    $imageHtml
-    <div class="detail_container">
-        <div class="principal_info section">
-            <!--meetup name section-->
-            <div class="meetup_name_container">
-                <div class="title4 right_text">
-                    $meetupName
-                </div>
-                <div class="tags">
-                    $tagsHtml
-                </div>
-            </div>
-            
-            <!--organisator profile section-->
-            <div class="joining_Conainter">
-                <div class="organisator_profile">
-                    $imageUtilisateurHtml
-                    <div class="username_container">
-                        <div class="title5">$firstName $lastName</div>
-                        <div class="grey_text">surnom</div>
-                    </div>
-                </div>
-                <div>
-                    <a href="{$routing}">
-                        <div class="blue_button no_select">
-                            rejoindre
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="title6 no_select">Information</div>
-        <div class="info_container section">
-            <div>
-                <div class="dark_grey_text no_select">Date</div>
-                <div class="grey_text">$date</div>
-            </div>
-            <div>
-                <div class="dark_grey_text no_select">Adresse</div>
-                <div class="grey_text">$adress</div>
-            </div>
-            <div>
-                <div class="dark_grey_text no_select">Heure</div>
-                <div class="grey_text">$hour</div>
-            </div>
-            <div>
-                <div class="dark_grey_text no_select">Groupe</div>
-                <div class="grey_text">$nbParticipantMax participants maximum</div>
-            </div>
-        </div>
-        <div class="title6 no_select">Description</div>
-        <div class="section">
-            $description
-        </div>
-        <div class="title6 no_select">
-            Participants
-            <span class="grey_text">
-                ({$nbParticipants})
-            </span>
-        </div>
-    </div>
-HTML;*/
     echo $html?>
 @endsection()

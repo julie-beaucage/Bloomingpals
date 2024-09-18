@@ -6,10 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
 
 
-Route::get('/', function () {
-    return view("meetups.meetupPage", ['meetupId' => 1]);
-    //return view('Auth.login');
-});
+Route::get('/', [MeetupController::class, 'MeetupPageTest']);
 
 Route::get('/signIn', [UsersController::class, 'registerForm'])->middleware('guest');
 
@@ -37,3 +34,5 @@ Route::get('/profile', function () {
 
 /*this route need an id for the event*/
 Route::get('/meetupPage/{meetupId}', [MeetupController::class, 'MeetupPage'])->name('meetupPage');
+/*this route need an id for the event*/
+Route::get('/meetupPage/{meetupId}', [MeetupController::class, 'JoinMeetup'])->name('JoinMeetupPage');
