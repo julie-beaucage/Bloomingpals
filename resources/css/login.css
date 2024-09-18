@@ -45,6 +45,7 @@ input[type="text"], input[type="password"], input[type="email"], input[type="dat
     border-radius: 0.375em;
     border: 1px solid #dddfe2;
     font-size: 1em;
+    box-sizing: border-box;
 }
 
 header h1 {
