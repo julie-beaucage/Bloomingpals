@@ -4,7 +4,6 @@
 }
 
 .meetup-form-container {
-    display: grid;
     border: 0.1em solid var(--border);
     border-radius: 0.8em;
     padding: 1em;
@@ -44,6 +43,7 @@ select {
     max-height: 15em;
     border-radius: 0.5em;
     box-sizing: border-box;
+    overflow-x: hidden;
     
 }
 .city-dropdown-content option:hover {
