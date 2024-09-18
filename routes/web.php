@@ -10,20 +10,8 @@ use App\Models\Rencontre;
 
 
 Route::get('/', function () {
-    /*
-    //code for testing the meetup page
 
-    $meetupId = 1;
-
-    $meetupData = rencontre::where("id", $meetupId)->get()[0];
-    $meetupTags = rencontre::GetTags($meetupId);
-    $organisator = rencontre::GetOrganisator($meetupId);
-    $participants = rencontre::GetParticipants($meetupId);
-
-    //check if public then if public set button to join
-    return view("meetups.meetupPage", ['meetupData' => $meetupData, "meetupTagsData" => $meetupTags, 
-        "organisatorData" => $organisator, "participantsData" => $participants, "actionButtonState" => 0]);*/
-    return view('Auth.login');
+    //return view('Auth.login');
 });
 
 Route::get('/email/verify/{id}/{hash}', [CustomVerificationController::class, 'verify'])->name('verification.verify');
@@ -62,4 +50,8 @@ Route::get('/profile', function () {
 /*this route need an id for the meetup*/
 Route::get('/meetupPage/{meetupId}', [MeetupController::class, 'MeetupPage'])/*->Middleware('auth')*/->name('meetupPage');
 
-Route::get('/meetupPage/{meetupId}/{userId}', [MeetupController::class, 'JoinMeetup'])/*->Middleware('auth')*/->name('joinMeetup');
+Route::get('/meetupPage/{meetupId}', [MeetupController::class, 'JoinMeetup'])/*->Middleware('auth')*/->name('joinMeetup');
+
+Route::get('/meetupPage/{meetupId}', [MeetupController::class, 'JoinMeetup'])/*->Middleware('auth')*/->name('joinMeetup');
+
+Route::get('/meetupPage/{meetupId}', [MeetupController::class, 'JoinMeetup'])/*->Middleware('auth')*/->name('joinMeetup');

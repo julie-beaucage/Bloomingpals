@@ -25,7 +25,12 @@ class MeetupController extends Controller
         }
     }
 
-    public function JoinMeetup($meetupId, $userId) {
+    public function LeaveMeetup() {
+
+    }
+
+    public function JoinMeetup($meetupId) {
+        $userId = Auth::user()->id;
         /*join if public*/
         $meetupData = rencontre::where("id", $meetupId)->get()[0];
 
