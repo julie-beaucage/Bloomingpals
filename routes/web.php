@@ -7,8 +7,8 @@ use App\Http\Controllers\UsersController;
 
 Route::get('/', function () {
    
-   //return view('auth.login');
-   return redirect()->action([meetupController::class,'createForm']);
+   return view('auth.login');
+
 });
 
 Route::get('/signIn', [UsersController::class, 'registerForm'])->middleware('guest');
