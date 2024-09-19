@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 
 
 
-class meetupController extends BaseController
+class MeetupController extends Controller
 {
     public function index()
     {
