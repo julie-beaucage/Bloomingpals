@@ -13,7 +13,8 @@ use App\Models\demande_rencontre;
 Route::get('/', function () {
     
 
-    return view('auth.login');
+    //auth
+    //return view('auth.login');
 
 });
 
