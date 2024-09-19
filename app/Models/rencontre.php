@@ -48,8 +48,8 @@ class rencontre extends Model
      * @param mixed $id meetup id
      * @return utilisateur[]|\Illuminate\Database\Eloquent\Collection
      */
-    public static function GetOrganisator($id) {
-        $rencontre = Rencontre::where("id", $id)->get();
+    public static function GetOrganisator($meetupId) {
+        $rencontre = Rencontre::where("id", $meetupId)->get();
         $organisator = utilisateur::where("id", $rencontre[0]->id_organisateur)->get()[0];
         return $organisator;
     }

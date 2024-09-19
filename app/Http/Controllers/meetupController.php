@@ -178,4 +178,16 @@ class MeetupController extends Controller
         }
     }
 
+    public function MeetupRequests($meetupId) {
+        $meetupData = rencontre::where("id", $meetupId)->get()[0];
+        $organisator = rencontre::GetOrganisator($meetupId);
+        $requests = demande_rencontre::GetRequestMeetup(/*Auth::user()->id*/1);
+            return view("meetups.meetupRequests", ["meetupData" => $meetupData, "organisatorData" => $organisator, "requestsData" => $requests]);
+        if (Auth::user()->id == $organisator->id) {
+            $requests = demande_rencontre::GetRequestMeetup(Auth::user()->id);
+            return view("meetups.meetupRequests", ["meetupData" => $meetupData, "organisatorData" => $organisator, "requestsData" => $requests]);
+        } else {
+            return view("deniedAccess.pageNotFound");
+        }
+    }
 }

@@ -100,7 +100,7 @@
         }
     }*/
 
-    $routing2 = route('meetupRequestsPage', ['meetupId' => $meetupData->id]);
+    $routing2 = route('meetupRequests', ['meetupId' => $meetupData->id]);
     $voirDemandeHtml = <<<HTML
             <div class="grey_text">
                 <a href="{$routing2}">
