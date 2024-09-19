@@ -35,6 +35,16 @@
         HTML;
 
         $routing2 = route('meetupRequestPage', ['meetupId' => $meetupData->id]);
+        $voirDemandeHtml = <<<HTML
+                <div class="grey_text">
+                    <a href="{$routing2}">
+                        Voir les demandes 
+                        <span>
+                            ($requestsParticipantsCount)
+                        </span>
+                    </a>
+                </div>
+        HTML;
     } else {
         $isCurrentUserParticipant = false;
         if ($participantCount != 0) {
@@ -89,6 +99,18 @@
             HTML;
         }
     }*/
+
+    $routing2 = route('meetupRequestsPage', ['meetupId' => $meetupData->id]);
+    $voirDemandeHtml = <<<HTML
+            <div class="grey_text">
+                <a href="{$routing2}">
+                    Voir les demandes 
+                    <span>
+                        ($requestsParticipantsCount)
+                    </span>
+                </a>
+            </div>
+    HTML;
 
     if(!isset($meetupId)) {
         /*à changer*/
@@ -223,14 +245,6 @@
                     </span>
                 </div>
                 $voirDemandeHtml
-                <div class="grey_text">
-                    <a href="">
-                        Voir les demandes 
-                        <span>
-                            ($requestsParticipantsCount)
-                        </span>
-                    </a>
-                </div>
             </div>
             <div>
                 $participantHtml

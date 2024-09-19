@@ -11,22 +11,7 @@ use App\Models\demande_rencontre;
 
 
 Route::get('/', function () {
-    $meetupId = 1;
-    $meetupData = rencontre::where("id", $meetupId)->get()[0];
-    $meetupTags = rencontre::GetTags($meetupId);
-    $organisator = rencontre::GetOrganisator($meetupId);
-    $participants = rencontre::GetParticipants($meetupId);
-    $GetRequestMeetupCount = demande_rencontre::GetRequestMeetupCount($organisator->id);
-
-    /** a faire: 
-     * -s'assurer que le client peut y accéder car il doit être amis si l'événement est priver
-     * -faire que le boutton pour rejoindre, modifier, ou quitter soit présent. */
-
-
-    return view("meetups.meetupPage", ['meetupData' => $meetupData, "meetupTagsData" => $meetupTags, 
-        "organisatorData" => $organisator, "participantsData" => $participants, 
-        "requestsParticipantsCount" => $GetRequestMeetupCount]);
-    //return view('Auth.login');
+    return view('Auth.login');
 });
 
 Route::get('/email/verify/{id}/{hash}', [CustomVerificationController::class, 'verify'])->name('verification.verify');
@@ -62,7 +47,7 @@ Route::get('/profile', function () {
 })->middleware('auth')->name('profile');
 
 
-/*this route need an id for the meetup*/
+/*meetup*/
 Route::get('/meetupPage/{meetupId}', [MeetupController::class, 'MeetupPage'])/*->Middleware('auth')*/->name('meetupPage');
 
 Route::get('/meetupPage/{meetupId}', [MeetupController::class, 'JoinMeetup'])/*->Middleware('auth')*/->name('joinMeetup');
@@ -70,3 +55,4 @@ Route::get('/meetupPage/{meetupId}', [MeetupController::class, 'JoinMeetup'])/*-
 Route::get('/meetupPage/{meetupId}', [MeetupController::class, 'LeaveMeetup'])/*->Middleware('auth')*/->name('leaveMeetup');
 
 Route::get('/meetupPage/{meetupId}', [MeetupController::class, 'ModifyMeetup'])/*->Middleware('auth')*/->name('modifyMeetup');
+Route::get('/meetupRequestsPage/{meetupId}', [MeetupController::class, 'MeetupRequestsPage'])/*->Middleware('auth')*/->name('meetupRequestsPage');

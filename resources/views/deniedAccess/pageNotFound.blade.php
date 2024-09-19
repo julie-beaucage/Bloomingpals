@@ -1,22 +1,12 @@
-<?php
-    
-?>
-
 @extends("master")
 
 @section("content")
-    <?php
-        $html = <<<HTML
-            <div>
-                <!--content-->
-            </div>
-        HTML;
-        echo $html;
-    ?>
+    <div class="title4">
+        Erreur 403 : vous ne ne pouvez pas accédé a cette page!
+    </div>
 @endsection()
 
 @section("scripts")
-
     <!--javascript-->
 @endsection()
 
@@ -25,5 +15,5 @@
 @endsection()
 
 @section("title")
-    Template
+    access denied
 @endsection()
