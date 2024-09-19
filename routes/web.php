@@ -11,14 +11,23 @@ use App\Models\demande_rencontre;
 
 
 Route::get('/', function () {
-    return view('Auth.login');
+    
+
+    return view('auth.login');
+
 });
 
 Route::get('/email/verify/{id}/{hash}', [CustomVerificationController::class, 'verify'])->name('verification.verify');
-    
+
 Route::get('/email/verify', function () {
-        return view('auth.verify');
-    })->middleware('auth')->name('verification.notice');
+    return view('auth.verify');
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', [CustomVerificationController::class, 'verify'])->name('verification.verify');
+
+Route::get('/email/verify', function () {
+    return view('auth.verify');
+})->middleware('auth')->name('verification.notice');
 
 Route::get('/signIn', [UsersController::class, 'registerForm'])->middleware('guest');
 
@@ -32,6 +41,10 @@ Route::get('/logout', [UsersController::class, 'logout']);
 
 Route::get('/profile', [UsersController::class, 'profile'])->middleware('auth')->name('profile');
 
+
+Route::get('/meetupForm', [meetupController::class, 'createForm']);
+Route::post('/meetupForm', [meetupController::class, 'createForm']);
+Route::post('/meetup/create', [meetupController::class, 'create'])->name('/meetupForm');
 
 // TODO: remove when all controller are done.
 Route::get('/home', function () {
