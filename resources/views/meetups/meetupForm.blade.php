@@ -2,12 +2,12 @@
 
 @section("content")
 @php
-$formAction= $actionCreate ? "/meetup/create": "/meetup/edit"
+    $action = $actionCreate ? "/meetup/create" : "/meetup/edit"
 @endphp
 
 <link rel="stylesheet" href="{{ asset('css/meetup.css') }}">
 <div class="meetup-container">
-    <form action="{{$formAction}}" method="POST" class="meetup-form-container">
+    <form action="{{$action}}" method="POST" class="meetup-form-container" enctype="multipart/form-data">
         @csrf
         <legend style="text-align:center;" class="underline">
             MeetUp
@@ -142,7 +142,26 @@ $formAction= $actionCreate ? "/meetup/create": "/meetup/edit"
                 </div>
                 <div class="col">
                     <label>Image</label>
-                    <input type="file" id="image" name="image" accept="image/*">
+
+                    @if($data != null)
+                    
+                        <input type="file" id="image" name="image" accept="image/*" onchange="previewFile()">
+                        <br>
+                        <br>
+                        @php
+                        echo '<img class="img-preview" src="data:image/png;base64,'.base64_encode($data['image']).'"/>';
+                        echo '<div>$data[</div>'
+                        @endphp
+                        <img class="img-preview" src="data:image/png;base64,{{base64_decode($data['image'])}}">
+                        
+                    @else
+                        <input type="file" id="image" name="image" accept="image/*" onchange="previewFile()">
+                        <br>
+                        <br>
+                        <img class="img-preview" src="">
+                        
+                    @endif
+
                 </div>
 
             </div>
@@ -165,7 +184,8 @@ $formAction= $actionCreate ? "/meetup/create": "/meetup/edit"
 
         <div class="form-group">
 
-            <button type="submit" class="btn btn-pink">Créer le MeetUp</button>
+            <button type="submit"
+                class="btn btn-pink">{{$actionCreate ? "Crée le MeetUp" : "Modifier le MeetUp"}}</button>
             <a class="btn btn-secondary" style="color:white;">Retour</a>
 
         </div>
@@ -234,6 +254,22 @@ $formAction= $actionCreate ? "/meetup/create": "/meetup/edit"
         });
 
     });
+
+    function previewFile() {
+        var preview = $(".img-preview");
+        var file = document.querySelector('input[type=file]').files[0];
+        var reader = new FileReader();
+
+        reader.onloadend = function () {
+            $(".img-preview").attr('src', reader.result);
+        }
+
+        if (file) {
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = "";
+        }
+    }
 
 </script>
 @endsection

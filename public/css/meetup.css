@@ -26,6 +26,12 @@ select {
     background-color: #f7edf7 !important;
 }
 
+.img-preview{
+    margin-top: 3em;
+    max-height:10em;
+    max-width: 10em;
+}
+
 /* drop down css */
 
 .city-dropdown:hover {
@@ -88,3 +94,4 @@ input[type="file"]::file-selector-button {
     background-color: var(--pink);
     color: white !important;
 }
+

@@ -8,7 +8,7 @@ use App\Http\Controllers\CustomVerificationController;
 
 
 Route::get('/', function () {
-    return redirect('/meetupForm/0');
+    return redirect('/meetupForm/1');
 });
 
 Route::get('/email/verify/{id}/{hash}', [CustomVerificationController::class, 'verify'])->name('verification.verify');
@@ -36,9 +36,11 @@ Route::get('/logout', [UsersController::class, 'logout']);
 Route::get('/profile', [UsersController::class, 'profile'])->middleware('auth')->name('profile');
 
 
-Route::get('/meetupForm/{actionCreate}', [meetupController::class, 'Form']);
-Route::post('/meetupForm/{actionCreate}', [meetupController::class, 'Form']);
-Route::post('/meetup/create', [meetupController::class, 'create'])->name('/meetupForm');
+Route::post('/meetupForm', [meetupController::class, 'Form']);
+Route::get('/meetupForm', [meetupController::class, 'Form']);
+Route::get('/meetupForm/{id}', [meetupController::class, 'Form']);
+Route::post('/meetup/create', [meetupController::class, 'create']);
+Route::post('/meetup/edit', [meetupController::class, 'edit']);
 
 
 

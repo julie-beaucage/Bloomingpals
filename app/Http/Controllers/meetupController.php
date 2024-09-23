@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\cities;
+use App\Models\rencontre;
 use Auth;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -19,12 +20,50 @@ class meetupController extends BaseController
     {
         return view('home.feed');
     }
-    public function Form($actionCreate, $errors = null, $data = null)
+
+    public function Form($id = null, $errors = null, $data = null)
     {
-        dd("teste");
+        $actionCreate = true;
+
+            // editForm
+        if ($id != null) {
+            //$id_owner = Auth::user()->Id;
+            $id_owner =1;
+
+            $actionCreate = false;
+            $rencontre = rencontre::where('id',$id)->first();
+
+            
+            if($rencontre != null){
+                if($id_owner != $rencontre->id_organisteur){
+                    //retourner au forbidden
+                }
+    
+                $date=$rencontre->date;
+                $date=explode(' ',$date);
+    
+                $data = [
+                    'nom' => $rencontre->nom,
+                    'description' => $rencontre->description,
+                    'adresse' => $rencontre->adresse,
+                    'ville' => $rencontre->ville,
+                    'date' => $date[0],
+                    'heure' => $date[1],
+                    'participant' => $rencontre->nb_participant,
+                    'image' => $rencontre->image,
+                    'public' => $rencontre->public,
+                ];
+            }else{
+                //retourner not found
+            }
+
+            
+        }
         $listCities = $this->getCities();
 
-        return view('meetups.meetupForm', compact($actionCreate,'listCities', 'errors', 'data','action'));
+        if($errors == null)$errors = $this->getErrorsArray();
+
+        return view('meetups.meetupForm', compact('actionCreate', 'listCities', 'errors', 'data'));
     }
 
     public function create(Request $req)
@@ -42,34 +81,43 @@ class meetupController extends BaseController
                 'heure' => $req->heure,
                 'participant' => $req->nb_participant,
                 'image' => $req->image,
-                'public' => $public= $req->prive != null,
+                'public' => $public = $req->prive != null,
             ];
 
-            return $this->Form(true,$errors, $data);
+            return $this->Form( null,$errors, $data);
         } else {
-            $id=Auth::user()->Id;
-            if(isset($id)){
-                $public= $req->prive != null;
-                DB::statement("Call create_rencontre(?,?,?,?,?,?,?,?)",[
+            //$id = Auth::user()->Id;
+            
+           var_dump($req->image);
+
+           $path= $req->file('image')->getRealPath();//->store('public\images');
+           $file=file_get_contents($path);
+           $encodedFile= base64_encode($file);
+
+           //var_dump($file);
+            $id=1;
+            if (isset($id)) {
+                $public = $req->prive != null;
+                DB::statement("Call creerRencontre(?,?,?,?,?,?,?,?,?)", [
                     $req->nom,
                     $req->description,
                     $id,
+                    $req->adresse,
                     $req->ville,
-                    date_create($req->date + $req->heure),
+                    date_create("$req->date"." "."$req->heure"),
                     $req->nb_participant,
-                    $req->image,
+                    $encodedFile,
                     $public
                 ]);
             }
-            dd("Form submit");
+            
         }
     }
-
-    private function verifErrors(Request $req)
+    public function edit()
     {
-        //si contient au moins une lettre
-        $regex_OneLetter = '/[a-zA-Z]/';
-
+        dd('edit');
+    }
+    private static function getErrorsArray(){
         $errors = [
             'error' => false,
             'participant' => '',
@@ -80,6 +128,15 @@ class meetupController extends BaseController
             'heure' => '',
             'description' => '',
         ];
+        return $errors;
+    }
+    
+    private function verifErrors(Request $req)
+    {
+        //si contient au moins une lettre
+        $regex_OneLetter = '/[a-zA-Z]/';
+
+        $errors= $this->getErrorsArray();
 
         //participant
         if ($req->nb_participant > 100 or $req->nb_participant < 2) {
