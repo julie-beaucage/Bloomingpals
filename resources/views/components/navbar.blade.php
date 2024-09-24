@@ -1,7 +1,6 @@
 @if (Auth::check())
 
-<div id="navbar">
-
+<nav id="navbar">
     <span class="title no_select">BloomingPals</span>
 
     <a class="navbar_item no_select" href="{{url('home')}}">
@@ -22,6 +21,6 @@
         <span class="material-symbols-rounded icon_md">logout</span>
         <span class="title">Déconnexion</span>
     </a>
-</div>
+</nav>
 
 @endif
