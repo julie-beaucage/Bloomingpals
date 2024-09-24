@@ -1,7 +1,7 @@
 <?php
     $requestHtml = "";
 
-    foreach ($resquestsData as $request) {
+    foreach ($requestsData as $request) {
         $imageRequestHtml = "";
         if (isset($request->image_profil)) {
             $imageRequestHtml = <<<HTML
@@ -17,12 +17,23 @@
             HTML;
         }
 
+        $acceptRouting = route("acceptRequest", ["meetupId" => $meetupData->id, "userId" => $request->id]);
+        $denyRouting = route("denyRequest", ["meetupId" => $meetupData->id, "userId" => $request->id]);
+
         $requestHtml .= <<<HTML
             <div class="organisator_profile">
-                $imageRequestHtml
+                {$imageRequestHtml}
                 <div class="username_container">
                     <div>{$request->prenom}</div>
                     <div class="grey_text">{$request->nom}</div>
+                </div>
+                <div>
+                    <a href="{$acceptRouting}"> 
+                        Accepter
+                    </a>
+                    <a href="{$denyRouting}">
+                        Refuser
+                    </a>
                 </div>
             </div>
         HTML;
@@ -38,9 +49,7 @@
                 Requête de la rencontre {$meetupData->nom}
             </div>
             <div>
-                <div>
-                    
-                </div>
+                $requestHtml
             </div>
         HTML;
         echo $html;

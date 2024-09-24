@@ -99,17 +99,18 @@
             HTML;
         }
     }*/
+    
 
     $routing2 = route('meetupRequests', ['meetupId' => $meetupData->id]);
     $voirDemandeHtml = <<<HTML
-            <div class="grey_text">
-                <a href="{$routing2}">
-                    Voir les demandes 
-                    <span>
-                        ($requestsParticipantsCount)
-                    </span>
-                </a>
-            </div>
+        <div class="grey_text">
+            <a href="{$routing2}">
+                Voir les demandes 
+                <span>
+                    ($requestsParticipantsCount)
+                </span>
+            </a>
+        </div>
     HTML;
 
     if(!isset($meetupId)) {
