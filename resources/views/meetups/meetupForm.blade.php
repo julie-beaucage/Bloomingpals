@@ -2,7 +2,7 @@
 
 @section("content")
 @php
-    $action = $actionCreate ? "/meetup/create" : "/meetup/edit"
+$action = $actionCreate ? "/meetup/create" : "/meetup/edit"
 @endphp
 
 <link rel="stylesheet" href="{{ asset('css/meetup.css') }}">
@@ -127,44 +127,53 @@
             </div>
         </div>
         <div class="form-group">
-            <div class="form-row">
 
-                <div class="col">
-                    <label>Participants</label>
-                    @if($data != null)
-                        <input type="number" class="form-control form-control-sm" min="2" max="100" name="nb_participant"
-                            required value="{{$data['participant']}}">
-                    @else
-                        <input type="number" class="form-control form-control-sm" min="2" max="100" name="nb_participant"
-                            required>
-                    @endif
 
+
+            <label>Participants</label>
+            @if($data != null)
+                <input type="number" class="form-control form-control-sm" min="2" max="100" name="nb_participant" required
+                    value="{{$data['participant']}}">
+            @else
+                <input type="number" class="form-control form-control-sm" min="2" max="100" name="nb_participant" required>
+            @endif
+
+
+
+
+        </div>
+        <div class="form-group">
+
+            <div class="fileUploader-container">
+                <div class="fileUploader-header">
+                    <div>
+                    <input type="file" id="selectedFile" style="display: none;" />
+                    <input type="button" value="Choisir une image" class="fileUploader-header-btn" onclick="document.getElementById('selectedFile').click();" />
+                    </div>
+                   <!-- <input type="file" class="fileUploader-header-btn"> -->
                 </div>
-                <div class="col">
-                    <label>Image</label>
 
-                    @if($data != null)
-                    
+            </div>
+            <!-- <label>Image</label>
+            
+            @if($data != null)
+
                         <input type="file" id="image" name="image" accept="image/*" onchange="previewFile()">
                         <br>
                         <br>
                         @php
-                        echo '<img class="img-preview" src="data:image/png;base64,'.base64_encode($data['image']).'"/>';
-                        echo '<div>$data[</div>'
+                            echo '<img class="img-preview" src="data:image/png;base64,' . base64_encode($data['image']) . '"/>';
+                            echo '<div>$data[</div>'
                         @endphp
                         <img class="img-preview" src="data:image/png;base64,{{base64_decode($data['image'])}}">
-                        
-                    @else
-                        <input type="file" id="image" name="image" accept="image/*" onchange="previewFile()">
-                        <br>
-                        <br>
-                        <img class="img-preview" src="">
-                        
-                    @endif
 
-                </div>
+            @else
+                <input type="file" id="image" name="image" accept="image/*" onchange="previewFile()">
+                <br>
+                <br>
+                <img class="img-preview" src="">
 
-            </div>
+            @endif -->
         </div>
         <div class="form-group">
 
