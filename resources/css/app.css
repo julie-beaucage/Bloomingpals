@@ -1,28 +1,65 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
+@import url(https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap);
 /* Variables */
 :root {
 
-    --text: #000;
-    --background: #fff;
+    --text: #150e0d;
+
+    --background-50: #fcfae9;
+    --background-100: #f9f6d2;
+    --background-200: #f3eca5;
+    --background-300: #ede378;
+    --background-400: #e7da4b;
+    --background-500: #e0d01f;
+    --background-600: #b4a718;
+    --background-700: #877d12;
+    --background-800: #5a530c;
+    --background-900: #2d2a06;
+    --background-950: #161503;
     
-    --primary-700: #2631c5;
-    --primary-600: #3c38ce;
-    --primary-500: #4a3dd4;
-
-    --secondary-500: #7e76e5;
-    --secondary-400: #9491eb;
-    --secondary-300: #b2b1f1;
-
-    --neutral-400: #cccccc;
-    --neutral-300: #ededed;
-    --neutral-200: #f7f7f7;
+    --primary-50: #fcede9;
+    --primary-100: #f8dad3;
+    --primary-200: #f1b6a7;
+    --primary-300: #ea917b;
+    --primary-400: #e36c4f;
+    --primary-500: #dd4822;
+    --primary-600: #b0391c;
+    --primary-700: #842b15;
+    --primary-800: #581d0e;
+    --primary-900: #2c0e07;
+    --primary-950: #160703;
+    
+    --secondary-50: #f1f4f1;
+    --secondary-100: #e2e9e4;
+    --secondary-200: #c5d3c9;
+    --secondary-300: #a9bcae;
+    --secondary-400: #8ca692;
+    --secondary-500: #6f9077;
+    --secondary-600: #59735f;
+    --secondary-700: #435648;
+    --secondary-800: #2c3a30;
+    --secondary-900: #161d18;
+    --secondary-950: #0b0e0c;
+    
+    --accent-50: #fdf5e7;
+    --accent-100: #fbebd0;
+    --accent-200: #f7d8a1;
+    --accent-300: #f4c471;
+    --accent-400: #f0b042;
+    --accent-500: #ec9c13;
+    --accent-600: #bd7d0f;
+    --accent-700: #8e5e0b;
+    --accent-800: #5e3f08;
+    --accent-900: #2f1f04;
+    --accent-950: #181002;
 
     --success: #28a745;
-    --danger: #dc3545;
+    --error: #dc3545;
 
     --link: #007bff;
     --selection: #90c6ff;
+
+    --border: #606770;
+    --pink: #f42da8;
 
     font-family: "Poppins", sans-serif;
 }
@@ -47,6 +84,7 @@
 
 /* -------------------- Master page layout --------------------*/
 body {
+    background-color: var(--background-50);
     margin: 0;
     width: 100vw;
     height: 100vh;
@@ -71,7 +109,15 @@ body {
     flex-direction: column;
     align-items: center;
     padding: 1em;
-    overflow: scroll;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.footer {
+    text-align: center;
+    width: 100%;
+    height: -moz-fit-content;
+    height: fit-content;
 }
 
 #navbar {
@@ -79,9 +125,11 @@ body {
     display: flex;
     flex-direction: column;
     gap: 1em;
+    width: -moz-fit-content;
     width: fit-content;
     padding: 1em;
     border-right: var(--neutral-400) solid 1px;
+    background-color: var(--background);
 }
 
 #navbar > .title {
@@ -149,8 +197,11 @@ a {
 }
 
 .link {
-    text-decoration: underline;
     color: var(--link);
+}
+
+.link:hover {
+    text-decoration: underline;
 }
 
 .icon_sm {
