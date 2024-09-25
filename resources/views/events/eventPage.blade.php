@@ -6,6 +6,7 @@
 
 @section('content')
     <div class="background_cntr">
+        <div id="background_color"></div>
         <img id="background_img" src="{{ $event['image'] }}" alt="Bannière de l'événement" crossOrigin="anonymous">
     </div>
 
@@ -68,6 +69,118 @@
                     @endif
                 </div>
             </div>
+
+            <div class="section">
+                <h2 class="title">Participants <span class="text_light">({{ count($attendees) }})</span></h2>
+                <div>
+                    @if (count($attendees) == 0)
+                        <span>Aucun participant pour le moment</span>
+                    @else
+                        @foreach ($attendees as $attendee)
+                            <div>
+                                <img src="{{ $attendee['photo'] }}" alt="Photo de profil de {{ $attendee['nom'] }}">
+                                <span>{{ $attendee['nom'] }}</span>
+                            </div>
+                        @endforeach
+                    @endif
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="title">Participants <span class="text_light">({{ count($attendees) }})</span></h2>
+                <div>
+                    @if (count($attendees) == 0)
+                        <span>Aucun participant pour le moment</span>
+                    @else
+                        @foreach ($attendees as $attendee)
+                            <div>
+                                <img src="{{ $attendee['photo'] }}" alt="Photo de profil de {{ $attendee['nom'] }}">
+                                <span>{{ $attendee['nom'] }}</span>
+                            </div>
+                        @endforeach
+                    @endif
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="title">Participants <span class="text_light">({{ count($attendees) }})</span></h2>
+                <div>
+                    @if (count($attendees) == 0)
+                        <span>Aucun participant pour le moment</span>
+                    @else
+                        @foreach ($attendees as $attendee)
+                            <div>
+                                <img src="{{ $attendee['photo'] }}" alt="Photo de profil de {{ $attendee['nom'] }}">
+                                <span>{{ $attendee['nom'] }}</span>
+                            </div>
+                        @endforeach
+                    @endif
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="title">Participants <span class="text_light">({{ count($attendees) }})</span></h2>
+                <div>
+                    @if (count($attendees) == 0)
+                        <span>Aucun participant pour le moment</span>
+                    @else
+                        @foreach ($attendees as $attendee)
+                            <div>
+                                <img src="{{ $attendee['photo'] }}" alt="Photo de profil de {{ $attendee['nom'] }}">
+                                <span>{{ $attendee['nom'] }}</span>
+                            </div>
+                        @endforeach
+                    @endif
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="title">Participants <span class="text_light">({{ count($attendees) }})</span></h2>
+                <div>
+                    @if (count($attendees) == 0)
+                        <span>Aucun participant pour le moment</span>
+                    @else
+                        @foreach ($attendees as $attendee)
+                            <div>
+                                <img src="{{ $attendee['photo'] }}" alt="Photo de profil de {{ $attendee['nom'] }}">
+                                <span>{{ $attendee['nom'] }}</span>
+                            </div>
+                        @endforeach
+                    @endif
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="title">Participants <span class="text_light">({{ count($attendees) }})</span></h2>
+                <div>
+                    @if (count($attendees) == 0)
+                        <span>Aucun participant pour le moment</span>
+                    @else
+                        @foreach ($attendees as $attendee)
+                            <div>
+                                <img src="{{ $attendee['photo'] }}" alt="Photo de profil de {{ $attendee['nom'] }}">
+                                <span>{{ $attendee['nom'] }}</span>
+                            </div>
+                        @endforeach
+                    @endif
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="title">Participants <span class="text_light">({{ count($attendees) }})</span></h2>
+                <div>
+                    @if (count($attendees) == 0)
+                        <span>Aucun participant pour le moment</span>
+                    @else
+                        @foreach ($attendees as $attendee)
+                            <div>
+                                <img src="{{ $attendee['photo'] }}" alt="Photo de profil de {{ $attendee['nom'] }}">
+                                <span>{{ $attendee['nom'] }}</span>
+                            </div>
+                        @endforeach
+                    @endif
+                </div>
+            </div>
             
         </div>
     </div>
@@ -79,11 +192,12 @@
             // Set the background color of the body
             // to the average color of the banner image
             var img = document.getElementById("background_img");
+            var color = document.getElementById("background_color");
+            document.body.style.background = 'rgb(0,0,0)';
 
             // get average color and set
             var rgb = getAverageRGB(img);
-            console.log(rgb);
-            document.body.style.background = 'rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ')';
+            color.style.background = 'rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ')';
         });
 
 
@@ -113,7 +227,7 @@
             data = context.getImageData(0, 0, width, height);
 
             try {
-                data = context.getImageData(0, 0, width, height);
+                data = context.getImageData(0, height-5, width, 1);
             } catch (e) {
                 console.log('return default')
                 return defaultRGB;
