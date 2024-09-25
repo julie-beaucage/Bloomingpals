@@ -40,9 +40,11 @@ Route::get('/logout', [UsersController::class, 'logout']);
 Route::get('/profile', [UsersController::class, 'profile'])->middleware('auth')->name('profile');
 
 // Meetup
-Route::get('/meetupForm', [MeetupController::class, 'createForm']);
-Route::post('/meetupForm', [MeetupController::class, 'createForm']);
-Route::post('/meetup/create', [MeetupController::class, 'create'])->name('/meetupForm');
+Route::get('/meetupForm', [MeetupController::class, 'Form']);
+Route::get('/meetupForm', [MeetupController::class, 'Form']);
+Route::get('/meetupForm/{id}', [MeetupController::class, 'Form']);
+Route::post('/meetup/create', [MeetupController::class, 'create']);
+Route::post('/meetup/edit/{id}', [MeetupController::class, 'edit']);
 
 // Event
 Route::get('/event/{id}', [EventController::class, 'event']);
