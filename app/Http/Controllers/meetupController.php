@@ -35,9 +35,9 @@ class meetupController extends BaseController
             $rencontre = rencontre::where('id', $id)->first();
 
             if ($rencontre != null) {
-                if ($id_owner != $rencontre->id_organisteur) {
-                    abort(403);
-                }
+                if ($id_owner != $rencontre->id_organisateur) {
+                     abort(403);
+                 }
 
                 $date = $rencontre->date;
                 $date = explode(' ', $date);
@@ -99,7 +99,8 @@ class meetupController extends BaseController
 
             return $this->Form(null, $errors, $data);
         } else {
-            $id_owner = Auth::user()->Id;
+            // $id_owner = Auth::user()->Id;
+            $id_owner = 1;
 
 
             $path = null;
@@ -155,7 +156,8 @@ class meetupController extends BaseController
 
                 return $this->Form($id, $errors, $data);
             } else {
-                $id_owner = Auth::user()->Id;
+                $id_owner = 1;
+                //$id_owner = Auth::user()->Id;
                 $rencontre = rencontre::where('id', $id)->first();
 
                 if ($id_owner != $rencontre->id_organisateur) {

@@ -1,7 +1,10 @@
 @extends("master")
 
 @section("content")
-@php
+
+    <!-- <x-meetupFormPop :actionCreate="$actionCreate" :data="$data" :errors="$errors" :listCities="$listCities"/> -->
+
+    @php
     $action = $actionCreate ? "/meetup/create" : "/meetup/edit/".$data['id'];
 @endphp
 
@@ -276,4 +279,5 @@
     }
 
 </script>
+
 @endsection
