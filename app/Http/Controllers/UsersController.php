@@ -51,7 +51,7 @@ class UsersController extends Controller
 
             if ($user) {
                 if (!$user->hasVerifiedEmail()) {
-                     $user->sendEmailVerificationNotification();
+                    $user->sendEmailVerificationNotification();
                 }
             }
             DB::commit(); 

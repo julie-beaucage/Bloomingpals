@@ -95,25 +95,26 @@
 
 /* -------------------- Master page layout --------------------*/
 body {
-    font-family: "Poppins", sans-serif;
     background-color: var(--background-50);
     margin: 0;
     width: 100vw;
     height: 100vh;
+    overflow: hidden;
+    font-family: "Poppins", sans-serif;
+    color: var(--text);
 }
 
 #main {
     width: 100%;
     height: 100%;
-
+    
     display: grid;
     grid-template-columns: min-content 1fr;
-    grid-template-rows: 1fr min-content;
+    grid-template-rows: auto;
     grid-gap: 0;
 
     grid-template-areas:
-        "navbar content"
-        "navbar footer";
+        "navbar content";
 }
 
 #content {
@@ -121,7 +122,6 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 1em;
     overflow-y: auto;
     overflow-x: hidden;
     min-width: -moz-fit-content;
@@ -130,7 +130,6 @@ body {
 }
 
 #footer {
-    grid-area: footer;
     display: flex;
     justify-content: center;
     text-align: center;
@@ -138,6 +137,8 @@ body {
     width: auto;
     height: -moz-fit-content;
     padding: 1em;
+    padding-bottom: 0em;
+    margin-top: auto
 }
 
 #navbar {
@@ -151,6 +152,7 @@ body {
     padding: 1em;
     background-color: var(--white);
     box-shadow: 0 0.125em 0.625em rgba(0, 0, 0, 0.1);
+    z-index: 100;
 }
 
 #navbar > .title {
@@ -217,6 +219,14 @@ body {
     user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
 }
 
+.no_wrap {
+    white-space: nowrap;
+}
+
+.text_center {
+    text-align: center;
+}
+
 a {
     text-decoration: none;
     color: var(--text);
@@ -251,5 +261,22 @@ a {
 }
 
 .hover_lighter *:hover {
+    filter: brightness(1.1);
+}
+
+.btn_primary {
+    background-color: var(--primary-400);
+    color: var(--white);
+    border: none;
+    border-radius: 0.8em;
+    padding: 0.5em 1em;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    width: -moz-fit-content;
+    width: fit-content;
+}
+
+.btn_primary:hover {
     filter: brightness(1.1);
 }
