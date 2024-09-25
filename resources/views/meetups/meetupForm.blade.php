@@ -2,10 +2,10 @@
 
 @section("content")
 @php
-    $action = $actionCreate ? "/meetup/create" : "/meetup/edit"
+    $action = $actionCreate ? "/meetup/create" : "/meetup/edit/".$data['id'];
 @endphp
 
-<link rel="stylesheet" href="{{ asset('css/meetup.css') }}">
+<link rel="stylesheet" href="{{ asset('css/meetupForm.css') }}">
 <div class="meetup-container">
     <form action="{{$action}}" method="POST" class="meetup-form-container" enctype="multipart/form-data">
         @csrf
@@ -136,9 +136,6 @@
                 <input type="number" class="form-control form-control-sm" min="2" max="100" name="nb_participant" required>
             @endif
 
-
-
-
         </div>
         <div class="form-group">
             </div>
@@ -152,18 +149,26 @@
                         
                     </div>
                     <div style="padding-left:.5em; font-size:.8em; height:fit-content; overflow: hidden;">
-                            Il se peut que votre image soit redimensionner
+                            Il se peut que votre image soit redimensionnée
                         </div>
-                    <!-- <input type="file" class="fileUploader-header-btn"> -->
                 </div>
                 <div style="max-width:98%; margin:.5em;">       
             @if($data != null)
-                <img class="img-preview" src="{{asset($data['image'])}}">
-                <?echo asset('storage/images/g92DbzOKrDOERERi67PKMui86pUWpqR6W20VCUou.jpg');?>
+                @if($data['temporaryImage'] != ' ')
+                    <img class="img-preview" src="{{asset($data['temporaryImage'])}}">
+                @else
+                <img class="img-preview" id="2" src="{{asset($data['image'])}}">
+                @endif
             @else
                 <img class="img-preview">
             @endif
             </div>
+
+             @if($data!=null)
+                @if($data['temporaryImage'] != ' ')
+                <input type="text" name="temporaryImage" hidden value="{{$data['temporaryImage']}}">
+                @endif
+            @endif 
         </div>
         <div class="form-group">
 
