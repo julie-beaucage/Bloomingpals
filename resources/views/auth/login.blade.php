@@ -32,7 +32,7 @@
             <div class="formButton">
                 <button type="submit" id="submitBtn" class="btn">Accéder</button>
             </div>
-            <p>Vous n'avez pas de compte? <a href="/signIn"> Inscrivez-vous</a></p>
+            <p>Vous n'avez pas de compte? <a href="./signIn" class="link"> Inscrivez-vous</a></p>
         </form>
     </div>
 </div>

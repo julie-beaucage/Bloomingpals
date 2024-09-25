@@ -10,7 +10,7 @@ use Illuminate\Database\QueryException;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
 
-class usersController extends Controller
+class UsersController extends Controller
 {
 
     public function index()
@@ -54,14 +54,13 @@ class usersController extends Controller
 
             if ($user) {
                 if (!$user->hasVerifiedEmail()) {
-                     $user->sendEmailVerificationNotification();
+                    $user->sendEmailVerificationNotification();
                 }
             }
             DB::commit(); 
             return view('auth.verify'); 
         } catch (QueryException $e) {
-            DB::rollBack(); 
-
+            DB::rollBack();
             Log::error('Erreur lors de la création de l\'utilisateur : ' . $e->getMessage());
 
             return back()->withErrors(['error' => $e->getMessage()]);
