@@ -1,3 +1,3 @@
 <footer id="footer">
-    <p>&copy; BloomingPals, Tous droits réservés</p>
+    <span>&copy; BloomingPals, Tous droits réservés</span>
 </footer>

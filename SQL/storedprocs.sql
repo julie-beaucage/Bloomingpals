@@ -1,7 +1,7 @@
 USE BloomingPals;
 
 -- User ------------------------------------------------
-DROP PROCEDURE creerUsager;
+DROP PROCEDURE IF EXISTS creerUsager;
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `creerUsager`(
     IN p_courriel VARCHAR(255),

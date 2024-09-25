@@ -1,26 +1,52 @@
-@if (Auth::check())
-
+{{-- @if (Auth::check()) --}}
 <nav id="navbar">
     <span class="title no_select">BloomingPals</span>
+    @php
+        $tabs = [
+            [
+                'id' => 'home',
+                'title' => 'Accueil',
+                'icon' => 'home',
+                'url' => url('home')
+            ],
+            [
+                'id' => 'search',
+                'title' => 'Recherche',
+                'icon' => 'search',
+                'url' => url('search')
+            ],
+            [
+                'id' => 'profile',
+                'title' => 'Profil',
+                'icon' => 'account_circle',
+                'url' => url('profile')
+            ],
+            [
+                'id' => 'logout',
+                'title' => 'Déconnexion',
+                'icon' => 'logout',
+                'url' => url('logout')
+            ]
+        ];
 
-    <a class="navbar_item no_select" href="{{url('home')}}">
-        <span class="material-symbols-rounded icon_md">home</span>
-        <span class="title">Home</span>
-    </a>
+        foreach($tabs as $tab) {
 
-    <a class="navbar_item no_select" href="{{url('search')}}">
-        <span class="material-symbols-rounded icon_md">search</span>
-        <span class="title">Search</span>
-    </a>
+            $id = $tab['id'];
+            $title = $tab['title'];
+            $icon = $tab['icon'];
+            $url = $tab['url'];
 
-    <a class="navbar_item no_select" href="{{url('profile')}}">
-        <span class="material-symbols-rounded icon_md">account_circle</span>
-        <span class="title">Profile</span>
-    </a>
-    <a class="navbar_item no_select" href="{{url('logout')}}">
-        <span class="material-symbols-rounded icon_md">logout</span>
-        <span class="title">Déconnexion</span>
-    </a>
+            $class = 'navbar_item no_select hover_darker';
+            $class = $id == Route::current()->uri() ? $class . ' active' : $class;
+
+            echo <<< HTML
+                <a class="$class" href="$url">
+                    <span class="material-symbols-rounded icon_md">$icon</span>
+                    <span class="title">$title</span>
+                </a>
+            HTML;
+        }
+    @endphp
 </nav>
 
-@endif
+{{-- @endif --}}

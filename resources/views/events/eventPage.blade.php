@@ -6,6 +6,13 @@
 
 @section("content")
     <div>
-        
+        {{$event["id"]}}
+        {{$event["nom"]}}
+        {{$event["description"]}}
+        {{$event["ville"]}}
+        {{$event["adresse"]}}
+        {{$event["date"]}}
+        {{$event["prix"]}}
+        {{$event["image"]}}
     </div>
 @endsection()
