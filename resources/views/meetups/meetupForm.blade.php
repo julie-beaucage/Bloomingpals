@@ -2,7 +2,7 @@
 
 @section("content")
 @php
-$action = $actionCreate ? "/meetup/create" : "/meetup/edit"
+    $action = $actionCreate ? "/meetup/create" : "/meetup/edit"
 @endphp
 
 <link rel="stylesheet" href="{{ asset('css/meetup.css') }}">
@@ -128,8 +128,6 @@ $action = $actionCreate ? "/meetup/create" : "/meetup/edit"
         </div>
         <div class="form-group">
 
-
-
             <label>Participants</label>
             @if($data != null)
                 <input type="number" class="form-control form-control-sm" min="2" max="100" name="nb_participant" required
@@ -143,37 +141,29 @@ $action = $actionCreate ? "/meetup/create" : "/meetup/edit"
 
         </div>
         <div class="form-group">
-
+            </div>
             <div class="fileUploader-container">
                 <div class="fileUploader-header">
-                    <div>
-                    <input type="file" id="selectedFile" style="display: none;" />
-                    <input type="button" value="Choisir une image" class="fileUploader-header-btn" onclick="document.getElementById('selectedFile').click();" />
+                    <div style="width:fit-content;">
+                        <input type="file" id="selectedFile" style="display: none;" accept="image/*"
+                            onchange="previewFile()" name="image" />
+                        <input type="button" value="Choisir une image" class="fileUploader-header-btn"
+                            onclick="document.getElementById('selectedFile').click();" />
+                        
                     </div>
-                   <!-- <input type="file" class="fileUploader-header-btn"> -->
+                    <div style="padding-left:.5em; font-size:.8em; height:fit-content; overflow: hidden;">
+                            Il se peut que votre image soit redimensionner
+                        </div>
+                    <!-- <input type="file" class="fileUploader-header-btn"> -->
                 </div>
-
-            </div>
-            <!-- <label>Image</label>
-            
+                <div style="max-width:98%; margin:.5em;">       
             @if($data != null)
-
-                        <input type="file" id="image" name="image" accept="image/*" onchange="previewFile()">
-                        <br>
-                        <br>
-                        @php
-                            echo '<img class="img-preview" src="data:image/png;base64,' . base64_encode($data['image']) . '"/>';
-                            echo '<div>$data[</div>'
-                        @endphp
-                        <img class="img-preview" src="data:image/png;base64,{{base64_decode($data['image'])}}">
-
+                <img class="img-preview" src="{{asset($data['image'])}}">
+                <?echo asset('storage/images/g92DbzOKrDOERERi67PKMui86pUWpqR6W20VCUou.jpg');?>
             @else
-                <input type="file" id="image" name="image" accept="image/*" onchange="previewFile()">
-                <br>
-                <br>
-                <img class="img-preview" src="">
-
-            @endif -->
+                <img class="img-preview">
+            @endif
+            </div>
         </div>
         <div class="form-group">
 

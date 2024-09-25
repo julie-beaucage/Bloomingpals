@@ -11,6 +11,8 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Artisan;
 
 
 
@@ -32,6 +34,7 @@ class meetupController extends BaseController
 
             $actionCreate = false;
             $rencontre = rencontre::where('id',$id)->first();
+            
 
             
             if($rencontre != null){
@@ -40,8 +43,8 @@ class meetupController extends BaseController
                 }
     
                 $date=$rencontre->date;
-                $date=explode(' ',$date);
-    
+                $date=explode(' ',$date);               
+
                 $data = [
                     'nom' => $rencontre->nom,
                     'description' => $rencontre->description,
@@ -50,7 +53,7 @@ class meetupController extends BaseController
                     'date' => $date[0],
                     'heure' => $date[1],
                     'participant' => $rencontre->nb_participant,
-                    'image' => $rencontre->image,
+                    'image' =>$rencontre->image,
                     'public' => $rencontre->public,
                 ];
             }else{
@@ -88,11 +91,11 @@ class meetupController extends BaseController
         } else {
             //$id = Auth::user()->Id;
             
-           var_dump($req->image);
 
-           $path= $req->file('image')->getRealPath();//->store('public\images');
-           $file=file_get_contents($path);
-           $encodedFile= base64_encode($file);
+           $path= $req->file('image')->store('meetup\images');
+           $path='storage/'.$path;
+
+           
 
            //var_dump($file);
             $id=1;
@@ -106,10 +109,11 @@ class meetupController extends BaseController
                     $req->ville,
                     date_create("$req->date"." "."$req->heure"),
                     $req->nb_participant,
-                    $encodedFile,
+                    $path,
                     $public
                 ]);
             }
+            Artisan::call('storage:link'); // update les symLinks
             
         }
     }

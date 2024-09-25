@@ -56,3 +56,4 @@ Route::get('/search', function () {
 Route::get('/profile', function () {
     return view('profile.profile');
 })->middleware('auth')->name('profile');
+
