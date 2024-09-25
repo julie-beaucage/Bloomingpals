@@ -1,7 +1,7 @@
 USE BloomingPals;
 
 -- User ------------------------------------------------
-DROP PROCEDURE creerUsager;
+DROP PROCEDURE IF EXISTS creerUsager;
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `creerUsager`(
     IN p_courriel VARCHAR(255),
@@ -20,7 +20,7 @@ BEGIN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Le courriel existe déjà.';
     ELSE
         -- Insertion de l'utilisateur avec les informations
-        INSERT INTO utilisateur (email, nom, prenom, date_naissance, type_personnalite, mot_passe, estAdmin)
+        INSERT INTO utilisateur (email, nom, prenom, date_naissance, type_personnalite, password, estAdmin)
         VALUES (p_courriel, p_nom, p_prenom, p_date_naissance, 1, p_password, 0);
     END IF;
 END $$

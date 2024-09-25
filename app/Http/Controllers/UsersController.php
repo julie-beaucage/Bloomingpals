@@ -51,14 +51,13 @@ class UsersController extends Controller
 
             if ($user) {
                 if (!$user->hasVerifiedEmail()) {
-                     $user->sendEmailVerificationNotification();
+                    $user->sendEmailVerificationNotification();
                 }
             }
             DB::commit(); 
             return view('auth.verify'); 
         } catch (QueryException $e) {
-            DB::rollBack(); 
-
+            DB::rollBack();
             Log::error('Erreur lors de la création de l\'utilisateur : ' . $e->getMessage());
 
             return back()->withErrors(['error' => $e->getMessage()]);
@@ -91,7 +90,5 @@ class UsersController extends Controller
         $request->session()->regenerateToken();
         return redirect('/login');
     }
-
-    
 
 }

@@ -41,15 +41,15 @@ CREATE TABLE IF NOT EXISTS utilisateur (
     date_naissance DATE NOT NULL,
     type_personnalite INT DEFAULT 0 NOT NULL,
     image_profil BLOB,
-    `password` CHAR(128) NOT NULL,
-    created_at TIMESTAMP NULL DEFAULT NULL,
-    updated_at TIMESTAMP NULL DEFAULT NULL,
-    email_verified_at TIMESTAMP NULL DEFAULT NULL, -- Colonne pour vérifier l'email
-    remember_token VARCHAR(100) NULL, -- Token pour la fonctionnalité "se souvenir de moi"
+    background_image VARCHAR(255), 
+    genre ENUM('homme', 'femme', 'non-genre') NOT NULL,
+    password CHAR(128) NOT NULL,
+    email_verified_at TIMESTAMP NULL DEFAULT NULL, 
+    remember_token VARCHAR(100) NULL,
     FOREIGN KEY (type_personnalite) REFERENCES type_personnalite (id)
 ) ENGINE=InnoDB;
 
-INSERT INTO type_personnalite (id, nom) VALUES (0, 'Aucun'); --code obligatoire en attendant de remplir la table personnalite)
+INSERT INTO type_personnalite (id, nom) VALUES (0, 'Aucun'); -- code obligatoire en attendant de remplir la table personnalite)
 -- -----------------------------------------------------
 
 -- Historique_Recherche --------------------------------
@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS clavardage_utilisateur(
     id_utilisateur_envoie INT NOT NULL,
     FOREIGN KEY (id_clavardage) REFERENCES salle_clavardage (id),
     FOREIGN KEY (id_utilisateur_envoie) REFERENCES utilisateur (id),
-    PRIMARY KEY `clavardage_utilisateur` (id_clavardage,id_utilisateur_envoie)
+    PRIMARY KEY `clavardage_utilisateur` (id_clavardage, id_utilisateur_envoie)
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
@@ -107,7 +107,7 @@ CREATE TABLE IF NOT EXISTS affinite_utilisateur(
     id_affinite INT NOT NULL,
     FOREIGN KEY (id_affinite) REFERENCES affinite(id),
     FOREIGN KEY (id_utilisateur) REFERENCES utilisateur (id),
-    PRIMARY KEY `affinite_utilisateur` (id_utilisateur,id_affinite)
+    PRIMARY KEY `affinite_utilisateur` (id_utilisateur, id_affinite)
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
@@ -150,7 +150,7 @@ CREATE TABLE IF NOT EXISTS rencontre_utilisateur(
     id_utilisateur INT NOT NULL,
     FOREIGN KEY (id_rencontre) REFERENCES rencontre(id),
     FOREIGN KEY (id_utilisateur) REFERENCES utilisateur(id),
-    PRIMARY KEY `rencontre_utilisateur` (id_rencontre,id_utilisateur)
+    PRIMARY KEY `rencontre_utilisateur` (id_rencontre, id_utilisateur)
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
@@ -190,8 +190,7 @@ CREATE TABLE IF NOT EXISTS evenement(
     `date` DATETIME NOT NULL,
     prix varchar(20),
     `image` varchar(2048),
-    nb_participant INT DEFAULT(0),
-    image Blob
+    nb_participant INT DEFAULT(0)
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
@@ -202,7 +201,7 @@ CREATE TABLE IF NOT EXISTS evenement_utilisateur(
     id_utilisateur INT NOT NULL,
     FOREIGN KEY (id_evenement) REFERENCES evenement(id),
     FOREIGN KEY (id_utilisateur) REFERENCES utilisateur(id),
-    PRIMARY KEY `evenement_utilisateur` (id_evenement,id_utilisateur)
+    PRIMARY KEY `evenement_utilisateur` (id_evenement, id_utilisateur)
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
@@ -214,7 +213,7 @@ CREATE TABLE IF NOT EXISTS demande_ami(
     etat ENUM('Envoyee','Acceptee', 'refusee') NOT NULL,
     FOREIGN KEY (id_utilisateur_envoie) REFERENCES utilisateur(id),
     FOREIGN KEY (id_utilisateur_recoit) REFERENCES utilisateur(id),
-    PRIMARY KEY `demande_ami` (id_utilisateur_envoie,id_utilisateur_recoit)
+    PRIMARY KEY `demande_ami` (id_utilisateur_envoie, id_utilisateur_recoit)
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
@@ -222,11 +221,11 @@ ENGINE = InnoDB;
 -- Demande_Rencontre -----------------------------------
 CREATE TABLE IF NOT EXISTS demande_rencontre(
     id INT PRIMARY KEY auto_increment,
-    id_utilisateur_envoie INT NOT NULL,
-    id_utilisateur_recoit INT NOT NULL,
-    etat ENUM('Envoyee','Acceptee', 'refusee') NOT NULL,
-    FOREIGN KEY (id_utilisateur_envoie) REFERENCES utilisateur(id),
-    FOREIGN KEY (id_utilisateur_recoit) REFERENCES utilisateur(id)
+    id_utilisateur INT NOT NULL,
+    id_rencontre INT NOT NULL,
+    etat ENUM('Envoyee','Acceptee', 'Refusee') NOT NULL,
+    FOREIGN KEY (id_utilisateur) REFERENCES utilisateur(id),
+    FOREIGN KEY (id_rencontre) REFERENCES rencontre(id)
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
