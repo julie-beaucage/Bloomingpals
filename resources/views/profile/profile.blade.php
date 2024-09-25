@@ -1,26 +1,37 @@
 @extends("master")
 
 @section("content")
-    <span>
-    <div class="profile-container">
-        <!-- Photo de couverture -->
-        <div class="cover-photo">
-            <img src="{{ asset('storage/' . $user->cover_photo) }}" alt="Photo de couverture">
-        </div>
-
-        <!-- Contenu du profil -->
-        <div class="profile-content">
-            <!-- Photo de profil -->
-            <div class="profile-avatar">
-                <img src="{{ asset('storage/' . $user->profile_photo) }}" alt="Photo de profil">
-            </div>
-
-            <!-- Nom et informations -->
+        <div class="profile-background " style="background-image: url('{{ asset('storage/' . Auth::user()->background_image) }}')">
             <div class="profile-info">
-                <h1>{{ $user->name }}</h1>
-                <p>{{ $user->bio }}</p>
+              <img class="profile-picture" src="{{ Auth::user()->image_profil ? asset('storage/' . Auth::user()->image_profil) : asset('/images/flower.png')}}" alt="" />
+              <h2>{{ Auth::user()->prenom }} {{ Auth::user()->nom }}</h2>
+              <div class="button_profile">
+           <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+             Modifier le profil
+             </button>
+       </div>
             </div>
         </div>
+
+@include('profile.edit-profile-modal')
+<div class="listOnglet">
+        <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link tab-link {{ request()->is('profile/publications') ? 'active' : '' }}" href="{{ route('profile.publications', Auth::user()->id) }}" data-target="profile/publications">Publications</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link tab-link {{ request()->is('profile/amis') ? 'active' : '' }}" href="{{ route('profile.amis', Auth::user()->id) }}" data-target="profile/amis">Amis</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link tab-link {{ request()->is('profile/personnalite') ? 'active' : '' }}" href="{{ route('profile.personnalite', Auth::user()->id) }}" data-target="profile/personnalite">Personnalité</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link tab-link {{ request()->is('profile/interets') ? 'active' : '' }}" href="{{ route('profile.interets', Auth::user()->id) }}" data-target="profile/interets">Intérêts</a>
+        </li>
+    </ul>
     </div>
-    </span>
-@endsection()
+    <div id="profile-content" class="onglet_profile">
+        @include('profile.publications') 
+    </div>
+
+    @endsection()

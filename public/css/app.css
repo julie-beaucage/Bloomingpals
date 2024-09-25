@@ -47,14 +47,13 @@
 /* -------------------- Master page layout --------------------*/
 body {
     margin: 0;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
 }
 
 #main {
     width: 100%;
     height: 100%;
-
     display: grid;
     grid-template-columns: min-content auto;
     grid-template-rows: auto;
@@ -68,9 +67,11 @@ body {
     grid-area: content;
     display: flex;
     flex-direction: column;
-    align-items: center;
     padding: 1em;
-    overflow: scroll;
+    max-width: 100%; 
+    align-items: center;
+        /*overflow: scroll;*/
+    
 }
 
 #navbar {
