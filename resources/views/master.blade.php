@@ -16,6 +16,11 @@
         @endif
         
         <div id="content">
+
+            @if($errors->any())
+                {{ implode('', $errors->all('<div>:message</div>')) }}
+            @endif
+            
             @yield("content", "")
             <x-footer/>
         </div>

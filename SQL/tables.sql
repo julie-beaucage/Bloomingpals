@@ -41,11 +41,11 @@ CREATE TABLE IF NOT EXISTS utilisateur (
     date_naissance DATE NOT NULL,
     type_personnalite INT DEFAULT 0 NOT NULL,
     image_profil BLOB,
-    `mot_passe` CHAR(128) NOT NULL,
-    created_at TIMESTAMP NULL DEFAULT NULL,
-    updated_at TIMESTAMP NULL DEFAULT NULL,
-    email_verified_at TIMESTAMP NULL DEFAULT NULL, -- Colonne pour vérifier l'email
-    remember_token VARCHAR(100) NULL, -- Token pour la fonctionnalité "se souvenir de moi"
+    background_image VARCHAR(255), 
+    genre ENUM('homme', 'femme', 'non-genre') NOT NULL,
+    password CHAR(128) NOT NULL,
+    email_verified_at TIMESTAMP NULL DEFAULT NULL, 
+    remember_token VARCHAR(100) NULL,
     FOREIGN KEY (type_personnalite) REFERENCES type_personnalite (id)
 ) ENGINE=InnoDB;
 

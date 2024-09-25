@@ -36,8 +36,16 @@
 
                     <div>
                         <b>Lieu</b>
-                        <span class="text_center">@php echo $event["adresse"];@endphp</span>
-                        <span class="text_center">@php echo $event["ville"];@endphp</span>
+                        <span class="text_center">
+                            @php 
+                                echo $event["adresse"];
+                            @endphp
+                        </span>
+                        <span class="text_center">
+                            @php 
+                                echo $event["ville"];
+                            @endphp
+                        </span>
                     </div>
 
                     <div>
@@ -69,119 +77,6 @@
                     @endif
                 </div>
             </div>
-
-            <div class="section">
-                <h2 class="title">Participants <span class="text_light">({{ count($attendees) }})</span></h2>
-                <div>
-                    @if (count($attendees) == 0)
-                        <span>Aucun participant pour le moment</span>
-                    @else
-                        @foreach ($attendees as $attendee)
-                            <div>
-                                <img src="{{ $attendee['photo'] }}" alt="Photo de profil de {{ $attendee['nom'] }}">
-                                <span>{{ $attendee['nom'] }}</span>
-                            </div>
-                        @endforeach
-                    @endif
-                </div>
-            </div>
-
-            <div class="section">
-                <h2 class="title">Participants <span class="text_light">({{ count($attendees) }})</span></h2>
-                <div>
-                    @if (count($attendees) == 0)
-                        <span>Aucun participant pour le moment</span>
-                    @else
-                        @foreach ($attendees as $attendee)
-                            <div>
-                                <img src="{{ $attendee['photo'] }}" alt="Photo de profil de {{ $attendee['nom'] }}">
-                                <span>{{ $attendee['nom'] }}</span>
-                            </div>
-                        @endforeach
-                    @endif
-                </div>
-            </div>
-
-            <div class="section">
-                <h2 class="title">Participants <span class="text_light">({{ count($attendees) }})</span></h2>
-                <div>
-                    @if (count($attendees) == 0)
-                        <span>Aucun participant pour le moment</span>
-                    @else
-                        @foreach ($attendees as $attendee)
-                            <div>
-                                <img src="{{ $attendee['photo'] }}" alt="Photo de profil de {{ $attendee['nom'] }}">
-                                <span>{{ $attendee['nom'] }}</span>
-                            </div>
-                        @endforeach
-                    @endif
-                </div>
-            </div>
-
-            <div class="section">
-                <h2 class="title">Participants <span class="text_light">({{ count($attendees) }})</span></h2>
-                <div>
-                    @if (count($attendees) == 0)
-                        <span>Aucun participant pour le moment</span>
-                    @else
-                        @foreach ($attendees as $attendee)
-                            <div>
-                                <img src="{{ $attendee['photo'] }}" alt="Photo de profil de {{ $attendee['nom'] }}">
-                                <span>{{ $attendee['nom'] }}</span>
-                            </div>
-                        @endforeach
-                    @endif
-                </div>
-            </div>
-
-            <div class="section">
-                <h2 class="title">Participants <span class="text_light">({{ count($attendees) }})</span></h2>
-                <div>
-                    @if (count($attendees) == 0)
-                        <span>Aucun participant pour le moment</span>
-                    @else
-                        @foreach ($attendees as $attendee)
-                            <div>
-                                <img src="{{ $attendee['photo'] }}" alt="Photo de profil de {{ $attendee['nom'] }}">
-                                <span>{{ $attendee['nom'] }}</span>
-                            </div>
-                        @endforeach
-                    @endif
-                </div>
-            </div>
-
-            <div class="section">
-                <h2 class="title">Participants <span class="text_light">({{ count($attendees) }})</span></h2>
-                <div>
-                    @if (count($attendees) == 0)
-                        <span>Aucun participant pour le moment</span>
-                    @else
-                        @foreach ($attendees as $attendee)
-                            <div>
-                                <img src="{{ $attendee['photo'] }}" alt="Photo de profil de {{ $attendee['nom'] }}">
-                                <span>{{ $attendee['nom'] }}</span>
-                            </div>
-                        @endforeach
-                    @endif
-                </div>
-            </div>
-
-            <div class="section">
-                <h2 class="title">Participants <span class="text_light">({{ count($attendees) }})</span></h2>
-                <div>
-                    @if (count($attendees) == 0)
-                        <span>Aucun participant pour le moment</span>
-                    @else
-                        @foreach ($attendees as $attendee)
-                            <div>
-                                <img src="{{ $attendee['photo'] }}" alt="Photo de profil de {{ $attendee['nom'] }}">
-                                <span>{{ $attendee['nom'] }}</span>
-                            </div>
-                        @endforeach
-                    @endif
-                </div>
-            </div>
-            
         </div>
     </div>
 @endsection()
