@@ -36,11 +36,11 @@ Route::get('/logout', [UsersController::class, 'logout']);
 Route::get('/profile', [UsersController::class, 'profile'])->middleware('auth')->name('profile');
 
 
-Route::post('/meetupForm', [meetupController::class, 'Form']);
-Route::get('/meetupForm', [meetupController::class, 'Form']);
-Route::get('/meetupForm/{id}', [meetupController::class, 'Form']);
-Route::post('/meetup/create', [meetupController::class, 'create']);
-Route::post('/meetup/edit/{id}', [meetupController::class, 'edit']);
+Route::post('/meetupForm', [MeetupController::class, 'Form']);
+Route::get('/meetupForm', [MeetupController::class, 'Form']);
+Route::get('/meetupForm/{id}', [MeetupController::class, 'Form']);
+Route::post('/meetup/create', [MeetupController::class, 'create']);
+Route::post('/meetup/edit/{id}', [MeetupController::class, 'edit']);
 
 
 

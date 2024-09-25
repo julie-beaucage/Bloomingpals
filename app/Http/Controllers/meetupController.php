@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 
-class meetupController extends BaseController
+class MeetupController extends BaseController
 {
     public function index()
     {
