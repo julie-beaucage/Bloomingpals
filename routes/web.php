@@ -38,11 +38,26 @@ Route::post('/signIn', [UsersController::class, 'create']);
 Route::post('/login', [UsersController::class, 'login'])->name('login');
 Route::get('/logout', [UsersController::class, 'logout']);
 Route::get('/profile', [UsersController::class, 'profile'])->middleware('auth')->name('profile');
+Route::put('/profile/update/{id}', [UsersController::class, 'update'])->middleware('auth')->name('profile.update');
+Route::get('profile/publications/{id}', [UsersController::class, 'publications'])->name('profile.publications');
+Route::get('profile/amis/{id}', [UsersController::class, 'amis'])->name('profile.amis');
+Route::get('profile/personnalite/{id}', [UsersController::class, 'personnalite'])->name('profile.personnalite');
+Route::get('profile/interets/{id}', [UsersController::class, 'interets'])->name('profile.interets');
+
 
 // Meetup
 Route::get('/meetupForm', [MeetupController::class, 'createForm']);
 Route::post('/meetupForm', [MeetupController::class, 'createForm']);
 Route::post('/meetup/create', [MeetupController::class, 'create'])->name('/meetupForm');
+
+// TODO: remove when all controller are done.
+Route::get('/home', function () {
+    return view('home.feed');
+});
+
+Route::get('/search', function () {
+    return view('search.search');
+});
 
 // Event
 Route::get('/event/{id}', [EventController::class, 'event']);
