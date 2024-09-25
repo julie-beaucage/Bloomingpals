@@ -63,7 +63,7 @@
             <div class="formButton">
                 <button type="submit" id="submitBtn" class="btn">Créer le compte</button>
             </div>
-            <p>Vous avez déjà un compte? <a href="/login">Se connecter</a></p>
+            <p>Vous avez déjà un compte? <a href="/login" class="link">Se connecter</a></p>
         </form>
     </div>
 
