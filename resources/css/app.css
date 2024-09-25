@@ -205,7 +205,6 @@ body {
     align-items: center;
     font-weight: 500;
     width: 0;
-    transition: 0.5s;
 }
 
 .shrinked_only {
