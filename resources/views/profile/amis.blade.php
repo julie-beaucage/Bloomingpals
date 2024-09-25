@@ -1,1 +1,1 @@
-<h2>Liste des pals </h2>
+<h2>Liste de amis</h2>

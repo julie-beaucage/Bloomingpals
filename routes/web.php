@@ -27,11 +27,7 @@ Route::post('/login', [UsersController::class, 'login'])->name('login');
 Route::get('/logout', [UsersController::class, 'logout']);
 
 Route::get('/profile', [UsersController::class, 'profile'])->middleware('auth')->name('profile');
-//Route::get('/profile/profilForm', [UsersController::class, 'edit'])->middleware('auth');
 Route::put('/profile/update/{id}', [UsersController::class, 'update'])->middleware('auth')->name('profile.update');
-
-//Route::get('/profile/edit', [UsersController::class, 'edit'])->middleware('auth')->name('profile.edit');
-
 Route::get('profile/publications/{id}', [UsersController::class, 'publications'])->name('profile.publications');
 Route::get('profile/amis/{id}', [UsersController::class, 'amis'])->name('profile.amis');
 Route::get('profile/personnalite/{id}', [UsersController::class, 'personnalite'])->name('profile.personnalite');
