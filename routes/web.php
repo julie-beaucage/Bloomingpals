@@ -59,15 +59,15 @@ Route::get('/profile', function () {
 /*meetup*/
 Route::get('/meetupPage/{meetupId}', [MeetupController::class, 'MeetupPage'])/*->Middleware('auth')*/->name('meetupPage');
 
-Route::post('/meetupPage/{meetupId}', [MeetupController::class, 'JoinMeetup'])/*->Middleware('auth')*/->name('joinMeetup');
+Route::post('/meetupPage/join/{meetupId}', [MeetupController::class, 'JoinMeetup'])/*->Middleware('auth')*/->name('joinMeetup');
 
-Route::post('/meetupPage/{meetupId}', [MeetupController::class, 'LeaveMeetup'])/*->Middleware('auth')*/->name('leaveMeetup');
+Route::post('/meetupPage/leave/{meetupId}', [MeetupController::class, 'LeaveMeetup'])/*->Middleware('auth')*/->name('leaveMeetup');
 Route::get('/meetupForm/{meetupId}', [MeetupController::class, 'ModifyMeetup'])/*->Middleware('auth')*/->name('modifyMeetup');
 Route::get('/meetupRequests/{meetupId}', [MeetupController::class, 'MeetupRequests'])/*->Middleware('auth')*/->name('meetupRequests');
 
 
-Route::post('/meetupRequests/{meetupId}/{userId}/{status}', [MeetupController::class, 'AcceptRequest'])/*->Middleware('auth')*/->name('acceptRequest');
-Route::post('/meetupRequests/{meetupId}/{userId}', [MeetupController::class, 'DenyRequest'])/*->Middleware('auth')*/->name('denyRequest');
+Route::get('/meetupRequests/accept/{meetupId}/{userId}', [MeetupController::class, 'AcceptRequest'])/*->Middleware('auth')*/->name('acceptRequest');
+Route::get('/meetupRequests/deny/{meetupId}/{userId}', [MeetupController::class, 'DenyRequest'])/*->Middleware('auth')*/->name('denyRequest');
 
 
 Route::get('/', function () {

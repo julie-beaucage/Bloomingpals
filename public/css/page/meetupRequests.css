@@ -1,3 +1,38 @@
 .title1 {
     font-size: 3em;
 }
+
+.respondButton {
+    background-color: rgb(177, 177, 177);
+    border-radius: 1em;
+    padding: 0.3em 0.6em 0.3em 0.6em ;
+    margin: 0.2em;
+    color: black;
+    border: 0.15em rgb(134, 134, 134) solid;
+}
+
+a.respondButton:hover {
+    background-color: rgb(92, 92, 92);
+    text-decoration: none;
+    color: white;
+    border: 0.15em rgb(0, 0, 0) solid;
+}
+
+.profile {
+    display: inline-flex !important;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    align-items: center;
+}
+.sideHorizontalFlexInline {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+}
+
+.profilesContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(18em, 2fr));
+    width: 100%;
+}

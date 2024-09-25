@@ -13,10 +13,12 @@ class rencontre_utlisateur extends Model
 
     public static function AddParticipant($userId, $meetupId) 
     {
-        $rencontreUtilisateur = new rencontre_utlisateur();
-        $rencontreUtilisateur->id_rencontre  = $meetupId;
-        $rencontreUtilisateur->id_utilisateur = $userId;
-        $rencontreUtilisateur->save();
+        if (!rencontre_utlisateur::IsInRencontre($meetupId, $userId)) {
+            $rencontreUtilisateur = new rencontre_utlisateur();
+            $rencontreUtilisateur->id_rencontre  = $meetupId;
+            $rencontreUtilisateur->id_utilisateur = $userId;
+            $rencontreUtilisateur->save();
+        }
     }
 
     public static function DeleteParticipant($userId, $meetupId) {

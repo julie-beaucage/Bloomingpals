@@ -10,6 +10,8 @@
     $result = $conn->query($str);*/
 
     /*variables*/
+
+    use illuminate\Support\Facades\Auth;
     $date = explode(" ",$meetupData->date);
     $participantCount = count($participantsData);
     $currentUser = Auth::user();

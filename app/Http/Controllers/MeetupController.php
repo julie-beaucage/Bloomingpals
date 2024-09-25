@@ -3,17 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\cities;
-use Auth;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Routing\Controller as BaseController;
+//use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Rencontre;
-use App\Models\utilisateur;
 use App\Models\rencontre_utlisateur;
 use App\Models\demande_rencontre;
+use illuminate\Support\Facades\Auth;
 
 
 
@@ -160,42 +156,71 @@ class MeetupController extends Controller
         }
     }
     public function MeetupPage($meetupId) {
-        if (isset($meetupId)) {
-            $meetupData = rencontre::where("id", $meetupId)->get()[0];
-            $meetupTags = rencontre::GetTags($meetupId);
-            $organisator = rencontre::GetOrganisator($meetupId);
-            $participants = rencontre::GetParticipants($meetupId);
-            $GetRequestMeetupCount = demande_rencontre::GetRequestMeetupCount($organisator->id);
-
-            /** a faire: 
-             * -s'assurer que le client peut y accéder car il doit être amis si l'événement est priver
-             * -faire que le boutton pour rejoindre, modifier, ou quitter soit présent. */
 
 
-            return view("meetups.meetupPage", ['meetupData' => $meetupData, "meetupTagsData" => $meetupTags, 
-                "organisatorData" => $organisator, "participantsData" => $participants, 
-                "requestsParticipantsCount" => $GetRequestMeetupCount]);
-        }
+        $meetupData = rencontre::where("id", $meetupId)->get()[0];
+        $meetupTags = rencontre::GetTags($meetupId);
+        $organisator = rencontre::GetOrganisator($meetupId);
+        $participants = rencontre::GetParticipants($meetupId);
+        $GetRequestMeetupCount = demande_rencontre::GetMeetupRequestsNotAnswerdCount($meetupId);
+
+        /** a faire: 
+         * -s'assurer que le client peut y accéder car il doit être amis si l'événement est priver
+         * -faire que le boutton pour rejoindre, modifier, ou quitter soit présent. */
+
+
+        return view("meetups.meetupPage", ['meetupData' => $meetupData, "meetupTagsData" => $meetupTags, 
+            "organisatorData" => $organisator, "participantsData" => $participants, 
+            "requestsParticipantsCount" => $GetRequestMeetupCount]);
     }
 
     public function MeetupRequests($meetupId) {
-        $meetupData = rencontre::where("id", $meetupId)->get()[0];
         $organisator = rencontre::GetOrganisator($meetupId);
-        $requests = demande_rencontre::GetRequestMeetup(/*Auth::user()->id*/1);
-        return view("meetups.meetupRequests", ["meetupData" => $meetupData, "organisatorData" => $organisator, "requestsData" => $requests]);
-        if (Auth::user()->id == $organisator->id) {
-            $requests = demande_rencontre::GetRequestMeetup(Auth::user()->id);
-            return view("meetups.meetupRequests", ["meetupData" => $meetupData, "organisatorData" => $organisator, "requestsData" => $requests]);
-        } else {
+        if (!isset(Auth::user()->id)) {
+            return view("auth.login");
+        }
+        if (Auth::user()->id != $organisator->id) {
             return view("deniedAccess.pageNotFound");
         }
+
+        $meetupData = rencontre::where("id", $meetupId)->get()[0];
+        $requests = demande_rencontre::GetMeetupRequestsNotAnswerd($meetupId);
+
+        return view("meetups.meetupRequests", ["meetupData" => $meetupData, "organisatorData" => $organisator, "requestsData" => $requests]);
     }
 
-    public function AcceptRequest($meetupId, $userId, $status) {
+    public function AcceptRequest($meetupId, $userId) {
+        $organisator = rencontre::GetOrganisator($meetupId);
+        if (!isset(Auth::user()->id)) {
+            return view("auth.login");
+        }
+        if (Auth::user()->id != $organisator->id) {
+            return view("deniedAccess.pageNotFound");
+        }
+        if (!demande_rencontre::IsInRequest($userId, $meetupId)) {
+            return view("deniedAccess.pageNotFound");
+        }
+
+        rencontre_utlisateur::AddParticipant($userId, $meetupId);
+        demande_rencontre::AcceptRequest($userId, $meetupId);
+
         return $this->MeetupRequests($meetupId);
     }
 
     public function DenyRequest($meetupId, $userId) {
+        $organisator = rencontre::GetOrganisator($meetupId);
+        if (!isset(Auth::user()->id)) {
+            return view("auth.login");
+        }
+        if (Auth::user()->id != $organisator->id) {
+            return view("deniedAccess.pageNotFound");
+        }
+        if (!demande_rencontre::IsInRequest($userId, $meetupId)) {
+            return view("deniedAccess.pageNotFound");
+        }
+
+        demande_rencontre::DenyMeetupRequest($userId, $meetupId);
+
         return $this->MeetupRequests($meetupId);
     }
 }

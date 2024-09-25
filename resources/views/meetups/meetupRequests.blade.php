@@ -21,17 +21,19 @@
         $denyRouting = route("denyRequest", ["meetupId" => $meetupData->id, "userId" => $request->id]);
 
         $requestHtml .= <<<HTML
-            <div class="organisator_profile">
-                {$imageRequestHtml}
-                <div class="username_container">
-                    <div>{$request->prenom}</div>
-                    <div class="grey_text">{$request->nom}</div>
+            <div class="sideHorizontalFlexInline">
+                <div class="profile">
+                    {$imageRequestHtml}
+                    <div class="username_container">
+                        <div>{$request->prenom}</div>
+                        <div class="grey_text">{$request->nom}</div>
+                    </div>
                 </div>
                 <div>
-                    <a href="{$acceptRouting}"> 
+                    <a class="respondButton" href="{$acceptRouting}"> 
                         Accepter
                     </a>
-                    <a href="{$denyRouting}">
+                    <a class="respondButton" href="{$denyRouting}">
                         Refuser
                     </a>
                 </div>
@@ -48,7 +50,7 @@
             <div class="title1">
                 Requête de la rencontre {$meetupData->nom}
             </div>
-            <div>
+            <div class="profilesContainer">
                 $requestHtml
             </div>
         HTML;
