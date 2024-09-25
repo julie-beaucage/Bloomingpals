@@ -176,12 +176,9 @@ class MeetupController extends Controller
 
     public function MeetupRequests($meetupId) {
         $organisator = rencontre::GetOrganisator($meetupId);
-        if (!isset(Auth::user()->id)) {
-            return view("auth.login");
-        }
-        if (Auth::user()->id != $organisator->id) {
+        /*if (Auth::user()->id != $organisator->id) {
             return view("deniedAccess.pageNotFound");
-        }
+        }*/
 
         $meetupData = rencontre::where("id", $meetupId)->get()[0];
         $requests = demande_rencontre::GetMeetupRequestsNotAnswerd($meetupId);
@@ -191,12 +188,9 @@ class MeetupController extends Controller
 
     public function AcceptRequest($meetupId, $userId) {
         $organisator = rencontre::GetOrganisator($meetupId);
-        if (!isset(Auth::user()->id)) {
-            return view("auth.login");
-        }
-        if (Auth::user()->id != $organisator->id) {
+        /*if (Auth::user()->id != $organisator->id) {
             return view("deniedAccess.pageNotFound");
-        }
+        }*/
         if (!demande_rencontre::IsInRequest($userId, $meetupId)) {
             return view("deniedAccess.pageNotFound");
         }
@@ -209,12 +203,9 @@ class MeetupController extends Controller
 
     public function DenyRequest($meetupId, $userId) {
         $organisator = rencontre::GetOrganisator($meetupId);
-        if (!isset(Auth::user()->id)) {
-            return view("auth.login");
-        }
-        if (Auth::user()->id != $organisator->id) {
+        /*if (Auth::user()->id != $organisator->id) {
             return view("deniedAccess.pageNotFound");
-        }
+        }*/
         if (!demande_rencontre::IsInRequest($userId, $meetupId)) {
             return view("deniedAccess.pageNotFound");
         }
