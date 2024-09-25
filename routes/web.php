@@ -8,8 +8,9 @@ use App\Models\Rencontre;
 use App\Models\demande_rencontre;
 
 
-Route::get('/', [MeetupController::class, 'login'] /*function () {
-    
+Route::get('/', function () {
+    return view("auth.login");
+
     
     /*$meetupId = 1;
     $meetupData = rencontre::where("id", $meetupId)->get()[0];
@@ -25,8 +26,8 @@ Route::get('/', [MeetupController::class, 'login'] /*function () {
 
     return view("meetups.meetupPage", ['meetupData' => $meetupData, "meetupTagsData" => $meetupTags, 
         "organisatorData" => $organisator, "participantsData" => $participants, 
-        "requestsParticipantsCount" => $GetRequestMeetupCount]);*//*
-}*/)->name("root");
+        "requestsParticipantsCount" => $GetRequestMeetupCount]);*/
+})->name("root");
 
 // rappel: le chemin doit être unique pour le routing
 Route::middleware("auth")->group(function () {
@@ -82,6 +83,7 @@ Route::get('/meetup/page/{meetupId}', [MeetupController::class, 'MeetupPage'])/*
 Route::post('/meetup/page/join/{meetupId}', [MeetupController::class, 'JoinMeetup'])/*->Middleware('auth')*/->name('joinMeetup');
 Route::post('/meetup/page/leave/{meetupId}', [MeetupController::class, 'LeaveMeetup'])/*->Middleware('auth')*/->name('leaveMeetup');
 
+Route::get('/meetup/form', [MeetupController::class, 'createForm']);
 Route::get('/meetup/form/{meetupId}', [MeetupController::class, 'ModifyMeetup'])/*->Middleware('auth')*/->name('modifyMeetup');
 
 Route::get('/meetup/requests/{meetupId}', [MeetupController::class, 'MeetupRequests'])/*->Middleware('auth')*/->name('meetupRequests');
