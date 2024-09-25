@@ -18,7 +18,7 @@
             ],
             [
                 'id' => 'profile',
-                'title' => 'Profil',
+                'title' => 'Profile',
                 'icon' => 'account_circle',
                 'url' => url('profile')
             ],

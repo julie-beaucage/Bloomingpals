@@ -26,12 +26,12 @@
                 <div class="showcase">
                     <div>
                         <b>Date</b>
-                        <span class="text_center">{{ date('j-m-Y', strtotime($event['date'])) }}</span>
+                        <span class="text_center no_wrap">{{ date('j-m-Y', strtotime($event['date'])) }}</span>
                     </div>
 
                     <div>
                         <b>Heure</b>
-                        <span class="text_center">{{ date('H:i', strtotime($event['date'])) }}</span>
+                        <span class="text_center no_wrap">{{ date('H:i', strtotime($event['date'])) }}</span>
                     </div>
 
                     <div>
