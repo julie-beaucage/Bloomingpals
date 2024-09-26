@@ -8,9 +8,7 @@ use App\Http\Controllers\CustomVerificationController;
 
 
 
-Route::get('/', function () {
-    return view('auth.login');
-});
+Route::get('/', [MeetupController::class, 'index']);
 
 // TODO: remove when all controller are done.
 Route::get('/home', function () {
@@ -45,6 +43,7 @@ Route::get('/meetupForm', [MeetupController::class, 'Form']);
 Route::get('/meetupForm/{id}', [MeetupController::class, 'Form']);
 Route::post('/meetup/create', [MeetupController::class, 'create']);
 Route::post('/meetup/edit/{id}', [MeetupController::class, 'edit']);
+Route::get('/meetup',[MeetupController::class, 'index']);
 
 // Event
 Route::get('/event/{id}', [EventController::class, 'event']);

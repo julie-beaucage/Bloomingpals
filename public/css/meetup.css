@@ -1,90 +1,80 @@
-.meetup-container {
-    width: 80%;
-    margin-top: 5em;
+.container-meetups {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2em;
+    margin: 3em;
+    justify-content: center;
 }
 
-.meetup-form-container {
-    border: 0.1em solid var(--border);
-    border-radius: 0.8em;
-    padding: 1em;
+.container-meetup {
+    display: flex;
+    width: 30em;
+    flex-direction: column;
+    border: 0.15em solid var(--neutral-600);
+    border-radius: .5em;
+    border-top: hidden;
 }
 
-.underline {
-    border-bottom: 2px solid var(--pink);
-    padding-bottom: 0.3em;
+.container-meetup:hover {
+
+    background-color: var(--neutral-100);
+    border-color: var(--neutral-950);
 }
 
-label {
-    color: #606770;
-    text-align: left;
-    display: block;
+.image {
+    border-radius: .4em;
+    width: 100%;
+    max-height: 8em;
+    -o-object-fit: cover;
+    object-fit: cover;
+    -o-object-position: 50% 50%;
+    object-position: 50% 50%;
+    transform: scale(1.008);
 }
 
-input,
-textarea,
-select {
-    background-color: #f7edf7 !important;
+.meetup-header {
+    font-weight: bold;
+    font-size: 1.7em;
+    padding-bottom: .05em;
+    margin-left: .5em;
+    margin-right: .5em;
+    border-bottom: 0.1em solid var(--neutral-600);
+
 }
 
-/* drop down css */
-
-.city-dropdown:hover {
-    background-color: #e3dae3 !important;
-}
-
-.city-dropdown-content {
-    display: block;
-    position: absolute;
-    background-color: #f7edf7;
-    overflow: auto;
-    width:calc(100% - 10px);
-    border: 1px solid var(--neutral-400);
-    z-index: 1;
-    max-height: 15em;
-    border-radius: 0.5em;
-    box-sizing: border-box;
-    overflow-x: hidden;
-    
-}
-.city-dropdown-content option:hover {
-    background-color: #e3dae3;
-}
-
-.city-dropdown-content option {
-    color: #495057;
-    display: block;
-    padding: 12px 16px;
-}
-.show{
-    display: block;
-}
-.selected{
-    background-color: var(--background);
-}
-.selected:hover{
-    background-color: var(--background) !important;
-}
-.city-dropdown-content option:active {
-    background-color:var(--background);
-}
-
-input[type="file"]::file-selector-button {
-    border-radius: 0.3em;
-    padding: 0 0.5em;
-    cursor: pointer;
-    height: 1.94em;
-    background-color:  #f7edf7 !important;
+.flex-row {
+    display: flex;
+    margin-left: 1em;
     margin-right: 1em;
-    border: 1px solid #ced4da;
-    
-    }
+    margin-top: 1em;
+    column-gap: .5em;
+    align-items: center;
 
-  input[type="file"]{
-    background-color: var(--background) !important;
-    content:"GRR";
+}
 
-  }
-.btn-pink{
-    background-color: var(--pink);
-    color: white !important;
+.text {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.profile-picture {
+    width: 3em;
+    height: 3em;
+    border-radius: 50%;
+    border: .2em solid white;
+    object-fit: cover;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.grid-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr;
+    width: 100%;
+}
+
+@media only screen and (max-width: 620px) {
+    .container-meetup {
+        width: 20em;
+        }
+
 }

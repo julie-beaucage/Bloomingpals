@@ -1,11 +1,15 @@
 @extends("master")
+@section('style')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
+@endsection
 @section("content")
 
-    <!-- <x-meetupFormPop :actionCreate="$actionCreate" :data="$data" :errors="$errors" :listCities="$listCities"/> -->
+<!-- <x-meetupFormPop :actionCreate="$actionCreate" :data="$data" :errors="$errors" :listCities="$listCities"/> -->
 
-    @php
-    $action = $actionCreate ? "/meetup/create" : "/meetup/edit/".$data['id'];
+@php
+    $action = $actionCreate ? "/meetup/create" : "/meetup/edit/" . $data['id'];
 @endphp
 
 <link rel="stylesheet" href="{{ asset('css/meetupForm.css') }}">
@@ -141,38 +145,43 @@
 
         </div>
         <div class="form-group">
-            </div>
-            <div class="fileUploader-container">
-                <div class="fileUploader-header">
-                    <div style="width:fit-content;">
-                        <input type="file" id="selectedFile" style="display: none;" accept="image/*"
-                            onchange="previewFile()" name="image" />
-                        <input type="button" value="Choisir une image" class="fileUploader-header-btn"
-                            onclick="document.getElementById('selectedFile').click();" />
-                        
-                    </div>
-                    <div style="padding-left:.5em; font-size:.8em; height:fit-content; overflow: hidden;">
-                            Il se peut que votre image soit redimensionnée
-                        </div>
+        </div>
+        <div class="fileUploader-container">
+            <div class="fileUploader-header">
+                <div style="width:fit-content;">
+                    <input type="file" id="selectedFile" style="display: none;" accept="image/*"
+                        onchange="previewFile()" name="image" />
+                    <input type="button" value="Choisir une image" class="fileUploader-header-btn"
+                        onclick="document.getElementById('selectedFile').click();" />
+
                 </div>
-                <div style="max-width:98%; margin:.5em;">       
-            @if($data != null)
-                @if($data['temporaryImage'] != ' ')
-                    <img class="img-preview" src="{{asset($data['temporaryImage'])}}">
+                <div style="padding-left:.5em; font-size:.8em; height:fit-content; overflow: hidden;">
+                    Il se peut que votre image soit redimensionnée
+                </div>
+            </div>
+            <div style="max-width:98%; margin:.5em;">
+                
+                @if($data != null)
+                    @if($data['temporaryImage'] != '')
+                        <img class="img-preview" src="{{asset($data['temporaryImage'])}}">
+                        
+                    @elseif($data['image'] != '')
+                        <img class="img-preview" id="3" src="{{asset($data['image'])}}">
+                    @else
+                        <img class="img-preview" src="">
+                    @endif
                 @else
-                <img class="img-preview" id="2" src="{{asset($data['image'])}}">
+                    <img class="img-preview">
                 @endif
-            @else
-                <img class="img-preview">
-            @endif
             </div>
 
-             @if($data!=null)
-                @if($data['temporaryImage'] != ' ')
-                <input type="text" name="temporaryImage" hidden value="{{$data['temporaryImage']}}">
+            @if($data != null)
+                @if($data['temporaryImage'] != '')
+                    <input type="text" name="temporaryImage" hidden value="{{$data['temporaryImage']}}">
                 @endif
-            @endif 
+            @endif
         </div>
+        <br>
         <div class="form-group">
 
             <div class="form-check mb-2">
@@ -193,7 +202,7 @@
 
             <button type="submit"
                 class="btn btn-pink">{{$actionCreate ? "Crée le MeetUp" : "Modifier le MeetUp"}}</button>
-            <a class="btn btn-secondary" style="color:white;">Retour</a>
+            <a class="btn btn-secondary" style="color:white !important; cursor:pointer;" onclick="window.location.href='/meetup'">Retour</a>
 
         </div>
     </form>
@@ -201,8 +210,9 @@
 </div>
 @endsection()
 
-@section("scripts")
+@section("script")
 <script>
+
     $('#city-dropdown-content').hide();
     let selectedOption = null;
 
@@ -278,6 +288,10 @@
         }
     }
 
+
 </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
 
 @endsection
