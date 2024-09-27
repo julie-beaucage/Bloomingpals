@@ -13,6 +13,7 @@
     border: 0.15em solid var(--neutral-600);
     border-radius: .5em;
     border-top: hidden;
+    cursor: pointer;
 }
 
 .container-meetup:hover {
