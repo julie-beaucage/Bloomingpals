@@ -53,4 +53,8 @@ class rencontre extends Model
         $organisator = utilisateur::where("id", $rencontre[0]->id_organisateur)->get()[0];
         return $organisator;
     }
+
+    public static function RemoveParticipant($userId, $meetupId) {
+
+    }
 }

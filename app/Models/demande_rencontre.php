@@ -10,12 +10,13 @@ class demande_rencontre extends Model
 {
     protected $table= 'demande_rencontre';
 
+    protected $fillable = ['etat'];
+
     public $timestamps = false;
 
     public static function GetMeetupRequestsNotAnswerd($meetupId) {
         $users = [];
-        $requests = demande_rencontre::where("id_rencontre", $meetupId)
-            ->where("etat", "Envoyee")->get();
+        $requests = demande_rencontre::where("id_rencontre", $meetupId)->where("etat", "Envoyee")->get();
         if ($requests->count() > 0) {
             foreach ($requests as $request) {
                 $user = utilisateur::where("id", $request->id_utilisateur)->get()[0];
@@ -26,7 +27,7 @@ class demande_rencontre extends Model
     }
 
     public static function GetMeetupRequestsNotAnswerdCount($meetupId) {
-        return demande_rencontre::where("id_rencontre", $meetupId)->count();
+        return demande_rencontre::where("id_rencontre", $meetupId)->where("etat", "Envoyee")->count();
     }
 
     public static function IsInRequest($userId, $meetupId)  {
@@ -57,13 +58,13 @@ class demande_rencontre extends Model
     }
 
     public static function AcceptMeetupRequest($userId, $meetupId) {
-        $request = demande_rencontre::GetRequest($userId, $meetupId);
+        $request = demande_rencontre::where("id_rencontre", $meetupId)->where("id_utilisateur", $userId);
         $request->update([
             'etat' => 'Acceptee'
         ]);
     }
     public static function DenyMeetupRequest($userId, $meetupId) {
-        $request = demande_rencontre::GetRequest($userId, $meetupId);
+        $request = demande_rencontre::where("id_rencontre", $meetupId)->where("id_utilisateur", $userId);
         $request->update([
             'etat' => 'Refusee'
         ]);

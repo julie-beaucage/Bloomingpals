@@ -4,9 +4,10 @@ use App\Http\Controllers\MeetupController;
 use App\Http\Controllers\CustomVerificationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
-use App\Models\Rencontre;
+use App\Models\rencontre;
 use App\Models\demande_rencontre;
 use App\Http\Controllers\EventController;
+use Illuminate\Http\Request;
 
 
 
@@ -20,8 +21,9 @@ use App\Http\Controllers\EventController;
 });*/
 
 
-Route::get('/', function () {
-    return view('auth.login');
+Route::get('/', function (Request $request) {
+    $meetupsData = rencontre::get();
+    return view('search.search', ["meetupsData" => $meetupsData]);
 });
 
 
@@ -51,15 +53,17 @@ Route::get('profile/interets/{id}', [UsersController::class, 'interets'])->name(
 
 
 // Meetup
-Route::get('/meetupForm', [MeetupController::class, 'createForm']);
-Route::post('/meetupForm', [MeetupController::class, 'createForm']);
-Route::post('/meetup/create', [MeetupController::class, 'create'])->name('/meetupForm');
+Route::get('/meetup/form', [MeetupController::class, 'createForm']);
+Route::post('/meetup/form', [MeetupController::class, 'createForm']);
 
 Route::get('/meetup/page/{meetupId}', [MeetupController::class, 'MeetupPage'])/*->Middleware('auth')*/->name('meetupPage');
-Route::post('/meetup/page/join/{meetupId}', [MeetupController::class, 'JoinMeetup'])/*->Middleware('auth')*/->name('joinMeetup');
-Route::post('/meetup/page/leave/{meetupId}', [MeetupController::class, 'LeaveMeetup'])/*->Middleware('auth')*/->name('leaveMeetup');
+Route::get('/meetup/page/join/{meetupId}', [MeetupController::class, 'JoinMeetup'])/*->Middleware('auth')*/->name('joinMeetup');
+Route::get('/meetup/page/leave/{meetupId}', [MeetupController::class, 'LeaveMeetup'])/*->Middleware('auth')*/->name('leaveMeetup');
+
+Route::get('/meetup/page/removeParticipant/{meetupId}/{userId}', [MeetupController::class, 'RemoveParticipant'])->name("removeParticipant");
 
 Route::post('/meetup/create', [MeetupController::class, 'create'])->name('/meetupForm');
+Route::get('/meetup/modify', [MeetupController::class, 'createForm'])->name('modifyMeetup');
 
 Route::get('/meetup/requests/{meetupId}', [MeetupController::class, 'MeetupRequests'])/*->Middleware('auth')*/->name('meetupRequests');
 Route::get('/meetup/requests/accept/{meetupId}/{userId}', [MeetupController::class, 'AcceptRequest'])/*->Middleware('auth')*/->name('acceptRequest');
@@ -73,7 +77,8 @@ Route::get('/home', function () {
 });
 
 Route::get('/search', function () {
-    return view('search.search');
+    $meetupsData = rencontre::get();
+    return view('search.search', ["meetupsData" => $meetupsData]);
 });
 
 // Event

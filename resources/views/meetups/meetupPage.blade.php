@@ -24,8 +24,7 @@
     $actionButtonHtml = "";
     $voirDemandeHtml = "";
 
-    /*
-    tout fonctionne mais pas sans connection ou sinon il y a un bug
+
     if ($currentUser->id == $organisatorData->id) {
         $routing = route('modifyMeetup', ['meetupId' => $meetupData->id]);
         $actionButtonHtml = <<<HTML
@@ -36,7 +35,7 @@
             </a>
         HTML;
 
-        $routing2 = route('meetupRequestPage', ['meetupId' => $meetupData->id]);
+        $routing2 = route('meetupRequests', ['meetupId' => $meetupData->id]);
         $voirDemandeHtml = <<<HTML
                 <div class="grey_text">
                     <a href="{$routing2}">
@@ -47,6 +46,40 @@
                     </a>
                 </div>
         HTML;
+        foreach ($participantsData as $participantData) {
+            //Get organisator image
+            $imageParticipantHtml = "";
+            if (isset($participantData->image_profil)) {
+                $imageParticipantHtml = <<<HTML
+                    <div class="profile_icon no_select" style="background-image: url({$participantData->image_profil})">
+                                
+                    </div>
+                HTML;
+            } else {
+                $imageParticipantHtml = <<<HTML
+                    <div class="profile_icon no_select" style="background-image: url(https://img.freepik.com/photos-gratuite/beaute-abstraite-automne-dans-motif-veines-feuilles-multicolores-genere-par-ia_188544-9871.jpg)">
+                                
+                    </div>
+                HTML;
+            }
+
+            $routeRemoveParticipant = route("removeParticipant", ["userId" => $participantData->id, "meetupId" => $meetupData->id ]);
+            $participantHtml .= <<<HTML
+                <div class="organisator_profile">
+                    $imageParticipantHtml
+                    <div class="username_container">
+                        <div>{$participantData->prenom}</div>
+                        <div class="grey_text">{$participantData->nom}</div>
+
+                        <div>
+                            <a href="$routeRemoveParticipant">
+                                Retirer
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            HTML;
+        }
     } else {
         $isCurrentUserParticipant = false;
         if ($participantCount != 0) {
@@ -100,20 +133,7 @@
                 </a>
             HTML;
         }
-    }*/
-    
-
-    $routing2 = route('meetupRequests', ['meetupId' => $meetupData->id]);
-    $voirDemandeHtml = <<<HTML
-        <div class="grey_text">
-            <a href="{$routing2}">
-                Voir les demandes 
-                <span>
-                    ($requestsParticipantsCount)
-                </span>
-            </a>
-        </div>
-    HTML;
+    }
 
     if(!isset($meetupId)) {
         /*à changer*/

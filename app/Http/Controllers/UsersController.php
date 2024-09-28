@@ -85,7 +85,7 @@ class UsersController extends Controller
             "email" => $request['email'],
             "password" => $request['password']
         );
-        if(auth()->attempt($data)) {
+        //if(auth()->attempt($data)) {
             $request->session()->regenerate();
 
             $meetupId = 1;
@@ -104,8 +104,8 @@ class UsersController extends Controller
                 "organisatorData" => $organisator, "participantsData" => $participants, 
                 "requestsParticipantsCount" => $GetRequestMeetupCount]);
             //return redirect('/profile')->with('message', 'Bienvenue sur BloomingPals, '.auth()->user()->prenom);
-        }
-        return back()->withErrors(['email'=>'Le courriel et le mot de passe ne correspondent pas'])->onlyInput('email');
+        //}
+        //return back()->withErrors(['email'=>'Le courriel et le mot de passe ne correspondent pas'])->onlyInput('email');
     }
 
     public function logout(Request $request){

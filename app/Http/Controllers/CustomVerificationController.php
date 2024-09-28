@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 use App\Models\utilisateur;
 
 class CustomVerificationController extends Controller

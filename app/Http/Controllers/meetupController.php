@@ -128,6 +128,8 @@ class MeetupController extends Controller
     public function LeaveMeetup($meetupId) {
         $meetupData = rencontre::where("id", $meetupId)->get()[0];
         rencontre_utlisateur::DeleteParticipant(Auth::user()->id, $meetupId);
+        
+        return $this->MeetupPage($meetupId);
     }
     public function ModifyMeetup($newMeetupData) {
         $meetupData = rencontre::where("id", $newMeetupData->id)->get()[0];
@@ -195,7 +197,7 @@ class MeetupController extends Controller
         }
 
         rencontre_utlisateur::AddParticipant($userId, $meetupId);
-        demande_rencontre::AcceptRequest($userId, $meetupId);
+        demande_rencontre::AcceptMeetupRequest($userId, $meetupId);
 
         return $this->MeetupRequests($meetupId);
     }
@@ -213,4 +215,14 @@ class MeetupController extends Controller
 
         return $this->MeetupRequests($meetupId);
     }
+
+    public function RemoveParticipant($meetupId, $userId) {
+        $organisator = rencontre::GetOrganisator($meetupId);
+        if (Auth::user()->id != $organisator->id) {
+            return view("deniedAccess.pageNotFound");
+        }
+        rencontre_utlisateur::DeleteParticipant($userId, $meetupId);
+
+        return redirect()->back();
+    }  
 }
