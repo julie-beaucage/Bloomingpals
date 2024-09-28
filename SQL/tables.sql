@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS utilisateur (
     FOREIGN KEY (type_personnalite) REFERENCES type_personnalite (id)
 ) ENGINE=InnoDB;
 
-INSERT INTO type_personnalite (id, nom) VALUES (0, 'Aucun'); --code obligatoire en attendant de remplir la table personnalite)
+INSERT INTO type_personnalite (id, nom) VALUES (0, 'Aucun'); -- code obligatoire en attendant de remplir la table personnalite)
 -- -----------------------------------------------------
 
 -- Historique_Recherche --------------------------------
@@ -190,8 +190,7 @@ CREATE TABLE IF NOT EXISTS evenement(
     `date` DATETIME NOT NULL,
     prix varchar(20),
     `image` varchar(2048),
-    nb_participant INT DEFAULT(0),
-    image Blob
+    nb_participant INT DEFAULT(0)
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------

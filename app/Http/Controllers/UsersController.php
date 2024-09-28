@@ -10,6 +10,10 @@ use Illuminate\Database\QueryException;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
 
+//temporaire
+use App\Models\Rencontre;
+use App\Models\demande_rencontre;
+
 class UsersController extends Controller
 {
 
@@ -80,7 +84,23 @@ class UsersController extends Controller
         );
         if(auth()->attempt($data)) {
             $request->session()->regenerate();
-            return redirect('/profile')->with('message', 'Bienvenue sur BloomingPals, '.auth()->user()->prenom);
+
+            $meetupId = 1;
+            $meetupData = rencontre::where("id", $meetupId)->get()[0];
+            $meetupTags = rencontre::GetTags($meetupId);
+            $organisator = rencontre::GetOrganisator($meetupId);
+            $participants = rencontre::GetParticipants($meetupId);
+            $GetRequestMeetupCount = demande_rencontre::GetMeetupRequestsNotAnswerdCount($meetupId);
+
+            /** a faire: 
+             * -s'assurer que le client peut y accéder car il doit être amis si l'événement est priver
+             * -faire que le boutton pour rejoindre, modifier, ou quitter soit présent. */
+
+
+            return view("meetups.meetupPage", ['meetupData' => $meetupData, "meetupTagsData" => $meetupTags, 
+                "organisatorData" => $organisator, "participantsData" => $participants, 
+                "requestsParticipantsCount" => $GetRequestMeetupCount]);
+            //return redirect('/profile')->with('message', 'Bienvenue sur BloomingPals, '.auth()->user()->prenom);
         }
         return back()->withErrors(['email'=>'Le courriel et le mot de passe ne correspondent pas'])->onlyInput('email');
     }
@@ -91,7 +111,4 @@ class UsersController extends Controller
         $request->session()->regenerateToken();
         return redirect('/login');
     }
-
-    
-
 }
