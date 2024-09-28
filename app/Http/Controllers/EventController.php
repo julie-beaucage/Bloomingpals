@@ -1,19 +1,21 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Event;
 
 class EventController extends Controller
 {
-    public function EventPage($eventId) {
-        if (isset($eventId)) {
-            return view("events.eventPage", ['eventId' => strval($eventId)]);
-        } else {
-            return view("events.eventPage", ['eventId' => 1]);
-        }
+
+    public function event($id)
+    {
+        $event = Event::find($id);
+
+        if ($event == null)
+            return back();
+        
+        return view('events.eventPage', [
+            'event' => $event,
+            'attendees' => []
+        ]);
     }
 }

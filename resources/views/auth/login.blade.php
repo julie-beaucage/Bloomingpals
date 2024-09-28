@@ -1,11 +1,6 @@
 @extends("master")
 
-@section("style")
-   <link rel="stylesheet" href="{{ asset('css/login.css') }}">
-@endsection()
-
 @section("content")
-
 <div class="pageContainer">
     <header class="headerContainer">
         <div class="image_login">
@@ -22,12 +17,12 @@
             @csrf
             <div class="inputContainer">
                 <div class="entryarea entryarealogin">
-                    <input type="text" id="email"  placeholder="Adresse courriel" name="email" value="{{ old('email') }}" required/>
+                    <input type="text" class="inputSignup"  id="email"  placeholder="Adresse courriel" name="email" value="{{ old('email') }}" required/>
                 </div>
             </div>
             <div class="inputContainer">
                 <div class="entryarea entryarealogin">
-                    <input type="password" id="password" placeholder="Mot de passe" class="alpha" name="password" value="{{ old('password') }}" required/>
+                    <input type="password" class="inputSignup" id="password" placeholder="Mot de passe" class="alpha" name="password" value="{{ old('password') }}" required/>
                 </div>
                 <input type='hidden' class="errorMessage" name='error'></input>
                     @error('email')
@@ -47,5 +42,6 @@
         </form>
     </div>
 </div>
+
 @endsection()
 

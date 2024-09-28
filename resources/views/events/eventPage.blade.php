@@ -1,219 +1,80 @@
-<?php
-    use App\Models\DB;
-    $conn = mysqli_connect("localhost", "root", "", "db");
+@extends('master')
 
-    $idOrganitsator;
-    $meetupName;
-    $description;
-    $adress;
-    $date;
-    $hour;
-    $nbParticipantMax;
-    $nbParticipants = "Not imlemented";
-    $image;
-    $public;
-    /* run this for the first time for test
-    $str = 'INSERT INTO type_personnalite(id, nom) VALUES(1, "personalité")';
-    $result = $conn->query($str);
-
-    $str = 'INSERT INTO utilisateur(id, estAdmin, email, prenom, nom, date_naissance, type_personnalite, salt, mot_passe) VALUES(1, 1, "gg@hotmail.com", "Bob", "Lecourt", DATE "2000-01-01", 1, "salut", "test")';
-    $result = $conn->query($str);
-
-    $str = 'INSERT INTO rencontre(id, nom, description, id_organisateur, adresse, date, nb_participant, public) VALUES(1, "Nom de la rencontre", "Voici la description", 1, "1234 rue popcorn", DATE "2025-01-01", 100, 1)';
-    $result = $conn->query($str);*/
-
-    if(!isset($eventId)) {
-        echo "bug";
-        $eventId = 1;
-    }
-
-    $str = 'SELECT * FROM `rencontre` WHERE id = '.$eventId.';';
-    $result = $conn->query($str);
-
-    /*code pris de https://www.w3schools.com/php/php_mysql_select.asp et modifer*/
-
-    /*get meetup data*/
-    if ($result->num_rows > 0) {
-        $data = $result->fetch_assoc();
-        $id = $data["id"];
-        $idOrganitsator = $data["id_organisateur"];
-        $meetupName = $data["nom"];
-        $description = $data["description"];
-        $adress = $data["adresse"];
-        $fullDate = explode(" ", $data["date"]);
-        $date = $fullDate[0];
-        $fullHour = explode(":", $fullDate[1]);
-        $hour = $fullHour[0].":".$fullHour[1];
-        $nbParticipantMax = $data["nb_participant"];
-        $image = $data["image"];
-        $public = $data["public"];
-
-      } else {
-        view('search.search');
-    }
-
-    $imageHtml = "";
-    if (isset($image)) {
-        $imageHtml = <<<HTML
-            <div class="event_image" style="background-image: url({$image})">
-
-            </div>
-        HTML;
-    } else {
-        $imageHtml = <<<HTML
-            <div class="event_image" style="background-image: url(https://img.freepik.com/photos-gratuite/beaute-abstraite-automne-dans-motif-veines-feuilles-multicolores-genere-par-ia_188544-9871.jpg)">
-
-            </div>
-        HTML;
-    }
-
-
-    /*get organisator data*/
-    if (isset($idOrganitsator)) {
-        $str = 'SELECT * FROM `utilisateur` WHERE id = '.$idOrganitsator.';';
-        $result = $conn->query($str);
-
-        if ($result->num_rows > 0) {
-            $data = $result->fetch_assoc();
-            $firstName = $data["prenom"];
-            $lastName = $data["nom"];
-            $imageUtilisateur = $data["image_profil"];
-        } else {
-            echo "L'utilisateur qui a fait l'event n'existe pas";
-        }
-    } else {
-        echo "L'utilisateur qui a fait l'event n'existe pas";
-    }
-    $imageUtilisateurHtml = "";
-    if (isset($imageUtilisateur)) {
-        $imageUtilisateurHtml = <<<HTML
-            <div class="profile_icon no_select" style="background-image: url({$imageUtilisateur})">
-                        
-            </div>
-        HTML;
-    } else {
-        $imageUtilisateurHtml = <<<HTML
-            <div class="profile_icon no_select" style="background-image: url(https://img.freepik.com/photos-gratuite/beaute-abstraite-automne-dans-motif-veines-feuilles-multicolores-genere-par-ia_188544-9871.jpg)">
-                        
-            </div>
-        HTML;
-    }
-
-    /*get tags data*/
-    $tagsHtml = "";
-
-    $str = 'SELECT * FROM `tags_rencontre` WHERE id_rencontre = '.$eventId.';';
-    $result = $conn->query($str);
-    if ($result->num_rows > 0) {
-        while ($data = $result->fetch_assoc()) {
-
-            $str = 'SELECT * FROM `tags` WHERE id = '.$data["id_tags"].';';
-            $result = $conn->query($str);
-
-            if ($result->num_rows > 0) {
-                $data1 = $result->fetch_assoc();
-                $tagsHtml += <<<HTML
-                    <div>
-                        {$data1["nom"]}
-                    </div>
-                HTML;
-            }
-        }
-    }
-
-
-    /*get participants data*/
-    $str = 'SELECT * FROM `rencontre_utilisateur` WHERE id_rencontre = '.$eventId.';';
-    $result = $conn->query($str);
-    if ($result->num_rows > 0) {
-        while ($data = $result->fetch_assoc()) {
-
-            $str = 'SELECT * FROM `tags` WHERE id = '.$data["id_utilisateur"].';';
-            $result = $conn->query($str);
-
-            if ($result->num_rows > 0) {
-                $data1 = $result->fetch_assoc();
-                $tagsHtml += <<<HTML
-                    <div>
-                        <div class="profile_icon no_select" style="background-image: url({$data1['image_profil']})">
-                        
-                        </div>
-                        <div>
-                            $nom
-                        </div>
-                        <div>
-                            <!--affiniter utilisateur-->
-                        </div>
-                    </div>
-                HTML;
-            }
-        }
-    }
-
-?>
-
-
-@extends("master")
-
-@section("style")
-    <link rel="stylesheet" href="{{ asset('css/page/event.css') }}">
+@section('style')
+    <link rel="stylesheet" href="{{ asset('css/event.css') }}">
 @endsection()
 
-@section("content")
-    <?php
-    /*variable de test*/
-    $routing = route('eventPage', ['eventId' => 1]);
+@section('content')
+    <div class="background_cntr">
+        <div id="background_color"></div>
+        <img id="background_img" src="{{ $event['image'] }}" alt="Bannière de l'événement" crossOrigin="anonymous">
+    </div>
 
+    <div id="event_cntr">
+        <div class="banner">
+            <img id="banner_img" src="{{ $event['image'] }}" alt="Bannière de l'événement" crossOrigin="anonymous">
+        </div>
 
-    $html = <<<HTML
-        $imageHtml
-        <div class="detail_container">
-            <div class="principal_info section">
-                <!--meetup name section-->
-                <div class="meetup_name_container">
-                    <div class="title4 right_text">
-                        $meetupName
-                    </div>
-                    <div class="tags">
-                        $tagsHtml
-                    </div>
-                </div>
-                
-                <!--organisator profile section-->
-                <div class="joining_Conainter">
-                    <div class="organisator_profile">
-                        $imageUtilisateurHtml
-                        <div class="username_container">
-                            <div class="title5">$firstName $lastName</div>
-                            <div class="grey_text">surnom</div>
-                        </div>
-                    </div>
+        <div class="container">
+            <div class="section">
+                <h1 class="event_name">{{ $event['nom'] }}</h1>
+                <a class="btn_primary">Rejoindre</a>
+            </div>
+
+            <div class="section">
+                <h2 class="title">Informations</h2>
+                <div class="showcase">
                     <div>
-                        <a href="{$routing}">
-                            <div class="blue_button no_select">
-                                rejoindre
-                            </div>
-                        </a>
+                        <b>Date</b>
+                        <span class="text_center no_wrap">{{ date('j-m-Y', strtotime($event['date'])) }}</span>
+                    </div>
+
+                    <div>
+                        <b>Heure</b>
+                        <span class="text_center no_wrap">{{ date('H:i', strtotime($event['date'])) }}</span>
+                    </div>
+
+                    <div>
+                        <b>Lieu</b>
+                        <span class="text_center">
+                            @php 
+                                echo $event["adresse"];
+                            @endphp
+                        </span>
+                        <span class="text_center">
+                            @php 
+                                echo $event["ville"];
+                            @endphp
+                        </span>
+                    </div>
+
+                    <div>
+                        <b>Prix</b>
+                        <span class="text_center">{{ $event['prix'] }}</span>
                     </div>
                 </div>
             </div>
-            <div class="title6 no_select">Information</div>
-            <div class="info_container section">
-                <div>
-                    <div class="dark_grey_text no_select">Date</div>
-                    <div class="grey_text">$date</div>
+
+            @if ($event['description'] != '' && $event['description'] != null)
+                <div class="section">
+                    <h2 class="title">Description</h2>
+                    <p>{{ $event['description'] }}</p>
                 </div>
+            @endif
+
+            <div class="section">
+                <h2 class="title">Participants <span class="text_light">({{ count($attendees) }})</span></h2>
                 <div>
-                    <div class="dark_grey_text no_select">Adresse</div>
-                    <div class="grey_text">$adress</div>
-                </div>
-                <div>
-                    <div class="dark_grey_text no_select">Heure</div>
-                    <div class="grey_text">$hour</div>
-                </div>
-                <div>
-                    <div class="dark_grey_text no_select">Groupe</div>
-                    <div class="grey_text">$nbParticipantMax participants maximum</div>
+                    @if (count($attendees) == 0)
+                        <span>Aucun participant pour le moment</span>
+                    @else
+                        @foreach ($attendees as $attendee)
+                            <div>
+                                <img src="{{ $attendee['photo'] }}" alt="Photo de profil de {{ $attendee['nom'] }}">
+                                <span>{{ $attendee['nom'] }}</span>
+                            </div>
+                        @endforeach
+                    @endif
                 </div>
             </div>
             <div class="title6 no_select">Description</div>
@@ -227,6 +88,71 @@
                 </span>
             </div>
         </div>
-    HTML;
-    echo $html?>
+    </div>
+@endsection()
+
+@section('script')
+    <script>
+        $(document).ready(function() {
+            // Set the background color of the body
+            // to the average color of the banner image
+            var img = document.getElementById("background_img");
+            var color = document.getElementById("background_color");
+            document.body.style.background = 'rgb(0,0,0)';
+
+            // get average color and set
+            var rgb = getAverageRGB(img);
+            color.style.background = 'rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ')';
+        });
+
+
+        function getAverageRGB(img) {
+            var blockSize = 5, // only visit every 5 pixels
+            defaultRGB = {
+                r: 0,
+                g: 0,
+                b: 0
+            }, // for non-supporting envs
+            canvas = document.createElement('canvas'),
+            context = canvas.getContext && canvas.getContext('2d'),
+            data, width, height,
+            i = -4,
+            length,
+            rgb = {
+                r: 0,
+                g: 0,
+                b: 0
+            },
+            count = 0;
+
+            height = canvas.height = img.naturalHeight || img.offsetHeight || img.height;
+            width = canvas.width = img.naturalWidth || img.offsetWidth || img.width;
+
+            context.drawImage(img, 0, 0);
+            data = context.getImageData(0, 0, width, height);
+
+            try {
+                data = context.getImageData(0, height-5, width, 1);
+            } catch (e) {
+                console.log('return default')
+                return defaultRGB;
+            }
+
+            length = data.data.length;
+
+            while ( (i += blockSize * 4) < length ) {
+                ++count;
+                rgb.r += Math.pow(data.data[i], 2.2);
+                rgb.g += Math.pow(data.data[i+1], 2.2);
+                rgb.b += Math.pow(data.data[i+2], 2.2);
+            }
+
+            // ~~ used to floor values
+            rgb.r = ~~Math.pow(rgb.r/count, 1/2.2);
+            rgb.g = ~~Math.pow(rgb.g/count, 1/2.2);
+            rgb.b = ~~Math.pow(rgb.b/count, 1/2.2);
+            
+            return rgb;
+        }
+    </script>
 @endsection()
