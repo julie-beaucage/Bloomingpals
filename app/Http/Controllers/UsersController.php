@@ -24,6 +24,7 @@ class UsersController extends Controller
 
     public function registerForm()
     {
+        dd("test");
         return view('auth.signIn');
     }
     public function create(Request $request)

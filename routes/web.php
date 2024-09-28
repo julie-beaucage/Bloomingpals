@@ -47,7 +47,7 @@ Route::get('/email/verify', function () {
     return view('auth.verify');
 })->middleware('auth')->name('verification.notice');
 
-Route::get('/signIn', [UsersController::class, 'registerForm'])->middleware('guest');
+Route::get('/signIn', [UsersController::class, 'registerForm'])->middleware('guest')->name("signIn");
 
 Route::get('/login', [UsersController::class, 'loginForm'])->middleware('guest');
 

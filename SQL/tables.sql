@@ -221,11 +221,11 @@ ENGINE = InnoDB;
 -- Demande_Rencontre -----------------------------------
 CREATE TABLE IF NOT EXISTS demande_rencontre(
     id INT PRIMARY KEY auto_increment,
-    id_utilisateur_envoie INT NOT NULL,
-    id_utilisateur_recoit INT NOT NULL,
+    id_rencontre INT NOT NULL,
+    id_utilisateur INT NOT NULL,
     etat ENUM('Envoyee','Acceptee', 'refusee') NOT NULL,
-    FOREIGN KEY (id_utilisateur_envoie) REFERENCES utilisateur(id),
-    FOREIGN KEY (id_utilisateur_recoit) REFERENCES utilisateur(id)
+    FOREIGN KEY (id_rencontre) REFERENCES rencontre(id),
+    FOREIGN KEY (id_utilisateur) REFERENCES utilisateur(id)
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
