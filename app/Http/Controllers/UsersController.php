@@ -7,12 +7,12 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
-use App\Models\User;
 use Illuminate\Support\Facades\Log;
 
 //temporaire
 use App\Models\Rencontre;
 use App\Models\demande_rencontre;
+use App\Models\utilisateur;
 
 class UsersController extends Controller
 {
@@ -55,7 +55,7 @@ class UsersController extends Controller
                 $formFields['genre']
             ]);
 
-            $user = User::where('email', $formFields['email'])->first();
+            $user = utilisateur::where('email', $formFields['email'])->first();
 
             if ($user) {
                 if (!$user->hasVerifiedEmail()) {
@@ -175,18 +175,18 @@ class UsersController extends Controller
     }
 
     public function publications($id) {
-        $user = User::find($id);
+        $user = utilisateur::find($id);
         return view('profile.publications', compact('user'));    }
 
     public function amis($id) {
-        $user = User::find($id);
+        $user = utilisateur::find($id);
         return view('profile.amis', compact('user'));    }
 
     public function personnalite($id) {
-        return view('profile.personnalite', ['user' => User::findOrFail($id)]);
+        return view('profile.personnalite', ['user' => utilisateur::findOrFail($id)]);
     }
 
     public function interets($id) {
-        return view('profile.interets', ['user' => User::findOrFail($id)]);
+        return view('profile.interets', ['user' => utilisateur::findOrFail($id)]);
     }
 }
