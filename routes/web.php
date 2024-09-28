@@ -11,14 +11,45 @@ use Illuminate\Http\Request;
 
 
 
-// rappel: le chemin doit être unique pour le routing
-/*Route::middleware("auth")->group(function () {
+// Route where you need to be connected
+Route::middleware("auth")->group(function () {
+    // Authentification
     Route::get('/email/verify', function () {
         return view('auth.verify');
     })->name('verification.notice');
-    
-    //put all route inside this that use auth
-});*/
+    Route::get('/email/verify', function () {
+        return view('auth.verify');
+    })->name('verification.notice');
+
+    Route::get('/profile', [UsersController::class, 'profile'])->name('profile');
+    Route::put('/profile/update/{id}', [UsersController::class, 'update'])->name('profile.update');
+
+
+    // Meetup 
+    Route::get('/meetup/form', [MeetupController::class, 'createForm']);
+    Route::post('/meetup/form', [MeetupController::class, 'createForm']);
+
+    Route::get('/meetup/requests/{meetupId}', [MeetupController::class, 'MeetupRequests'])->name('meetupRequests');
+    Route::get('/meetup/requests/accept/{meetupId}/{userId}', [MeetupController::class, 'AcceptRequest'])->name('acceptRequest');
+    Route::get('/meetup/requests/deny/{meetupId}/{userId}', [MeetupController::class, 'DenyRequest'])->name('denyRequest');
+
+    Route::get('/meetup/page/{meetupId}', [MeetupController::class, 'MeetupPage'])->name('meetupPage');
+    Route::get('/meetup/page/join/{meetupId}', [MeetupController::class, 'JoinMeetup'])->name('joinMeetup');
+    Route::get('/meetup/page/leave/{meetupId}', [MeetupController::class, 'LeaveMeetup'])->name('leaveMeetup');
+
+    Route::post('/meetup/create', [MeetupController::class, 'create'])->name('/meetupForm');
+    Route::get('/meetup/modify', [MeetupController::class, 'createForm'])->name('modifyMeetup');
+
+    Route::get('/meetup/page/removeParticipant/{meetupId}/{userId}', [MeetupController::class, 'RemoveParticipant'])->name("removeParticipant");
+});
+
+
+// Route where you can be disconnected
+Route::middleware("guest")->group(function() {
+    // Authentification
+    Route::get('/signIn', [UsersController::class, 'registerForm'])->name("signIn");
+    Route::get('/login', [UsersController::class, 'loginForm']);
+});
 
 
 Route::get('/', function (Request $request) {
@@ -30,44 +61,14 @@ Route::get('/', function (Request $request) {
 
 // Authentification
 Route::get('/email/verify/{id}/{hash}', [CustomVerificationController::class, 'verify'])->name('verification.verify');
-Route::get('/email/verify', function () {
-    return view('auth.verify');
-})->middleware('auth')->name('verification.notice');
 
-Route::get('/email/verify/{id}/{hash}', [CustomVerificationController::class, 'verify'])->name('verification.verify');
-Route::get('/email/verify', function () {
-    return view('auth.verify');
-})->middleware('auth')->name('verification.notice');
-
-Route::get('/signIn', [UsersController::class, 'registerForm'])->middleware('guest')->name("signIn");
-Route::get('/login', [UsersController::class, 'loginForm'])->middleware('guest');
 Route::post('/signIn', [UsersController::class, 'create']);
 Route::post('/login', [UsersController::class, 'login'])->name('login');
 Route::get('/logout', [UsersController::class, 'logout']);
-Route::get('/profile', [UsersController::class, 'profile'])->middleware('auth')->name('profile');
-Route::put('/profile/update/{id}', [UsersController::class, 'update'])->middleware('auth')->name('profile.update');
 Route::get('profile/publications/{id}', [UsersController::class, 'publications'])->name('profile.publications');
 Route::get('profile/amis/{id}', [UsersController::class, 'amis'])->name('profile.amis');
 Route::get('profile/personnalite/{id}', [UsersController::class, 'personnalite'])->name('profile.personnalite');
 Route::get('profile/interets/{id}', [UsersController::class, 'interets'])->name('profile.interets');
-
-
-// Meetup
-Route::get('/meetup/form', [MeetupController::class, 'createForm']);
-Route::post('/meetup/form', [MeetupController::class, 'createForm']);
-
-Route::get('/meetup/page/{meetupId}', [MeetupController::class, 'MeetupPage'])/*->Middleware('auth')*/->name('meetupPage');
-Route::get('/meetup/page/join/{meetupId}', [MeetupController::class, 'JoinMeetup'])/*->Middleware('auth')*/->name('joinMeetup');
-Route::get('/meetup/page/leave/{meetupId}', [MeetupController::class, 'LeaveMeetup'])/*->Middleware('auth')*/->name('leaveMeetup');
-
-Route::get('/meetup/page/removeParticipant/{meetupId}/{userId}', [MeetupController::class, 'RemoveParticipant'])->name("removeParticipant");
-
-Route::post('/meetup/create', [MeetupController::class, 'create'])->name('/meetupForm');
-Route::get('/meetup/modify', [MeetupController::class, 'createForm'])->name('modifyMeetup');
-
-Route::get('/meetup/requests/{meetupId}', [MeetupController::class, 'MeetupRequests'])/*->Middleware('auth')*/->name('meetupRequests');
-Route::get('/meetup/requests/accept/{meetupId}/{userId}', [MeetupController::class, 'AcceptRequest'])/*->Middleware('auth')*/->name('acceptRequest');
-Route::get('/meetup/requests/deny/{meetupId}/{userId}', [MeetupController::class, 'DenyRequest'])/*->Middleware('auth')*/->name('denyRequest');
 
 
 
