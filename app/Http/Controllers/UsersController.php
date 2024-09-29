@@ -169,5 +169,4 @@ class UsersController extends Controller
         return view('profile.interets', ['user' => User::findOrFail($id)]);
     }
     
-
 }
