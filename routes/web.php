@@ -46,9 +46,11 @@ Route::get('profile/interets/{id}', [UsersController::class, 'interets'])->name(
 
 
 // Meetup
-Route::get('/meetupForm', [MeetupController::class, 'createForm']);
-Route::post('/meetupForm', [MeetupController::class, 'createForm']);
-Route::post('/meetup/create', [MeetupController::class, 'create'])->name('/meetupForm');
+Route::get('/meetupForm', [MeetupController::class, 'Form']);
+Route::get('/meetupForm', [MeetupController::class, 'Form']);
+Route::get('/meetupForm/{id}', [MeetupController::class, 'Form']);
+Route::post('/meetup/create', [MeetupController::class, 'create']);
+Route::post('/meetup/edit/{id}', [MeetupController::class, 'edit']);
 
 // TODO: remove when all controller are done.
 Route::get('/home', function () {
