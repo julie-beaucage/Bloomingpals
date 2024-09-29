@@ -3,7 +3,7 @@
 @section("content")
         <div class="profile-background " style="background-image: url('{{ asset('storage/' . Auth::user()->background_image) }}')">
             <div class="profile-info">
-              <img class="profile-picture" src="{{ Auth::user()->image_profil ? asset('storage/' . Auth::user()->image_profil) : asset('/images/flower.png')}}" alt="" />
+              <img class="profile-picture" src="{{ Auth::user()->image_profile ? asset('storage/' . Auth::user()->image_profile) : asset('/images/flower.png')}}" alt="" />
               <h2>{{ Auth::user()->prenom }} {{ Auth::user()->nom }}</h2>
               <div class="button_profile">
            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editProfileModal">

@@ -2,9 +2,9 @@
 <nav id="navbar">
     <span class="title no_select">BloomingPals</span>
     <span class="shrinked_title no_select shrinked_only">BP</span>
-    <div class="user-greeting" style="display: flex; align-items: center; margin-top: 10px;">
-        <span>Bonjour, {{ Auth::user()->prenom }}</span>
-        <img src="{{ Auth::user()->image_profil ? asset('storage/' . Auth::user()->image_profil) : asset('images/default-profile.png') }}" alt="Photo de profil" style="width: 50px; height: 50px; border-radius: 50%; margin-left: 10px;">
+    <div class="user-greeting">
+        <span>Bonjour {{ Auth::user()->prenom }}</span>
+        <img src="{{ Auth::user()->image_profile ? asset('storage/' . Auth::user()->image_profile) : asset('images/default-profile.png') }}" alt="Photo de profil" style="width: 50px; height: 50px; border-radius: 50%; margin-left: 10px;">
     </div>
     @php
         $tabs = [
