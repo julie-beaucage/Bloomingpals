@@ -36,16 +36,15 @@ setlocale(LC_ALL, 'fr_FR');
                 </div>
             </div>
             <div class="flex-row" style="flex-direction:column; margin-bottom:1em;">
-                <div class="grid-info">
+                <div class="flex-row" style="justify-content:space-between; width:100%;">
                    <div class="text">Date :</div>
-                   <div class="text">Heure :</div>
-                   <div class="text">Adresse :</div>
+                   
+                   <div class="text">Ville :   </div>
 
                 </div>
-                <div class="grid-info">
+                <div class="flex-row" style="justify-content:space-between; width:100%;">
                     <div>{{date("Y-m-d",strtotime($meetup->date));}}</div>
-                    <div>{{date("H:i",strtotime($meetup->date));}}</div>
-                    <div>{{$meetup->adresse.', '.$meetup->ville}}</div>
+                    <div style>{{$meetup->ville}}   </div>
 
                 </div>
             </div>
