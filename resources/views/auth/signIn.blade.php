@@ -3,7 +3,10 @@
 @section("content")
     <div class="formContainerLogin">
         <header>
-	@@ -14,57 +10,77 @@
+            <h2>Créer un compte </h2>
+            <hr>
+        </header>
+        <form action="/signIn" method="POST">
             @csrf
             <div class="inputContainer">
                 <div class="entryarea entryarealogin">
@@ -76,7 +79,7 @@
             <div class="formButton">
                 <button type="submit" id="submitBtn" class="btn">Créer le compte</button>
             </div>
-            <p>Vous avez déjà un compte? <a href="/login">Se connecter</a></p>
+            <p>Vous avez déjà un compte? <a href="/login" class="link">Se connecter</a></p>
         </form>
     </div>
 

@@ -25,16 +25,23 @@
     text-align: center;
 }
 
-input[type="text"], input[type="password"], input[type="email"], input[type="date"] {
+.inputSignup {
     width: 100%;
     padding: 0.9375em;
     margin: 0.625em 0;
     border-radius: 0.375em;
     border: 1px solid #dddfe2;
     font-size: 1em;
-    box-sizing: border-box;
-    font-family: "Poppins", sans-serif !important;
-    cursor: text;
+    -webkit-appearance: none; 
+    -moz-appearance: none;    
+    appearance: none;         
+}
+
+.inputSignup.select {
+    background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="%23999" stroke-width="2" viewBox="0 0 16 16"%3E%3Cpath d="M4 6l4 4 4-4" stroke-linecap="round" stroke-linejoin="round"/%3E%3C/svg%3E'); /* Flèche simple */
+    background-repeat: no-repeat;
+    background-position: right 0.5em center;
+    background-size: 1em;
 }
 
 header h1 {
