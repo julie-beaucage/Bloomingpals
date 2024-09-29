@@ -219,7 +219,7 @@ body {
 
 @keyframes shrinked_title_width {
     from {max-width: 0;}
-    to {max-width: 500px;}
+    to {max-width: 50em;}
 } 
 
 @media only screen and (max-width: 1200px) {
@@ -238,8 +238,8 @@ body {
     .navbar_item:hover > .shrinked_title > .title {
         display: inline-flex;
         animation-name: shrinked_title_width;
-        animation-duration: 1s;
-        max-width: 500px;
+        animation-duration: 0.8s;
+        max-width: 50em;
     }
 
     .navbar_item:hover > .navbar_icon {

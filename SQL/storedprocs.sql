@@ -1,8 +1,8 @@
 USE BloomingPals;
 
--- User ------------------------------------------------
+-- Utilisateur ------------------------------------------------
 DROP PROCEDURE IF EXISTS creerUsager;
-DELIMITER $$
+DELIMITER //
 CREATE DEFINER=`root`@`localhost` PROCEDURE `creerUsager`(
     IN p_courriel VARCHAR(255),
     IN p_nom VARCHAR(50),
@@ -21,7 +21,45 @@ BEGIN
     ELSE
         -- Insertion de l'utilisateur avec les informations
         INSERT INTO utilisateur (email, nom, prenom, date_naissance, type_personnalite, password, estAdmin)
-        VALUES (p_courriel, p_nom, p_prenom, p_date_naissance, 1, p_password, 0);
+		VALUES (p_courriel, p_nom, p_prenom, p_date_naissance, 1, p_password, 0);
     END IF;
-END $$
+END;
+// DELIMITER ;
+-- -----------------------------------------------------
+
+-- Evenement ------------------------------------------------
+DROP PROCEDURE IF EXISTS ajouterEvenement;
+
+DELIMITER //
+CREATE PROCEDURE ajouterEvenement (p_nom VARCHAR(100), p_description VARCHAR(1024), p_category VARCHAR(50), p_ville VARCHAR(100), p_adresse VARCHAR(100), p_date datetime, p_prix varchar(20), p_image varchar(2048))
+BEGIN
+	DECLARE id_tag_inserted INT;
+    DECLARE id_evenement_inserted INT;
+    
+	START TRANSACTION;
+	SELECT id INTO id_tag_inserted FROM tag WHERE nom = p_category;
+	IF id_tag_inserted IS NULL THEN
+		INSERT IGNORE INTO tag (nom) 
+		VALUES (p_category);
+	
+		SELECT last_insert_id() INTO id_tag_inserted;
+	END IF;
+	
+	SELECT id INTO id_evenement_inserted FROM evenement WHERE nom = p_nom AND ville = p_ville AND adresse = p_adresse AND `date` = p_date;
+	IF id_evenement_inserted IS NULL THEN
+		INSERT IGNORE INTO evenement (nom, `description`, ville, adresse, `date`, prix, image) 
+		VALUES (p_nom, p_description, p_ville, p_adresse, p_date, p_prix, p_image);
+		
+		SELECT last_insert_id() INTO id_evenement_inserted;
+	ELSE
+		UPDATE evenement
+		SET nom = p_nom, `description`= p_description, ville = p_ville, adresse = p_adresse, `date` = p_date, prix = p_prix, image = p_image 
+		WHERE id = id_evenement_inserted;
+	END IF;
+
+	INSERT IGNORE INTO tag_evenement (id_tag, id_evenement)
+	VALUES (id_tag_inserted, id_evenement_inserted);
+    COMMIT;
+END;
+// DELIMITER ;
 -- -----------------------------------------------------
