@@ -17,7 +17,7 @@ class SearchController extends Controller
         $query = $request->has('query') ? $request->get('query') : "";
         $meetups = [];
 
-        return view('search.meetups', ['meetups' => $meetups]);
+        return view('partial_views.meetupCards', ['meetups' => $meetups]);
     }
 
     public function events(Request $request)
@@ -27,11 +27,11 @@ class SearchController extends Controller
         
         if ($query == null) {
             $events = Event::all();
-            return view('search.events', ['events' => $events, 'query' => $query]);
+            return view('partial_views.eventCards', ['events' => $events, 'query' => $query]);
         }
 
         $events = Event::where('nom', 'LIKE', '%'.$query.'%')->get();
-        return view('search.events', ['events' => $events, 'query' => $query]);
+        return view('partial_views.eventCards', ['events' => $events, 'query' => $query]);
     }
 
     public function users(Request $request)
@@ -39,6 +39,6 @@ class SearchController extends Controller
         $query = $request->has('query') ? $request->get('query') : "";
         $users = [];
 
-        return view('search.users', ['search' => $users]);
+        return view('partial_views.userCards', ['search' => $users]);
     }
 }
