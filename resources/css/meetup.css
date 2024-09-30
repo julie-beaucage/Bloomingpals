@@ -1,10 +1,3 @@
-a:hover i,
-a,
-i {
-  text-decoration: none !important;
-  color:var(--text) !important;
-}
-
 .meetup-container {
     width: 80%;
     margin-top: 5em;
@@ -31,12 +24,6 @@ input,
 textarea,
 select {
     background-color: #f7edf7 !important;
-}
-
-.img-preview{
-    width: 100%;
-    max-height: 20em;
-    object-fit: cover; object-position: 50% 50%;
 }
 
 /* drop down css */
@@ -101,46 +88,3 @@ input[type="file"]::file-selector-button {
     background-color: var(--pink);
     color: white !important;
 }
-
-
- /* le file uploader */
-
-.fileUploader-container{
-    border: 0.08em solid var(--border);
-    border-radius: .8em;
-    display: flex;
-    flex-direction: column;
-    width:100%;
- }
-
- .fileUploader-header{
-    display: inline-flex;
-    padding:.5em;
-    border-bottom: 0.08em solid var(--border);
-    height: fit-content;
-    box-sizing: border-box;
- }
- .fileUploader-header-btn{
-    width: fit-content;
-    background-color: var(--background) !important;
-    padding:.2em 0.5em;
-    border: 1px solid #999;
-    border-radius: 3px;
-    font-weight: 700;
-    font-size: 10pt;
-    text-wrap: wrap;
- }
- /*.fileUploader-header-btn::before {
-    content: 'Choisir une image';
-    display: inline-block;
-    background: linear-gradient(top, #f9f9f9, #e3e3e3);
-    border: 1px solid #999;
-    border-radius: 3px;
-    padding: 5px 8px;
-    outline: none;
-    white-space: nowrap;
-    cursor: pointer;
-    text-shadow: 1px 1px #fff;
-    font-weight: 700;
-    font-size: 10pt;
-  } */

@@ -1,16 +1,9 @@
 @extends("master")
 
 @section("content")
-
-    <!-- <x-meetupFormPop :actionCreate="$actionCreate" :data="$data" :errors="$errors" :listCities="$listCities"/> -->
-
-    @php
-    $action = $actionCreate ? "/meetup/create" : "/meetup/edit/".$data['id'];
-@endphp
-
-<link rel="stylesheet" href="{{ asset('css/meetupForm.css') }}">
+<link rel="stylesheet" href="{{ asset('css/meetup.css') }}">
 <div class="meetup-container">
-    <form action="{{$action}}" method="POST" class="meetup-form-container" enctype="multipart/form-data">
+    <form action="/meetup/create" method="POST" class="meetup-form-container">
         @csrf
         <legend style="text-align:center;" class="underline">
             MeetUp
@@ -130,69 +123,37 @@
             </div>
         </div>
         <div class="form-group">
+            <div class="form-row">
 
-            <label>Participants</label>
-            @if($data != null)
-                <input type="number" class="form-control form-control-sm" min="2" max="100" name="nb_participant" required
-                    value="{{$data['participant']}}">
-            @else
-                <input type="number" class="form-control form-control-sm" min="2" max="100" name="nb_participant" required>
-            @endif
+                <div class="col">
+                    <label>Participants</label>
+                    @if($data != null)
+                        <input type="number" class="form-control form-control-sm" min="2" max="100" name="nb_participant"
+                            required value="{{$data['participant']}}">
+                    @else
+                        <input type="number" class="form-control form-control-sm" min="2" max="100" name="nb_participant"
+                            required>
+                    @endif
 
-        </div>
-        <div class="form-group">
-            </div>
-            <div class="fileUploader-container">
-                <div class="fileUploader-header">
-                    <div style="width:fit-content;">
-                        <input type="file" id="selectedFile" style="display: none;" accept="image/*"
-                            onchange="previewFile()" name="image" />
-                        <input type="button" value="Choisir une image" class="fileUploader-header-btn"
-                            onclick="document.getElementById('selectedFile').click();" />
-                        
-                    </div>
-                    <div style="padding-left:.5em; font-size:.8em; height:fit-content; overflow: hidden;">
-                            Il se peut que votre image soit redimensionnée
-                        </div>
                 </div>
-                <div style="max-width:98%; margin:.5em;">       
-            @if($data != null)
-                @if($data['temporaryImage'] != ' ')
-                    <img class="img-preview" src="{{asset($data['temporaryImage'])}}">
-                @else
-                <img class="img-preview" id="2" src="{{asset($data['image'])}}">
-                @endif
-            @else
-                <img class="img-preview">
-            @endif
-            </div>
+                <div class="col">
+                    <label>Image</label>
+                    <input type="file" id="image" name="image" accept="image/*">
+                </div>
 
-             @if($data!=null)
-                @if($data['temporaryImage'] != ' ')
-                <input type="text" name="temporaryImage" hidden value="{{$data['temporaryImage']}}">
-                @endif
-            @endif 
+            </div>
         </div>
         <div class="form-group">
 
             <div class="form-check mb-2">
-                @if($data != null)
-                    @if($data['public'] == true)
-                        <input class="form-check-input" type="checkbox" id="prive" name="prive">
-                    @else
-                        <input class="form-check-input" type="checkbox" id="prive" name="prive" checked>
-                    @endif
-                @else
-                    <input class="form-check-input" type="checkbox" id="prive" name="prive">
-                @endif
-                <label class="form-check-label" for="prive">Privé</label>
+                <input class="form-check-input" type="checkbox" id="prive" name="prive">
+                <label class="form-check-label" for="prive" for>Privé</label>
             </div>
         </div>
 
         <div class="form-group">
 
-            <button type="submit"
-                class="btn btn-pink">{{$actionCreate ? "Crée le MeetUp" : "Modifier le MeetUp"}}</button>
+            <button type="submit" class="btn btn-pink">Créer le MeetUp</button>
             <a class="btn btn-secondary" style="color:white;">Retour</a>
 
         </div>
@@ -204,80 +165,63 @@
 @section("scripts")
 <script>
     $('#city-dropdown-content').hide();
-    let selectedOption = null;
+let selectedOption = null;
 
-    $(document).ready(function () {
-        // click outside du dropdown
-        $(document).on("click", function (event) {
-            let dropContent = document.getElementById("city-dropdown-content");
-            let inputDropdown = document.getElementById("city-dropdown");
+$(document).ready(function () {
+    // click outside du dropdown
+    $(document).on("click", function (event) {
+        let dropContent = document.getElementById("city-dropdown-content");
+        let inputDropdown = document.getElementById("city-dropdown");
 
-            if (!(event.target.closest('div') == dropContent) && event.target != inputDropdown) {
-                $('#city-dropdown-content').hide();
+        if (!(event.target.closest('div') == dropContent) && event.target != inputDropdown) {
+            $('#city-dropdown-content').hide();
 
-                if (selectedOption != null) {
-                    $("#city-dropdown").prop("value", selectedOption.val());
-                }
+            if (selectedOption != null) {
+                $("#city-dropdown").prop("value", selectedOption.val());
             }
-        });
-        // derouler le dropdown
-        $('#city-dropdown').on("click", function () {
-            $('#city-dropdown-content').show();
-
-        });
-
-        // sur click objet dropdown
-
-        $("option").on('click', function () {
-            console.log($(this).attr("selected"));
-            if (selectedOption == null) {
-                $(this).attr("selected", "selected");
-                $(this).addClass("selected");
-                selectedOption = $(this);
-            } else {
-                if ($(this).attr("selected") === undefined) {
-                    $(this).attr("selected", "selected");
-                    selectedOption.removeAttr("selected");
-                    selectedOption.removeClass("selected");
-                    selectedOption = $(this);
-                    $(this).addClass("selected");
-                }
-            }
-            $("#city-dropdown").prop("value", selectedOption.val());
-        })
-
-        $("#city-dropdown").on("keyup", function () {
-            let texte = $(this).val().toUpperCase();
-            console.log(texte);
-            let options = document.getElementById("city-dropdown-content").getElementsByTagName("option");
-
-            for (let i = 0; i < options.length; i++) {
-                if (options[i].value.toUpperCase().indexOf(texte) < 0) {
-                    options[i].style.display = "none";
-                } else {
-                    options[i].style.display = "";
-                }
-            }
-        });
+        }
+    });
+    // derouler le dropdown
+    $('#city-dropdown').on("click", function () {
+        $('#city-dropdown-content').show();
 
     });
 
-    function previewFile() {
-        var preview = $(".img-preview");
-        var file = document.querySelector('input[type=file]').files[0];
-        var reader = new FileReader();
+    // sur click objet dropdown
 
-        reader.onloadend = function () {
-            $(".img-preview").attr('src', reader.result);
-        }
-
-        if (file) {
-            reader.readAsDataURL(file);
+    $("option").on('click', function () {
+        console.log($(this).attr("selected"));
+        if (selectedOption == null) {
+            $(this).attr("selected", "selected");
+            $(this).addClass("selected");
+            selectedOption = $(this);
         } else {
-            preview.src = "";
+            if ($(this).attr("selected") === undefined) {
+                $(this).attr("selected", "selected");
+                selectedOption.removeAttr("selected");
+                selectedOption.removeClass("selected");
+                selectedOption = $(this);
+                $(this).addClass("selected");
+            }
         }
-    }
+        $("#city-dropdown").prop("value", selectedOption.val());
+    })
+
+    $("#city-dropdown").on("keyup", function () {
+        let texte = $(this).val().toUpperCase();
+        console.log(texte);
+        let options = document.getElementById("city-dropdown-content").getElementsByTagName("option");
+
+        for (let i = 0; i < options.length; i++) {
+            if (options[i].value.toUpperCase().indexOf(texte) < 0) {
+                options[i].style.display = "none";
+            } else {
+                options[i].style.display = "";
+            }
+        }
+    });
+
+});
 
 </script>
-
 @endsection
