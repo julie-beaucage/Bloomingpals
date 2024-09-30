@@ -29,21 +29,31 @@
                     </div>
                     
                     <div class="mb-3">
-                        <label for="image_profil" class="form-label">Image de profil</label>
-                        <input type="file" class="form-control" id="image_profil" name="image_profil">
-                        <img class="modifImage" src="{{Auth::user()->image_profil ? 
-                        asset('storage/' . Auth::user()->image_profil) : asset('..\images\flower.png')}}" alt="" />
+                        <label for="image_profile" class="form-label">Image de profil</label>
+                        <input type="file" class="form-control" id="image_profile" name="image_profile" onchange="previewImage(event, 'imagePreview')">
+                        <img id="imagePreview" class="modifImage" src="{{ Auth::user()->image_profile ? 
+                        asset('storage/' . Auth::user()->image_profile) : asset('..\images\flower.png') }}" alt="Aperçu de l'image" />
                     </div>
 
                     <div class="mb-3">
                         <label for="background_image" class="form-label">Image de fond</label>
-                        <input type="file" class="form-control" id="background_image" name="background_image">
-                        <img class="modifImage" src="{{Auth::user()->background_image ? 
-                        asset('storage/' . Auth::user()->background_image) : asset('..\images\flower.png')}}" alt="" />
+                        <input type="file" class="form-control" id="background_image" name="background_image" onchange="previewImage(event, 'backgroundPreview')">
+                        <img id="backgroundPreview" class="modifImage" src="{{ Auth::user()->background_image ? 
+                        asset('storage/' . Auth::user()->background_image) : asset('..\images\flower.png') }}" alt="Aperçu de l'image" />
                     </div>
-                    <button type="submit" class="btn btn-primary">Enregistrer les modificationsss</button>
+                    <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
+<script>
+function previewImage(event, previewId) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        document.getElementById(previewId).src = e.target.result;
+    }
+    reader.readAsDataURL(file);
+}
+</script>

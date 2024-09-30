@@ -17,16 +17,8 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function hasVerifiedEmail()
     {
-        return true;
         return !is_null($this->email_verified_at);
     }
-
-   /* public function sendEmailVerificationNotification()
-{
-    \Log::info('Détails de l\'utilisateur : ', (array) $this);
-    \Log::info('Envoi de l\'email de vérification à : ' . $this->courriel);
-    $this->notify(new VerifyEmailNotification);
-}*/
+    
 
 }
-

@@ -8,9 +8,10 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 
-class UsersController extends Controller
+class usersController extends Controller
 {
 
     public function index()
@@ -54,12 +55,14 @@ class UsersController extends Controller
 
             if ($user) {
                 if (!$user->hasVerifiedEmail()) {
+                    Log::info("email verifie");
                     $user->sendEmailVerificationNotification();
                 }
             }
             DB::commit(); 
             return view('auth.verify'); 
         } catch (QueryException $e) {
+            Log::info("error in sign in");
             DB::rollBack();
             Log::error('Erreur lors de la création de l\'utilisateur : ' . $e->getMessage());
 
@@ -68,7 +71,6 @@ class UsersController extends Controller
     
     }
     
-
     public function loginForm()
     {
         return view('auth.login');
@@ -103,60 +105,49 @@ class UsersController extends Controller
     }
     public function update(Request $request)
     {
-
         $formFields = $request->validate([
             'lastname' => ['required', 'min:3', 'max:20'],
             'firstname' => ['required', 'min:3', 'max:20'],
             'genre' => ['required', 'in:femme,homme,non-genre'],
         ]);
-         Log::info('Validation réussie.', $formFields);
-
+    
         DB::beginTransaction();
         try {
-            if ($request->hasFile('image_profil')) {
-                $formFields['image_profile'] = $request->file('image_profil')->store('images', 'public');
-            }else {
-                $formFields['image_profile'] = auth()->user()->image_profile;
+            $user = auth()->user();  
+            if ($request->hasFile('image_profile')) {
+                if ($user->image_profile && Storage::disk('public')->exists($user->image_profile)) {
+                    Storage::disk('public')->delete($user->image_profile);
+                }
+                $formFields['image_profile'] = $request->file('image_profile')->store('images', 'public');
+            } else {
+                $formFields['image_profile'] = $user->image_profile;
             }
 
             if ($request->hasFile('background_image')) {
+                if ($user->background_image && Storage::disk('public')->exists($user->background_image)) {
+                    Storage::disk('public')->delete($user->background_image);
+                }
                 $formFields['background_image'] = $request->file('background_image')->store('images', 'public');
-            }else {
-                $formFields['background_image'] = auth()->user()->background_image;
+            } else {
+                $formFields['background_image'] = $user->background_image;
             }
-            DB::statement("CALL updateUserProfile(?,?, ?, ?, ?, ?)", [
-                auth()->user()->id, 
+            DB::statement("CALL updateUserProfile(?, ?, ?, ?, ?, ?)", [
+                $user->id, 
                 $formFields['firstname'],
                 $formFields['lastname'],
                 $formFields['image_profile'],
                 $formFields['background_image'],
                 $formFields['genre']
             ]);
-
             DB::commit();
             return redirect()->route('profile')->with('success', 'Profil mis à jour avec succès!');
         } catch (QueryException $e) {
             DB::rollBack();
-
             Log::error('Erreur lors de la mise à jour du profil : ' . $e->getMessage());
-            Log::info('erreur');
-
             return back()->withErrors(['error' => 'Erreur lors de la mise à jour du profil.']);
         }
     }
-    public function upload_picture(Request $request){
-        if($request->hasfile("image")){
-            $filename = $request->image->getClientOriginalName();
-            $request->image->storeAs("image",$filename,"public");
-            Auth()->user()->update(["image"->$filename]);
-        }
-        return redirect()->back();
-    }
-
-    public function publications($id) {
-        $user = User::find($id);
-        return view('profile.publications', compact('user'));    }
-
+    
     public function amis($id) {
         $user = User::find($id);
         return view('profile.amis', compact('user'));    }
@@ -164,10 +155,10 @@ class UsersController extends Controller
     public function personnalite($id) {
         return view('profile.personnalite', ['user' => User::findOrFail($id)]);
     }
-
+/*
     public function interets($id) {
-        return view('profile.interets', ['user' => User::findOrFail($id)]);
-    }
+        return view('interets.interets', ['user' => User::findOrFail($id)]);
+    }*/
     
 
 }

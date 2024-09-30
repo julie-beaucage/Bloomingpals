@@ -1,5 +1,7 @@
-<link rel="stylesheet" href="{{ asset('css/login.css') }}">
 
+@extends("master")
+
+@section("content")
 <div class="container">
         <h1>Compte créé avec succès !</h1>
         <p>Un courriel de confirmation vous sera envoyé sous peu. Veuillez vérifier votre boîte de réception.</p>
@@ -15,3 +17,5 @@
     </div>
 @endif
 <x-footer/>
+
+@endsection()
