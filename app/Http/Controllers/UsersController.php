@@ -24,7 +24,6 @@ class UsersController extends Controller
 
     public function registerForm()
     {
-        dd("test");
         return view('auth.signIn');
     }
     public function create(Request $request)
@@ -34,11 +33,11 @@ class UsersController extends Controller
             'firstname' => ['required', 'min:3', 'max:20'],
             'birthdate' => ['required', 'date', 'before:today'],
             'email' => ['required', 'email', 'max:100', Rule::unique('utilisateur', 'email')],
-            'genre' => ['required', 'in:femme,hommme,non-genre'],
+            //'genre' => ['required', 'in:femme,hommme,non-genre'],
             'password' => ['required', 'confirmed', 'min:6', 'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/']
         ], [
             'password.regex' => "Le mot de passe doit respecter les critères suivants : <br>- Au moins un caractère spécial <br>- Au moins une majuscule <br>- Au moins une minuscule <br>- Au moins un chiffre.",
-            'genre.in' => 'Le genre doit être l\'un des suivants : femme, homme, non-genre.'
+            //'genre.in' => 'Le genre doit être l\'un des suivants : femme, homme, non-genre.'
         ]);
 
         $password = bcrypt($formFields['password']);
@@ -46,13 +45,13 @@ class UsersController extends Controller
         DB::beginTransaction(); 
 
         try {
-            DB::statement("CALL creerUsager(?, ?, ?, ?, ?,?)", [
+            DB::statement("CALL creerUsager(?, ?, ?, ?, ?)", [
                 $formFields['email'],
                 $formFields['lastname'],
                 $formFields['firstname'],
                 $formFields['birthdate'],
                 $password,
-                $formFields['genre']
+                //$formFields['genre']
             ]);
 
             $user = utilisateur::where('email', $formFields['email'])->first();
@@ -81,11 +80,11 @@ class UsersController extends Controller
 
     public function login(Request $request)
     {
-        $data = array(
-            "email" => $request['email'],
-            "password" => $request['password']
-        );
-        //if(auth()->attempt($data)) {
+        $data = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+        if(auth()->attempt($data)) {
             $request->session()->regenerate();
 
             $meetupId = 1;
@@ -104,7 +103,8 @@ class UsersController extends Controller
                 "organisatorData" => $organisator, "participantsData" => $participants, 
                 "requestsParticipantsCount" => $GetRequestMeetupCount]);
             //return redirect('/profile')->with('message', 'Bienvenue sur BloomingPals, '.auth()->user()->prenom);
-        //}
+        }
+        dd("ça marche pas");
         //return back()->withErrors(['email'=>'Le courriel et le mot de passe ne correspondent pas'])->onlyInput('email');
     }
 
@@ -128,7 +128,7 @@ class UsersController extends Controller
         $formFields = $request->validate([
             'lastname' => ['required', 'min:3', 'max:20'],
             'firstname' => ['required', 'min:3', 'max:20'],
-            'genre' => ['required', 'in:femme,homme,non-genre'],
+            //'genre' => ['required', 'in:femme,homme,non-genre'],
         ]);
          Log::info('Validation réussie.', $formFields);
 
@@ -145,13 +145,13 @@ class UsersController extends Controller
             }else {
                 $formFields['background_image'] = auth()->user()->background_image;
             }
-            DB::statement("CALL updateUserProfile(?,?, ?, ?, ?, ?)", [
+            DB::statement("CALL updateUserProfile(?,?, ?, ?, ?)", [
                 auth()->user()->id, 
                 $formFields['firstname'],
                 $formFields['lastname'],
                 $formFields['image_profile'],
                 $formFields['background_image'],
-                $formFields['genre']
+                //$formFields['genre']
             ]);
 
             DB::commit();
@@ -164,7 +164,7 @@ class UsersController extends Controller
 
             return back()->withErrors(['error' => 'Erreur lors de la mise à jour du profil.']);
         }
-    }
+    }/*
     public function upload_picture(Request $request){
         if($request->hasfile("image")){
             $filename = $request->image->getClientOriginalName();
@@ -172,7 +172,7 @@ class UsersController extends Controller
             Auth()->user()->update(["image"->$filename]);
         }
         return redirect()->back();
-    }
+    }*/
 
     public function publications($id) {
         $user = utilisateur::find($id);

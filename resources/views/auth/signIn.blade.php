@@ -45,7 +45,7 @@
                 @enderror
             </div>
             <div class="inputContainer">
-                <div class="entryarea entryarealogin">
+                <!--<div class="entryarea entryarealogin">
                     <select class="inputSignup" id="genre" name="genre" required>
                         <option value="" disabled {{ old('genre') ? '' : 'selected' }}>Sélectionner un genre</option>
                         <option value="femme" {{ old('genre') == 'femme' ? 'selected' : '' }}>Femme</option>
@@ -55,7 +55,7 @@
                 </div>
                 @error('genre') 
                     <div class="error-message">{{ $message }}</div>
-                @enderror 
+                @enderror-->
             </div>
 
             <div class="inputContainer">
