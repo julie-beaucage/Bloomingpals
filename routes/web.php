@@ -49,9 +49,20 @@ Route::put('/interets/update_Interets/{id}', [InterestsController::class, 'updat
 //Route::put('/interets/update/{id}', [InterestsController::class, 'updateInterets'])->name('interests.update');
 
 // Meetup
-Route::get('/meetupForm', [MeetupController::class, 'createForm']);
-Route::post('/meetupForm', [MeetupController::class, 'createForm']);
-Route::post('/meetup/create', [MeetupController::class, 'create'])->name('/meetupForm');
+Route::get('/meetupForm', [MeetupController::class, 'Form']);
+Route::get('/meetupForm', [MeetupController::class, 'Form']);
+Route::get('/meetupForm/{id}', [MeetupController::class, 'Form']);
+Route::post('/meetup/create', [MeetupController::class, 'create']);
+Route::post('/meetup/edit/{id}', [MeetupController::class, 'edit']);
+
+// TODO: remove when all controller are done.
+Route::get('/home', function () {
+    return view('home.feed');
+});
+
+Route::get('/search', function () {
+    return view('search.search');
+});
 
 // Event
 Route::get('/event/{id}', [EventController::class, 'event']);
