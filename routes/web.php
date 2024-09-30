@@ -4,6 +4,7 @@ use App\Http\Controllers\MeetupController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\InterestsController;
 use App\Http\Controllers\CustomVerificationController;
 
 
@@ -38,7 +39,10 @@ Route::get('/profile', [UsersController::class, 'profile'])->middleware('auth')-
 Route::put('/profile/update/{id}', [UsersController::class, 'update'])->middleware('auth')->name('profile.update');
 Route::get('profile/amis/{id}', [UsersController::class, 'amis'])->name('profile.amis');
 Route::get('profile/personnalite/{id}', [UsersController::class, 'personnalite'])->name('profile.personnalite');
-Route::get('profile/interets/{id}', [UsersController::class, 'interets'])->name('profile.interets');
+
+Route::get('interets/interets/{id}', [InterestsController::class, 'interets'])->name('interets.interets');
+Route::get('/interets/modifier_interet_form', [InterestsController::class, 'modifier_interet_form'])->name('interets.interetEdit');
+Route::put('/interets/update_Interets', [InterestsController::class, 'update_Interets'])->middleware('auth')->name('interets.update_Interets');
 
 // Meetup
 Route::get('/meetupForm', [MeetupController::class, 'createForm']);

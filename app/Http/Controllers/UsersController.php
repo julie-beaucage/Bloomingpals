@@ -155,10 +155,10 @@ class usersController extends Controller
     public function personnalite($id) {
         return view('profile.personnalite', ['user' => User::findOrFail($id)]);
     }
-
+/*
     public function interets($id) {
-        return view('profile.interets', ['user' => User::findOrFail($id)]);
-    }
+        return view('interets.interets', ['user' => User::findOrFail($id)]);
+    }*/
     
 
 }

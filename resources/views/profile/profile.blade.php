@@ -23,12 +23,13 @@
             <a class="nav-link tab-link {{ request()->is('profile/personnalite') ? 'active' : '' }}" href="{{ route('profile.personnalite', Auth::user()->id) }}" data-target="profile/personnalite">Personnalité</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link tab-link {{ request()->is('profile/interets') ? 'active' : '' }}" href="{{ route('profile.interets', Auth::user()->id) }}" data-target="profile/interets">Intérêts</a>
+            <a class="nav-link tab-link {{ request()->is('interets/*/interets') ? 'active' : '' }}" href="{{ route('interets.interets', Auth::user()->id) }}" data-target="interets/interests">Intérêts</a>
         </li>
     </ul>
     </div>
     <div id="profile-content" class="onglet_profile">
         @include('profile.amis') 
     </div>
+
 
     @endsection()
