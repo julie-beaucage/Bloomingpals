@@ -28,6 +28,7 @@ Route::middleware("auth")->group(function () {
     // Meetup 
     Route::get('/meetup/form', [MeetupController::class, 'createForm']);
     Route::post('/meetup/form', [MeetupController::class, 'createForm']);
+    Route::get('/meetup/form/{id}', [MeetupController::class, 'Form']);
 
     Route::get('/meetup/requests/{meetupId}', [MeetupController::class, 'MeetupRequests'])->name('meetupRequests');
     Route::get('/meetup/requests/accept/{meetupId}/{userId}', [MeetupController::class, 'AcceptRequest'])->name('acceptRequest');
@@ -39,6 +40,7 @@ Route::middleware("auth")->group(function () {
 
     Route::post('/meetup/create', [MeetupController::class, 'create'])->name('/meetupForm');
     Route::get('/meetup/modify', [MeetupController::class, 'createForm'])->name('modifyMeetup');
+    Route::post('/meetup/edit/{id}', [MeetupController::class, 'edit'])->name('editMeetup');
 
     Route::get('/meetup/page/removeParticipant/{meetupId}/{userId}', [MeetupController::class, 'RemoveParticipant'])->name("removeParticipant");
 });
@@ -69,8 +71,6 @@ Route::get('profile/publications/{id}', [UsersController::class, 'publications']
 Route::get('profile/amis/{id}', [UsersController::class, 'amis'])->name('profile.amis');
 Route::get('profile/personnalite/{id}', [UsersController::class, 'personnalite'])->name('profile.personnalite');
 Route::get('profile/interets/{id}', [UsersController::class, 'interets'])->name('profile.interets');
-
-
 
 // TODO: remove when all controller are done.
 Route::get('/home', function () {
