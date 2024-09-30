@@ -245,7 +245,8 @@ CREATE TABLE IF NOT EXISTS tag_rencontre(
     id_rencontre INT not null,
     id_tag INT not null,
     FOREIGN KEY (id_rencontre) REFERENCES rencontre(id),
-    FOREIGN KEY (id_tag) REFERENCES tag(id)
+    FOREIGN KEY (id_tag) REFERENCES tag(id),
+    PRIMARY KEY (id_tag, id_rencontre)
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
@@ -255,7 +256,8 @@ CREATE TABLE IF NOT EXISTS tag_evenement(
 	id_tag INT not null,
     id_evenement INT not null,
     FOREIGN KEY (id_tag) REFERENCES tag(id),
-    FOREIGN KEY (id_evenement) REFERENCES evenement(id)
+    FOREIGN KEY (id_evenement) REFERENCES evenement(id),
+    PRIMARY KEY (id_tag, id_evenement)
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------

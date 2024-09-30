@@ -8,25 +8,25 @@
                 'id' => 'home',
                 'title' => 'Accueil',
                 'icon' => 'home',
-                'url' => url('home')
+                'url' => route('home')
             ],
             [
                 'id' => 'search',
                 'title' => 'Recherche',
                 'icon' => 'search',
-                'url' => url('search')
+                'url' => route('search')
             ],
             [
                 'id' => 'profile',
                 'title' => 'Profile',
                 'icon' => 'account_circle',
-                'url' => url('profile')
+                'url' => ''//route('profile', Auth::user()->id)
             ],
             [
                 'id' => 'logout',
                 'title' => 'Déconnexion',
                 'icon' => 'logout',
-                'url' => url('logout')
+                'url' => route('logout')
             ]
         ];
 
