@@ -17,11 +17,24 @@ class InterestsController extends Controller
         $categories = CategorieInteret::all();
         $interets = Interet::all();
 
-        $interetsUtilisateur = Interet::join('utilisateur_interet', 'interet.id', '=', 'utilisateur_interet.id_interet')
-            ->where('utilisateur_interet.id_utilisateur', $id)
-            ->select('interet.*')
-            ->get();
+        //$interetsUtilisateur = Interet::join('utilisateur_interet', 'interet.id', '=', 'utilisateur_interet.id_interet')
+            //->where('utilisateur_interet.id_utilisateur', $id)
+            //->select('interet.*')
+            //->get();
 
+            $interetsUtilisateur = DB::table('utilisateur_interet')
+            ->where('id_utilisateur', $id)
+            ->pluck('id_interet');
+            Log::info('Intérêts de l\'utilisateur récupérés', [
+                'user_id' => $id,
+                'interets_utilisateur' => $interetsUtilisateur,
+            ]);
+        
+            // Loguer tous les intérêts
+            Log::info('Tous les intérêts disponibles', [
+                'interets' => $interets->pluck('nom'), // Vous pouvez enregistrer les noms des intérêts
+            ]);
+    
         return view('interets.interets', [
             'categories' => $categories,
             'interetsUtilisateur' => $interetsUtilisateur,
@@ -41,7 +54,7 @@ class InterestsController extends Controller
         Log::info('Le bouton Modifier a été cliqué.');
         $interets = DB::table('interet')
             ->join('categorie_interet', 'interet.id_categorie', '=', 'categorie_interet.id')
-            ->select('interet.id AS interet_id', 'interet.nom AS interet_nom', 'categorie_interet.id AS id_categorie', 'categorie_interet.nom AS categorie_nom') // Ajoutez 'categorie_interet.id AS id_categorie'
+            ->select('interet.id AS interet_id', 'interet.nom AS interet_nom', 'categorie_interet.id AS id_categorie', 'categorie_interet.nom AS categorie_nom') 
             ->orderBy('categorie_interet.nom')
             ->get();
 

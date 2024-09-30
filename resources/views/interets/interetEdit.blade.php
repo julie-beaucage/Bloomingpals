@@ -14,8 +14,8 @@
             <h1>Modifier vos intérêts :</h1>
             <button class="close-button" onclick="window.location.href='{{ route('interets.interets', Auth::user()->id) }}'">&times;</button>
 
-            <form action="{{ route('interets.update_Interets') }}" method="POST" id="interetForm">
-                @csrf 
+            <form action="{{ route('interets.update_Interets', Auth::user()->id) }}" method="POST" id="interetForm">
+            @csrf 
                 @method('PUT') 
 
                 @if (!empty($categories)) 
@@ -46,7 +46,7 @@
     <script>
         const interetTags = document.querySelectorAll('.interet-tag');
         const interetSelectedInteretsInput = document.getElementById('interetSelectedInterets');
-
+        console.log("Bouton Modifier cliqué.");
         interetTags.forEach(tag => {
             tag.addEventListener('click', () => {
                 tag.classList.toggle('interet-selected'); 

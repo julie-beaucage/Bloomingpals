@@ -42,7 +42,11 @@ Route::get('profile/personnalite/{id}', [UsersController::class, 'personnalite']
 
 Route::get('interets/interets/{id}', [InterestsController::class, 'interets'])->name('interets.interets');
 Route::get('/interets/modifier_interet_form', [InterestsController::class, 'modifier_interet_form'])->name('interets.interetEdit');
-Route::put('/interets/update_Interets', [InterestsController::class, 'update_Interets'])->middleware('auth')->name('interets.update_Interets');
+Route::put('/interets/update_Interets/{id}', [InterestsController::class, 'update_Interets'])->middleware('auth')->name('interets.update_Interets');
+
+
+//Route::get('/interets/{id}', [InterestsController::class, 'interets'])->name('interests.index');
+//Route::put('/interets/update/{id}', [InterestsController::class, 'updateInterets'])->name('interests.update');
 
 // Meetup
 Route::get('/meetupForm', [MeetupController::class, 'createForm']);
