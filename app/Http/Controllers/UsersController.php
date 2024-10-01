@@ -11,9 +11,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 
-class usersController extends Controller
+class UsersController extends Controller
 {
-
     public function index()
     {
         return view('auth.index');
@@ -103,6 +102,7 @@ class usersController extends Controller
         return view('profile.profile', compact('user'));
 
     }
+
     public function update(Request $request)
     {
         $formFields = $request->validate([
@@ -156,10 +156,4 @@ class usersController extends Controller
     public function personnalite($id) {
         return view('profile.personnalite', ['user' => User::findOrFail($id)]);
     }
-    /*
-    public function interets($id) {
-        return view('interets.interets', ['user' => User::findOrFail($id)]);
-    }*/
-    
-
 }
