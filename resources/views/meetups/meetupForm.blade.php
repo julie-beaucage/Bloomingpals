@@ -191,7 +191,7 @@
 
             <button type="submit"
                 class="btn btn-pink">{{$actionCreate ? "Crée le MeetUp" : "Modifier le MeetUp"}}</button>
-            <a class="btn btn-secondary" style="color:white !important;">Retour</a>
+            <a class="btn btn-secondary" style="color:white !important;" onclick="window.history.go(-1);">Retour</a>
 
         </div>
     </form>

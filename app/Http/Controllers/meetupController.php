@@ -46,8 +46,10 @@ class MeetupController extends BaseController
         // editForm
        if($id != null){$actionCreate = false;}
         if ($id != null and $errors == null) {
-            //$id_owner = Auth::user()->Id;
-            $id_owner = 1;
+            $id_owner = Auth::user()->id;
+
+            
+            //$id_owner = 1;
 
             $actionCreate = false;
             $rencontre = rencontre::where('id', $id)->first();
@@ -95,7 +97,7 @@ class MeetupController extends BaseController
 
             if ($req->file('image') != null) {
                 $path = $req->file('image')->store('public\tempo\images');
-                $path = 'storage/' . $path;
+                $path =str_replace('public\\','','storage/' . $path);
             } else {
                 $path = '';
             }
@@ -117,14 +119,13 @@ class MeetupController extends BaseController
 
             return $this->Form(null, $errors, $data);
         } else {
-            // $id_owner = Auth::user()->Id;
-            $id_owner = 1;
+            $id_owner = Auth::user()->id;
 
 
             $path = null;
             if ($req->file('image') != null) {
                 $path = $req->file('image')->store('public\meetup\images');
-                $path= 'storage/'.$path;
+                $path =str_replace('public/','','storage/' . $path);
 
             } else if ($req->temporaryImage != null) {
                 $realPath = str_replace('storage', '', $req->temporaryImage);
@@ -163,7 +164,7 @@ class MeetupController extends BaseController
 
                 if ($req->file('image') != null) {
                     $path = $req->file('image')->store('public\tempo\images');
-                    $path = 'storage/' . $path;
+                    $path =str_replace('public\\','','storage/' . $path);
                 } else {
                     $path = '';
                 }
@@ -186,7 +187,7 @@ class MeetupController extends BaseController
                 return $this->Form($id, $errors, $data);
             } else {
 
-                $id_owner = Auth::user()->Id;
+                $id_owner = Auth::user()->id;
                 $rencontre = rencontre::where('id', $id)->first();
 
                 if ($id_owner != $rencontre->id_organisateur) {
@@ -205,7 +206,7 @@ class MeetupController extends BaseController
                         // dd('file not found');
                     }
                     $path = $req->file('image')->store('public\meetup\images');
-                    $path = 'storage/' . $path;
+                    $path =str_replace('public\\','','storage/' . $path);
                 }
 
                 if (isset($id_owner)) {

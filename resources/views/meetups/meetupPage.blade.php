@@ -12,7 +12,7 @@
     /*variables*/
 
     use illuminate\Support\Facades\Auth;
-    use App\Controllers\MeetupController;
+    use App\Http\Controllers\MeetupController;
     $date = explode(" ",$meetupData->date);
     $participantCount = count($participantsData);
     $currentUser = Auth::user();
@@ -27,7 +27,7 @@
 
 
     if ($currentUser->id == $organisatorData->id) {
-        $routing = 'meetupForm/'.$meetupData->id;
+        $routing = "/meetupForm/".$meetupData->id;
         $actionButtonHtml = <<<HTML
             <a href="{$routing}">
                 <div class="blue_button no_select">
@@ -87,7 +87,7 @@
             foreach ($participantsData as $participantData) {
                 //if it is the participant
                 if ($participantData->id == $currentUser->id) {
-                    $routing = route('leaveMeetup', ['meetupId' => $meetupData->id]);
+                    $routing = 
                     $actionButtonHtml = <<<HTML
                         <a href="{$routing}">
                             <div class="blue_button no_select">

@@ -46,8 +46,7 @@ Route::put('/interets/update_Interets/{id}', [InterestsController::class, 'updat
 //Route::put('/interets/update/{id}', [InterestsController::class, 'updateInterets'])->name('interests.update');
 
 // Meetup
-Route::get('/meetupForm', [MeetupController::class, 'Form'])->name('meetupForm');
-Route::get('/meetupForm/{id}', [MeetupController::class, 'Form']);
+Route::get('/meetupForm/{id}', [MeetupController::class, 'Form'])->name('meetupForm');
 Route::post('/meetup/create', [MeetupController::class, 'create']);
 Route::post('/meetup/edit/{id}', [MeetupController::class, 'edit']);
 Route::get('/meetup', [MeetupController::class, 'index'])->name('meetup');
