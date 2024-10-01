@@ -21,7 +21,7 @@ class MeetupController extends BaseController
 {
     public function index($meetups=null)
     {
-        if($meetups == null){$meetups = rencontre::whereRaw('id>16')->get();}
+        if($meetups == null){$meetups = rencontre::whereRaw('id>0')->get();}
         
         
         $users=[];

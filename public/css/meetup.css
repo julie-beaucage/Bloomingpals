@@ -1,14 +1,15 @@
 .container-meetups {
     display: flex;
     flex-wrap: wrap;
-    gap: 2em;
-    margin: 3em;
+    gap:2em;
+
     justify-content: center;
 }
 
 .container-meetup {
     display: flex;
-    width: 30em;
+    max-width: 25em;
+    width: 80%;
     flex-direction: column;
     border: 0.15em solid var(--neutral-600);
     border-radius: .5em;
@@ -32,14 +33,19 @@
     object-position: 50% 50%;
     transform: scale(1.008);
 }
-
 .meetup-header {
+    
+
+    overflow: clip;
+    text-overflow: ellipsis;
+    height:1.7em ;
     font-weight: bold;
     font-size: 1.7em;
     padding-bottom: .05em;
     margin-left: .5em;
     margin-right: .5em;
     border-bottom: 0.1em solid var(--neutral-600);
+    text-overflow: h;
 
 }
 
