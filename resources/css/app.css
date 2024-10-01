@@ -93,6 +93,10 @@
   'opsz' 24
 }
 
+.material-symbols-rounded {
+    flex-shrink: 0;
+}
+
 /* -------------------- Master page layout --------------------*/
 body {
     background-color: var(--background-50);
@@ -102,6 +106,7 @@ body {
     overflow: hidden;
     font-family: "Poppins", sans-serif;
     color: var(--text);
+    font-size: 16px;
 }
 
 #main {
@@ -219,7 +224,7 @@ body {
 
 @keyframes shrinked_title_width {
     from {max-width: 0;}
-    to {max-width: 500px;}
+    to {max-width: 50em;}
 } 
 
 @media only screen and (max-width: 1200px) {
@@ -238,8 +243,8 @@ body {
     .navbar_item:hover > .shrinked_title > .title {
         display: inline-flex;
         animation-name: shrinked_title_width;
-        animation-duration: 1s;
-        max-width: 500px;
+        animation-duration: 0.8s;
+        max-width: 50em;
     }
 
     .navbar_item:hover > .navbar_icon {
@@ -248,6 +253,10 @@ body {
 }
 
 @media only screen and (max-width: 600px) {
+    body {
+        font-size: 14px;
+    }
+
     #main {
         display: grid;
         grid-template-columns: auto;
@@ -318,7 +327,7 @@ a {
 }
 
 .icon_sm {
-    font-size: 1.5em !important;
+    font-size: 1.4em !important;
 }
 
 .icon_md {
@@ -333,12 +342,15 @@ a {
     filter: brightness(1.1);
 }
 
-.hover_darker *:hover {
-    filter: brightness(0.9);
-}
-
-.hover_lighter *:hover {
-    filter: brightness(1.1);
+.tag {
+    height: fit-content;
+    width: fit-content;
+    padding: 0.25em 0.5em;
+    border-radius: 0.75em;
+    background-color: var(--accent-400);
+    font-size: 1em;
+    font-weight: 500;
+    color: var(--white);
 }
 
 .btn_primary {
