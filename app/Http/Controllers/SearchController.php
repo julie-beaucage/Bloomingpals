@@ -27,11 +27,11 @@ class SearchController extends Controller
         
         if ($query == null) {
             $events = Event::all();
-            return view('partial_views.eventCards', ['events' => $events, 'query' => $query]);
+            return view('partial_views.eventCards', ['events' => $events]);
         }
 
         $events = Event::where('nom', 'LIKE', '%'.$query.'%')->get();
-        return view('partial_views.eventCards', ['events' => $events, 'query' => $query]);
+        return view('partial_views.eventCards', ['events' => $events]);
     }
 
     public function users(Request $request)
