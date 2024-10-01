@@ -173,7 +173,7 @@
         </div>
         <div class="form-group">
 
-            <div class="form-check mb-2">
+        <div class="form-check mb-2">
                 @if($data != null)
                     @if($data['public'] == true)
                         <input class="form-check-input" type="checkbox" id="prive" name="prive">
@@ -197,10 +197,6 @@
     </form>
 </div>
 @endsection()
-
-  
-
-
 
 @section("script")
 <script>

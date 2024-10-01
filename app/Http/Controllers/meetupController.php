@@ -24,12 +24,10 @@ class MeetupController extends BaseController
     {
         if($meetups == null){$meetups = rencontre::whereRaw('id>16')->get();}
         
-        
         $users=[];
 
         foreach($meetups as $meetup){
             array_push($users,User::where('id',$meetup->id_organisateur)->first());
-
         }
         //dd($users[0]);
         $default_images=$this->getDefault_images();
@@ -87,7 +85,7 @@ class MeetupController extends BaseController
     {
         $errors = $this->verifErrors($req);
         // verification fail
-        $public = $req->prive == true ? false : true;
+        $public = $req->prive == null ? true : false;
         if ($errors['error'] == true) {
 
 
@@ -133,7 +131,6 @@ class MeetupController extends BaseController
                 }
             }
             if (isset($id_owner)) {
-                $public = $req->prive == true ? false : true;
                 DB::statement("Call creerRencontre(?,?,?,?,?,?,?,?,?)", [
                     $req->nom,
                     $req->description,
@@ -147,13 +144,15 @@ class MeetupController extends BaseController
                 ]);
             }
             Artisan::call('storage:link'); // update les symLinks
+
+            return redirect('/meetup');
         }
     }
     public function edit($id = null, Request $req)
     {
         if ($id != null) {
 
-            $public = $req->prive == true ? false : true;
+            $public = $req->prive == null ? true : false;
             $errors = $this->verifErrors($req);
 
             if ($errors['error'] == true) {
@@ -221,7 +220,7 @@ class MeetupController extends BaseController
                     ]);
                 }
                 Artisan::call('storage:link'); // update les symLinks
-                return Redirect::to('/meetup');
+                return redirect('/meetup');
             }
         }
     }
