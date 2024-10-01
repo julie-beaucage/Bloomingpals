@@ -36,13 +36,7 @@
             <div class="formButton">
                 <button type="submit" id="submitBtn" class="btn">Accéder</button>
             </div>
-            <?php
-                $route = route("signIn");
-                $html = <<<HTML
-                    <p>Vous n'avez pas de compte? <a href="$route" class="link"> Inscrivez-vous</a></p>
-                HTML;
-                echo $html;
-            ?>
+            <p>Vous n'avez pas de compte? <a href="./signIn" class="link"> Inscrivez-vous</a></p>
         </form>
     </div>
 </div>

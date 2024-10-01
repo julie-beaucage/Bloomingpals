@@ -6,14 +6,14 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Auth;
-use App\Models\utilisateur;
+use App\Models\User;
 
 class CustomVerificationController extends Controller
 {
 
     public function verify(Request $request, $id, $hash)
     {
-        $user = utilisateur::find($id);
+        $user = User::find($id);
 
         if (! $user || ! hash_equals($hash, sha1($user->getEmailForVerification()))) {
             Log::error('Échec de la vérification pour l\'utilisateur ID : ' . $id . ' avec hash : ' . $hash);
