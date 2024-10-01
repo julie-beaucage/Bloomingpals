@@ -1,6 +1,6 @@
 .categorie-div,
 .interet-categorie-div {
-    margin-bottom: 2em;
+    margin-bottom: 1em;
     border: 1px solid #ccc;
     padding: 1em;
     border-radius:5px ;
@@ -53,6 +53,9 @@
     padding: 1em 2em;
     border-radius: 5px;
     cursor: pointer;
+}
+.buttonDetail{
+    background-color: white;
 }
 
 .close-button {

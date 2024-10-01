@@ -5,14 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('css/interets.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
     <title>Mes Intérêts</title>
 </head>
 
 <body>
-    <h1>Tes intérêts :</h1>
+    <button class="buttonDetail btn btn-primary" id="openOverlay">
+    <i class="fas fa-pencil-alt" style="color: black;"></i>
+</button>
     @foreach ($categories as $categorie)
         <div class="categorie-div">
-            <h2>{{ $categorie->nomCategorie }}</h2>
+            <h4>{{ $categorie->nomCategorie }}</h4>
             @php
                 $interetsPourCategorie = [];
             @endphp
@@ -33,8 +37,6 @@
             @endif
         </div>
     @endforeach
-
-    <button class="buttonDetail btn btn-primary" id="openOverlay">Modifier vos intérêts</button>
 
     <div class="interet-overlay" id="overlay" style="display: none;">
         <div class="interet-modal">

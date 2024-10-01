@@ -41,7 +41,7 @@
                         <img id="backgroundPreview" class="modifImage" src="{{ Auth::user()->background_image ? 
                         asset('storage/' . Auth::user()->background_image) : asset('..\images\flower.png') }}" alt="Aperçu de l'image" />
                     </div>
-                    <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                    <button type="submit" class="btnProfile">Enregistrer les modifications</button>
                 </form>
             </div>
         </div>
