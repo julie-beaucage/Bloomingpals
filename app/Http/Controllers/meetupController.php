@@ -94,7 +94,7 @@ class MeetupController extends BaseController
 
 
             if ($req->file('image') != null) {
-                $path = $req->file('image')->store('tempo\images');
+                $path = $req->file('image')->store('public\tempo\images');
                 $path = 'storage/' . $path;
             } else {
                 $path = '';
@@ -123,7 +123,7 @@ class MeetupController extends BaseController
 
             $path = null;
             if ($req->file('image') != null) {
-                $path = $req->file('image')->store('meetup\images');
+                $path = $req->file('image')->store('public\meetup\images');
                 $path= 'storage/'.$path;
 
             } else if ($req->temporaryImage != null) {
@@ -162,7 +162,7 @@ class MeetupController extends BaseController
             if ($errors['error'] == true) {
 
                 if ($req->file('image') != null) {
-                    $path = $req->file('image')->store('tempo\images');
+                    $path = $req->file('image')->store('public\tempo\images');
                     $path = 'storage/' . $path;
                 } else {
                     $path = '';
@@ -204,7 +204,7 @@ class MeetupController extends BaseController
                         // image pas trouvee
                         // dd('file not found');
                     }
-                    $path = $req->file('image')->store('meetup\images');
+                    $path = $req->file('image')->store('public\meetup\images');
                     $path = 'storage/' . $path;
                 }
 
@@ -332,7 +332,6 @@ class MeetupController extends BaseController
         }
     }
     public function MeetupPage($meetupId) {
-
 
         $meetupData = rencontre::where("id", $meetupId)->get()[0];
         $meetupTags = rencontre::GetTags($meetupId);

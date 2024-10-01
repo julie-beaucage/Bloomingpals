@@ -68,7 +68,7 @@ setlocale(LC_ALL, 'fr_FR');
 
     $(".container-meetup").on('click',function(event){
         if(event.target.className != 'profile-picture'){
-            window.location.href="meetupForm/"+ this.id;
+            window.location.href="meetup/page/"+ this.id;
         }
     });
 
