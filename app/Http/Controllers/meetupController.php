@@ -16,18 +16,22 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
+use App\Models\User;
+
 use Route;
 
 class MeetupController extends BaseController
 {
     public function index($meetups=null)
     {
-        if($meetups == null){$meetups = rencontre::whereRaw('id>16')->get();}
+        if($meetups == null){$meetups = rencontre::whereRaw('id>0')->get();}
+        
         
         $users=[];
 
         foreach($meetups as $meetup){
             array_push($users,User::where('id',$meetup->id_organisateur)->first());
+
         }
         //dd($users[0]);
         $default_images=$this->getDefault_images();

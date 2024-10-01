@@ -50,6 +50,7 @@ Route::get('/meetupForm', [MeetupController::class, 'Form'])->name('meetupForm')
 Route::get('/meetupForm/{id}', [MeetupController::class, 'Form']);
 Route::post('/meetup/create', [MeetupController::class, 'create']);
 Route::post('/meetup/edit/{id}', [MeetupController::class, 'edit']);
+Route::get('/meetup', [MeetupController::class, 'index'])->name('meetup');
 
 
 Route::get('/meetup/page/{meetupId}', [MeetupController::class, 'MeetupPage'])->name('meetupPage');

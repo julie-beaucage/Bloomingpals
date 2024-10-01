@@ -26,7 +26,7 @@
                     'id' => 'meetup',
                     'title' => 'MeetUps',
                     'icon' => 'groups',
-                    'url' => route('meetupForm')
+                    'url' => route('meetup')
                 ],
                 [
                     'id' => 'logout',
