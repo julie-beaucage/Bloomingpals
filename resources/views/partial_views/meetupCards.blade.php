@@ -1,6 +1,6 @@
 <?php
 
-if (empty($meetups)) {
+if (count($meetups)  == 0) {
     echo <<< HTML
         <span>Aucun résultat</span>
     HTML;

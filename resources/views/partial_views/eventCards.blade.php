@@ -3,7 +3,7 @@
 use App\Models\TagEvent;
 use App\Models\Tag;
 
-if (empty($events)) {
+if (count($events) == 0) {
     echo '<span>Aucun résultat</span>';
     return;
 }

@@ -1,6 +1,6 @@
 <?php
 
-if (empty($users)) {
+if (count($users)  == 0) {
     echo <<< HTML
         <span>Aucun résultat</span>
     HTML;
