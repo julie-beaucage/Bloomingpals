@@ -29,10 +29,12 @@ class InterestsController extends Controller
                 'user_id' => $id,
                 'interets_utilisateur' => $interetsUtilisateur,
             ]);
-        
-            // Loguer tous les intérêts
+    
             Log::info('Tous les intérêts disponibles', [
                 'interets' => $interets->pluck('nom'), // Vous pouvez enregistrer les noms des intérêts
+            ]);
+            Log::info('Tous les categories disponibles', [
+                'categories' => $categories->pluck('nom'), // Vous pouvez enregistrer les noms des intérêts
             ]);
     
         return view('interets.interets', [

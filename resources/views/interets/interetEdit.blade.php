@@ -17,7 +17,6 @@
             <form action="{{ route('interets.update_Interets', Auth::user()->id) }}" method="POST" id="interetForm">
             @csrf 
                 @method('PUT') 
-
                 @if (!empty($categories)) 
                     @foreach ($categories as $categorie)
                         <div class="interet-categorie-div">

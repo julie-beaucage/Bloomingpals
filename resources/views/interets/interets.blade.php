@@ -16,6 +16,30 @@
             <h2>{{ $categorie->nom }}</h2>
 
             @php
+             $interetsPourCategorie = $interets->where('id_categorie', $categorie->id);
+             $interetsUtilisateurPourCategorie = $interetsUtilisateur->intersect($interetsPourCategorie->pluck('id'));
+
+            @endphp
+
+            @if ($interetsUtilisateur->isEmpty())
+                <p>Aucun intérêt dans la catégorie {{ $categorie->nom }}.</p>
+            @else
+                @foreach ($interetsUtilisateur as $interet)
+                    <div class="tag">{{ $interet->nom }}</div> 
+                @endforeach
+            @endif
+        </div>
+    @endforeach
+
+    <button class="buttonDetail btn btn-primary" id="openOverlay">Modifier vos intérêts</button>
+
+    <div class="interet-overlay" id="overlay" style="display: none;">
+        <div class="interet-modal">
+            <h1>Modifier vos intérêts :</h1>
+            <button class="close-button" onclick="window.location.href='{{ route('interets.interets', Auth::user()->id) }}'">&times;</button>
+
+            <form action="{{ route('interets.update_Interets', Auth::user()->id) }}" method="POST" id="interetForm">
+                @csrf 
                 @method('PUT') 
 
                 @if (!empty($categories)) 
@@ -26,7 +50,7 @@
                                 @if ($interet->id_categorie == $categorie->id) 
                                     <div class="interet-tag {{ in_array($interet->interet_id, $interetsUtilisateur->pluck('id')->toArray()) ? 'interet-selected' : '' }}" 
                                          data-id="{{ $interet->interet_id }}">
-                                        {{ $interet->nom }} yy
+                                        {{ $interet->nom }} 
                                     </div>
                                 @endif
                             @endforeach
