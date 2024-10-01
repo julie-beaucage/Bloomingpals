@@ -59,6 +59,11 @@ Route::get('/meetup/page/leave/{meetupId}', [MeetupController::class, 'LeaveMeet
 
 Route::get('/meetup/page/removeParticipant/{meetupId}/{userId}', [MeetupController::class, 'RemoveParticipant'])->name("removeParticipant");
 
+Route::get('/meetup/requests/{meetupId}', [MeetupController::class, 'MeetupRequests'])->name('meetupRequests');
+Route::get('/meetup/requests/accept/{meetupId}/{userId}', [MeetupController::class, 'AcceptRequest'])->name('acceptRequest');
+Route::get('/meetup/requests/deny/{meetupId}/{userId}', [MeetupController::class, 'DenyRequest'])->name('denyRequest');
+
+
 // Event
 Route::get('/event/{id}', [EventController::class, 'event'])->name('event');
 

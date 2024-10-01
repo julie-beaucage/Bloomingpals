@@ -27,7 +27,7 @@
 
 
     if ($currentUser->id == $organisatorData->id) {
-        $routing = redirect('meetupForm'.$meetupData->id);
+        $routing = 'meetupForm/'.$meetupData->id;
         $actionButtonHtml = <<<HTML
             <a href="{$routing}">
                 <div class="blue_button no_select">
