@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\User;
+use App\Models\Rencontre;
 use Illuminate\Http\Request;
 
 class SearchController extends Controller
@@ -17,7 +18,14 @@ class SearchController extends Controller
         $query = $request->has('query') ? $request->get('query') : "";
         $meetups = [];
 
-        return view('partial_views.meetupCards', ['meetups' => $meetups]);
+        if ($query == null) {
+            $meetups = Rencontre::all();
+            return view('partial_views.meetup_cards', ['meetups' => $meetups]);
+        }
+
+        $meetups = Rencontre::where('nom', 'LIKE', '%'.$query.'%')->get();
+
+        return view('partial_views.meetup_cards', ['meetups' => $meetups]);
     }
 
     public function events(Request $request)
@@ -27,11 +35,11 @@ class SearchController extends Controller
         
         if ($query == null) {
             $events = Event::all();
-            return view('partial_views.eventCards', ['events' => $events, 'query' => $query]);
+            return view('partial_views.event_cards', ['events' => $events]);
         }
 
         $events = Event::where('nom', 'LIKE', '%'.$query.'%')->get();
-        return view('partial_views.eventCards', ['events' => $events, 'query' => $query]);
+        return view('partial_views.event_cards', ['events' => $events]);
     }
 
     public function users(Request $request)
@@ -39,6 +47,12 @@ class SearchController extends Controller
         $query = $request->has('query') ? $request->get('query') : "";
         $users = [];
 
-        return view('partial_views.userCards', ['search' => $users]);
+        if ($query == null) {
+            $users = User::all();
+            return view('partial_views.user_cards', ['users' => $users]);
+        }
+
+        $users = Event::where('nom', 'LIKE', '%'.$query.'%')->get();
+        return view('partial_views.user_cards', ['users' => $users]);
     }
 }

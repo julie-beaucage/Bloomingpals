@@ -1,5 +1,4 @@
-
-DROP DATABASE IF EXISTS `BloomingPals`;
+-- DROP DATABASE IF EXISTS `BloomingPals`;
 Create DATABASE IF NOT EXISTS `BloomingPals`  DEFAULT CHARACTER SET utf8mb4;
 USE BloomingPals;
 
@@ -37,7 +36,7 @@ ENGINE = InnoDB;
 -- Utilisateur -----------------------------------------
 CREATE TABLE IF NOT EXISTS utilisateur (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    estAdmin BOOLEAN DEFAULT FALSE,
+    est_admin BOOLEAN DEFAULT FALSE,
     email VARCHAR(255) NOT NULL UNIQUE,
     prenom VARCHAR(50) NOT NULL,
     nom VARCHAR(50) NOT NULL,
@@ -47,8 +46,8 @@ CREATE TABLE IF NOT EXISTS utilisateur (
     background_image VARCHAR(255), 
     genre ENUM('homme', 'femme', 'non-genre') NOT NULL,
     password CHAR(128) NOT NULL,
-    email_verified_at TIMESTAMP NULL DEFAULT NULL, 
-    update_at TIMESTAMP NULL DEFAULT NULL, 
+    email_verified_at TIMESTAMP NULL DEFAULT NULL,
+    updated_at TIMESTAMP NULL DEFAULT NULL,
     remember_token VARCHAR(100) NULL,
     FOREIGN KEY (type_personnalite) REFERENCES type_personnalite (id)
 ) ENGINE=InnoDB;
