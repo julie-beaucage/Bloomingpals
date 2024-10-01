@@ -1,24 +1,25 @@
 .categorie-div,
 .interet-categorie-div {
-    margin-bottom: 2em;
+    margin-bottom: 1em;
     border: 1px solid #ccc;
     padding: 1em;
+    border-radius:5px ;
 }
 
 .tag,
 .interet-tag {
     display: inline-block;
-    background-color: #007bff;
+    background-color: var(--secondary-300);
     color: white;
     border-radius: 5px;
-    padding: 0.5em 1em;
-    margin: 0.5em;
-    font-size: 14px;
+    padding: 0.5em 0.5em;
+    margin: 0.3em;
+    font-size: 13px;
     cursor: pointer;
 }
 
 .interet-selected {
-    background-color: #28a745;
+    background-color: var(--secondary-700);;
 }
 
 .interet-overlay {
@@ -38,6 +39,7 @@
 .interet-modal {
     background-color: white;
     padding: 2em;
+    margin-left: 20%;
     border-radius: 1em;
     width: 80%;
     max-width: 600px;
@@ -51,6 +53,9 @@
     padding: 1em 2em;
     border-radius: 5px;
     cursor: pointer;
+}
+.buttonDetail{
+    background-color: white;
 }
 
 .close-button {

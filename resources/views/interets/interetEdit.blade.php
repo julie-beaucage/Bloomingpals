@@ -17,13 +17,12 @@
             <form action="{{ route('interets.update_Interets', Auth::user()->id) }}" method="POST" id="interetForm">
             @csrf 
                 @method('PUT') 
-
                 @if (!empty($categories)) 
                     @foreach ($categories as $categorie)
                         <div class="interet-categorie-div">
-                            <h3>{{ $categorie->nom }}</h3> 
+                            <h3>{{ $categorie->nomCategorie }}</h3> 
                             @foreach ($interets as $interet)
-                                @if ($interet->id_categorie == $categorie->id) 
+                                @if ($interet->id_categorie == $categorie->idCategorie) 
                                     <div class="interet-tag {{ in_array($interet->interet_id, $interetsUtilisateur) ? 'interet-selected' : '' }}" 
                                          data-id="{{ $interet->interet_id }}">
                                         {{ $interet->interet_nom }}
@@ -36,7 +35,7 @@
                     <p>Aucune catégorie trouvée.</p>
                 @endif
 
-                <input type="hidden" name="interets" id="interetSelectedInterets" value="{{ implode(',', $interetsUtilisateur) }}"> <!-- Champ caché pour les intérêts sélectionnés -->
+                <input type="hidden" name="interets" id="interetSelectedInterets" value="{{ implode(',', $interetsUtilisateur) }}"> 
 
                 <button type="submit" class="interet-btn-primary">Sauvegarder les changements</button>
             </form>
