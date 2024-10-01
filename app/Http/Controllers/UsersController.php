@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
-//use App\Models\User;
+use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 
@@ -177,6 +177,11 @@ class UsersController extends Controller
         }
         return redirect()->back();
     }*/
+    
+    public function amis($id) {
+        $user = User::find($id);
+        return view('profile.amis', compact('user'));    
+    }
 
     public function publications($id) {
         $user = utilisateur::find($id);
@@ -189,7 +194,7 @@ class UsersController extends Controller
     public function personnalite($id) {
         return view('profile.personnalite', ['user' => utilisateur::findOrFail($id)]);
     }
-/*
+    /*
     public function interets($id) {
         return view('profile.interets', ['user' => utilisateur::findOrFail($id)]);
     }*/

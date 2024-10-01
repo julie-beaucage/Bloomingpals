@@ -4,6 +4,19 @@
     <link rel="stylesheet" href="{{ asset('css/event.css') }}">
 @endsection()
 
+@php
+    use App\Models\TagEvent;
+    use App\Models\Tag;
+
+    $tags = "";
+    $event_tags = TagEvent::where('id_evenement', $event->id)->get();
+
+    foreach ($event_tags as $event_tag) {
+        $tag = Tag::find($event_tag->id_tag);
+        $tags .= '<span class="tag">' . $tag->nom . '</span>';
+    }
+@endphp
+
 @section('content')
     <div class="background_cntr">
         <div id="background_color"></div>
@@ -17,8 +30,13 @@
 
         <div class="container">
             <div class="section">
-                <h1 class="event_name">{{ $event['nom'] }}</h1>
-                <a class="btn_primary">Rejoindre</a>
+                <div id="event_header">
+                    <h1 class="event_name">{{ $event['nom'] }}</h1>
+                    <div class="tags">
+                        @php echo $tags @endphp
+                    </div>
+                </div>
+                <a class="btn_primary no_select">Rejoindre</a>
             </div>
 
             <div class="section">

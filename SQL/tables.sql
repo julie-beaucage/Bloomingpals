@@ -1,4 +1,5 @@
-DROP DATABASE `BloomingPals`;
+
+DROP DATABASE IF EXISTS `BloomingPals`;
 Create DATABASE IF NOT EXISTS `BloomingPals`  DEFAULT CHARACTER SET utf8mb4;
 USE BloomingPals;
 
@@ -10,12 +11,13 @@ DROP TABLE IF EXISTS affinite_utilisateur;
 DROP TABLE IF EXISTS relation;
 DROP TABLE IF EXISTS rencontre_utilisateur;
 DROP TABLE IF EXISTS evenement_utilisateur;
-DROP TABLE IF EXISTS tags_rencontre;
+DROP TABLE IF EXISTS tag_rencontre;
+DROP TABLE IF EXISTS tag_evenement;
 DROP TABLE IF EXISTS demande_ami;
 DROP TABLE IF EXISTS demande_rencontre;
 DROP TABLE IF EXISTS signalement;
-DROP TABLE IF EXISTS `notification`;
-DROP TABLE IF EXISTS tags;
+DROP TABLE IF EXISTS notification;
+DROP TABLE IF EXISTS tag;
 DROP TABLE IF EXISTS rencontre;
 DROP TABLE IF EXISTS type_objet;
 DROP TABLE IF EXISTS utilisateur;
@@ -72,11 +74,11 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 
 -- Message ---------------------------------------------
-CREATE TABLE IF NOT EXISTS `message`(
+CREATE TABLE IF NOT EXISTS message(
     id INT PRIMARY KEY auto_increment,
     id_clavardage INT NOT NULL,
     id_utilisateur_envoie INT NOT NULL,
-    `message` Varchar(2000) NOT NULL,
+    content Varchar(2000) NOT NULL,
     modifie Bool DEFAULT(False),
     FOREIGN KEY (id_clavardage) REFERENCES salle_clavardage (id),
     FOREIGN KEY (id_utilisateur_envoie) REFERENCES utilisateur (id)
@@ -90,7 +92,7 @@ CREATE TABLE IF NOT EXISTS clavardage_utilisateur(
     id_utilisateur_envoie INT NOT NULL,
     FOREIGN KEY (id_clavardage) REFERENCES salle_clavardage (id),
     FOREIGN KEY (id_utilisateur_envoie) REFERENCES utilisateur (id),
-    PRIMARY KEY `clavardage_utilisateur` (id_clavardage, id_utilisateur_envoie)
+    PRIMARY KEY pk_clavardage_utilisateur (id_clavardage, id_utilisateur_envoie)
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
@@ -109,7 +111,7 @@ CREATE TABLE IF NOT EXISTS affinite_utilisateur(
     id_affinite INT NOT NULL,
     FOREIGN KEY (id_affinite) REFERENCES affinite(id),
     FOREIGN KEY (id_utilisateur) REFERENCES utilisateur (id),
-    PRIMARY KEY `affinite_utilisateur` (id_utilisateur, id_affinite)
+    PRIMARY KEY pk_affinite_utilisateur (id_utilisateur, id_affinite)
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
@@ -139,7 +141,7 @@ CREATE TABLE IF NOT EXISTS rencontre(
     adresse Varchar(100) NOT NULL,
     `date` DATETIME NOT NULL,
     nb_participant INT DEFAULT(2),
-    `image` Blob,
+    image Blob,
     public Bool DEFAULT(true),
     FOREIGN KEY (id_organisateur) REFERENCES utilisateur(id)
 )
@@ -152,13 +154,13 @@ CREATE TABLE IF NOT EXISTS rencontre_utilisateur(
     id_utilisateur INT NOT NULL,
     FOREIGN KEY (id_rencontre) REFERENCES rencontre(id),
     FOREIGN KEY (id_utilisateur) REFERENCES utilisateur(id),
-    PRIMARY KEY `rencontre_utilisateur` (id_rencontre, id_utilisateur)
+    PRIMARY KEY pk_rencontre_utilisateur (id_rencontre, id_utilisateur)
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
 
 -- Auto_Increment --------------------------------------
-CREATE TABLE IF NOT EXISTS `notification`(
+CREATE TABLE IF NOT EXISTS notification(
     id INT PRIMARY KEY auto_increment,
     `type` INT NOT NULL,
     id_utilisateur INT NOT NULL,
@@ -191,7 +193,7 @@ CREATE TABLE IF NOT EXISTS evenement(
     adresse Varchar(100) NOT NULL,
     `date` DATETIME NOT NULL,
     prix varchar(20),
-    `image` varchar(2048),
+    image varchar(2048),
     nb_participant INT DEFAULT(0)
 )
 ENGINE = InnoDB;
@@ -203,7 +205,7 @@ CREATE TABLE IF NOT EXISTS evenement_utilisateur(
     id_utilisateur INT NOT NULL,
     FOREIGN KEY (id_evenement) REFERENCES evenement(id),
     FOREIGN KEY (id_utilisateur) REFERENCES utilisateur(id),
-    PRIMARY KEY `evenement_utilisateur` (id_evenement, id_utilisateur)
+    PRIMARY KEY pk_evenement_utilisateur (id_evenement, id_utilisateur)
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
@@ -215,7 +217,7 @@ CREATE TABLE IF NOT EXISTS demande_ami(
     etat ENUM('Envoyee','Acceptee', 'refusee') NOT NULL,
     FOREIGN KEY (id_utilisateur_envoie) REFERENCES utilisateur(id),
     FOREIGN KEY (id_utilisateur_recoit) REFERENCES utilisateur(id),
-    PRIMARY KEY `demande_ami` (id_utilisateur_envoie, id_utilisateur_recoit)
+    PRIMARY KEY pk_demande_ami (id_utilisateur_envoie, id_utilisateur_recoit)
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
@@ -232,20 +234,32 @@ CREATE TABLE IF NOT EXISTS demande_rencontre(
 ENGINE = InnoDB;
 -- -----------------------------------------------------
 
--- Tags ------------------------------------------------
-CREATE TABLE IF NOT EXISTS tags(
+-- Tag ------------------------------------------------
+CREATE TABLE IF NOT EXISTS tag(
     id INT PRIMARY KEY auto_increment,
     nom Varchar(50) not null
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
 
--- Tags_Rencontre --------------------------------------
-CREATE TABLE IF NOT EXISTS tags_rencontre(
+-- Tag_Rencontre --------------------------------------
+CREATE TABLE IF NOT EXISTS tag_rencontre(
     id_rencontre INT not null,
-    id_tags INT not null,
+    id_tag INT not null,
     FOREIGN KEY (id_rencontre) REFERENCES rencontre(id),
-    FOREIGN KEY (id_tags) REFERENCES tags(id)
+    FOREIGN KEY (id_tag) REFERENCES tag(id),
+    PRIMARY KEY (id_tag, id_rencontre)
+)
+ENGINE = InnoDB;
+-- -----------------------------------------------------
+
+-- Tag_Evenement --------------------------------------
+CREATE TABLE IF NOT EXISTS tag_evenement(
+	id_tag INT not null,
+    id_evenement INT not null,
+    FOREIGN KEY (id_tag) REFERENCES tag(id),
+    FOREIGN KEY (id_evenement) REFERENCES evenement(id),
+    PRIMARY KEY (id_tag, id_evenement)
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------

@@ -19,7 +19,15 @@
     align-items: start;
 }
 
-@media only screen and (max-width: calc(600px + 8em)) {
+#event_header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1em;
+}
+
+@media only screen and (max-width: calc(600px)) {
     #event_cntr {
         padding: 0em 0em 0em 0em;
         transition: 0.2s;
@@ -116,4 +124,10 @@
     font-weight: 500;
     letter-spacing: -0.1em;
     font-size: 0.9em;
+}
+
+.tags {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5em;
 }
