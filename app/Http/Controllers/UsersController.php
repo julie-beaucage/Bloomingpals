@@ -150,12 +150,13 @@ class usersController extends Controller
     
     public function amis($id) {
         $user = User::find($id);
-        return view('profile.amis', compact('user'));    }
+        return view('profile.amis', compact('user'));    
+    }
 
     public function personnalite($id) {
         return view('profile.personnalite', ['user' => User::findOrFail($id)]);
     }
-/*
+    /*
     public function interets($id) {
         return view('interets.interets', ['user' => User::findOrFail($id)]);
     }*/

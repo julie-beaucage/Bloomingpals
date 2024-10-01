@@ -11,7 +11,7 @@ class EventController extends Controller
         $event = Event::find($id);
 
         if ($event == null)
-            return back();
+            return abort(404);
         
         return view('events.eventPage', [
             'event' => $event,
