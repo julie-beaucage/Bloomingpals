@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\tag_rencontre;
 
-class rencontre extends Model
+class Rencontre extends Model
 {
     protected $table= 'rencontre';
 
