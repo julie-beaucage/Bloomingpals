@@ -39,6 +39,6 @@ class SearchController extends Controller
         $query = $request->has('query') ? $request->get('query') : "";
         $users = [];
 
-        return view('partial_views.userCards', ['search' => $users]);
+        return view('partial_views.userCards', ['users' => $users]);
     }
 }
