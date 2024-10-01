@@ -1,5 +1,9 @@
 @extends("master")
 
+@section("style")
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/login.css') }}">
+@endsection()
+
 @section("content")
 <div class="pageContainer">
     <header class="headerContainer">
@@ -36,5 +40,4 @@
         </form>
     </div>
 </div>
-
 @endsection()
