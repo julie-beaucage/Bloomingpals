@@ -77,6 +77,16 @@
                     @endif
                 </div>
             </div>
+            <div class="title6 no_select">Description</div>
+            <div class="section">
+                $description
+            </div>
+            <div class="title6 no_select">
+                Participants
+                <span class="grey_text">
+                    ({$nbParticipants})
+                </span>
+            </div>
         </div>
     </div>
 @endsection()
