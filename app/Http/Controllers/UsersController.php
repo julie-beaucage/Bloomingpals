@@ -16,7 +16,7 @@ use App\Models\Rencontre;
 use App\Models\demande_rencontre;
 use App\Models\utilisateur;
 
-class usersController extends Controller
+class UsersController extends Controller
 {
 
     public function index()
