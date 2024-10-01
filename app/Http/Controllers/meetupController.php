@@ -54,7 +54,6 @@ class MeetupController extends BaseController
                 if ($id_owner != $rencontre->id_organisateur) {
                     abort(403);
                 }
-                
 
                 $date = $rencontre->date;
                 $date = explode(' ', $date);
