@@ -36,7 +36,7 @@ ENGINE = InnoDB;
 -- Utilisateur -----------------------------------------
 CREATE TABLE IF NOT EXISTS utilisateur (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    estAdmin BOOLEAN DEFAULT FALSE,
+    est_admin BOOLEAN DEFAULT FALSE,
     email VARCHAR(255) NOT NULL UNIQUE,
     prenom VARCHAR(50) NOT NULL,
     nom VARCHAR(50) NOT NULL,
