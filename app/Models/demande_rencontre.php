@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
 class demande_rencontre extends Model
 {
@@ -14,7 +15,7 @@ class demande_rencontre extends Model
         $requests = demande_rencontre::where("id_rencontre", $meetupId)->where("etat", "Envoyee")->get();
         if ($requests->count() > 0) {
             foreach ($requests as $request) {
-                $user = utilisateur::where("id", $request->id_utilisateur)->get()[0];
+                $user = User::where("id", $request->id_utilisateur)->get()[0];
                 array_push($users, $user);
             }
         }

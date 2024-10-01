@@ -12,6 +12,7 @@
     /*variables*/
 
     use illuminate\Support\Facades\Auth;
+    use App\Controllers\MeetupController;
     $date = explode(" ",$meetupData->date);
     $participantCount = count($participantsData);
     $currentUser = Auth::user();
@@ -26,7 +27,7 @@
 
 
     if ($currentUser->id == $organisatorData->id) {
-        $routing = route('modifyMeetup', ['meetupId' => $meetupData->id]);
+        $routing = redirect('meetupForm'.$meetupData->id);
         $actionButtonHtml = <<<HTML
             <a href="{$routing}">
                 <div class="blue_button no_select">
