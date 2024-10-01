@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class affinite_utilisateur extends Model
+class utilisateur_interet extends Model
 {
-    protected $table= 'affinite_utilisateur';
+    protected $table= 'utilisateur_interet';
 
     public $timestamps = false;
 }
