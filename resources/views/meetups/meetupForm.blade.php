@@ -155,8 +155,8 @@
                 </div>
                 <div style="max-width:98%; min-height:2em; margin:.5em;">       
             @if($data != null)
-                @if($data['temporaryImage'] != '')
-                    <img class="img-preview" src="{{asset($data['temporaryImage'])}}">
+                @if($data['image'] != '')
+                    <img class="img-preview" src="{{asset($data['image'])}}">
                 @else
                 <img class="img-preview" id="2">
                 @endif
