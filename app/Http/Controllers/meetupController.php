@@ -20,9 +20,21 @@ use Route;
 
 class MeetupController extends BaseController
 {
-    public function index()
+    public function index($meetups=null)
     {
-        return view('home.feed');
+        if($meetups == null){$meetups = rencontre::whereRaw('id>16')->get();}
+        
+        
+        $users=[];
+
+        foreach($meetups as $meetup){
+            array_push($users,User::where('id',$meetup->id_organisateur)->first());
+
+        }
+        //dd($users[0]);
+        $default_images=$this->getDefault_images();
+
+        return view('meetups.meetups',compact('meetups','users','default_images'));
     }
 
     public function Form($id = null, $errors = null, $data = null)
@@ -30,7 +42,8 @@ class MeetupController extends BaseController
         $actionCreate = true;
 
         // editForm
-        if ($id != null) {
+       if($id != null){$actionCreate = false;}
+        if ($id != null and $errors == null) {
             //$id_owner = Auth::user()->Id;
             $id_owner = 1;
 
@@ -39,8 +52,9 @@ class MeetupController extends BaseController
 
             if ($rencontre != null) {
                 if ($id_owner != $rencontre->id_organisateur) {
-                     abort(403);
-                 }
+                    abort(403);
+                }
+                
 
                 $date = $rencontre->date;
                 $date = explode(' ', $date);
@@ -53,10 +67,10 @@ class MeetupController extends BaseController
                     'date' => $date[0],
                     'heure' => $date[1],
                     'participant' => $rencontre->nb_participant,
-                    'image' => $rencontre->image,
+                    'image' =>$rencontre->image == null ? '': $rencontre->image ,
                     'public' => $rencontre->public,
                     'id' => $id,
-                    'temporaryImage' => ' ',
+                    'temporaryImage' => '',
                 ];
             } else {
                 abort(404);
@@ -109,6 +123,7 @@ class MeetupController extends BaseController
             $path = null;
             if ($req->file('image') != null) {
                 $path = $req->file('image')->store('meetup\images');
+                $path= 'storage/'.$path;
 
             } else if ($req->temporaryImage != null) {
                 $realPath = str_replace('storage', '', $req->temporaryImage);
@@ -119,7 +134,7 @@ class MeetupController extends BaseController
                 }
             }
             if (isset($id_owner)) {
-                $public = $req->prive != null;
+                $public = $req->prive == true ? false : true;
                 DB::statement("Call creerRencontre(?,?,?,?,?,?,?,?,?)", [
                     $req->nom,
                     $req->description,
@@ -133,7 +148,6 @@ class MeetupController extends BaseController
                 ]);
             }
             Artisan::call('storage:link'); // update les symLinks
-            return redirect('/search');
         }
     }
     public function edit($id = null, Request $req)
@@ -144,6 +158,13 @@ class MeetupController extends BaseController
             $errors = $this->verifErrors($req);
 
             if ($errors['error'] == true) {
+
+                if ($req->file('image') != null) {
+                    $path = $req->file('image')->store('tempo\images');
+                    $path = 'storage/' . $path;
+                } else {
+                    $path = '';
+                }
 
                 $data = [
                     'nom' => $req->nom,
@@ -156,12 +177,14 @@ class MeetupController extends BaseController
                     'image' => $req->image,
                     'public' => $public,
                     'id' => $id,
+                    'temporaryImage' => $path,
                 ];
+                Artisan::call('storage:link'); // update les symLinks
 
                 return $this->Form($id, $errors, $data);
             } else {
-                $id_owner = 1;
-                //$id_owner = Auth::user()->Id;
+
+                $id_owner = Auth::user()->Id;
                 $rencontre = rencontre::where('id', $id)->first();
 
                 if ($id_owner != $rencontre->id_organisateur) {
@@ -199,6 +222,7 @@ class MeetupController extends BaseController
                     ]);
                 }
                 Artisan::call('storage:link'); // update les symLinks
+                return Redirect::to('/meetup');
             }
         }
     }
@@ -252,7 +276,7 @@ class MeetupController extends BaseController
             $errors['adresse'] = "L'adresse doit contenir au moins une lettre !";
         }
         // Description
-        if (strlen($req->description) > 1024) {
+        if (strlen($req->description) > 4096) {
             $errors['error'] = true;
             $errors['description'] = "La description doit être moins longue que 1024 caractères !";
         }
@@ -269,6 +293,10 @@ class MeetupController extends BaseController
     {
         $cities = cities::orderBy('city_ascii', 'ASC')->get();
         return $cities;
+    }
+
+    private function getDefault_images(){
+        return ['storage\images\meetup_default1.png','storage\images\meetup_default2.png'];
     }
     public function LeaveMeetup($meetupId) {
         $meetupData = rencontre::where("id", $meetupId)->get()[0];
