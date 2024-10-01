@@ -42,11 +42,22 @@ Route::get('interets/interets/{id}', [InterestsController::class, 'interets'])->
 Route::put('/interets/update_Interets/{id}', [InterestsController::class, 'update_Interets'])->middleware('auth')->name('interets.update_Interets');
 
 // Meetup
-Route::get('/meetupForm', [MeetupController::class, 'Form']);
-Route::get('/meetupForm', [MeetupController::class, 'Form']);
-Route::get('/meetupForm/{id}', [MeetupController::class, 'Form']);
+Route::get('/meetupForm/{id}', [MeetupController::class, 'Form'])->name('meetupForm');
 Route::post('/meetup/create', [MeetupController::class, 'create']);
 Route::post('/meetup/edit/{id}', [MeetupController::class, 'edit']);
+Route::get('/meetup', [MeetupController::class, 'index'])->name('meetup');
+
+
+Route::get('/meetup/page/{meetupId}', [MeetupController::class, 'MeetupPage'])->name('meetupPage');
+Route::get('/meetup/page/join/{meetupId}', [MeetupController::class, 'JoinMeetup'])->name('joinMeetup');
+Route::get('/meetup/page/leave/{meetupId}', [MeetupController::class, 'LeaveMeetup'])->name('leaveMeetup');
+
+Route::get('/meetup/page/removeParticipant/{meetupId}/{userId}', [MeetupController::class, 'RemoveParticipant'])->name("removeParticipant");
+
+Route::get('/meetup/requests/{meetupId}', [MeetupController::class, 'MeetupRequests'])->name('meetupRequests');
+Route::get('/meetup/requests/accept/{meetupId}/{userId}', [MeetupController::class, 'AcceptRequest'])->name('acceptRequest');
+Route::get('/meetup/requests/deny/{meetupId}/{userId}', [MeetupController::class, 'DenyRequest'])->name('denyRequest');
+
 
 // Event
 Route::get('/event/{id}', [EventController::class, 'event'])->name('event');

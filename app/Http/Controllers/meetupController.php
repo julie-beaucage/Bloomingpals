@@ -8,18 +8,35 @@ use Auth;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use App\Models\demande_rencontre;
+use App\Models\rencontre_utlisateur;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
+use App\Models\User;
+
+use Route;
 
 class MeetupController extends BaseController
 {
-    public function index()
+    public function index($meetups=null)
     {
-        return view('home.feed');
+        if($meetups == null){$meetups = rencontre::whereRaw('id>0')->get();}
+        
+        
+        $users=[];
+
+        foreach($meetups as $meetup){
+            array_push($users,User::where('id',$meetup->id_organisateur)->first());
+
+        }
+        //dd($users[0]);
+        $default_images=$this->getDefault_images();
+
+        return view('meetups.meetups',compact('meetups','users','default_images'));
     }
 
     public function Form($id = null, $errors = null, $data = null)
@@ -27,17 +44,20 @@ class MeetupController extends BaseController
         $actionCreate = true;
 
         // editForm
-        if ($id != null) {
-            //$id_owner = Auth::user()->Id;
-            $id_owner = 1;
+       if($id != null){$actionCreate = false;}
+        if ($id != null and $errors == null) {
+            $id_owner = Auth::user()->id;
+
+            
+            //$id_owner = 1;
 
             $actionCreate = false;
             $rencontre = rencontre::where('id', $id)->first();
 
             if ($rencontre != null) {
                 if ($id_owner != $rencontre->id_organisateur) {
-                     abort(403);
-                 }
+                    abort(403);
+                }
 
                 $date = $rencontre->date;
                 $date = explode(' ', $date);
@@ -50,10 +70,10 @@ class MeetupController extends BaseController
                     'date' => $date[0],
                     'heure' => $date[1],
                     'participant' => $rencontre->nb_participant,
-                    'image' => $rencontre->image,
+                    'image' =>$rencontre->image == null ? '': $rencontre->image ,
                     'public' => $rencontre->public,
                     'id' => $id,
-                    'temporaryImage' => ' ',
+                    'temporaryImage' => '',
                 ];
             } else {
                 abort(404);
@@ -71,13 +91,13 @@ class MeetupController extends BaseController
     {
         $errors = $this->verifErrors($req);
         // verification fail
-        $public = $req->prive == true ? false : true;
+        $public = $req->prive == null ? true : false;
         if ($errors['error'] == true) {
 
 
             if ($req->file('image') != null) {
-                $path = $req->file('image')->store('tempo\images');
-                $path = 'storage/' . $path;
+                $path = $req->file('image')->store('public\tempo\images');
+                $path =str_replace('public\\','','storage/' . $path);
             } else {
                 $path = '';
             }
@@ -99,13 +119,13 @@ class MeetupController extends BaseController
 
             return $this->Form(null, $errors, $data);
         } else {
-            // $id_owner = Auth::user()->Id;
-            $id_owner = 1;
+            $id_owner = Auth::user()->id;
 
 
             $path = null;
             if ($req->file('image') != null) {
-                $path = $req->file('image')->store('meetup\images');
+                $path = $req->file('image')->store('public\meetup\images');
+                $path =str_replace('public/','','storage/' . $path);
 
             } else if ($req->temporaryImage != null) {
                 $realPath = str_replace('storage', '', $req->temporaryImage);
@@ -116,7 +136,6 @@ class MeetupController extends BaseController
                 }
             }
             if (isset($id_owner)) {
-                $public = $req->prive != null;
                 DB::statement("Call creerRencontre(?,?,?,?,?,?,?,?,?)", [
                     $req->nom,
                     $req->description,
@@ -130,16 +149,25 @@ class MeetupController extends BaseController
                 ]);
             }
             Artisan::call('storage:link'); // update les symLinks
+
+            return redirect('/meetup');
         }
     }
     public function edit($id = null, Request $req)
     {
         if ($id != null) {
 
-            $public = $req->prive == true ? false : true;
+            $public = $req->prive == null ? true : false;
             $errors = $this->verifErrors($req);
 
             if ($errors['error'] == true) {
+
+                if ($req->file('image') != null) {
+                    $path = $req->file('image')->store('public\tempo\images');
+                    $path =str_replace('public\\','','storage/' . $path);
+                } else {
+                    $path = '';
+                }
 
                 $data = [
                     'nom' => $req->nom,
@@ -152,12 +180,14 @@ class MeetupController extends BaseController
                     'image' => $req->image,
                     'public' => $public,
                     'id' => $id,
+                    'temporaryImage' => $path,
                 ];
+                Artisan::call('storage:link'); // update les symLinks
 
                 return $this->Form($id, $errors, $data);
             } else {
-                $id_owner = 1;
-                //$id_owner = Auth::user()->Id;
+
+                $id_owner = Auth::user()->id;
                 $rencontre = rencontre::where('id', $id)->first();
 
                 if ($id_owner != $rencontre->id_organisateur) {
@@ -175,8 +205,8 @@ class MeetupController extends BaseController
                         // image pas trouvee
                         // dd('file not found');
                     }
-                    $path = $req->file('image')->store('meetup\images');
-                    $path = 'storage/' . $path;
+                    $path = $req->file('image')->store('public\meetup\images');
+                    $path =str_replace('public\\','','storage/' . $path);
                 }
 
                 if (isset($id_owner)) {
@@ -195,6 +225,7 @@ class MeetupController extends BaseController
                     ]);
                 }
                 Artisan::call('storage:link'); // update les symLinks
+                return redirect('/meetup');
             }
         }
     }
@@ -248,7 +279,7 @@ class MeetupController extends BaseController
             $errors['adresse'] = "L'adresse doit contenir au moins une lettre !";
         }
         // Description
-        if (strlen($req->description) > 1024) {
+        if (strlen($req->description) > 4096) {
             $errors['error'] = true;
             $errors['description'] = "La description doit être moins longue que 1024 caractères !";
         }
@@ -265,6 +296,109 @@ class MeetupController extends BaseController
     {
         $cities = cities::orderBy('city_ascii', 'ASC')->get();
         return $cities;
+    }
+
+    private function getDefault_images(){
+        return ['storage\images\meetup_default1.png','storage\images\meetup_default2.png'];
+    }
+    public function LeaveMeetup($meetupId) {
+        $meetupData = rencontre::where("id", $meetupId)->get()[0];
+        rencontre_utlisateur::DeleteParticipant(Auth::user()->id, $meetupId);
+        
+        return $this->MeetupPage($meetupId);
+    }
+    public function ModifyMeetup($newMeetupData) {
+        $meetupData = rencontre::where("id", $newMeetupData->id)->get()[0];
+
+        $meetupData::update([
+            "nom" => $newMeetupData->nom, 
+            "description" => $newMeetupData->description,
+            "adresse" => $newMeetupData->adresse,
+            "date" => $newMeetupData->date,
+            "nb_participant" => $newMeetupData->nb_participant,
+            "image" => $newMeetupData->image,
+            "public" => $newMeetupData->public]);
+    }
+    public function JoinMeetup($meetupId) {
+        $userId = Auth::user()->id;
+        /*join if public*/
+        $meetupData = rencontre::where("id", $meetupId)->get()[0];
+        if ($meetupData->public) {
+            if (!rencontre_utlisateur::IsInRencontre($meetupId, $userId)) {
+                rencontre_utlisateur::AddParticipant($userId, $meetupId);
+                return $this->MeetupPage($meetupId);
+            } else {
+                return $this->MeetupPage($meetupId);
+            }
+        }
+    }
+    public function MeetupPage($meetupId) {
+
+        $meetupData = rencontre::where("id", $meetupId)->get()[0];
+        $meetupTags = rencontre::GetTags($meetupId);
+        $organisator = rencontre::GetOrganisator($meetupId);
+        $participants = rencontre::GetParticipants($meetupId);
+        $GetRequestMeetupCount = demande_rencontre::GetMeetupRequestsNotAnswerdCount($meetupId);
+
+        /** a faire: 
+         * -s'assurer que le client peut y accéder car il doit être amis si l'événement est priver
+         * -faire que le boutton pour rejoindre, modifier, ou quitter soit présent. */
+
+
+        return view("meetups.meetupPage", ['meetupData' => $meetupData, "meetupTagsData" => $meetupTags, 
+            "organisatorData" => $organisator, "participantsData" => $participants, 
+            "requestsParticipantsCount" => $GetRequestMeetupCount]);
+    }
+
+    public function MeetupRequests($meetupId) {
+        $organisator = rencontre::GetOrganisator($meetupId);
+        if (Auth::user()->id != $organisator->id) {
+            return view("deniedAccess.pageNotFound");
+        }
+
+        $meetupData = rencontre::where("id", $meetupId)->get()[0];
+        $requests = demande_rencontre::GetMeetupRequestsNotAnswerd($meetupId);
+
+        return view("meetups.meetupRequests", ["meetupData" => $meetupData, "organisatorData" => $organisator, "requestsData" => $requests]);
+    }
+
+    public function AcceptRequest($meetupId, $userId) {
+        $organisator = rencontre::GetOrganisator($meetupId);
+        if (Auth::user()->id != $organisator->id) {
+            return view("deniedAccess.pageNotFound");
+        }
+        if (!demande_rencontre::IsInRequest($userId, $meetupId)) {
+            return view("deniedAccess.pageNotFound");
+        }
+
+        rencontre_utlisateur::AddParticipant($userId, $meetupId);
+        demande_rencontre::AcceptMeetupRequest($userId, $meetupId);
+
+        return $this->MeetupRequests($meetupId);
+    }
+
+    public function DenyRequest($meetupId, $userId) {
+        $organisator = rencontre::GetOrganisator($meetupId);
+        if (Auth::user()->id != $organisator->id) {
+            return view("deniedAccess.pageNotFound");
+        }
+        if (!demande_rencontre::IsInRequest($userId, $meetupId)) {
+            return view("deniedAccess.pageNotFound");
+        }
+
+        demande_rencontre::DenyMeetupRequest($userId, $meetupId);
+
+        return $this->MeetupRequests($meetupId);
+    }
+
+    public function RemoveParticipant($meetupId, $userId) {
+        $organisator = rencontre::GetOrganisator($meetupId);
+        if (Auth::user()->id != $organisator->id) {
+            return view("deniedAccess.pageNotFound");
+        }
+        rencontre_utlisateur::DeleteParticipant($userId, $meetupId);
+
+        return redirect()->back();
     }
 
 }

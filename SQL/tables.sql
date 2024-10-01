@@ -133,17 +133,19 @@ ENGINE = InnoDB;
 
 -- Rencontre -------------------------------------------
 CREATE TABLE IF NOT EXISTS rencontre(
-    id INT PRIMARY KEY auto_increment,
-    nom varchar(100) NOT NULL,
-    `description` Varchar(1024),
-    id_organisateur INT,
-    adresse Varchar(100) NOT NULL,
-    `date` DATETIME NOT NULL,
-    nb_participant INT DEFAULT(2),
-    image Blob,
-    public Bool DEFAULT(true),
-    FOREIGN KEY (id_organisateur) REFERENCES utilisateur(id)
-)
+  id INT PRIMARY KEY auto_increment,
+  nom varchar(100) NOT NULL,
+  `description` Varchar(4096),
+  id_organisateur INT,
+  adresse Varchar(100) NOT NULL,
+  ville Varchar(100),
+  `date` DATETIME NOT NULL,
+  nb_participant INT DEFAULT(2),
+  image varchar(1024),
+  public Bool DEFAULT(true),
+
+  FOREIGN KEY (id_organisateur) REFERENCES utilisateur(id)
+  )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
 
