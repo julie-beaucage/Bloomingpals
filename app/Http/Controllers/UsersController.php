@@ -35,7 +35,7 @@ class UsersController extends Controller
             'firstname' => ['required', 'min:3', 'max:20'],
             'birthdate' => ['required', 'date', 'before:today'],
             'email' => ['required', 'email', 'max:100', Rule::unique('utilisateur', 'email')],
-            'genre' => ['required', 'in:femme,hommme,non-genre'],
+            'genre' => ['required', Rule::in(['homme', 'femme', 'non-genre'])],
             'password' => ['required', 'confirmed', 'min:6', 'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/']
         ], [
             'password.regex' => "Le mot de passe doit respecter les critères suivants : <br>- Au moins un caractère spécial <br>- Au moins une majuscule <br>- Au moins une minuscule <br>- Au moins un chiffre.",

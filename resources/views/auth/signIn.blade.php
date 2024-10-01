@@ -1,5 +1,9 @@
 @extends("master")
 
+@section("style")
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/login.css') }}">
+@endsection()
+
 @section("content")
     <div class="formContainerLogin">
         <header>
@@ -48,8 +52,8 @@
                 <!--<div class="entryarea entryarealogin">
                     <select class="inputSignup" id="genre" name="genre" required>
                         <option value="" disabled {{ old('genre') ? '' : 'selected' }}>Sélectionner un genre</option>
-                        <option value="femme" {{ old('genre') == 'femme' ? 'selected' : '' }}>Femme</option>
                         <option value="homme" {{ old('genre') == 'homme' ? 'selected' : '' }}>Homme</option>
+                        <option value="femme" {{ old('genre') == 'femme' ? 'selected' : '' }}>Femme</option>
                         <option value="non-genre" {{ old('genre') == 'non-genre' ? 'selected' : '' }}>Non-genre</option>
                     </select>
                 </div>
