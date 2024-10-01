@@ -7,11 +7,16 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
-use App\Models\User;
+//use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 
-class usersController extends Controller
+//temporaire
+use App\Models\Rencontre;
+use App\Models\demande_rencontre;
+use App\Models\utilisateur;
+
+class UsersController extends Controller
 {
 
     public function index()
@@ -42,7 +47,7 @@ class usersController extends Controller
         DB::beginTransaction(); 
 
         try {
-            DB::statement("CALL creerUsager(?, ?, ?, ?, ?,?)", [
+            DB::statement("CALL creerUsager(?, ?, ?, ?, ?)", [
                 $formFields['email'],
                 $formFields['lastname'],
                 $formFields['firstname'],
@@ -51,7 +56,7 @@ class usersController extends Controller
                 $formFields['genre']
             ]);
 
-            $user = User::where('email', $formFields['email'])->first();
+            $user = utilisateur::where('email', $formFields['email'])->first();
 
             if ($user) {
                 if (!$user->hasVerifiedEmail()) {
@@ -78,15 +83,32 @@ class usersController extends Controller
 
     public function login(Request $request)
     {
-        $data = array(
-            "email" => $request['email'],
-            "password" => $request['password']
-        );
+        $data = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
         if(auth()->attempt($data)) {
             $request->session()->regenerate();
-            return redirect('/profile')->with('message', 'Bienvenue sur BloomingPals, '.auth()->user()->prenom);
+
+            $meetupId = 1;
+            $meetupData = rencontre::where("id", $meetupId)->get()[0];
+            $meetupTags = rencontre::GetTags($meetupId);
+            $organisator = rencontre::GetOrganisator($meetupId);
+            $participants = rencontre::GetParticipants($meetupId);
+            $GetRequestMeetupCount = demande_rencontre::GetMeetupRequestsNotAnswerdCount($meetupId);
+
+            /** a faire: 
+             * -s'assurer que le client peut y accéder car il doit être amis si l'événement est priver
+             * -faire que le boutton pour rejoindre, modifier, ou quitter soit présent. */
+
+
+            return view("meetups.meetupPage", ['meetupData' => $meetupData, "meetupTagsData" => $meetupTags, 
+                "organisatorData" => $organisator, "participantsData" => $participants, 
+                "requestsParticipantsCount" => $GetRequestMeetupCount]);
+            //return redirect('/profile')->with('message', 'Bienvenue sur BloomingPals, '.auth()->user()->prenom);
         }
-        return back()->withErrors(['email'=>'Le courriel et le mot de passe ne correspondent pas'])->onlyInput('email');
+        dd("ça marche pas");
+        //return back()->withErrors(['email'=>'Le courriel et le mot de passe ne correspondent pas'])->onlyInput('email');
     }
 
     public function logout(Request $request){
@@ -146,19 +168,29 @@ class usersController extends Controller
             Log::error('Erreur lors de la mise à jour du profil : ' . $e->getMessage());
             return back()->withErrors(['error' => 'Erreur lors de la mise à jour du profil.']);
         }
-    }
-    
-    public function amis($id) {
-        $user = User::find($id);
-        return view('profile.amis', compact('user'));    }
+    }/*
+    public function upload_picture(Request $request){
+        if($request->hasfile("image")){
+            $filename = $request->image->getClientOriginalName();
+            $request->image->storeAs("image",$filename,"public");
+            Auth()->user()->update(["image"->$filename]);
+        }
+        return redirect()->back();
+    }*/
 
+    public function publications($id) {
+        $user = utilisateur::find($id);
+        return view('profile.publications', compact('user'));    
+    }
+    public function amis($id) {
+        $user = utilisateur::find($id);
+        return view('profile.amis', compact('user'));    
+    }
     public function personnalite($id) {
-        return view('profile.personnalite', ['user' => User::findOrFail($id)]);
+        return view('profile.personnalite', ['user' => utilisateur::findOrFail($id)]);
     }
 /*
     public function interets($id) {
-        return view('interets.interets', ['user' => User::findOrFail($id)]);
+        return view('profile.interets', ['user' => utilisateur::findOrFail($id)]);
     }*/
-    
-
 }
