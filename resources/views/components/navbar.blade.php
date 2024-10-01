@@ -23,6 +23,12 @@
                     'url' => route('profile', Auth::user()->id)
                 ],
                 [
+                    'id' => 'meetup',
+                    'title' => 'MeetUps',
+                    'icon' => 'groups',
+                    'url' => route('meetupForm')
+                ],
+                [
                     'id' => 'logout',
                     'title' => 'Déconnexion',
                     'icon' => 'logout',

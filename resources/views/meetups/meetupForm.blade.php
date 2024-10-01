@@ -1,12 +1,10 @@
 @extends("master")
-
-@section("content")
-
-    <!-- <x-meetupFormPop :actionCreate="$actionCreate" :data="$data" :errors="$errors" :listCities="$listCities"/> -->
-
-    @php
+@php
     $action = $actionCreate ? "/meetup/create" : "/meetup/edit/".$data['id'];
 @endphp
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+@section("content")
 
 <link rel="stylesheet" href="{{ asset('css/meetupForm.css') }}">
 <div class="meetup-container">
@@ -155,7 +153,7 @@
                             Il se peut que votre image soit redimensionnée
                         </div>
                 </div>
-                <div style="max-width:98%; margin:.5em;">       
+                <div style="max-width:98%; min-height:2em; margin:.5em;">       
             @if($data != null)
                 @if($data['temporaryImage'] != ' ')
                     <img class="img-preview" src="{{asset($data['temporaryImage'])}}">
@@ -193,15 +191,18 @@
 
             <button type="submit"
                 class="btn btn-pink">{{$actionCreate ? "Crée le MeetUp" : "Modifier le MeetUp"}}</button>
-            <a class="btn btn-secondary" style="color:white;">Retour</a>
+            <a class="btn btn-secondary" style="color:white !important;">Retour</a>
 
         </div>
     </form>
-    <br><br><br>
 </div>
 @endsection()
 
-@section("scripts")
+  
+
+
+
+@section("script")
 <script>
     $('#city-dropdown-content').hide();
     let selectedOption = null;

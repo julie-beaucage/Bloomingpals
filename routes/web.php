@@ -46,11 +46,17 @@ Route::put('/interets/update_Interets/{id}', [InterestsController::class, 'updat
 //Route::put('/interets/update/{id}', [InterestsController::class, 'updateInterets'])->name('interests.update');
 
 // Meetup
-Route::get('/meetupForm', [MeetupController::class, 'Form']);
-Route::get('/meetupForm', [MeetupController::class, 'Form']);
+Route::get('/meetupForm', [MeetupController::class, 'Form'])->name('meetupForm');
 Route::get('/meetupForm/{id}', [MeetupController::class, 'Form']);
 Route::post('/meetup/create', [MeetupController::class, 'create']);
 Route::post('/meetup/edit/{id}', [MeetupController::class, 'edit']);
+
+
+Route::get('/meetup/page/{meetupId}', [MeetupController::class, 'MeetupPage'])->name('meetupPage');
+Route::get('/meetup/page/join/{meetupId}', [MeetupController::class, 'JoinMeetup'])->name('joinMeetup');
+Route::get('/meetup/page/leave/{meetupId}', [MeetupController::class, 'LeaveMeetup'])->name('leaveMeetup');
+
+Route::get('/meetup/page/removeParticipant/{meetupId}/{userId}', [MeetupController::class, 'RemoveParticipant'])->name("removeParticipant");
 
 // Event
 Route::get('/event/{id}', [EventController::class, 'event'])->name('event');

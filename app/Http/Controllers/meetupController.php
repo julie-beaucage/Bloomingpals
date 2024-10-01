@@ -8,12 +8,15 @@ use Auth;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use App\Models\demande_rencontre;
+use App\Models\rencontre_utlisateur;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
+use Route;
 
 class MeetupController extends BaseController
 {
@@ -130,6 +133,7 @@ class MeetupController extends BaseController
                 ]);
             }
             Artisan::call('storage:link'); // update les symLinks
+            return redirect('/search');
         }
     }
     public function edit($id = null, Request $req)
@@ -265,6 +269,106 @@ class MeetupController extends BaseController
     {
         $cities = cities::orderBy('city_ascii', 'ASC')->get();
         return $cities;
+    }
+    public function LeaveMeetup($meetupId) {
+        $meetupData = rencontre::where("id", $meetupId)->get()[0];
+        rencontre_utlisateur::DeleteParticipant(Auth::user()->id, $meetupId);
+        
+        return $this->MeetupPage($meetupId);
+    }
+    public function ModifyMeetup($newMeetupData) {
+        $meetupData = rencontre::where("id", $newMeetupData->id)->get()[0];
+
+        $meetupData::update([
+            "nom" => $newMeetupData->nom, 
+            "description" => $newMeetupData->description,
+            "adresse" => $newMeetupData->adresse,
+            "date" => $newMeetupData->date,
+            "nb_participant" => $newMeetupData->nb_participant,
+            "image" => $newMeetupData->image,
+            "public" => $newMeetupData->public]);
+    }
+    public function JoinMeetup($meetupId) {
+        $userId = Auth::user()->id;
+        /*join if public*/
+        $meetupData = rencontre::where("id", $meetupId)->get()[0];
+        if ($meetupData->public) {
+            if (!rencontre_utlisateur::IsInRencontre($meetupId, $userId)) {
+                rencontre_utlisateur::AddParticipant($userId, $meetupId);
+                return $this->MeetupPage($meetupId);
+            } else {
+                return $this->MeetupPage($meetupId);
+            }
+        }
+    }
+    public function MeetupPage($meetupId) {
+
+
+        $meetupData = rencontre::where("id", $meetupId)->get()[0];
+        $meetupTags = rencontre::GetTags($meetupId);
+        $organisator = rencontre::GetOrganisator($meetupId);
+        $participants = rencontre::GetParticipants($meetupId);
+        $GetRequestMeetupCount = demande_rencontre::GetMeetupRequestsNotAnswerdCount($meetupId);
+
+        /** a faire: 
+         * -s'assurer que le client peut y accéder car il doit être amis si l'événement est priver
+         * -faire que le boutton pour rejoindre, modifier, ou quitter soit présent. */
+
+
+        return view("meetups.meetupPage", ['meetupData' => $meetupData, "meetupTagsData" => $meetupTags, 
+            "organisatorData" => $organisator, "participantsData" => $participants, 
+            "requestsParticipantsCount" => $GetRequestMeetupCount]);
+    }
+
+    public function MeetupRequests($meetupId) {
+        $organisator = rencontre::GetOrganisator($meetupId);
+        if (Auth::user()->id != $organisator->id) {
+            return view("deniedAccess.pageNotFound");
+        }
+
+        $meetupData = rencontre::where("id", $meetupId)->get()[0];
+        $requests = demande_rencontre::GetMeetupRequestsNotAnswerd($meetupId);
+
+        return view("meetups.meetupRequests", ["meetupData" => $meetupData, "organisatorData" => $organisator, "requestsData" => $requests]);
+    }
+
+    public function AcceptRequest($meetupId, $userId) {
+        $organisator = rencontre::GetOrganisator($meetupId);
+        if (Auth::user()->id != $organisator->id) {
+            return view("deniedAccess.pageNotFound");
+        }
+        if (!demande_rencontre::IsInRequest($userId, $meetupId)) {
+            return view("deniedAccess.pageNotFound");
+        }
+
+        rencontre_utlisateur::AddParticipant($userId, $meetupId);
+        demande_rencontre::AcceptMeetupRequest($userId, $meetupId);
+
+        return $this->MeetupRequests($meetupId);
+    }
+
+    public function DenyRequest($meetupId, $userId) {
+        $organisator = rencontre::GetOrganisator($meetupId);
+        if (Auth::user()->id != $organisator->id) {
+            return view("deniedAccess.pageNotFound");
+        }
+        if (!demande_rencontre::IsInRequest($userId, $meetupId)) {
+            return view("deniedAccess.pageNotFound");
+        }
+
+        demande_rencontre::DenyMeetupRequest($userId, $meetupId);
+
+        return $this->MeetupRequests($meetupId);
+    }
+
+    public function RemoveParticipant($meetupId, $userId) {
+        $organisator = rencontre::GetOrganisator($meetupId);
+        if (Auth::user()->id != $organisator->id) {
+            return view("deniedAccess.pageNotFound");
+        }
+        rencontre_utlisateur::DeleteParticipant($userId, $meetupId);
+
+        return redirect()->back();
     }
 
 }
