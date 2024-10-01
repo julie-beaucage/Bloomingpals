@@ -18,9 +18,15 @@ class InterestsController extends Controller
         $categories = CategorieInteret::all(); 
         $interets = Interet::all(); 
         $interetsUtilisateur = utilisateur_interet::getInteretsParUtilisateur($id); 
+        //$interetsUtilisateurTab = DB::table('utilisateur_interet')
+        //->where('id_utilisateur', $id)
+        //->pluck('id_interet')
+        //->toArray();
+        $interetsUtilisateurTab=utilisateur_interet::getInteretsParUtilisateurTab($id); 
         Log::info('Intérêts de l\'utilisateur ID ' . $id . ': ', $interetsUtilisateur->toArray());
+       // Log::info('Intérêts de l\'utilisateur ID TAB ' . $id . ': ', $interetsUtilisateurTab);
 
-        return view('interets.interets', compact('categories', 'interets', 'interetsUtilisateur'));
+        return view('interets.interets', compact('categories', 'interets', 'interetsUtilisateur','interetsUtilisateurTab'));
     }
     
     public function update_Interets($id, Request $request)

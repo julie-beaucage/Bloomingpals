@@ -20,5 +20,12 @@ class utilisateur_interet extends Model
             ->select('utilisateur_interet.id_interet', 'interet.nomInteret', 'categorie_interet.idCategorie', 'categorie_interet.nomCategorie')
             ->get();
     }
+    public static function getInteretsParUtilisateurTab($userId)
+{
+    return DB::table('utilisateur_interet')
+        ->where('utilisateur_interet.id_utilisateur', $userId)
+        ->pluck('id_interet') 
+        ->toArray(); 
+}
     
 }
