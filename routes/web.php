@@ -42,7 +42,6 @@ Route::get('profile/personnalite/{id}', [UsersController::class, 'personnalite']
 
 //INTERET
 Route::get('interets/interets/{id}', [InterestsController::class, 'interets'])->name('interets.interets');
-Route::get('/interets/modifier_interet_form', [InterestsController::class, 'modifier_interet_form'])->name('interets.interetEdit');
 Route::put('/interets/update_Interets/{id}', [InterestsController::class, 'update_Interets'])->middleware('auth')->name('interets.update_Interets');
 
 // Meetup

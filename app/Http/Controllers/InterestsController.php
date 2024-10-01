@@ -18,14 +18,7 @@ class InterestsController extends Controller
         $categories = CategorieInteret::all(); 
         $interets = Interet::all(); 
         $interetsUtilisateur = utilisateur_interet::getInteretsParUtilisateur($id); 
-        //$interetsUtilisateurTab = DB::table('utilisateur_interet')
-        //->where('id_utilisateur', $id)
-        //->pluck('id_interet')
-        //->toArray();
         $interetsUtilisateurTab=utilisateur_interet::getInteretsParUtilisateurTab($id); 
-        Log::info('Intérêts de l\'utilisateur ID ' . $id . ': ', $interetsUtilisateur->toArray());
-       // Log::info('Intérêts de l\'utilisateur ID TAB ' . $id . ': ', $interetsUtilisateurTab);
-
         return view('interets.interets', compact('categories', 'interets', 'interetsUtilisateur','interetsUtilisateurTab'));
     }
     
@@ -40,26 +33,4 @@ class InterestsController extends Controller
         return redirect()->back()->with('error', 'Aucun intérêt sélectionné.');
 
     }
-    public function modifier_interet_form()
-    {
-        Log::info('Le bouton Modifier a été cliqué.');
-
-        $interets = DB::table('interet')
-            ->join('categorie_interet', 'interet.id_categorie', '=', 'categorie_interet.idCategorie')
-            ->select('interet.idInteret AS interet_id', 'interet.nomInteret AS interet_nom', 'categorie_interet.idCategorie AS id_categorie', 'categorie_interet.nomCategorie AS categorie_nom') 
-            ->orderBy('categorie_interet.nomCategorie')
-            ->get();
-
-        $userId = Auth::id();
-        Log::info($userId);
-        $categories = CategorieInteret::all();
-
-        $interetsUtilisateur = DB::table('utilisateur_interet')
-            ->where('id_utilisateur', $userId)
-            ->pluck('id_interet')
-            ->toArray();
-
-        return view('interets/interetEdit', compact('interets', 'interetsUtilisateur', 'categories'));
-    }
-
 }
