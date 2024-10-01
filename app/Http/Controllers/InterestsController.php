@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use Auth;
 use App\Models\CategorieInteret;
+use App\Models\utilisateur_interet;
 use App\Models\Interet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -14,50 +15,33 @@ class InterestsController extends Controller
 {
     public function interets($id)
     {
-        $categories = CategorieInteret::all();
-        $interets = Interet::all();
+        $categories = CategorieInteret::all(); 
+        $interets = Interet::all(); 
+        $interetsUtilisateur = utilisateur_interet::getInteretsParUtilisateur($id); 
+        Log::info('Intérêts de l\'utilisateur ID ' . $id . ': ', $interetsUtilisateur->toArray());
 
-        //$interetsUtilisateur = Interet::join('utilisateur_interet', 'interet.id', '=', 'utilisateur_interet.id_interet')
-            //->where('utilisateur_interet.id_utilisateur', $id)
-            //->select('interet.*')
-            //->get();
-
-            $interetsUtilisateur = DB::table('utilisateur_interet')
-            ->where('id_utilisateur', $id)
-            ->pluck('id_interet');
-            Log::info('Intérêts de l\'utilisateur récupérés', [
-                'user_id' => $id,
-                'interets_utilisateur' => $interetsUtilisateur,
-            ]);
-    
-            Log::info('Tous les intérêts disponibles', [
-                'interets' => $interets->pluck('nom'), // Vous pouvez enregistrer les noms des intérêts
-            ]);
-            Log::info('Tous les categories disponibles', [
-                'categories' => $categories->pluck('nom'), // Vous pouvez enregistrer les noms des intérêts
-            ]);
-    
-        return view('interets.interets', [
-            'categories' => $categories,
-            'interetsUtilisateur' => $interetsUtilisateur,
-            'interets' => $interets,
-            'userId' => $id
-        ]);
+        return view('interets.interets', compact('categories', 'interets', 'interetsUtilisateur'));
     }
-
+    
     public function update_Interets($id, Request $request)
     {
         $selectedInterets = $request->input('interets');
-        DB::statement("CALL ajouterInterets(?, ?)", [$id, $selectedInterets]);
-        return redirect()->back()->with('success', 'Vos intérêts ont été mis à jour avec succès.');
+        if ($selectedInterets) {
+            DB::statement("CALL ajouterInterets(?, ?)", [$id, $selectedInterets]);
+            return redirect()->back()->with('success', 'Vos intérêts ont été mis à jour avec succès.');
+        }
+    
+        return redirect()->back()->with('error', 'Aucun intérêt sélectionné.');
+
     }
     public function modifier_interet_form()
     {
         Log::info('Le bouton Modifier a été cliqué.');
+
         $interets = DB::table('interet')
-            ->join('categorie_interet', 'interet.id_categorie', '=', 'categorie_interet.id')
-            ->select('interet.id AS interet_id', 'interet.nom AS interet_nom', 'categorie_interet.id AS id_categorie', 'categorie_interet.nom AS categorie_nom') 
-            ->orderBy('categorie_interet.nom')
+            ->join('categorie_interet', 'interet.id_categorie', '=', 'categorie_interet.idCategorie')
+            ->select('interet.idInteret AS interet_id', 'interet.nomInteret AS interet_nom', 'categorie_interet.idCategorie AS id_categorie', 'categorie_interet.nomCategorie AS categorie_nom') 
+            ->orderBy('categorie_interet.nomCategorie')
             ->get();
 
         $userId = Auth::id();

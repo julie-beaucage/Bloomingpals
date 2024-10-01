@@ -8,14 +8,14 @@ class CategorieInteret extends Model
 {
     use HasFactory;
     protected $table = 'categorie_interet';
-    protected $primaryKey = 'id'; 
+    protected $primaryKey = 'idCategorie'; 
     public function interets()
     {
         return $this->hasMany(Interet::class, 'id_categorie');
     }
     public static function getCategoryName($categoryId)
     {
-        return self::where('id', $categoryId)->value('nomCategorie');
+        return self::where('idCategorie', $categoryId)->value('nomCategorie');
     }
 
 }

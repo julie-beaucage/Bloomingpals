@@ -12,7 +12,7 @@ class Interet extends Model
 {
     use HasFactory, Notifiable;
     protected $table = 'interet';
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'idInteret';
     public function categorie()
     {
         return $this->belongsTo(CategorieInteret::class, 'id_categorie'); // Utilisez le modèle approprié
