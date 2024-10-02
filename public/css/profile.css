@@ -72,6 +72,7 @@ body {
        object-fit: cover;
     box-shadow: 0px 0.25em 0.375em rgba(0, 0, 0, 0.1);
     Top: -5em;
+    aspect-ratio: 1 / 1;
 }
 
 .modifImage {
