@@ -94,8 +94,9 @@ class MeetupController extends BaseController
         $public = $req->prive == null ? true : false;
         if ($errors['error'] == true) {
 
-
+           
             if ($req->file('image') != null) {
+                
                 $path = $req->file('image')->store('public/tempo\images');
                 $path =str_replace('public/','','storage/' . $path);
             } else {
@@ -237,17 +238,18 @@ class MeetupController extends BaseController
     public function delete($id){
         $rencontre = rencontre::where('id', $id)->first();
         if($rencontre != null){
-
-            if (File::exists($rencontre->image)) {
-                File::delete($rencontre->image);
-            }
-
             if(Auth::user()->id == $rencontre->id_organisateur){
+                
+                if (File::exists($rencontre->image)) {
+                    File::delete($rencontre->image);
+                }
+
                 DB::statement("Call effacerRencontre(?)", [
                     $id
                 ]);
             }
 
+            
         }else {
             abort(404);
         }
