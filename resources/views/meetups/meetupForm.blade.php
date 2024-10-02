@@ -192,6 +192,9 @@
             <button type="submit"
                 class="btn btn-pink">{{$actionCreate ? "Crée le MeetUp" : "Modifier le MeetUp"}}</button>
             <a class="btn btn-secondary" style="color:white !important;" onclick="window.history.go(-1);">Retour</a>
+            @if($actionCreate != "/meetup/create" )
+            <button type="button" class="btn btn-danger" onclick="window.location.href='/meetup/delete/{{$data['id']}}';">Effacer la rencontre</button>
+            @endif
 
         </div>
     </form>

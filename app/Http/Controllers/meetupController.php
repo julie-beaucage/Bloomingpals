@@ -229,6 +229,25 @@ class MeetupController extends BaseController
             }
         }
     }
+    public function delete($id){
+        $rencontre = rencontre::where('id', $id)->first();
+        if($rencontre != null){
+
+            if (File::exists($rencontre->image)) {
+                File::delete($rencontre->image);
+            }
+
+            if(Auth::user()->id == $rencontre->id_organisateur){
+                DB::statement("Call effacerRencontre(?)", [
+                    $id
+                ]);
+            }
+
+        }else {
+            abort(404);
+        }
+        return $this->index();
+    }
     private static function getErrorsArray()
     {
         $errors = [
