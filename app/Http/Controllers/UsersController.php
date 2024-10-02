@@ -11,18 +11,13 @@ use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 
-class usersController extends Controller
+class UsersController extends Controller
 {
-
-    public function index()
-    {
-        return view('auth.index');
-    }
-
     public function registerForm()
     {
         return view('auth.signIn');
     }
+
     public function create(Request $request)
     {
         $formFields = $request->validate([
@@ -104,7 +99,8 @@ class usersController extends Controller
         );
         if(auth()->attempt($data)) {
             $request->session()->regenerate();
-            return redirect('/profile')->with('message', 'Bienvenue sur BloomingPals, '.auth()->user()->prenom);
+            $id = auth()->user()->id;
+            return redirect('/profile/'.$id)->with('message', 'Bienvenue sur BloomingPals, '.auth()->user()->prenom);
         }
         return back()->withErrors(['email'=>'Le courriel et le mot de passe ne correspondent pas'])->onlyInput('email');
     }
@@ -115,14 +111,16 @@ class usersController extends Controller
         $request->session()->regenerateToken();
         return redirect('/login');
     }
-    public function profile() {
-        $user = Auth::user();
+
+    public function profile($id) {
+        $user = User::find($id);
         if (!$user) {
             return redirect()->route('/login')->with('error', 'Utilisateur non trouvé.');
         }
         return view('profile.profile', compact('user'));
 
     }
+
     public function update(Request $request)
     {
         $formFields = $request->validate([
@@ -161,7 +159,7 @@ class usersController extends Controller
                 $formFields['genre']
             ]);
             DB::commit();
-            return redirect()->route('profile')->with('success', 'Profil mis à jour avec succès!');
+            return redirect()->route('profile', ['id' => $user->id])->with('success', 'Profil mis à jour avec succès!');
         } catch (QueryException $e) {
             DB::rollBack();
             Log::error('Erreur lors de la mise à jour du profil : ' . $e->getMessage());
@@ -177,6 +175,4 @@ class usersController extends Controller
     public function personnalite($id) {
         return view('profile.personnalite', ['user' => User::findOrFail($id)]);
     }
-  
-
 }

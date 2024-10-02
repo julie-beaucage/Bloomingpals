@@ -18,14 +18,14 @@
 @endphp
 
 @section('content')
-    <div class="background_cntr">
+    <div class="background_cntr no_select">
         <div id="background_color"></div>
-        <img id="background_img" src="{{ $event['image'] }}" alt="Bannière de l'événement" crossOrigin="anonymous">
+        <img id="background_img" src="{{ $event['image'] }}" alt="Bannière de l'événement" crossorigin="anonymous">
     </div>
 
     <div id="event_cntr">
         <div class="banner">
-            <img id="banner_img" src="{{ $event['image'] }}" alt="Bannière de l'événement" crossOrigin="anonymous">
+            <img id="banner_img" src="{{ $event['image'] }}" alt="Bannière de l'événement" crossorigin="anonymous">
         </div>
 
         <div class="container">
@@ -113,7 +113,6 @@
             color.style.background = 'rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ')';
         });
 
-
         function getAverageRGB(img) {
             var blockSize = 5, // only visit every 5 pixels
             defaultRGB = {
@@ -137,7 +136,6 @@
             width = canvas.width = img.naturalWidth || img.offsetWidth || img.width;
 
             context.drawImage(img, 0, 0);
-            data = context.getImageData(0, 0, width, height);
 
             try {
                 data = context.getImageData(0, height-5, width, 1);

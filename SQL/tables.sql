@@ -2,6 +2,9 @@
 Create DATABASE IF NOT EXISTS `BloomingPals`  DEFAULT CHARACTER SET utf8mb4;
 USE BloomingPals;
 
+DROP TABLE IF EXISTS utilisateur_interet;
+DROP TABLE IF EXISTS interet;
+DROP TABLE IF EXISTS categorie_interet;
 DROP TABLE IF EXISTS historique_recherche;
 DROP TABLE IF EXISTS message;
 DROP TABLE IF EXISTS clavardage_utilisateur;
@@ -42,8 +45,8 @@ CREATE TABLE IF NOT EXISTS utilisateur (
     nom VARCHAR(50) NOT NULL,
     date_naissance DATE NOT NULL,
     type_personnalite INT DEFAULT 0 NOT NULL,
-    image_profil BLOB,
-    background_image VARCHAR(255), 
+    image_profil VARCHAR(2048),
+    background_image VARCHAR(2048), 
     genre ENUM('homme', 'femme', 'non-genre') NOT NULL,
     password CHAR(128) NOT NULL,
     email_verified_at TIMESTAMP NULL DEFAULT NULL,
@@ -275,4 +278,30 @@ CREATE TABLE IF NOT EXISTS signalement(
     FOREIGN KEY (id_type_objet) REFERENCES type_objet(id)
 )
 ENGINE = InnoDB;
+-- -----------------------------------------------------
+
+-- Categorie_Interet -----------------------------------
+CREATE TABLE IF NOT EXISTS categorie_interet (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nom VARCHAR(50) NOT NULL UNIQUE
+) ENGINE=InnoDB;
+-- -----------------------------------------------------
+
+-- Interet ---------------------------------------------
+CREATE TABLE IF NOT EXISTS interet (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nom VARCHAR(50) NOT NULL UNIQUE,
+    id_categorie INT,
+    FOREIGN KEY (id_categorie) REFERENCES categorie_interet(id)
+) ENGINE=InnoDB;
+-- -----------------------------------------------------
+
+-- Utilisateur_interet ---------------------------------
+CREATE TABLE IF NOT EXISTS utilisateur_interet (
+    id_utilisateur INT,
+    id_interet INT,
+    PRIMARY KEY (id_utilisateur, id_interet),
+    FOREIGN KEY (id_utilisateur) REFERENCES utilisateur(id),
+    FOREIGN KEY (id_interet) REFERENCES interet(id)
+) ENGINE=InnoDB;
 -- -----------------------------------------------------

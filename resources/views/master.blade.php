@@ -21,6 +21,7 @@
             <x-footer />
         </div>
     </div>
+
     @include("bundles.scriptsBundle")
     @yield("script", "")
 </body>

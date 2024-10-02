@@ -20,7 +20,7 @@
                     'id' => 'profile',
                     'title' => 'Profile',
                     'icon' => 'account_circle',
-                    'url' => route('profile', Auth::user()->id)
+                    'url' => route('profile', ['id' => Auth::user()->id])
                 ],
                 [
                     'id' => 'meetup',

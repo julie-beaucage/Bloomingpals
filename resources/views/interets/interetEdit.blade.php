@@ -1,21 +1,31 @@
-<div class="interet-overlay" id="overlay" style="display: none;">
-        <div class="interet-modal">
-            <h3 class="titreModalInteret">Modifier vos intérêts :</h3>
-            <button class="close-button-interet"
-                onclick="window.location.href='{{ route('profile', Auth::user()->id) }}'">&times;</button>
-            <form action="{{ route('interets.update_Interets', Auth::user()->id) }}" method="POST" id="interetForm">
-                @csrf
-                @method('PUT')
+<!doctype html>
+<html>
 
-                @if (!empty($categories))
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ asset('css/interets.css') }}">
+    <title>@yield("title", "Modifier les intérêts")</title>
+</head>
+
+<body>
+    <div class="interet-overlay">
+        <div class="interet-modal">
+            <h1>Modifier vos intérêts :</h1>
+            <button class="close-button" onclick="window.location.href='{{ route('interets.interets', Auth::user()->id) }}'">&times;</button>
+
+            <form action="{{ route('interets.update_Interets') }}" method="POST" id="interetForm">
+            @csrf 
+                @method('PUT') 
+                @if (!empty($categories)) 
                     @foreach ($categories as $categorie)
                         <div class="interet-categorie-div">
-                            <h3>{{ $categorie->nomCategorie }}</h3>
+                            <h3>{{ $categorie->nom }}</h3> 
                             @foreach ($interets as $interet)
-                                @if ($interet->id_categorie == $categorie->idCategorie)
-                                <div class="interet-tag interet-{{ strtolower($categorie->nomCategorie) }} {{ in_array($interet->idInteret, $interetsUtilisateurTab) ? 'interet-selected' : '' }}" 
-                                data-id="{{ $interet->idInteret }}">
-                                        {{ $interet->nomInteret }}
+                                @if ($interet->id_categorie == $categorie->id) 
+                                    <div class="interet-tag {{ in_array($interet->id, $interetsUtilisateur) ? 'interet-selected' : '' }}" 
+                                         data-id="{{ $interet->id }}">
+                                        {{ $interet->nom }}
                                     </div>
                                 @endif
                             @endforeach
@@ -24,10 +34,30 @@
                 @else
                     <p>Aucune catégorie trouvée.</p>
                 @endif
-                <input type="hidden" name="interets" id="interetSelectedInterets" value="{{ implode(',', $interetsUtilisateurTab) }}"> 
-                <button type="submit" class="interet-btn-submit">Sauvegarder les changements</button>
-                <button type="button" class="interet-btn-annuler" onclick="window.location.href='{{ route('profile', Auth::user()->id) }}'">Annuler</button>
 
+                <input type="hidden" name="interets" id="interetSelectedInterets" value="{{ implode(',', $interetsUtilisateur) }}"> 
+
+                <button type="submit" class="interet-btn-primary">Sauvegarder les changements</button>
             </form>
         </div>
     </div>
+
+    <script>
+        const interetTags = document.querySelectorAll('.interet-tag');
+        const interetSelectedInteretsInput = document.getElementById('interetSelectedInterets');
+        console.log("Bouton Modifier cliqué.");
+        interetTags.forEach(tag => {
+            tag.addEventListener('click', () => {
+                tag.classList.toggle('interet-selected'); 
+                updateSelectedInterets(); 
+            });
+        });
+
+        function updateSelectedInterets() {
+            const selectedIds = Array.from(document.querySelectorAll('.interet-tag.interet-selected'))
+                                     .map(tag => tag.getAttribute('data-id'));
+            interetSelectedInteretsInput.value = selectedIds.join(','); 
+        }
+    </script>
+</body>
+</html>

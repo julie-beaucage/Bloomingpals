@@ -3,7 +3,7 @@ USE BloomingPals;
 -- Utilisateur ------------------------------------------------
 DROP PROCEDURE IF EXISTS creerUsager;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `creerUsager`(
+CREATE DEFINER=`root`@`localhost` PROCEDURE creerUsager(
     IN p_courriel VARCHAR(255),
     IN p_nom VARCHAR(50),
     IN p_prenom VARCHAR(50),
@@ -27,13 +27,13 @@ END
 
 DROP PROCEDURE IF EXISTS updateUserProfile;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `updateUserProfile`(IN p_user_id INT,
+CREATE DEFINER=`root`@`localhost` PROCEDURE updateUserProfile(IN p_user_id INT,
      IN p_prenom VARCHAR(50), 
      IN p_nom VARCHAR(50), 
      IN p_image_profil VARCHAR(500), 
      IN p_background_image VARCHAR(500), 
      IN p_sexe ENUM('homme', 'femme', 'non-genre')
-     )
+)
 BEGIN
     UPDATE utilisateur
     SET 
@@ -43,7 +43,36 @@ BEGIN
         background_image = p_background_image,
         genre = p_sexe
     WHERE id = p_user_id;
-END
+END;
+// DELIMITER ;
+-- -----------------------------------------------------
+
+-- Interets --------------------------------------------
+DROP PROCEDURE IF EXISTS ajouterInterets;
+DELIMITER //
+CREATE DEFINER=`root`@`localhost` PROCEDURE ajouterInterets(
+    IN utilisateurId INT,
+    IN interetsParam VARCHAR(255)
+)
+BEGIN
+    DECLARE interetId INT;
+    DECLARE interetList TEXT;
+
+    -- Supprimer les intérêts existants pour l'utilisateur
+    DELETE FROM utilisateur_interet WHERE id_utilisateur = utilisateurId;
+
+    SET interetList = interetsParam;
+
+    WHILE LENGTH(interetList) > 0 DO
+        SET interetId = SUBSTRING_INDEX(interetList, ',', 1);
+        IF interetId <> '' THEN
+            -- Insérer l'intérêt
+            INSERT INTO utilisateur_interet (id_utilisateur, id_interet) VALUES (utilisateurId, interetId);
+        END IF;
+
+        SET interetList = SUBSTRING(interetList, LENGTH(interetId) + 2);
+    END WHILE;
+END;
 // DELIMITER ;
 -- -----------------------------------------------------
 
@@ -86,6 +115,7 @@ END;
 
 -- Ineret ------------------------------------------------
 DROP PROCEDURE IF EXISTS ajouterInterets;
+DELIMITER //
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ajouterInterets`(
     IN utilisateurId INT,
     IN interetsParam VARCHAR(1000)
@@ -106,12 +136,13 @@ BEGIN
 
         SET interetList = SUBSTRING(interetList, LENGTH(interetId) + 2);
     END WHILE;
-END
+END;
+// DELIMITER ;
 -- -----------------------------------------------------
 
+
+-- Rencontre -------------------------------------------
 DROP PROCEDURE IF EXISTS creerRencontre;
-
-
 DELIMITER //
 CREATE PROCEDURE creerRencontre( _nom varchar(100), _description varchar(4096), _id_organisateur INT, _adresse Varchar(100), _ville Varchar(100), _date DATETIME ,_nb_participant INT, _image varchar(1024), _public Bool)
 BEGIN
@@ -156,3 +187,4 @@ BEGIN
 	
 END;
 // DELIMITER ;
+-- -----------------------------------------------------
