@@ -115,6 +115,7 @@ END;
 
 -- Ineret ------------------------------------------------
 DROP PROCEDURE IF EXISTS ajouterInterets;
+DELIMITER //
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ajouterInterets`(
     IN utilisateurId INT,
     IN interetsParam VARCHAR(1000)
@@ -135,5 +136,6 @@ BEGIN
 
         SET interetList = SUBSTRING(interetList, LENGTH(interetId) + 2);
     END WHILE;
-END
+END;
+// DELIMITER ;
 -- -----------------------------------------------------
