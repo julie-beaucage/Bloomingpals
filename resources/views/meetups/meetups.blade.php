@@ -13,13 +13,14 @@ setlocale(LC_ALL, 'fr_FR');
 <div class="container-meetups">
 
     @foreach ($meetups as $meetup)
+    @if(!(Auth::user()->id != $meetup->id_organisateur and $meetup->public ==0 ))
         <div class="container-meetup" id="{{$meetup->id}}">
             <div>
                 @if($meetup->image != null)
                 <img class="image" src="{{$meetup->image}}">
                 @else
                 @php
-                $default_images=rand(0,2);
+                $default_images=rand(1,3);
                 $image='\images\meetup_default'.$default_images.'.png'; 
                 @endphp
                 <img class="image" src="{{$image}}">
@@ -52,6 +53,7 @@ setlocale(LC_ALL, 'fr_FR');
             
 
         </div>
+        @endif
         @php
         $index+=1;
         @endphp

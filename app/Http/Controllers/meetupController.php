@@ -251,7 +251,7 @@ class MeetupController extends BaseController
         }else {
             abort(404);
         }
-        return $this->index();
+        return redirect('/meetup');
     }
     private static function getErrorsArray()
     {
