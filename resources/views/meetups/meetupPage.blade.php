@@ -101,7 +101,7 @@
         }
     }
 
-    $imageUser = $currentUser->image_profil ? asset('storage/' . $currentUser->image_profil) : asset('/images/simple_flower.png');
+    $imageUser = $organisatorData->image_profil ? asset('storage/' . $organisatorData->image_profil) : asset('/images/simple_flower.png');
     /*Get organisator image*/
     $imageUtilisateurHtml = <<<HTML
         <div class="profile_icon no_select" style="background-image: url($imageUser)">
