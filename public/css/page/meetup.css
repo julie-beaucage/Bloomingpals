@@ -128,3 +128,11 @@
 .blueText {
     color:rgb(78, 143, 255);
 }
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: calc(100% - 5em);
+    margin: 1em 2.5em 0 2.5em;
+}

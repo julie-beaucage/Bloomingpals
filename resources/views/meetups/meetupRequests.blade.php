@@ -49,7 +49,7 @@
         $returnRouting = route("meetupPage", ["meetupId" => $meetupData->id]);
 
         $html = <<<HTML
-            <div>
+            <div class="row">
                 <div class="ibMax">
                     <a href="{$returnRouting}">     
                         <div class="respondButton">
