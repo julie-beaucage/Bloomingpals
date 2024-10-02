@@ -8,16 +8,16 @@
 @include('profile.edit-profile-modal')
 
 @section('content')
+<div id="background_cntr" class="no_select">
+    <div id="background_color"></div>
+    <img id="background_img" src="{{ Auth::user()->background_image ? asset('storage/' . Auth::user()->background_image) : asset('/images/R.jpg') }}"
+        alt="Bannière du profile">
+</div>
 <div id="profile_cntr">
-    <div id="background_cntr no_select">
-        <div id="background_color"></div>
-        <img id="background_img" src="{{ Auth::user()->background_image ? asset('storage/' . Auth::user()->background_image) : asset('/images/R.jpg') }}"
-            alt="Bannière du profile">
-    </div>
     <div id="info_cntr">
         <div class="profile-picture no_select">
             <img src="{{ Auth::user()->image_profile ? asset('storage/' . Auth::user()->image_profile) : asset('/images/simple_flower.png') }}"
-                alt="" />
+                alt="Photo de profil">
         </div>
 
         <h1 id="profile_name">{{ Auth::user()->prenom }} {{ Auth::user()->nom }}</h1>
@@ -66,6 +66,11 @@
         var color = document.getElementById("background_color");
         document.body.style.background = 'rgb(0,0,0)';
 
+        img.onload = function() {
+            var rgb = getAverageRGB(img);
+            color.style.background = 'rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ')';
+        }
+
         // get average color and set
         var rgb = getAverageRGB(img);
         color.style.background = 'rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ')';
@@ -94,7 +99,6 @@
         width = canvas.width = img.naturalWidth || img.offsetWidth || img.width;
 
         context.drawImage(img, 0, 0);
-        data = context.getImageData(0, 0, width, height);
 
         try {
             data = context.getImageData(0, height-5, width, 1);
@@ -104,7 +108,6 @@
         }
 
         length = data.data.length;
-
         while ( (i += blockSize * 4) < length ) {
             ++count;
             rgb.r += Math.pow(data.data[i], 2.2);

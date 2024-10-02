@@ -24,12 +24,8 @@ class InterestsController extends Controller
     public function update_Interets(Request $request)
     {
         $selectedInterets = $request->input('interets');
-        if ($selectedInterets) {
-            DB::statement("CALL ajouterInterets(?, ?)", [Auth::user()->id, $selectedInterets]);
-            return redirect()->back()->with('success', 'Vos intérêts ont été mis à jour avec succès.');
-        }
     
-        return redirect()->back()->with('error', 'Aucun intérêt sélectionné.');
-
+        DB::statement("CALL ajouterInterets(?, ?)", [Auth::user()->id, $selectedInterets]);
+        return redirect()->back()->with('success', 'Vos intérêts ont été mis à jour avec succès.');
     }
 }

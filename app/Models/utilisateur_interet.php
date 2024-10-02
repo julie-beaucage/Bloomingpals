@@ -17,7 +17,7 @@ class utilisateur_interet extends Model
             ->join('interet', 'utilisateur_interet.id_interet', '=', 'interet.id')
             ->join('categorie_interet', 'interet.id_categorie', '=', 'categorie_interet.id')
             ->where('utilisateur_interet.id_utilisateur', $userId)
-            ->select('utilisateur_interet.id_interet', 'interet.nom', 'categorie_interet.id', 'categorie_interet.nom')
+            ->select('utilisateur_interet.id_interet', 'interet.nom', 'categorie_interet.id', 'categorie_interet.nom as categorie')
             ->get();
     }
     public static function getInteretsParUtilisateurTab($userId)

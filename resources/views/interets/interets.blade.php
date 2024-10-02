@@ -43,7 +43,7 @@
             <h3 class="titreModalInteret">Modifier vos intérêts :</h3>
             <button class="close-button"
                 onclick="window.location.href='{{ route('profile', Auth::user()->id) }}'">&times;</button>
-            <form action="{{ route('interets.update_Interets', Auth::user()->id) }}" method="POST" id="interetForm">
+            <form action="{{ route('interets.update_Interets') }}" method="POST" id="interetForm">
                 @csrf
                 @method('PUT')
 
@@ -53,8 +53,8 @@
                             <h3>{{ $categorie->nom }}</h3>
                             @foreach ($interets as $interet)
                                 @if ($interet->id_categorie == $categorie->id)
-                                <div class="interet-tag {{ in_array($interet->id, $interetsUtilisateurTab) ? 'interet-selected' : '' }}" 
-                                data-id="{{ $interet->id }}">
+                                    <div class="interet-tag {{ in_array($interet->id, $interetsUtilisateurTab) ? 'interet-selected' : '' }}" 
+                                        data-id="{{ $interet->id }}">
                                         {{ $interet->nom }}
                                     </div>
                                 @endif

@@ -20,12 +20,12 @@
 @section('content')
     <div class="background_cntr no_select">
         <div id="background_color"></div>
-        <img id="background_img" src="{{ $event['image'] }}" alt="Bannière de l'événement">
+        <img id="background_img" src="{{ $event['image'] }}" alt="Bannière de l'événement" crossorigin="anonymous">
     </div>
 
     <div id="event_cntr">
         <div class="banner">
-            <img id="banner_img" src="{{ $event['image'] }}" alt="Bannière de l'événement">
+            <img id="banner_img" src="{{ $event['image'] }}" alt="Bannière de l'événement" crossorigin="anonymous">
         </div>
 
         <div class="container">
@@ -136,7 +136,6 @@
             width = canvas.width = img.naturalWidth || img.offsetWidth || img.width;
 
             context.drawImage(img, 0, 0);
-            data = context.getImageData(0, 0, width, height);
 
             try {
                 data = context.getImageData(0, height-5, width, 1);
