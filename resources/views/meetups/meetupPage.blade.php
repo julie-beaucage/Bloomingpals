@@ -101,41 +101,23 @@
         }
     }
 
-
+    $imageUser = $currentUser->image_profil ? asset('storage/' . $currentUser->image_profil) : asset('/images/simple_flower.png');
     /*Get organisator image*/
-    $imageUtilisateurHtml = "";
-    if (isset($organisatorData->image)) {
-        $imageUtilisateurHtml = <<<HTML
-            <div class="profile_icon no_select" style="background-image: url({$organisatorData->image})">
-                        
-            </div>
-        HTML;
-    } else {
-        $imageUtilisateurHtml = <<<HTML
-            <div class="profile_icon no_select" style="background-image: url(https://img.freepik.com/photos-gratuite/beaute-abstraite-automne-dans-motif-veines-feuilles-multicolores-genere-par-ia_188544-9871.jpg)">
-                        
-            </div>
-        HTML;
-    }
+    $imageUtilisateurHtml = <<<HTML
+        <div class="profile_icon no_select" style="background-image: url($imageUser)">
+                    
+        </div>
+    HTML;
 
 
-
+    $imageMeetup = $meetupData->image ? asset('storage/' . $meetupData->image) : asset('/images/R.jpg');
     /*Get image data*/
-    $imageHtml = "";
-    if (isset($meetupData->image)) {
-        $imageHtml = <<<HTML
-            test
-            <div class="event_image" style="background-image: url({$meetupData->image})">
-                test
-            </div>
-        HTML;
-    } else {
-        $imageHtml = <<<HTML
-            <div class="event_image" style="background-image: url(https://img.freepik.com/photos-gratuite/beaute-abstraite-automne-dans-motif-veines-feuilles-multicolores-genere-par-ia_188544-9871.jpg)">
+    $imageHtml =  <<<HTML
+        <div class="event_image" style="background-image: url($imageMeetup)">
 
-            </div>
-        HTML;
-    }
+        </div>
+    HTML;
+
 
     /*get tags data*/
     $tagsHtml = "";
