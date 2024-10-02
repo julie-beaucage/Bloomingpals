@@ -9,15 +9,32 @@ body {
     font-size: 16px;
 }
 
+#content {
+    overflow: hidden;
+}
+
 #profile_cntr {
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 20em 2em 0em 2em;
+}
+
+@media only screen and (max-width: calc(600px)) {
+    body {
+        font-size: 14px;
+    }
+
+    #profile_cntr{
+        padding: 18em 0em 0em 0em;
+    }
 }
 
 #background_cntr {
-    position: absolute;
+    position: relative;
     width: 100%;
     z-index: -1;
 }
@@ -42,18 +59,7 @@ body {
     align-items: center;
     background-color: var(--background-50);
     border-radius: 2em 2em 0 0;
-    margin: 20em 2em 0em 2em;
     flex-grow: 1;
-}
-
-@media only screen and (max-width: calc(600px)) {
-    body {
-        font-size: 14px;
-    }
-
-    #info_cntr{
-        margin: 18em 0em 0em 0em;
-    }
 }
 
 .profile-picture {
