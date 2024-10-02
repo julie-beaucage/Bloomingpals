@@ -20,7 +20,7 @@ setlocale(LC_ALL, 'fr_FR');
                 <img class="image" src="{{$meetup->image}}">
                 @else
                 @php
-                $default_images=rand(0,2);
+                $default_images=rand(1,3);
                 $image='\images\meetup_default'.$default_images.'.png'; 
                 @endphp
                 <img class="image" src="{{$image}}">
