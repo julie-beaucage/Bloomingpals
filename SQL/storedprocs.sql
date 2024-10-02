@@ -14,13 +14,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE creerUsager(
 BEGIN
     DECLARE nb_courriel INT;
     
-    -- Vérifie si l'email existe déjà
     SELECT COUNT(*) INTO nb_courriel FROM utilisateur WHERE email = p_courriel;
     
     IF nb_courriel != 0 THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Le courriel existe déjà.';
     ELSE
-        -- Insertion de l'utilisateur avec les informations
         INSERT INTO utilisateur (email, nom, prenom, date_naissance, type_personnalite, password, genre)
         VALUES (p_courriel, p_nom, p_prenom, p_date_naissance, 1, p_password, p_sex);
     END IF;
@@ -32,8 +30,8 @@ DELIMITER //
 CREATE DEFINER=`root`@`localhost` PROCEDURE updateUserProfile(IN p_user_id INT,
      IN p_prenom VARCHAR(50), 
      IN p_nom VARCHAR(50), 
-     IN p_image_profil VARCHAR(255), 
-     IN p_background_image VARCHAR(255), 
+     IN p_image_profil VARCHAR(500), 
+     IN p_background_image VARCHAR(500), 
      IN p_sexe ENUM('homme', 'femme', 'non-genre')
 )
 BEGIN
@@ -113,4 +111,29 @@ BEGIN
     COMMIT;
 END;
 // DELIMITER ;
+-- -----------------------------------------------------
+
+-- Ineret ------------------------------------------------
+DROP PROCEDURE IF EXISTS ajouterInterets;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ajouterInterets`(
+    IN utilisateurId INT,
+    IN interetsParam VARCHAR(1000)
+)
+BEGIN
+    DECLARE interetId INT;
+    DECLARE interetList TEXT;
+
+    DELETE FROM utilisateur_interet WHERE id_utilisateur = utilisateurId;
+
+    SET interetList = interetsParam;
+
+    WHILE LENGTH(interetList) > 0 DO
+        SET interetId = SUBSTRING_INDEX(interetList, ',', 1);
+        IF interetId <> '' THEN
+            INSERT INTO utilisateur_interet (id_utilisateur, id_interet) VALUES (utilisateurId, interetId);
+        END IF;
+
+        SET interetList = SUBSTRING(interetList, LENGTH(interetId) + 2);
+    END WHILE;
+END
 -- -----------------------------------------------------

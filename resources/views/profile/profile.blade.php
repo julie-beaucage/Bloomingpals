@@ -27,27 +27,27 @@
             </button>
         </div>
 
-        <div class="containerOnglerMain">
-            <div class="listOnglet">
-                <ul class="nav nav-tabs justify-content-center">
-                    <li class="nav-item">
-                        <a class="nav-link tab-link {{ request()->is('profile/amis') ? 'active' : '' }}"
-                            href="{{ route('profile.amis', Auth::user()->id) }}" data-target="profile/amis">Amis</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link tab-link {{ request()->is('profile/personnalite') ? 'active' : '' }}"
-                            href="{{ route('profile.personnalite', Auth::user()->id) }}"
-                            data-target="profile/personnalite">Personnalité</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link tab-link {{ request()->is('interets/*/interets') ? 'active' : '' }}"
-                            href="{{ route('interets.interets', Auth::user()->id) }}"
-                            data-target="interets/interests">Intérêts</a>
-                    </li>
-                </ul>
-            </div>
-            <div id="profile-content" class="onglet_profile"></div>
+    <div class="containerOnglerMain">
+        <div class="listOnglet">
+            <ul class="nav nav-tabs justify-content-center">
+            <li class="nav-item">
+                <a class="nav-link tab-link {{ request()->is('interets/*/interets') || !request()->is('profile/*') ? 'active' : '' }}"
+                    href="{{ route('interets.interets', Auth::user()->id) }}" data-target="interets/interests">Intérêts</a>
+            </li>
+                <li class="nav-item">
+                    <a class="nav-link tab-link {{ request()->is('profile/amis') ? 'active' : '' }}"
+                        href="{{ route('profile.amis', Auth::user()->id) }}" data-target="profile/amis">Amis</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link tab-link {{ request()->is('profile/personnalite') ? 'active' : '' }}"
+                        href="{{ route('profile.personnalite', Auth::user()->id) }}"
+                        data-target="profile/personnalite">Personnalité</a>
+                </li>
+            </ul>
         </div>
+        <br>
+        <div id="profile-content" class="onglet_profile">
+    </div>
     </div>
 </div>
 @endsection()

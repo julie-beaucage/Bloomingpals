@@ -6,14 +6,29 @@ i {
 }
 
 .meetup-container {
+    
     width: 80%;
     margin-top: 5em;
+    height: -moz-fit-content;
+    height: fit-content;
 }
 
 .meetup-form-container {
     border: 0.1em solid var(--border);
     border-radius: 0.8em;
     padding: 1em;
+    background-color: var(--white);
+    box-sizing: border-box;
+    overflow-y:auto;
+}
+.float-rightt{
+    float:right;
+}
+@media only screen and (max-width: 670px) {
+    .float-rightt {
+        float: none;
+        }
+
 }
 
 .underline {
@@ -147,3 +162,4 @@ input[type="file"]::file-selector-button {
     font-weight: 700;
     font-size: 10pt;
   } */
+

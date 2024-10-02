@@ -1,12 +1,10 @@
 @extends("master")
-
-@section("content")
-
-    <!-- <x-meetupFormPop :actionCreate="$actionCreate" :data="$data" :errors="$errors" :listCities="$listCities"/> -->
-
-    @php
-    $action = $actionCreate ? "/meetup/create" : "/meetup/edit/".$data['id'];
+@php
+$action = $actionCreate ? "/meetup/create" : "/meetup/edit/" . $data['id'];
 @endphp
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+@section("content")
 
 <link rel="stylesheet" href="{{ asset('css/meetupForm.css') }}">
 <div class="meetup-container">
@@ -155,27 +153,27 @@
                             Il se peut que votre image soit redimensionnée
                         </div>
                 </div>
-                <div style="max-width:98%; margin:.5em;">       
+                <div style="max-width:98%; min-height:2em; margin:.5em;">       
             @if($data != null)
-                @if($data['temporaryImage'] != ' ')
-                    <img class="img-preview" src="{{asset($data['temporaryImage'])}}">
+                @if($data['image'] != '')
+                    <img class="img-preview" src="{{asset($data['image'])}}">
                 @else
-                <img class="img-preview" id="2" src="{{asset($data['image'])}}">
+                <img class="img-preview" id="2">
                 @endif
             @else
                 <img class="img-preview">
             @endif
             </div>
 
-             @if($data!=null)
-                @if($data['temporaryImage'] != ' ')
+             @if($data != null)
+                @if($data['temporaryImage'] != '')
                 <input type="text" name="temporaryImage" hidden value="{{$data['temporaryImage']}}">
                 @endif
             @endif 
         </div>
         <div class="form-group">
 
-            <div class="form-check mb-2">
+        <div class="form-check mb-2">
                 @if($data != null)
                     @if($data['public'] == true)
                         <input class="form-check-input" type="checkbox" id="prive" name="prive">
@@ -189,19 +187,23 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div style="overflow-y:auto;" >
 
-            <button type="submit"
+            <button type="submit" style="margin-bottom:.2em;" 
                 class="btn btn-pink">{{$actionCreate ? "Crée le MeetUp" : "Modifier le MeetUp"}}</button>
-            <a class="btn btn-secondary" style="color:white;">Retour</a>
+            <a class="btn btn-secondary" style="color:white !important; margin-bottom:.2em;" onclick="window.history.go(-1);">Retour</a>
+            @if($actionCreate != "/meetup/create")
+                <button type="button" class="btn btn-danger float-rightt"
+                    onclick="window.location.href='/meetup/delete/{{$data['id']}}';">Effacer la rencontre</button>
+            @endif
+           
 
         </div>
     </form>
-    <br><br><br>
 </div>
 @endsection()
 
-@section("scripts")
+@section("script")
 <script>
     $('#city-dropdown-content').hide();
     let selectedOption = null;
