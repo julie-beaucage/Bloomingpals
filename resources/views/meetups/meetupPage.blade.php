@@ -37,8 +37,8 @@
 
         $routing2 = route('meetupRequests', ['meetupId' => $meetupData->id]);
         $voirDemandeHtml = <<<HTML
-                <div class="grey_text">
-                    <a href="{$routing2}">
+                <div>
+                    <a class="blueLink" href="{$routing2}">
                         Voir les demandes 
                         <span>
                             ($requestsParticipantsCount)
@@ -100,19 +100,7 @@
             HTML;
         }
     }
-    
 
-    $routing2 = route('meetupRequests', ['meetupId' => $meetupData->id]);
-    $voirDemandeHtml = <<<HTML
-        <div class="grey_text">
-            <a href="{$routing2}">
-                Voir les demandes 
-                <span class="blueText">
-                    ($requestsParticipantsCount)
-                </span>
-            </a>
-        </div>
-    HTML;
 
     /*Get organisator image*/
     $imageUtilisateurHtml = "";
