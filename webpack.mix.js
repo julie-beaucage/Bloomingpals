@@ -12,8 +12,11 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js');
+mix.js('resources/js/profileOnglet.js', 'public/js');
 mix.postCss('resources/css/app.css', 'public/css', []);
 mix.postCss('resources/css/login.css', 'public/css', []);
 mix.postCss('resources/css/meetupForm.css', 'public/css', []);
 mix.postCss('resources/css/event.css', 'public/css', []);
 mix.postCss('resources/css/search.css', 'public/css', []);
+mix.postCss('resources/css/profile.css', 'public/css', []);
+mix.postCss('resources/css/interets.css', 'public/css', []);

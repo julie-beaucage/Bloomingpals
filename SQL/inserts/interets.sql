@@ -1,3 +1,4 @@
+-- Interets --
 INSERT INTO categorie_interet (nomCategorie) VALUES 
 ('Sport'),
 ('Culture'),
@@ -6,7 +7,7 @@ INSERT INTO categorie_interet (nomCategorie) VALUES
 ('Social'),
 ('Art');
 
--- sport--
+-- Sport
 CALL ajouterInterets('Bowling', 1);
 CALL ajouterInterets('Tennis', 1);
 CALL ajouterInterets('Ski', 1);
@@ -47,7 +48,7 @@ CALL ajouterInterets('Ultimate frisbee', 1);
 CALL ajouterInterets('Escalade en salle', 1);
 CALL ajouterInterets('Paddleboard', 1);
 
--- culture--
+-- Culture
 CALL ajouterInterets('Lecture', 2);                  
 CALL ajouterInterets('Écriture', 2);                
 CALL ajouterInterets('Jeux d\'échecs', 2);           
@@ -58,7 +59,7 @@ CALL ajouterInterets('Poésie', 2);
 CALL ajouterInterets('Cuisine régionale', 2);         
 CALL ajouterInterets('Voyage culturel', 2);           
 
--- musicale--
+-- Musicale
 CALL ajouterInterets('Piano', 3);
 CALL ajouterInterets('Guitare', 3);
 CALL ajouterInterets('Batterie', 3);
@@ -93,7 +94,7 @@ CALL ajouterInterets('Produire de la musique', 3);
 CALL ajouterInterets('Écrire des chansons', 3);
 CALL ajouterInterets('Participer à des jam sessions', 3);
 
--- nerd--
+-- Nerd
 CALL ajouterInterets('Anime', 4);           
 CALL ajouterInterets('Manga', 4);            
 CALL ajouterInterets('Jeux vidéo', 4);       
@@ -111,7 +112,7 @@ CALL ajouterInterets('Écriture de fanfiction', 4);
 CALL ajouterInterets('Observation des oiseaux', 4);
 CALL ajouterInterets('Astronomie', 4);  
 
--- activiter social--
+-- Activite social
 CALL ajouterInterets('Plage', 5);
 CALL ajouterInterets('Restaurant', 5);
 CALL ajouterInterets('Cinéma', 5);
@@ -129,7 +130,7 @@ CALL ajouterInterets('Camping', 5);
 CALL ajouterInterets('Jardiner', 5);
 CALL ajouterInterets('Visite de parcs', 5);
 
--- art--
+-- Art
 CALL ajouterInterets('Peinture', 6);
 CALL ajouterInterets('Sculpture', 6);
 CALL ajouterInterets('Photographie', 6);

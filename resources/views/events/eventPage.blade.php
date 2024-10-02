@@ -20,12 +20,12 @@
 @section('content')
     <div class="background_cntr">
         <div id="background_color"></div>
-        <img id="background_img" src="{{ $event['image'] }}" alt="Bannière de l'événement" crossOrigin="anonymous">
+        <img id="background_img" src="{{ $event['image'] }}" alt="Bannière de l'événement">
     </div>
 
     <div id="event_cntr">
         <div class="banner">
-            <img id="banner_img" src="{{ $event['image'] }}" alt="Bannière de l'événement" crossOrigin="anonymous">
+            <img id="banner_img" src="{{ $event['image'] }}" alt="Bannière de l'événement">
         </div>
 
         <div class="container">
@@ -112,7 +112,6 @@
             var rgb = getAverageRGB(img);
             color.style.background = 'rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ')';
         });
-
 
         function getAverageRGB(img) {
             var blockSize = 5, // only visit every 5 pixels

@@ -1,44 +1,82 @@
-.profileMain{
-    width: 100%;
-
+a:hover i,
+a,
+i {
+  text-decoration: none !important;
+  color:var(--text) !important;
 }
-.profile-background {
+
+body {
+    font-size: 16px;
+}
+
+#profile_cntr {
     width: 100%;
-    height: 18.75em; 
-    background-size: cover;
-    background-position: center;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#background_cntr {
     position: relative;
-    border-radius: 10px; 
+    width: 100%;
+    z-index: -1;
 }
 
-.profile-info {
+#background_cntr img {
     position: absolute;
     width: 100%;
-    bottom: -7.5em;
-    left: 50%;
-    transform: translateX(-50%);
-    text-align: center;
+    max-height: 100vh;
+    filter: blur(7px) brightness(0.7);
+}
+
+#background_cntr div {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    filter: blur(7px) brightness(0.7);
+}
+
+#info_cntr {
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--background-50);
+    border-radius: 2em 2em 0 0;
+    margin: 20em 2em 0em 2em;
+    flex-grow: 1;
+}
+
+@media only screen and (max-width: calc(600px)) {
+    body {
+        font-size: 14px;
+    }
+
+    #info_cntr{
+        margin: 18em 0em 0em 0em;
+    }
 }
 
 .profile-picture {
-    width: 9.375em;
-    height: 9.375em;
+    position: relative;
+    width: 10em;
+    height: 5em;
+}
+
+.profile-picture > img {
+    position: relative;
+    width: 100%;
     border-radius: 50%;
-    border: 0.3125em solid white; 
+    border: 0.3125em solid white;
     background-color: white;
-    object-fit: cover;
+    -o-object-fit: cover;
+       object-fit: cover;
     box-shadow: 0px 0.25em 0.375em rgba(0, 0, 0, 0.1);
+    Top: -5em;
 }
 
 .modifImage {
     width: 30em; 
-}
-.containerOnglerMain{
-    padding: 1.25em; 
-}
-
-.listOnglet {
-    margin-top: 7.5em;
 }
 
 .edit-profile-form {
@@ -54,24 +92,22 @@
     margin-top: 0.625em; 
     width: 6.25em; 
     height: 6.25em;
-    object-fit: cover;
+    -o-object-fit: cover;
+       object-fit: cover;
 }
 
 .button_profile {
     margin-left: auto;
-    padding-right: 10%;
+    padding-right: 3em;
     text-align: right;
 }
 
 .onglet_profile {
-    width: 100%;
-    max-width: 75em; 
-    margin: 0 auto;
+    padding: 1em;
     background-color: #ffffff;
     box-shadow: 0 0.25em 0.375em rgba(0, 0, 0, 0.1); 
-    border-radius: 8px; 
-    min-height: 25em; 
     overflow-y: auto;
+    flex-grow: 1;
 }
 
 .btnProfile {
@@ -88,12 +124,12 @@
     background-color: #365899;
 }
 
-
 .nav-tabs {
-    margin-top: 2.5em; 
+    margin-top: 2em; 
     border-bottom: 0.0625em solid #801111; 
     padding-left: 1.875em; 
     align-items: center;
+    flex-wrap: nowrap;
 }
 
 .nav-tabs .nav-item {
@@ -112,8 +148,7 @@
 
 .nav-tabs .nav-link:hover {
     color: #1877f2;
-    border-bottom: 0.1875em solid #1877f2; 
-    transition: 0.3s;
+    background-color: var(--white);
 }
 
 .nav-tabs .nav-link.active {
@@ -128,4 +163,21 @@
     border-radius: 8px;
     box-shadow: 0 0.625em rgba(0, 0, 0, 0.1); 
     margin-top: 1.25em; 
+}
+
+.containerOnglerMain {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#footer {
+    display: none;
+}
+
+#profile_name {
+    font-size: 2em;
+    font-weight: 600;
+    margin: 0.5em;
 }

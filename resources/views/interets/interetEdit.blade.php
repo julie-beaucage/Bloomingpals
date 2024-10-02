@@ -14,18 +14,18 @@
             <h1>Modifier vos intérêts :</h1>
             <button class="close-button" onclick="window.location.href='{{ route('interets.interets', Auth::user()->id) }}'">&times;</button>
 
-            <form action="{{ route('interets.update_Interets', Auth::user()->id) }}" method="POST" id="interetForm">
+            <form action="{{ route('interets.update_Interets') }}" method="POST" id="interetForm">
             @csrf 
                 @method('PUT') 
                 @if (!empty($categories)) 
                     @foreach ($categories as $categorie)
                         <div class="interet-categorie-div">
-                            <h3>{{ $categorie->nomCategorie }}</h3> 
+                            <h3>{{ $categorie->nom }}</h3> 
                             @foreach ($interets as $interet)
-                                @if ($interet->id_categorie == $categorie->idCategorie) 
-                                    <div class="interet-tag {{ in_array($interet->interet_id, $interetsUtilisateur) ? 'interet-selected' : '' }}" 
-                                         data-id="{{ $interet->interet_id }}">
-                                        {{ $interet->interet_nom }}
+                                @if ($interet->id_categorie == $categorie->id) 
+                                    <div class="interet-tag {{ in_array($interet->id, $interetsUtilisateur) ? 'interet-selected' : '' }}" 
+                                         data-id="{{ $interet->id }}">
+                                        {{ $interet->nom }}
                                     </div>
                                 @endif
                             @endforeach

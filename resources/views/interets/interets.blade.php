@@ -16,23 +16,23 @@
 </button>
     @foreach ($categories as $categorie)
         <div class="categorie-div">
-            <h4>{{ $categorie->nomCategorie }}</h4>
+            <h4>{{ $categorie->nom }}</h4>
             @php
                 $interetsPourCategorie = [];
             @endphp
 
             @foreach ($interetsUtilisateur as $interetUtilisateur)
-                @if ($interetUtilisateur->idCategorie == $categorie->idCategorie)
+                @if ($interetUtilisateur->id == $categorie->id)
                     @php
                         $interetsPourCategorie[] = $interetUtilisateur; 
                     @endphp @endif
             @endforeach
 
             @if (empty($interetsPourCategorie))
-                <p>Aucun intérêt dans la catégorie {{ $categorie->nomCategorie }}.</p>
+                <p>Aucun intérêt dans la catégorie {{ $categorie->nom }}.</p>
             @else
                 @foreach ($interetsPourCategorie as $interetUtilisateur)
-                    <div class="tag">{{ $interetUtilisateur->nomInteret }}</div>
+                    <div class="tag">{{ $interetUtilisateur->nom }}</div>
                 @endforeach
             @endif
         </div>
@@ -50,12 +50,12 @@
                 @if (!empty($categories))
                     @foreach ($categories as $categorie)
                         <div class="interet-categorie-div">
-                            <h3>{{ $categorie->nomCategorie }}</h3>
+                            <h3>{{ $categorie->nom }}</h3>
                             @foreach ($interets as $interet)
-                                @if ($interet->id_categorie == $categorie->idCategorie)
-                                <div class="interet-tag {{ in_array($interet->idInteret, $interetsUtilisateurTab) ? 'interet-selected' : '' }}" 
-                                data-id="{{ $interet->idInteret }}">
-                                        {{ $interet->nomInteret }}
+                                @if ($interet->id_categorie == $categorie->id)
+                                <div class="interet-tag {{ in_array($interet->id, $interetsUtilisateurTab) ? 'interet-selected' : '' }}" 
+                                data-id="{{ $interet->id }}">
+                                        {{ $interet->nom }}
                                     </div>
                                 @endif
                             @endforeach

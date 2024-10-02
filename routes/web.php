@@ -32,14 +32,14 @@ Route::post('/login', [UsersController::class, 'login'])->name('login');
 Route::get('/logout', [UsersController::class, 'logout'])->name('logout');
 
 // Profile
-Route::get('/profile', [UsersController::class, 'profile'])->middleware('auth')->name('profile');
+Route::get('/profile/{id}', [UsersController::class, 'profile'])->middleware('auth')->name('profile');
 Route::put('/profile/update/{id}', [UsersController::class, 'update'])->middleware('auth')->name('profile.update');
 Route::get('profile/amis/{id}', [UsersController::class, 'amis'])->name('profile.amis');
 Route::get('profile/personnalite/{id}', [UsersController::class, 'personnalite'])->name('profile.personnalite');
 
 //INTERET
 Route::get('interets/interets/{id}', [InterestsController::class, 'interets'])->name('interets.interets');
-Route::put('/interets/update_Interets/{id}', [InterestsController::class, 'update_Interets'])->middleware('auth')->name('interets.update_Interets');
+Route::put('/interets/update_Interets', [InterestsController::class, 'update_Interets'])->middleware('auth')->name('interets.update_Interets');
 
 // Meetup
 Route::get('/meetupForm', [MeetupController::class, 'Form']);

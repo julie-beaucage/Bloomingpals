@@ -1,8 +1,11 @@
 {
     "/js/app.js": "/js/app.js",
+    "/js/profileOnglet.js": "/js/profileOnglet.js",
     "/css/app.css": "/css/app.css",
     "/css/search.css": "/css/search.css",
     "/css/event.css": "/css/event.css",
     "/css/meetupForm.css": "/css/meetupForm.css",
-    "/css/login.css": "/css/login.css"
+    "/css/login.css": "/css/login.css",
+    "/css/interets.css": "/css/interets.css",
+    "/css/profile.css": "/css/profile.css"
 }
