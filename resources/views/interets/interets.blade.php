@@ -32,7 +32,7 @@
                 <p>Aucun intérêt dans cette catégorie {{ $categorie->nomCategorie }}.</p>
             @else
                 @foreach ($interetsPourCategorie as $interetUtilisateur)
-                    <div class="tag">{{ $interetUtilisateur->nomInteret }}</div>
+                <div class="tag interet-{{ strtolower($categorie->nomCategorie) }}">{{ $interetUtilisateur->nomInteret }}</div>
                 @endforeach
             @endif
         </div>

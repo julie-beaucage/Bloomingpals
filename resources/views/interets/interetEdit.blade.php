@@ -13,7 +13,7 @@
                             <h3>{{ $categorie->nomCategorie }}</h3>
                             @foreach ($interets as $interet)
                                 @if ($interet->id_categorie == $categorie->idCategorie)
-                                <div class="interet-tag {{ in_array($interet->idInteret, $interetsUtilisateurTab) ? 'interet-selected' : '' }}" 
+                                <div class="interet-tag interet-{{ strtolower($categorie->nomCategorie) }} {{ in_array($interet->idInteret, $interetsUtilisateurTab) ? 'interet-selected' : '' }}" 
                                 data-id="{{ $interet->idInteret }}">
                                         {{ $interet->nomInteret }}
                                     </div>
