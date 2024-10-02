@@ -6,6 +6,32 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
     }
 
+    function loadInterets() {
+        const interestsTabLink = document.querySelector('.tab-link.active');
+        if (interestsTabLink) {
+            const url = interestsTabLink.getAttribute('href'); 
+
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erreur réseau: ' + response.status);
+                    }
+                    return response.text();
+                })
+                .then(html => {
+                    const profileContent = document.getElementById('profile-content');
+                    if (profileContent) {
+                        profileContent.innerHTML = html;
+                    } else {
+                        console.error('Élément profile-content introuvable.');
+                    }
+                })
+                .catch(error => console.error('Erreur lors du chargement de la section:', error));
+        }
+    }
+
+    loadInterets();
+
     tabLinks.forEach(link => {
         link.addEventListener('click', function (event) {
             event.preventDefault();
@@ -24,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 .then(html => {
                     const profileContent = document.getElementById('profile-content');
                     if (profileContent) {
-                        profileContent.innerHTML = html
+                        profileContent.innerHTML = html;
                     } else {
                         console.error('Élément profile-content introuvable.');
                     }
@@ -61,4 +87,3 @@ document.addEventListener('DOMContentLoaded', function () {
         $('#interetSelectedInterets').val(selectedIds.join(',')); 
     }
 });
-

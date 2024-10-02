@@ -63,7 +63,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/search/events', [SearchController::class, 'events'])->name('search.events');
     Route::get('/search/users', [SearchController::class, 'users'])->name('search.users');
 });
-/*
+
 // Profile
 Route::get('/profile/{id}', [UsersController::class, 'profile'])->middleware('auth')->name('profile');
 Route::put('/profile/update/{id}', [UsersController::class, 'update'])->middleware('auth')->name('profile.update');
