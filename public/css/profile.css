@@ -31,7 +31,7 @@
 }
 
 .modifImage {
-    width: 30em; 
+    width: 14em; 
 }
 .containerOnglerMain{
     padding: 1.25em; 
@@ -75,7 +75,7 @@
 }
 
 .btnProfile {
-    background-color: var(--secondary-800);
+    background-color: var( --primary-400);
     color: white;
     padding: 0.625em 1.25em; 
     font-size: 1em; 
@@ -85,7 +85,7 @@
 }
 
 .btnProfile:hover {
-    background-color: #365899;
+    background-color: var( --primary-600);
 }
 
 
@@ -101,7 +101,7 @@
 }
 
 .nav-tabs .nav-link {
-    color: #467abc;
+    color: var( --primary-400);
     padding: 0.625em 1.25em; 
     text-decoration: none;
     font-size: 1em; 
@@ -111,13 +111,13 @@
 }
 
 .nav-tabs .nav-link:hover {
-    color: #1877f2;
+    color: var( --primary-400);
     border-bottom: 0.1875em solid #1877f2; 
     transition: 0.3s;
 }
 
 .nav-tabs .nav-link.active {
-    color: #1877f2;
+    color: var( --primary-400);
     border-bottom: 0.1875em solid #1877f2; 
     font-weight: bold;
 }

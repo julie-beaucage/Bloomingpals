@@ -8,8 +8,8 @@
 
 @section('content')
 <div class="profileMain">
-<div class="profile-background" 
-     style="background-image: url('{{ Auth::user()->background_image ? asset('storage/' . Auth::user()->background_image) : asset('images/R.jpg') }}')">
+    <div class="profile-background"
+        style="background-image: url('{{ Auth::user()->background_image ? asset('storage/' . Auth::user()->background_image) : asset('images/R.jpg') }}')">
         <div class="profile-info">
             <img class="profile-picture"
                 src="{{ Auth::user()->image_profile ? asset('storage/' . Auth::user()->image_profile) : asset('/images/flower.png') }}"
@@ -28,10 +28,11 @@
     <div class="containerOnglerMain">
         <div class="listOnglet">
             <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <a class="nav-link tab-link {{ request()->is('interets/*/interets') || !request()->is('profile/*') ? 'active' : '' }}"
-                    href="{{ route('interets.interets', Auth::user()->id) }}" data-target="interets/interests">Intérêts</a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link tab-link {{ request()->is('interets/*/interets') || !request()->is('profile/*') ? 'active' : '' }}"
+                        href="{{ route('interets.interets', Auth::user()->id) }}"
+                        data-target="interets/interests">Intérêts</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link tab-link {{ request()->is('profile/amis') ? 'active' : '' }}"
                         href="{{ route('profile.amis', Auth::user()->id) }}" data-target="profile/amis">Amis</a>
@@ -47,7 +48,7 @@
         <br>
         <div id="profile-content" class="onglet_profile">
 
-    </div>
+        </div>
     </div>
 
 </div>

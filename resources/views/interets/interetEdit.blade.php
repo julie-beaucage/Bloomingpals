@@ -9,8 +9,8 @@
 
                 @if (!empty($categories))
                     @foreach ($categories as $categorie)
-                        <div class="interet-categorie-div">
-                            <h3>{{ $categorie->nomCategorie }}</h3>
+                    <div class="interet-categorie-div categorie-{{ strtolower($categorie->nomCategorie) }}">
+                    <h3>{{ $categorie->nomCategorie }}</h3>
                             @foreach ($interets as $interet)
                                 @if ($interet->id_categorie == $categorie->idCategorie)
                                 <div class="interet-tag interet-{{ strtolower($categorie->nomCategorie) }} {{ in_array($interet->idInteret, $interetsUtilisateurTab) ? 'interet-selected' : '' }}" 
