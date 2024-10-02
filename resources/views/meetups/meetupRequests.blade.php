@@ -81,7 +81,3 @@
     <link rel="stylesheet" href="{{ asset('css/page/meetupRequests.css') }}">
     <link rel="stylesheet" href="{{ asset('css/page/meetup.css') }}">
 @endsection()
-
-@section("title")
-    Template
-@endsection()
