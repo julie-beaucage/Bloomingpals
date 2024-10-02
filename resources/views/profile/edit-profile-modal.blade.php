@@ -31,8 +31,8 @@
                     <div class="mb-3">
                         <label for="image_profile" class="form-label">Image de profil</label>
                         <input type="file" class="form-control" id="image_profile" name="image_profile" onchange="previewImage(event, 'imagePreview')">
-                        <img id="imagePreview" class="modifImage" src="{{ Auth::user()->image_profile ? 
-                        asset('storage/' . Auth::user()->image_profile) : asset('..\images\flower.png') }}" alt="Aperçu de l'image" />
+                        <img id="imagePreview" class="modifImage" src="{{ Auth::user()->image_profil ? 
+                        asset('storage/' . Auth::user()->image_profil) : asset('..\images\flower.png') }}" alt="Aperçu de l'image" />
                     </div>
 
                     <div class="mb-3">
