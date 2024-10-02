@@ -10,21 +10,23 @@
 @section('content')
 <div id="background_cntr" class="no_select">
     <div id="background_color"></div>
-    <img id="background_img" src="{{ Auth::user()->background_image ? asset('storage/' . Auth::user()->background_image) : asset('/images/R.jpg') }}"
+    <img id="background_img" src="{{ $user->background_image ? asset('storage/' . $user->background_image) : asset('/images/R.jpg') }}"
         alt="Bannière du profile">
 </div>
 <div id="profile_cntr">
     <div id="info_cntr">
         <div class="profile-picture no_select">
-            <img src="{{ Auth::user()->image_profile ? asset('storage/' . Auth::user()->image_profile) : asset('/images/simple_flower.png') }}"
+            <img src="{{ $user->image_profile ? asset('storage/' . $user->image_profile) : asset('/images/simple_flower.png') }}"
                 alt="Photo de profil">
         </div>
 
-        <h1 id="profile_name">{{ Auth::user()->prenom }} {{ Auth::user()->nom }}</h1>
+        <h1 id="profile_name">{{ $user->prenom }} {{ $user->nom }}</h1>
         <div class="button_profile">
-            <button type="button" class="btnProfile" data-bs-toggle="modal" data-bs-target="#editProfileModal">
-                Modifier le profil
-            </button>
+            @if ($user->id == Auth::user()->id)
+                <button type="button" class="btnProfile" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+                    Modifier le profil
+                </button>
+            @endif
         </div>
 
     <div class="containerOnglerMain">
@@ -32,20 +34,19 @@
             <ul class="nav nav-tabs justify-content-center">
             <li class="nav-item">
                 <a class="nav-link tab-link {{ request()->is('interets/*/interets') || !request()->is('profile/*') ? 'active' : '' }}"
-                    href="{{ route('interets.interets', Auth::user()->id) }}" data-target="interets/interests">Intérêts</a>
+                    href="{{ route('interets.interets', $user->id) }}" data-target="interets/interests">Intérêts</a>
             </li>
                 <li class="nav-item">
                     <a class="nav-link tab-link {{ request()->is('profile/amis') ? 'active' : '' }}"
-                        href="{{ route('profile.amis', Auth::user()->id) }}" data-target="profile/amis">Amis</a>
+                        href="{{ route('profile.amis', $user->id) }}" data-target="profile/amis">Amis</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link tab-link {{ request()->is('profile/personnalite') ? 'active' : '' }}"
-                        href="{{ route('profile.personnalite', Auth::user()->id) }}"
+                        href="{{ route('profile.personnalite', $user->id) }}"
                         data-target="profile/personnalite">Personnalité</a>
                 </li>
             </ul>
         </div>
-        <br>
         <div id="profile-content" class="onglet_profile">
     </div>
     </div>

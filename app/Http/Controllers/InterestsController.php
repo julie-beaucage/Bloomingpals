@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Models\CategorieInteret;
 use App\Models\utilisateur_interet;
+use App\Models\User;
 use App\Models\Interet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -14,11 +15,12 @@ class InterestsController extends Controller
 {
     public function interets($id)
     {
+        $user = User::find($id);
         $categories = CategorieInteret::all(); 
         $interets = Interet::all(); 
         $interetsUtilisateur = utilisateur_interet::getInteretsParUtilisateur($id); 
         $interetsUtilisateurTab = utilisateur_interet::getInteretsParUtilisateurTab($id); 
-        return view('interets.interets', compact('categories', 'interets', 'interetsUtilisateur','interetsUtilisateurTab'));
+        return view('interets.interets', compact('user', 'categories', 'interets', 'interetsUtilisateur','interetsUtilisateurTab'));
     }
     
     public function update_Interets(Request $request)

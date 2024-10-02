@@ -11,8 +11,10 @@
 </head>
 
 <body>
-    <button class="buttonDetail btn btn-primary" id="openOverlay">
-    <i class="fas fa-pencil-alt" style="color: black;"></i>
+    @if ($user->id == Auth::user()->id)
+        <button class="buttonDetail btn btn-primary" id="openOverlay">
+        <i class="fas fa-pencil-alt" style="color: black;"></i>
+    @endif
 </button>
     @foreach ($categories as $categorie)
         <div class="categorie-div">
@@ -38,37 +40,39 @@
         </div>
     @endforeach
 
-    <div class="interet-overlay" id="overlay" style="display: none;">
-        <div class="interet-modal">
-            <h3 class="titreModalInteret">Modifier vos intérêts :</h3>
-            <button class="close-button"
-                onclick="window.location.href='{{ route('profile', Auth::user()->id) }}'">&times;</button>
-            <form action="{{ route('interets.update_Interets') }}" method="POST" id="interetForm">
-                @csrf
-                @method('PUT')
+    @if ($user->id == Auth::user()->id)
+        <div class="interet-overlay" id="overlay" style="display: none;">
+            <div class="interet-modal">
+                <h3 class="titreModalInteret">Modifier vos intérêts :</h3>
+                <button class="close-button"
+                    onclick="window.location.href='{{ route('profile', Auth::user()->id) }}'">&times;</button>
+                <form action="{{ route('interets.update_Interets') }}" method="POST" id="interetForm">
+                    @csrf
+                    @method('PUT')
 
-                @if (!empty($categories))
-                    @foreach ($categories as $categorie)
-                        <div class="interet-categorie-div">
-                            <h3>{{ $categorie->nom }}</h3>
-                            @foreach ($interets as $interet)
-                                @if ($interet->id_categorie == $categorie->id)
-                                    <div class="interet-tag {{ in_array($interet->id, $interetsUtilisateurTab) ? 'interet-selected' : '' }}" 
-                                        data-id="{{ $interet->id }}">
-                                        {{ $interet->nom }}
-                                    </div>
-                                @endif
-                            @endforeach
-                        </div>
-                    @endforeach
-                @else
-                    <p>Aucune catégorie trouvée.</p>
-                @endif
-                <input type="hidden" name="interets" id="interetSelectedInterets" value="{{ implode(',', $interetsUtilisateurTab) }}"> 
+                    @if (!empty($categories))
+                        @foreach ($categories as $categorie)
+                            <div class="interet-categorie-div">
+                                <h3>{{ $categorie->nom }}</h3>
+                                @foreach ($interets as $interet)
+                                    @if ($interet->id_categorie == $categorie->id)
+                                        <div class="interet-tag {{ in_array($interet->id, $interetsUtilisateurTab) ? 'interet-selected' : '' }}" 
+                                            data-id="{{ $interet->id }}">
+                                            {{ $interet->nom }}
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </div>
+                        @endforeach
+                    @else
+                        <p>Aucune catégorie trouvée.</p>
+                    @endif
+                    <input type="hidden" name="interets" id="interetSelectedInterets" value="{{ implode(',', $interetsUtilisateurTab) }}"> 
 
-                <button type="submit" class="interet-btn-primary">Sauvegarder les changements</button>
-            </form>
+                    <button type="submit" class="interet-btn-primary">Sauvegarder les changements</button>
+                </form>
+            </div>
         </div>
-    </div>
+    @endif
 </body>
 </html>
