@@ -1,11 +1,10 @@
-.categorie-div,
-.interet-categorie-div {
-    margin-bottom: 1em;
-    border: 1px solid #ccc;
-    padding: 1em;
-    border-radius:5px ;
-}
 
+.containerInteretOnglet{
+    margin-bottom: 1em;
+}
+.buttonOverlayContainerInteret{
+    text-align: right;
+}
 .interet-overlay {
     display: flex;
     justify-content: center;
@@ -31,6 +30,37 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     position: relative;
 }
+.categorie-div,
+.interet-categorie-div {
+    margin: 1em;
+    border: 1px solid #ccc;
+    padding: 1em;
+    border-radius:5px ;
+}
+.categorie-sport {
+    background-color: rgba(76, 76, 226, 0.2); 
+}
+
+.categorie-culture {
+    background-color: rgba(0, 128, 0, 0.2); 
+}
+
+.categorie-musicale {
+    background-color: rgba(128, 0, 128, 0.2);
+}
+
+.categorie-nerd {
+    background-color: rgba(205, 111, 23, 0.2); 
+}
+
+.categorie-social {
+    background-color: rgba(64, 224, 208, 0.2); 
+}
+
+.categorie-art {
+    background-color: rgba(255, 192, 203, 0.2); 
+}
+
 
 .tag,
 .interet-tag {
@@ -99,16 +129,23 @@
 
 
 .interet-btn-primary {
-    background-color: #007bff;
+    background-color: var( --primary-400);
     color: white;
     border: none;
     padding: 1em 2em;
     border-radius: 5px;
     cursor: pointer;
+    margin:1em;
 }
 .buttonDetail{
-    background-color: white;
+    background-color: #9ea8b3;
+    color:white;
 }
+.buttonDetail:hover{
+    background-color: var( --primary-400);
+
+}
+
 /*BOUTONS DANS INTERETS MODAL/OVERLAY*/
 .interet-modal button{
     padding: 0.7em 0.7em;
@@ -118,7 +155,7 @@
 
 }
 .interet-btn-submit{
-    background-color: #007bff;
+    background-color: var( --primary-400);
     color: white;
 }
 .interet-btn-annuler{
@@ -149,7 +186,56 @@
     color: #333;
     cursor: pointer;
 }
+@media (max-width: 768px) {
+    .interet-modal {
+        width: 90%;
+        margin: 1em auto;
+        padding: 1em;
+    }
+    .close-button-interet{
+        top: 0.01em; 
+    }
+    .categorie-div,
+    .interet-categorie-div {
+        margin: 0.5em;
+        padding: 0.5em;
+    }
 
-.close-button:hover {
-    color: red;
+    .tag,
+    .interet-tag {
+        font-size: 0.75em; 
+        padding: 0.3em;
+    }
+
+    .buttonDetail {
+        font-size: 0.875em; 
+        padding: 0.5em 1em;
+    }
 }
+
+@media (max-width: 480px) {
+    .interet-modal {
+        width: 95%;
+        padding: 1em;
+    }
+    .close-button-interet{
+        top: 0.01em; 
+    }
+    .categorie-div,
+    .interet-categorie-div {
+        margin: 0.3em;
+        padding: 0.5em;
+    }
+
+    .tag,
+    .interet-tag {
+        font-size: 0.6875em; 
+        padding: 0.2em;
+    }
+
+    .buttonDetail {
+        font-size: 0.75em; 
+        padding: 0.4em 0.8em;
+    }
+}
+
