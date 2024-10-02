@@ -337,6 +337,8 @@ class MeetupController extends BaseController
             "nb_participant" => $newMeetupData->nb_participant,
             "image" => $newMeetupData->image,
             "public" => $newMeetupData->public]);
+
+            return Back();
     }
     public function JoinMeetup($meetupId) {
         $userId = Auth::user()->id;

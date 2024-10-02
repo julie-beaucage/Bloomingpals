@@ -46,10 +46,24 @@
 
 @section("content")
     <?php
+        $returnRouting = route("meetupPage", ["meetupId" => $meetupData->id]);
+
         $html = <<<HTML
-            <div class="title1">
-                Requête de la rencontre {$meetupData->nom}
+            <div class="row">
+                <div class="ibMax">
+                    <a href="{$returnRouting}">     
+                        <div class="respondButton">
+                            retour
+                        </div>
+                    </a>
+                </div>
+                <div class="ibMax">
+                    <div class="title1">
+                        Requête de la rencontre {$meetupData->nom}
+                    </div>
+                </div>
             </div>
+            <hr>
             <div class="profilesContainer">
                 $requestHtml
             </div>
@@ -66,8 +80,4 @@
 @section("style")
     <link rel="stylesheet" href="{{ asset('css/page/meetupRequests.css') }}">
     <link rel="stylesheet" href="{{ asset('css/page/meetup.css') }}">
-@endsection()
-
-@section("title")
-    Template
 @endsection()
