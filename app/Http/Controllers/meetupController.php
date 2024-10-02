@@ -96,8 +96,8 @@ class MeetupController extends BaseController
 
 
             if ($req->file('image') != null) {
-                $path = $req->file('image')->store('public\tempo\images');
-                $path =str_replace('public\\','','storage/' . $path);
+                $path = $req->file('image')->store('public/tempo\images');
+                $path =str_replace('public/','','storage/' . $path);
             } else {
                 $path = '';
             }
@@ -123,17 +123,21 @@ class MeetupController extends BaseController
 
 
             $path = null;
-            if ($req->file('image') != null) {
-                $path = $req->file('image')->store('public\meetup\images');
-                $path =str_replace('public/','','storage/' . $path);
-
-            } else if ($req->temporaryImage != null) {
-                $realPath = str_replace('storage', '', $req->temporaryImage);
+            if ($req->temporaryImage != null) {
+                $realPath = str_replace('storage', 'public', $req->temporaryImage);
                 $tabExplode = explode('/', $req->temporaryImage);
+            
                 $fileName = $tabExplode[count($tabExplode) - 1];
-                if (Storage::move($realPath, 'meetup\images\\' . $fileName) == 1) {
-                    $path = 'storage\meetup\images\\' . $fileName;
+                if (Storage::move($realPath, 'public/meetup\images/' . $fileName) == 1) {
+                    $path = 'storage\meetup\images/' . $fileName;
                 }
+
+                
+
+            } else if ($req->file('image') != null) {
+                $path = $req->file('image')->store('public/tempo\images');
+                $path =str_replace('public/','','storage/' . $path);
+                
             }
             if (isset($id_owner)) {
                 DB::statement("Call creerRencontre(?,?,?,?,?,?,?,?,?)", [
@@ -163,8 +167,8 @@ class MeetupController extends BaseController
             if ($errors['error'] == true) {
 
                 if ($req->file('image') != null) {
-                    $path = $req->file('image')->store('public\tempo\images');
-                    $path =str_replace('public\\','','storage/' . $path);
+                    $path = $req->file('image')->store('public/tempo\images');
+                $path =str_replace('public/','','storage/' . $path);
                 } else {
                     $path = '';
                 }
@@ -197,16 +201,17 @@ class MeetupController extends BaseController
                 if ($req->image == null) {
                     $path = '';
                 } else {
-
-                    $oldPath = $rencontre->image;
+                   
+                    $oldPath =str_replace('storage', 'public', $rencontre->image);
                     if (File::exists($oldPath)) {
                         File::delete($oldPath);
                     } else {
                         // image pas trouvee
                         // dd('file not found');
                     }
-                    $path = $req->file('image')->store('public\meetup\images');
-                    $path =str_replace('public\\','','storage/' . $path);
+
+                    $path = $req->file('image')->store('public/tempo\images');
+                $path =str_replace('public/','','storage/' . $path);
                 }
 
                 if (isset($id_owner)) {
@@ -318,7 +323,7 @@ class MeetupController extends BaseController
     }
 
     private function getDefault_images(){
-        return ['storage\images\meetup_default1.png','storage\images\meetup_default2.png'];
+        return ['storage\images\meetup_default1.png','storage\images\meetup_default2.png','storage\images\meetup_default3.png'];
     }
     public function LeaveMeetup($meetupId) {
         $meetupData = rencontre::where("id", $meetupId)->get()[0];

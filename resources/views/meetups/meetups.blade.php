@@ -19,7 +19,8 @@ setlocale(LC_ALL, 'fr_FR');
                 <img class="image" src="{{$meetup->image}}">
                 @else
                 @php
-                $image= $default_images[rand(0,(count($default_images)-1))];
+                $default_images=rand(0,2);
+                $image='\images\meetup_default'.$default_images.'.png'; 
                 @endphp
                 <img class="image" src="{{$image}}">
                 @endif
@@ -29,7 +30,7 @@ setlocale(LC_ALL, 'fr_FR');
             </div>
             
             <div class="flex-row">
-                <img class="profile-picture" src="storage\images\flower.png" id="{{$users[$index]->id}}">
+                <img class="profile-picture" src="{{ $users[$index]->image_profil ? asset('storage/' . $users[$index]->image_profil) : asset('/images/simple_flower.png') }}"  id="{{$users[$index]->id}}">
                 <div sty>
                     <div class="text">{{$users[$index]->prenom}} {{$users[$index]->nom}}</div>
                     <div>Affinité: 50%</div>
