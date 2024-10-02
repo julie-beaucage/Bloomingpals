@@ -23,6 +23,18 @@
 }
 
 .interet-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Ajouter un fond transparent pour l'overlay */
+    z-index: 1000;
+    overflow: auto;
+    /*
     position: fixed;
     top: 0;
     left: 0;
@@ -33,17 +45,26 @@
     justify-content: center;
     align-items: center;
     z-index: 1000;
-    overflow: auto;
+    overflow: auto;*/
 }
 
 .interet-modal {
+    background-color: white;
+    padding: 2em;
+    border-radius: 1em;
+    margin-left: 20%;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    /*
     background-color: white;
     padding: 2em;
     margin-left: 20%;
     border-radius: 1em;
     width: 80%;
     max-width: 600px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/
 }
 
 .interet-btn-primary {
@@ -56,6 +77,34 @@
 }
 .buttonDetail{
     background-color: white;
+}
+/*BOUTONS DANS INTERETS MODAL/OVERLAY*/
+.interet-modal button{
+    padding: 0.7em 0.7em;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+
+}
+.interet-btn-submit{
+    background-color: #007bff;
+    color: white;
+}
+.interet-btn-annuler{
+    background-color: #9ea8b3;
+    color: white;
+}
+.close-button-interet{
+    position: absolute;
+    top: 1em; 
+    right: 1em; 
+    background: none;
+    border: none;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    z-index: 1001; 
 }
 
 .close-button {

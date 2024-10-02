@@ -42,7 +42,7 @@
                         asset('storage/' . Auth::user()->background_image) : asset('..\images\flower.png') }}" alt="Aperçu de l'image" />
                     </div>
                     <button type="submit" class="btnProfile">Enregistrer les modifications</button>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">Annuler</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
 
                 </form>
             </div>

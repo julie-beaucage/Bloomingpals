@@ -29,7 +29,7 @@
             @endforeach
 
             @if (empty($interetsPourCategorie))
-                <p>Aucun intérêt dans la catégorie {{ $categorie->nomCategorie }}.</p>
+                <p>Aucun intérêt dans cette catégorie {{ $categorie->nomCategorie }}.</p>
             @else
                 @foreach ($interetsPourCategorie as $interetUtilisateur)
                     <div class="tag">{{ $interetUtilisateur->nomInteret }}</div>
@@ -41,7 +41,7 @@
     <div class="interet-overlay" id="overlay" style="display: none;">
         <div class="interet-modal">
             <h3 class="titreModalInteret">Modifier vos intérêts :</h3>
-            <button class="close-button"
+            <button class="close-button-interet"
                 onclick="window.location.href='{{ route('profile', Auth::user()->id) }}'">&times;</button>
             <form action="{{ route('interets.update_Interets', Auth::user()->id) }}" method="POST" id="interetForm">
                 @csrf
@@ -65,8 +65,9 @@
                     <p>Aucune catégorie trouvée.</p>
                 @endif
                 <input type="hidden" name="interets" id="interetSelectedInterets" value="{{ implode(',', $interetsUtilisateurTab) }}"> 
+                <button type="submit" class="interet-btn-submit">Sauvegarder les changements</button>
+                <button type="button" class="interet-btn-annuler" onclick="window.location.href='{{ route('profile', Auth::user()->id) }}'">Annuler</button>
 
-                <button type="submit" class="interet-btn-primary">Sauvegarder les changements</button>
             </form>
         </div>
     </div>
