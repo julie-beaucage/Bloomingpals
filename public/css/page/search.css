@@ -1,0 +1,8 @@
+.rencontres {
+    display: flex;
+    flex-direction: row;
+}
+
+.rencontres div {
+    width: max-content;
+}
