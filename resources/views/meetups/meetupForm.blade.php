@@ -1,6 +1,6 @@
 @extends("master")
 @php
-    $action = $actionCreate ? "/meetup/create" : "/meetup/edit/".$data['id'];
+$action = $actionCreate ? "/meetup/create" : "/meetup/edit/" . $data['id'];
 @endphp
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -165,7 +165,7 @@
             @endif
             </div>
 
-             @if($data!=null)
+             @if($data != null)
                 @if($data['temporaryImage'] != '')
                 <input type="text" name="temporaryImage" hidden value="{{$data['temporaryImage']}}">
                 @endif
@@ -187,14 +187,16 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div style="overflow-y:auto;" >
 
-            <button type="submit"
+            <button type="submit" style="margin-bottom:.2em;" 
                 class="btn btn-pink">{{$actionCreate ? "Crée le MeetUp" : "Modifier le MeetUp"}}</button>
-            <a class="btn btn-secondary" style="color:white !important;" onclick="window.history.go(-1);">Retour</a>
-            @if($actionCreate != "/meetup/create" )
-            <button type="button" class="btn btn-danger" onclick="window.location.href='/meetup/delete/{{$data['id']}}';">Effacer la rencontre</button>
+            <a class="btn btn-secondary" style="color:white !important; margin-bottom:.2em;" onclick="window.history.go(-1);">Retour</a>
+            @if($actionCreate != "/meetup/create")
+                <button type="button" class="btn btn-danger float-rightt"
+                    onclick="window.location.href='/meetup/delete/{{$data['id']}}';">Effacer la rencontre</button>
             @endif
+           
 
         </div>
     </form>

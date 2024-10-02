@@ -28,13 +28,35 @@ class usersController extends Controller
         $formFields = $request->validate([
             'lastname' => ['required', 'min:3', 'max:20'],
             'firstname' => ['required', 'min:3', 'max:20'],
-            'birthdate' => ['required', 'date', 'before:today'],
+            'birthdate' => ['required', 'date', 'before:' . now()->subYears(15)->toDateString()],
             'email' => ['required', 'email', 'max:100', Rule::unique('utilisateur', 'email')],
             'genre' => ['required', Rule::in(['homme', 'femme', 'non-genre'])],
             'password' => ['required', 'confirmed', 'min:6', 'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/']
         ], [
+            'lastname.required' => 'Le champ nom est obligatoire.',
+            'lastname.min' => 'Le nom doit contenir au moins :min caractères.',
+            'lastname.max' => 'Le nom ne peut pas dépasser :max caractères.',
+            
+            'firstname.required' => 'Le champ prénom est obligatoire.',
+            'firstname.min' => 'Le prénom doit contenir au moins :min caractères.',
+            'firstname.max' => 'Le prénom ne peut pas dépasser :max caractères.',
+            
+            'birthdate.required' => 'La date de naissance est obligatoire.',
+            'birthdate.date' => 'La date de naissance doit être une date valide.',
+            'birthdate.before' => 'Vous devez avoir au moins 15 ans.',
+        
+            'email.required' => 'Le champ email est obligatoire.',
+            'email.email' => 'Veuillez entrer une adresse email valide.',
+            'email.max' => 'L\'email ne peut pas dépasser :max caractères.',
+            'email.unique' => 'Cette adresse email est déjà utilisée.',
+        
+            'genre.required' => 'Le genre est obligatoire.',
+            'genre.in' => 'Le genre doit être l\'un des suivants : femme, homme, non-genre.',
+        
+            'password.required' => 'Le mot de passe est obligatoire.',
+            'password.confirmed' => 'La confirmation du mot de passe ne correspond pas.',
+            'password.min' => 'Le mot de passe doit contenir au moins :min caractères.',
             'password.regex' => "Le mot de passe doit respecter les critères suivants : <br>- Au moins un caractère spécial <br>- Au moins une majuscule <br>- Au moins une minuscule <br>- Au moins un chiffre.",
-            'genre.in' => 'Le genre doit être l\'un des suivants : femme, homme, non-genre.'
         ]);
 
         $password = bcrypt($formFields['password']);
@@ -55,14 +77,12 @@ class usersController extends Controller
 
             if ($user) {
                 if (!$user->hasVerifiedEmail()) {
-                    Log::info("email verifie");
                     $user->sendEmailVerificationNotification();
                 }
             }
             DB::commit(); 
             return view('auth.verify'); 
         } catch (QueryException $e) {
-            Log::info("error in sign in");
             DB::rollBack();
             Log::error('Erreur lors de la création de l\'utilisateur : ' . $e->getMessage());
 
@@ -131,6 +151,7 @@ class usersController extends Controller
             } else {
                 $formFields['background_image'] = $user->background_image;
             }
+
             DB::statement("CALL updateUserProfile(?, ?, ?, ?, ?, ?)", [
                 $user->id, 
                 $formFields['firstname'],
@@ -156,10 +177,6 @@ class usersController extends Controller
     public function personnalite($id) {
         return view('profile.personnalite', ['user' => User::findOrFail($id)]);
     }
-    /*
-    public function interets($id) {
-        return view('interets.interets', ['user' => User::findOrFail($id)]);
-    }*/
-    
+  
 
 }

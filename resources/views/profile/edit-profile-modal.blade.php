@@ -39,10 +39,10 @@
                         <label for="background_image" class="form-label">Image de fond</label>
                         <input type="file" class="form-control" id="background_image" name="background_image" onchange="previewImage(event, 'backgroundPreview')">
                         <img id="backgroundPreview" class="modifImage" src="{{ Auth::user()->background_image ? 
-                        asset('storage/' . Auth::user()->background_image) : asset('..\images\flower.png') }}" alt="Aperçu de l'image" />
+                        asset('storage/' . Auth::user()->background_image) : asset('..\images\R.jpg') }}" alt="Aperçu de l'image" />
                     </div>
                     <button type="submit" class="btnProfile">Enregistrer les modifications</button>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">Annuler</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
 
                 </form>
             </div>
@@ -59,3 +59,4 @@ function previewImage(event, previewId) {
     reader.readAsDataURL(file);
 }
 </script>
+

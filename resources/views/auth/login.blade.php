@@ -5,7 +5,7 @@
 @endsection()
 
 @section("content")
-<div class="pageContainer">
+<div class="pageContainerLogin">
     <header class="headerContainer">
         <div class="image_login">
             <img src="{{asset("../images/logoBloom.png")}}" alt="logo" class="imgLogo" />
@@ -27,6 +27,9 @@
             <div class="inputContainer">
                 <div class="entryarea entryarealogin">
                     <input type="password" class="inputSignup" id="password" placeholder="Mot de passe" class="alpha" name="password" value="{{ old('password') }}" required/>
+                    <span id="togglePassword" class="togglePassword" onclick="togglePasswordVisibility()">
+                        <i class="fas fa-eye"></i>
+                    </span>
                 </div>
                 <input type='hidden' class="errorMessage" name='error'></input>
                     @error('email')
@@ -40,4 +43,7 @@
         </form>
     </div>
 </div>
+@endsection()
+@section('script')
+<script src="{{asset('/js/validationLogin.js')}}"></script>
 @endsection()
