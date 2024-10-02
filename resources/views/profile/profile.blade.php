@@ -16,7 +16,7 @@
 <div id="profile_cntr">
     <div id="info_cntr">
         <div class="profile-picture no_select">
-            <img src="{{ $user->image_profile ? asset('storage/' . $user->image_profile) : asset('/images/simple_flower.png') }}"
+            <img src="{{ $user->image_profil ? asset('storage/' . $user->image_profil) : asset('/images/simple_flower.png') }}"
                 alt="Photo de profil">
         </div>
 

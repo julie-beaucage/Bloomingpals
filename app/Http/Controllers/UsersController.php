@@ -133,12 +133,12 @@ class UsersController extends Controller
         try {
             $user = auth()->user();  
             if ($request->hasFile('image_profile')) {
-                if ($user->image_profile && Storage::disk('public')->exists($user->image_profile)) {
-                    Storage::disk('public')->delete($user->image_profile);
+                if ($user->image_profil && Storage::disk('public')->exists($user->image_profil)) {
+                    Storage::disk('public')->delete($user->image_profil);
                 }
                 $formFields['image_profile'] = $request->file('image_profile')->store('images', 'public');
             } else {
-                $formFields['image_profile'] = $user->image_profile;
+                $formFields['image_profile'] = $user->image_profil;
             }
 
             if ($request->hasFile('background_image')) {

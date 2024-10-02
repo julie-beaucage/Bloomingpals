@@ -218,6 +218,7 @@ body {
     width: auto;
     max-width: 0;
     box-sizing: content-box;
+    white-space: nowrap;
 }
 
 .shrinked_only {
