@@ -18,7 +18,7 @@
 @endphp
 
 @section('content')
-    <div class="background_cntr">
+    <div class="background_cntr no_select">
         <div id="background_color"></div>
         <img id="background_img" src="{{ $event['image'] }}" alt="Bannière de l'événement">
     </div>

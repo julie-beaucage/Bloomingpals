@@ -9,13 +9,13 @@
 
 @section('content')
 <div id="profile_cntr">
-    <div id="background_cntr">
+    <div id="background_cntr no_select">
         <div id="background_color"></div>
         <img id="background_img" src="{{ Auth::user()->background_image ? asset('storage/' . Auth::user()->background_image) : asset('/images/R.jpg') }}"
             alt="Bannière du profile">
     </div>
     <div id="info_cntr">
-        <div class="profile-picture">
+        <div class="profile-picture no_select">
             <img src="{{ Auth::user()->image_profile ? asset('storage/' . Auth::user()->image_profile) : asset('/images/simple_flower.png') }}"
                 alt="" />
         </div>
