@@ -3,6 +3,9 @@ CALL creerUsager ('user1@email.com', 'Desroches', 'Caroline', CURDATE(), '$2y$10
 CALL creerUsager ('user2@email.com', 'Hétu', 'Adrien', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'homme');
 CALL creerUsager ('user3@email.com', 'Delmar', 'Mainville', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'non-genre');
 
+-- rencontres
+
+
 -- Interets --
 INSERT INTO categorie_interet (nom) VALUES 
 ('Sport'),

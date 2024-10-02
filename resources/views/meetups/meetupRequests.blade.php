@@ -46,15 +46,24 @@
 
 @section("content")
     <?php
+        $returnRouting = route("meetupPage", ["meetupId" => $meetupData->id]);
+
         $html = <<<HTML
-            <a>     
-                <div class="respondButton">
-                    retour
+            <div>
+                <div class="ibMax">
+                    <a href="{$returnRouting}">     
+                        <div class="respondButton">
+                            retour
+                        </div>
+                    </a>
                 </div>
-            </a>
-            <div class="title1">
-                Requête de la rencontre {$meetupData->nom}
+                <div class="ibMax">
+                    <div class="title1">
+                        Requête de la rencontre {$meetupData->nom}
+                    </div>
+                </div>
             </div>
+            <hr>
             <div class="profilesContainer">
                 $requestHtml
             </div>
