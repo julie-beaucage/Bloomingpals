@@ -139,3 +139,52 @@ BEGIN
 END;
 // DELIMITER ;
 -- -----------------------------------------------------
+
+
+-- Rencontre -------------------------------------------
+DROP PROCEDURE IF EXISTS creerRencontre;
+DELIMITER //
+CREATE PROCEDURE creerRencontre( _nom varchar(100), _description varchar(4096), _id_organisateur INT, _adresse Varchar(100), _ville Varchar(100), _date DATETIME ,_nb_participant INT, _image varchar(1024), _public Bool)
+BEGIN
+
+	START TRANSACTION;
+		Insert INTO rencontre (nom, `description`, id_organisateur, adresse, ville, `date`, nb_participant, image, public) 
+		VALUES ( _nom, _description, _id_organisateur, _adresse, _ville, _date,_nb_participant,	_image, _public);
+	COMMIT;
+	
+END;
+// DELIMITER ; 
+
+DROP PROCEDURE IF EXISTS modifierRencontre;
+
+DELIMITER //
+CREATE PROCEDURE modifierRencontre (id_rencontre INT ,_nom varchar(100), _description varchar(4096),   _id_organisateur INT, _adresse Varchar(100), _ville Varchar(100), _date DATETIME ,_nb_participant INT, _image varchar(1024), _public Bool)
+BEGIN
+	START TRANSACTION;
+		  UPDATE rencontre set nom=_nom where id = id_rencontre;
+          UPDATE rencontre set rencontre.`description`=_description where id = id_rencontre;
+          UPDATE rencontre set adresse=_adresse where id = id_rencontre;
+          UPDATE rencontre set ville=_ville where id = id_rencontre;
+          UPDATE rencontre set rencontre.`date`=_date where id = id_rencontre;
+          UPDATE rencontre set nb_participant=_nb_participant where id = id_rencontre;
+          
+          IF(_image != '') THEN
+          UPDATE rencontre set image=_image where id = id_rencontre;
+          END IF;
+          
+          UPDATE rencontre set public=_public where id = id_rencontre;
+	COMMIT;
+	
+END;
+// DELIMITER ;
+DROP PROCEDURE IF EXISTS effacerRencontre;
+DELIMITER //
+CREATE PROCEDURE effacerRencontre(id_rencontre INT)
+BEGIN
+	START TRANSACTION;
+		  DELETE FROM rencontre where rencontre.id= id_rencontre;
+	COMMIT;
+	
+END;
+// DELIMITER ;
+-- -----------------------------------------------------
