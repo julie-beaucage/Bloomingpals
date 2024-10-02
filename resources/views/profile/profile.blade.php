@@ -8,8 +8,8 @@
 
 @section('content')
 <div class="profileMain">
-    <div class="profile-background "
-        style="background-image: url('{{ asset('storage/' . Auth::user()->background_image) }}')">
+<div class="profile-background" 
+     style="background-image: url('{{ Auth::user()->background_image ? asset('storage/' . Auth::user()->background_image) : asset('images/R.jpg') }}')">
         <div class="profile-info">
             <img class="profile-picture"
                 src="{{ Auth::user()->image_profile ? asset('storage/' . Auth::user()->image_profile) : asset('/images/flower.png') }}"

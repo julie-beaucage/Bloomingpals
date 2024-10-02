@@ -151,6 +151,9 @@ class usersController extends Controller
             } else {
                 $formFields['background_image'] = $user->background_image;
             }
+            $backgroundImagePath = storage_path('app/public/' . $user->background_image);
+
+            Log::info('Chemin de l\'image de fond : ' . $backgroundImagePath);
             DB::statement("CALL updateUserProfile(?, ?, ?, ?, ?, ?)", [
                 $user->id, 
                 $formFields['firstname'],
