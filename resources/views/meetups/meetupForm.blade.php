@@ -155,7 +155,10 @@ $action = $actionCreate ? "/meetup/create" : "/meetup/edit/" . $data['id'];
                 </div>
                 <div style="max-width:98%; min-height:2em; margin:.5em;">       
             @if($data != null)
-                @if($data['image'] != '')
+                @if($data['temporaryImage'] != '')
+                    <input type="text" name="temporaryImage" hidden value="{{$data['temporaryImage']}}">
+                    <img class="img-preview" src="{{asset($data['temporaryImage'])}}">
+                @elseif($data['image'] != '')
                     <img class="img-preview" src="{{asset($data['image'])}}">
                 @else
                 <img class="img-preview" id="2">
@@ -164,12 +167,6 @@ $action = $actionCreate ? "/meetup/create" : "/meetup/edit/" . $data['id'];
                 <img class="img-preview">
             @endif
             </div>
-
-             @if($data != null)
-                @if($data['temporaryImage'] != '')
-                <input type="text" name="temporaryImage" hidden value="{{$data['temporaryImage']}}">
-                @endif
-            @endif 
         </div>
         <div class="form-group">
 
