@@ -4,22 +4,22 @@ CALL creerUsager ('user2@email.com', 'Hétu', 'Adrien', CURDATE(), '$2y$10$7jOPo
 CALL creerUsager ('user3@email.com', 'Delmar', 'Mainville', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'non-genre');
 
 -- rencontres
-INSERT INTO rencontre(nom, description, id_organisateur, adresse, date, nb_participant, public) 
+INSERT INTO meetups(name, description, id_owner, adress, date, nb_participant, public) 
     VALUES("Nom de la rencontre", "Voici la description", 1, "1234 rue popcorn", DATE "2025-01-01", 100, 1);
-INSERT INTO rencontre(nom, description, id_organisateur, adresse, date, nb_participant, public) 
+INSERT INTO meetups(name, description, id_owner, adress, date, nb_participant, public) 
     VALUES("Sortie au bar", "Voici la description", 2, "1234 rue popcorn", DATE "2025-07-11", 100, 1);
-    INSERT INTO rencontre(nom, description, id_organisateur, adresse, date, nb_participant, public) 
+    INSERT INTO meetups (name, description, id_owner, adress, date, nb_participant, public) 
     VALUES("Badminton", "Ravis de vous revoir gang :)", 1, "1234 rue popcorn", DATE "2025-01-01", 100, 1);
-    INSERT INTO rencontre(nom, description, id_organisateur, adresse, date, nb_participant, public) 
+    INSERT INTO meetups(name, description, id_owner, adress, date, nb_participant, public) 
     VALUES("Basket", "Oublier pas vos bouteilles d'eaus guys", 3, "1234 rue popcorn", DATE "2025-01-01", 100, 1);
-    INSERT INTO rencontre(nom, description, id_organisateur, adresse, date, nb_participant, public) 
+    INSERT INTO meetups(name, description, id_owner, adress, date, nb_participant, public) 
     VALUES("Randonné", "Nous allons monté le Mont-Tremblant", 1, "1234 rue popcorn", DATE "2025-01-01", 100, 1);
 
 
-INSERT INTO demande_rencontre (id_utilisateur, id_rencontre) VALUES (2, 1);
+INSERT INTO meetups_requests (id_user, id_meetup) VALUES (2, 1);
 
 -- Interets --
-INSERT INTO categorie_interet (nom) VALUES 
+INSERT INTO categories_interests (name) VALUES 
 ('Sport'),
 ('Culture'),
 ('Musicale'),
@@ -28,142 +28,142 @@ INSERT INTO categorie_interet (nom) VALUES
 ('Art');
 
 -- Sport
-INSERT INTO interet (nom, id_categorie) VALUES ('Bowling', 1);
-INSERT INTO interet (nom, id_categorie) VALUES ('Tennis', 1);
-INSERT INTO interet (nom, id_categorie) VALUES ('Ski', 1);
-INSERT INTO interet (nom, id_categorie) VALUES ('Planche à neige', 1);
-INSERT INTO interet (nom, id_categorie) VALUES ('Skidoo', 1);
-INSERT INTO interet (nom, id_categorie) VALUES ('Nage', 1);
-INSERT INTO interet (nom, id_categorie) VALUES ('Plongée', 1);
-INSERT INTO interet (nom, id_categorie) VALUES ('Saut en plongée', 1);
-INSERT INTO interet (nom, id_categorie) VALUES ('Hockey', 1);
-INSERT INTO interet (nom, id_categorie) VALUES ('Ringuette', 1);
-INSERT INTO interet (nom, id_categorie) VALUES ('Marche', 1);
-INSERT INTO interet (nom, id_categorie) VALUES ('Randonnée pédestre', 1);
-INSERT INTO interet (nom, id_categorie) VALUES ('Soccer', 1);
-INSERT INTO interet (nom, id_categorie) VALUES ('Billard', 1);
-INSERT INTO interet (nom, id_categorie) VALUES ('Patinage', 1);
-INSERT INTO interet (nom, id_categorie) VALUES ('Ping-pong', 1);
-INSERT INTO interet (nom, id_categorie) VALUES ('Escalade', 1);
-INSERT INTO interet (nom, id_categorie) VALUES ('Course à pied', 1);
-INSERT INTO interet (nom, id_categorie) VALUES ('Musculation', 1);
-INSERT INTO interet (nom, id_categorie) VALUES ('Kayak', 1);
-INSERT INTO interet (nom, id_categorie) VALUES ('Volleyball', 1);
-INSERT INTO interet (nom, id_categorie) VALUES ('Badminton', 1);
-INSERT INTO interet (nom, id_categorie) VALUES ('Danse', 1);
-INSERT INTO interet (nom, id_categorie) VALUES ('Vélo', 1);
-INSERT INTO interet (nom, id_categorie) VALUES ('Patin à roulettes', 1);
-INSERT INTO interet (nom, id_categorie) VALUES ('Athlétisme', 1);
-INSERT INTO interet (nom, id_categorie) VALUES ('Golf', 1);
-INSERT INTO interet (nom, id_categorie) VALUES ('Crossfit', 1);
-INSERT INTO interet (nom, id_categorie) VALUES ('Arts martiaux', 1);
-INSERT INTO interet (nom, id_categorie) VALUES ('Surf', 1);
-INSERT INTO interet (nom, id_categorie) VALUES ('Ski nautique', 1);
-INSERT INTO interet (nom, id_categorie) VALUES ('Raquette à neige', 1);
-INSERT INTO interet (nom, id_categorie) VALUES ('Lutte', 1);
-INSERT INTO interet (nom, id_categorie) VALUES ('Tir à l\'arc', 1);
-INSERT INTO interet (nom, id_categorie) VALUES ('Cyclisme', 1);
-INSERT INTO interet (nom, id_categorie) VALUES ('Rugby', 1);
-INSERT INTO interet (nom, id_categorie) VALUES ('Ultimate frisbee', 1);
-INSERT INTO interet (nom, id_categorie) VALUES ('Escalade en salle', 1);
-INSERT INTO interet (nom, id_categorie) VALUES ('Paddleboard', 1);
+INSERT INTO interests (name, id_category) VALUES ('Bowling', 1);
+INSERT INTO interests (name, id_category) VALUES ('Tennis', 1);
+INSERT INTO interests (name, id_category) VALUES ('Ski', 1);
+INSERT INTO interests (name, id_category) VALUES ('Planche à neige', 1);
+INSERT INTO interests (name, id_category) VALUES ('Skidoo', 1);
+INSERT INTO interests (name, id_category) VALUES ('Nage', 1);
+INSERT INTO interests (name, id_category) VALUES ('Plongée', 1);
+INSERT INTO interests (name, id_category) VALUES ('Saut en plongée', 1);
+INSERT INTO interests (name, id_category) VALUES ('Hockey', 1);
+INSERT INTO interests (name, id_category) VALUES ('Ringuette', 1);
+INSERT INTO interests (name, id_category) VALUES ('Marche', 1);
+INSERT INTO interests (name, id_category) VALUES ('Randonnée pédestre', 1);
+INSERT INTO interests (name, id_category) VALUES ('Soccer', 1);
+INSERT INTO interests (name, id_category) VALUES ('Billard', 1);
+INSERT INTO interests (name, id_category) VALUES ('Patinage', 1);
+INSERT INTO interests (name, id_category) VALUES ('Ping-pong', 1);
+INSERT INTO interests (name, id_category) VALUES ('Escalade', 1);
+INSERT INTO interests (name, id_category) VALUES ('Course à pied', 1);
+INSERT INTO interests (name, id_category) VALUES ('Musculation', 1);
+INSERT INTO interests (name, id_category) VALUES ('Kayak', 1);
+INSERT INTO interests (name, id_category) VALUES ('Volleyball', 1);
+INSERT INTO interests (name, id_category) VALUES ('Badminton', 1);
+INSERT INTO interests (name, id_category) VALUES ('Danse', 1);
+INSERT INTO interests (name, id_category) VALUES ('Vélo', 1);
+INSERT INTO interests (name, id_category) VALUES ('Patin à roulettes', 1);
+INSERT INTO interests (name, id_category) VALUES ('Athlétisme', 1);
+INSERT INTO interests (name, id_category) VALUES ('Golf', 1);
+INSERT INTO interests (name, id_category) VALUES ('Crossfit', 1);
+INSERT INTO interests (name, id_category) VALUES ('Arts martiaux', 1);
+INSERT INTO interests (name, id_category) VALUES ('Surf', 1);
+INSERT INTO interests (name, id_category) VALUES ('Ski nautique', 1);
+INSERT INTO interests (name, id_category) VALUES ('Raquette à neige', 1);
+INSERT INTO interests (name, id_category) VALUES ('Lutte', 1);
+INSERT INTO interests (name, id_category) VALUES ('Tir à l\'arc', 1);
+INSERT INTO interests (name, id_category) VALUES ('Cyclisme', 1);
+INSERT INTO interests (name, id_category) VALUES ('Rugby', 1);
+INSERT INTO interests (name, id_category) VALUES ('Ultimate frisbee', 1);
+INSERT INTO interests (name, id_category) VALUES ('Escalade en salle', 1);
+INSERT INTO interests (name, id_category) VALUES ('Paddleboard', 1);
 
 -- Culture
-INSERT INTO interet (nom, id_categorie) VALUES ('Lecture', 2);
-INSERT INTO interet (nom, id_categorie) VALUES ('Écriture', 2);
-INSERT INTO interet (nom, id_categorie) VALUES ('Jeux d\'échecs', 2);
-INSERT INTO interet (nom, id_categorie) VALUES ('Visite de musée', 2);
-INSERT INTO interet (nom, id_categorie) VALUES ('Cinéma', 2);
-INSERT INTO interet (nom, id_categorie) VALUES ('Histoire', 2);
-INSERT INTO interet (nom, id_categorie) VALUES ('Poésie', 2);
-INSERT INTO interet (nom, id_categorie) VALUES ('Cuisine régionale', 2);
-INSERT INTO interet (nom, id_categorie) VALUES ('Voyage culturel', 2);
+INSERT INTO interests (name, id_category) VALUES ('Lecture', 2);
+INSERT INTO interests (name, id_category) VALUES ('Écriture', 2);
+INSERT INTO interests (name, id_category) VALUES ('Jeux d\'échecs', 2);
+INSERT INTO interests (name, id_category) VALUES ('Visite de musée', 2);
+INSERT INTO interests (name, id_category) VALUES ('Cinéma', 2);
+INSERT INTO interests (name, id_category) VALUES ('Histoire', 2);
+INSERT INTO interests (name, id_category) VALUES ('Poésie', 2);
+INSERT INTO interests (name, id_category) VALUES ('Cuisine régionale', 2);
+INSERT INTO interests (name, id_category) VALUES ('Voyage culturel', 2);
 
 -- Musicale
-INSERT INTO interet (nom, id_categorie) VALUES ('Piano', 3);
-INSERT INTO interet (nom, id_categorie) VALUES ('Guitare', 3);
-INSERT INTO interet (nom, id_categorie) VALUES ('Batterie', 3);
-INSERT INTO interet (nom, id_categorie) VALUES ('Violon', 3);
-INSERT INTO interet (nom, id_categorie) VALUES ('Flûte', 3);
-INSERT INTO interet (nom, id_categorie) VALUES ('Saxophone', 3);
-INSERT INTO interet (nom, id_categorie) VALUES ('Clarinette', 3);
-INSERT INTO interet (nom, id_categorie) VALUES ('Harmonica', 3);
-INSERT INTO interet (nom, id_categorie) VALUES ('Trompette', 3);
-INSERT INTO interet (nom, id_categorie) VALUES ('Accordéon', 3);
-INSERT INTO interet (nom, id_categorie) VALUES ('Synthétiseur', 3);
-INSERT INTO interet (nom, id_categorie) VALUES ('Ukulélé', 3);
-INSERT INTO interet (nom, id_categorie) VALUES ('Classique', 3);
-INSERT INTO interet (nom, id_categorie) VALUES ('Rock', 3);
-INSERT INTO interet (nom, id_categorie) VALUES ('Pop', 3);
-INSERT INTO interet (nom, id_categorie) VALUES ('Jazz', 3);
-INSERT INTO interet (nom, id_categorie) VALUES ('Hip-hop', 3);
-INSERT INTO interet (nom, id_categorie) VALUES ('Reggae', 3);
-INSERT INTO interet (nom, id_categorie) VALUES ('Blues', 3);
-INSERT INTO interet (nom, id_categorie) VALUES ('Électro', 3);
-INSERT INTO interet (nom, id_categorie) VALUES ('Folk', 3);
-INSERT INTO interet (nom, id_categorie) VALUES ('Métal', 3);
-INSERT INTO interet (nom, id_categorie) VALUES ('Gospel', 3);
-INSERT INTO interet (nom, id_categorie) VALUES ('R&B', 3);
-INSERT INTO interet (nom, id_categorie) VALUES ('Country', 3);
-INSERT INTO interet (nom, id_categorie) VALUES ('Chanter', 3);
-INSERT INTO interet (nom, id_categorie) VALUES ('Écouter de la musique', 3);
-INSERT INTO interet (nom, id_categorie) VALUES ('Assister à des concerts', 3);
-INSERT INTO interet (nom, id_categorie) VALUES ('Composer', 3);
-INSERT INTO interet (nom, id_categorie) VALUES ('Jouer en groupe', 3);
-INSERT INTO interet (nom, id_categorie) VALUES ('Produire de la musique', 3);
-INSERT INTO interet (nom, id_categorie) VALUES ('Écrire des chansons', 3);
-INSERT INTO interet (nom, id_categorie) VALUES ('Participer à des jam sessions', 3);
+INSERT INTO interests (name, id_category) VALUES ('Piano', 3);
+INSERT INTO interests (name, id_category) VALUES ('Guitare', 3);
+INSERT INTO interests (name, id_category) VALUES ('Batterie', 3);
+INSERT INTO interests (name, id_category) VALUES ('Violon', 3);
+INSERT INTO interests (name, id_category) VALUES ('Flûte', 3);
+INSERT INTO interests (name, id_category) VALUES ('Saxophone', 3);
+INSERT INTO interests (name, id_category) VALUES ('Clarinette', 3);
+INSERT INTO interests (name, id_category) VALUES ('Harmonica', 3);
+INSERT INTO interests (name, id_category) VALUES ('Trompette', 3);
+INSERT INTO interests (name, id_category) VALUES ('Accordéon', 3);
+INSERT INTO interests (name, id_category) VALUES ('Synthétiseur', 3);
+INSERT INTO interests (name, id_category) VALUES ('Ukulélé', 3);
+INSERT INTO interests (name, id_category) VALUES ('Classique', 3);
+INSERT INTO interests (name, id_category) VALUES ('Rock', 3);
+INSERT INTO interests (name, id_category) VALUES ('Pop', 3);
+INSERT INTO interests (name, id_category) VALUES ('Jazz', 3);
+INSERT INTO interests (name, id_category) VALUES ('Hip-hop', 3);
+INSERT INTO interests (name, id_category) VALUES ('Reggae', 3);
+INSERT INTO interests (name, id_category) VALUES ('Blues', 3);
+INSERT INTO interests (name, id_category) VALUES ('Électro', 3);
+INSERT INTO interests (name, id_category) VALUES ('Folk', 3);
+INSERT INTO interests (name, id_category) VALUES ('Métal', 3);
+INSERT INTO interests (name, id_category) VALUES ('Gospel', 3);
+INSERT INTO interests (name, id_category) VALUES ('R&B', 3);
+INSERT INTO interests (name, id_category) VALUES ('Country', 3);
+INSERT INTO interests (name, id_category) VALUES ('Chanter', 3);
+INSERT INTO interests (name, id_category) VALUES ('Écouter de la musique', 3);
+INSERT INTO interests (name, id_category) VALUES ('Assister à des concerts', 3);
+INSERT INTO interests (name, id_category) VALUES ('Composer', 3);
+INSERT INTO interests (name, id_category) VALUES ('Jouer en groupe', 3);
+INSERT INTO interests (name, id_category) VALUES ('Produire de la musique', 3);
+INSERT INTO interests (name, id_category) VALUES ('Écrire des chansons', 3);
+INSERT INTO interests (name, id_category) VALUES ('Participer à des jam sessions', 3);
 
 -- Nerd
-INSERT INTO interet (nom, id_categorie) VALUES ('Anime', 4);
-INSERT INTO interet (nom, id_categorie) VALUES ('Manga', 4);
-INSERT INTO interet (nom, id_categorie) VALUES ('Jeux vidéo', 4);
-INSERT INTO interet (nom, id_categorie) VALUES ('Cosplay', 4);
-INSERT INTO interet (nom, id_categorie) VALUES ('Science-fiction', 4);
-INSERT INTO interet (nom, id_categorie) VALUES ('Fantasy', 4);
-INSERT INTO interet (nom, id_categorie) VALUES ('Board games', 4);
-INSERT INTO interet (nom, id_categorie) VALUES ('Comics', 4);
-INSERT INTO interet (nom, id_categorie) VALUES ('Jeux de rôle', 4);
-INSERT INTO interet (nom, id_categorie) VALUES ('Cartes à collectionner', 4);
-INSERT INTO interet (nom, id_categorie) VALUES ('Streaming', 4);
-INSERT INTO interet (nom, id_categorie) VALUES ('Création de contenu', 4);
-INSERT INTO interet (nom, id_categorie) VALUES ('Programmation', 4);
-INSERT INTO interet (nom, id_categorie) VALUES ('Écriture de fanfiction', 4);
-INSERT INTO interet (nom, id_categorie) VALUES ('Observation des oiseaux', 4);
-INSERT INTO interet (nom, id_categorie) VALUES ('Astronomie', 4);
+INSERT INTO interests (name, id_category) VALUES ('Anime', 4);
+INSERT INTO interests (name, id_category) VALUES ('Manga', 4);
+INSERT INTO interests (name, id_category) VALUES ('Jeux vidéo', 4);
+INSERT INTO interests (name, id_category) VALUES ('Cosplay', 4);
+INSERT INTO interests (name, id_category) VALUES ('Science-fiction', 4);
+INSERT INTO interests (name, id_category) VALUES ('Fantasy', 4);
+INSERT INTO interests (name, id_category) VALUES ('Board games', 4);
+INSERT INTO interests (name, id_category) VALUES ('Comics', 4);
+INSERT INTO interests (name, id_category) VALUES ('Jeux de rôle', 4);
+INSERT INTO interests (name, id_category) VALUES ('Cartes à collectionner', 4);
+INSERT INTO interests (name, id_category) VALUES ('Streaming', 4);
+INSERT INTO interests (name, id_category) VALUES ('Création de contenu', 4);
+INSERT INTO interests (name, id_category) VALUES ('Programmation', 4);
+INSERT INTO interests (name, id_category) VALUES ('Écriture de fanfiction', 4);
+INSERT INTO interests (name, id_category) VALUES ('Observation des oiseaux', 4);
+INSERT INTO interests (name, id_category) VALUES ('Astronomie', 4);
 
 -- Activite social
-INSERT INTO interet (nom, id_categorie) VALUES ('Plage', 5);
-INSERT INTO interet (nom, id_categorie) VALUES ('Restaurant', 5);
-INSERT INTO interet (nom, id_categorie) VALUES ('Voyager', 5);
-INSERT INTO interet (nom, id_categorie) VALUES ('Magasiner', 5);
-INSERT INTO interet (nom, id_categorie) VALUES ('Regarder la télévision', 5);
-INSERT INTO interet (nom, id_categorie) VALUES ('Bars', 5);
-INSERT INTO interet (nom, id_categorie) VALUES ('Aller dans les clubs', 5);
-INSERT INTO interet (nom, id_categorie) VALUES ('Zoo', 5);
-INSERT INTO interet (nom, id_categorie) VALUES ('Aquarium', 5);
-INSERT INTO interet (nom, id_categorie) VALUES ('Concerts', 5);
-INSERT INTO interet (nom, id_categorie) VALUES ('Sorties entre amis', 5);
-INSERT INTO interet (nom, id_categorie) VALUES ('Pique-nique', 5);
-INSERT INTO interet (nom, id_categorie) VALUES ('Camping', 5);
-INSERT INTO interet (nom, id_categorie) VALUES ('Jardiner', 5);
-INSERT INTO interet (nom, id_categorie) VALUES ('Visite de parcs', 5);
+INSERT INTO interests (name, id_category) VALUES ('Plage', 5);
+INSERT INTO interests (name, id_category) VALUES ('Restaurant', 5);
+INSERT INTO interests (name, id_category) VALUES ('Voyager', 5);
+INSERT INTO interests (name, id_category) VALUES ('Magasiner', 5);
+INSERT INTO interests (name, id_category) VALUES ('Regarder la télévision', 5);
+INSERT INTO interests (name, id_category) VALUES ('Bars', 5);
+INSERT INTO interests (name, id_category) VALUES ('Aller dans les clubs', 5);
+INSERT INTO interests (name, id_category) VALUES ('Zoo', 5);
+INSERT INTO interests (name, id_category) VALUES ('Aquarium', 5);
+INSERT INTO interests (name, id_category) VALUES ('Concerts', 5);
+INSERT INTO interests (name, id_category) VALUES ('Sorties entre amis', 5);
+INSERT INTO interests (name, id_category) VALUES ('Pique-nique', 5);
+INSERT INTO interests (name, id_category) VALUES ('Camping', 5);
+INSERT INTO interests (name, id_category) VALUES ('Jardiner', 5);
+INSERT INTO interests (name, id_category) VALUES ('Visite de parcs', 5);
 
 -- Art
-INSERT INTO interet (nom, id_categorie) VALUES ('Peinture', 6);
-INSERT INTO interet (nom, id_categorie) VALUES ('Sculpture', 6);
-INSERT INTO interet (nom, id_categorie) VALUES ('Photographie', 6);
-INSERT INTO interet (nom, id_categorie) VALUES ('Danse contemporaine', 6);
-INSERT INTO interet (nom, id_categorie) VALUES ('Expositions d\'art', 6);
-INSERT INTO interet (nom, id_categorie) VALUES ('Arts visuels', 6);
-INSERT INTO interet (nom, id_categorie) VALUES ('Théâtre', 6);
-INSERT INTO interet (nom, id_categorie) VALUES ('Arts du spectacle', 6);
-INSERT INTO interet (nom, id_categorie) VALUES ('Dessin', 6);
-INSERT INTO interet (nom, id_categorie) VALUES ('Dessin numérique', 6);
-INSERT INTO interet (nom, id_categorie) VALUES ('Vidéo', 6);
-INSERT INTO interet (nom, id_categorie) VALUES ('Menuiserie', 6);
-INSERT INTO interet (nom, id_categorie) VALUES ('Scrapbooking', 6);
-INSERT INTO interet (nom, id_categorie) VALUES ('Couture', 6);
+INSERT INTO interests (name, id_category) VALUES ('Peinture', 6);
+INSERT INTO interests (name, id_category) VALUES ('Sculpture', 6);
+INSERT INTO interests (name, id_category) VALUES ('Photographie', 6);
+INSERT INTO interests (name, id_category) VALUES ('Danse contemporaine', 6);
+INSERT INTO interests (name, id_category) VALUES ('Expositions d\'art', 6);
+INSERT INTO interests (name, id_category) VALUES ('Arts visuels', 6);
+INSERT INTO interests (name, id_category) VALUES ('Théâtre', 6);
+INSERT INTO interests (name, id_category) VALUES ('Arts du spectacle', 6);
+INSERT INTO interests (name, id_category) VALUES ('Dessin', 6);
+INSERT INTO interests (name, id_category) VALUES ('Dessin numérique', 6);
+INSERT INTO interests (name, id_category) VALUES ('Vidéo', 6);
+INSERT INTO interests (name, id_category) VALUES ('Menuiserie', 6);
+INSERT INTO interests (name, id_category) VALUES ('Scrapbooking', 6);
+INSERT INTO interests (name, id_category) VALUES ('Couture', 6);
 
 -- Evenement --
 CALL ajouterEvenement ('Calum Scott', '', 'Music', 'Montreal', '59 St Catherine Est', '2024-10-04 00:00:00', 'Paid', '//images.ctfassets.net/3yxl57nu0yl4/3d5i1WBx4n3idZgJ8crhde/d02a015f846716cf0e57bd65b2b05c63/calum_scott_2024.jpg');

@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+
 use Illuminate\Database\Eloquent\Model;
 
-class evenement_utilisateur extends Model
+class Type_Personality extends Model
 {
-    protected $table= 'evenement_utilisateur';
+    protected $table= 'types_personalities';
 
     public $timestamps = false;
 }

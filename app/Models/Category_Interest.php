@@ -4,18 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-class CategorieInteret extends Model
+class Category_Interest extends Model
 {
     use HasFactory;
-    protected $table = 'categorie_interet';
+    protected $table = 'categories_interests';
     protected $primaryKey = 'id'; 
-    public function interets()
+    public function interests()
     {
-        return $this->hasMany(Interet::class, 'id_categorie');
+        return $this->hasMany(Interest::class, 'id_category');
     }
     public static function getCategoryName($categoryId)
     {
-        return self::where('id', $categoryId)->value('nom');
+        return self::where('id', $categoryId)->value('name');
     }
 
 }

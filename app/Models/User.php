@@ -12,7 +12,7 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
-    protected $table = 'utilisateur';
+    protected $table = 'users';
     protected $primaryKey = 'id';
 
     public function hasVerifiedEmail()

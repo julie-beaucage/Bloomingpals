@@ -4,12 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class cities extends Model
+class ChatRoom extends Model
 {
-    protected $table= 'canadacities';
+    protected $table= 'chatRooms';
 
     public $timestamps = false;
-
-    
 }
-
