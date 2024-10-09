@@ -2,12 +2,11 @@
 
 namespace App\Models;
 
-
 use Illuminate\Database\Eloquent\Model;
 
-class historique_recherche extends Model
+class ChatRoom_User extends Model
 {
-    protected $table= 'historique_recherche';
+    protected $table= 'chatRooms_Users';
 
     public $timestamps = false;
 }

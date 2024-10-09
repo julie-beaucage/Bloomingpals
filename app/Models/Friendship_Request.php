@@ -5,9 +5,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class demande_ami extends Model
+class Friendship_Request extends Model
 {
-    protected $table= 'demande_ami';
+    protected $table= 'Friendships_Requests';
 
     public $timestamps = false;
 }

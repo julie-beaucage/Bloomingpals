@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class message extends Model
+class Message extends Model
 {
-    protected $table= 'message';
+    protected $table= 'messages';
 
     public $timestamps = false;
 }

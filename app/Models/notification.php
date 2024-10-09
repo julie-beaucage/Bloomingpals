@@ -5,9 +5,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class notification extends Model
+class Notification extends Model
 {
-    protected $table= 'notification';
+    protected $table= 'notifications';
 
     public $timestamps = false;
 }
