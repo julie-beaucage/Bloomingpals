@@ -14,11 +14,6 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-// TODO: remove when all controller are done.
-Route::get('/home', function () {
-    return view('home.feed');
-})->name('home');
-
 // Authentification
 Route::get('/email/verify/{id}/{hash}', [CustomVerificationController::class, 'verify'])->name('verification.verify');
 Route::get('/email/verify', function () {
@@ -44,6 +39,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/profile/update/{id}', [UsersController::class, 'update'])->name('profile.update');
     Route::get('profile/amis/{id}', [UsersController::class, 'amis'])->name('profile.amis');
     Route::get('profile/personnalite/{id}', [UsersController::class, 'personnalite'])->name('profile.personnalite');
+    Route::get('profile/events/{id}', [UsersController::class, 'events'])->name('profile.events');
 
     //INTERET
     Route::get('interets/interets/{id}', [InterestsController::class, 'interets'])->name('interets.interets');
