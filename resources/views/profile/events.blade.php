@@ -43,7 +43,13 @@ foreach ($eventsData as $eventData) {
         </a>
     HTML;
 }
-$eventsHtml .= '</div>';
+$eventsHtml .= <<<HTML
+    </div>
+    <div class="greyText title3">Fin des résultats</div>
+    
+HTML;
+
+
 
 echo $eventsHtml;
 

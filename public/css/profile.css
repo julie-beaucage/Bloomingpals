@@ -190,17 +190,16 @@ body {
 
 .events {
     display: grid;
-    grid-template-columns: repeat( auto-fit, minmax(25em, 1fr) );
+    grid-template-columns: repeat( auto-fit, minmax(20em, 1fr) );
     row-gap: 5em;
     justify-content: left;
-    padding: 5em;
+    padding: 2em;
 }
 
 .event {
     width: calc(100% - 4em);
     margin-left: 2em;
     margin-right: 2em;
-    max-width: 25em;
     border: 1px solid grey;
     border-radius: 1em;
     overflow: hidden;
