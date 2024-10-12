@@ -25,7 +25,7 @@
     text-align: center;
 }
 
-input[type="text"], input[type="password"], input[type="email"], input[type="date"] {
+input[type="text"], input[type="password"], input[type="email"], input[type="date"],select {
     width: 100%;
     padding: 0.9375em;
     margin: 0.625em 0;
@@ -36,7 +36,18 @@ input[type="text"], input[type="password"], input[type="email"], input[type="dat
     font-family: "Poppins", sans-serif !important;
     cursor: text;
 }
+.entryarea {
+    position: relative;
+}
 
+.togglePassword {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #aaa; 
+}
 header h1 {
     font-size: 2em;
     color: #333;

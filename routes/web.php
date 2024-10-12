@@ -49,6 +49,7 @@ Route::middleware('auth')->group(function () {
     Route::get('interets/interets/{id}', [InterestsController::class, 'interets'])->name('interets.interets');
     Route::put('/interets/update_Interets', [InterestsController::class, 'update_Interets'])->name('interets.update_Interets');
 
+
     // Meetup
     Route::get('/meetupForm', [MeetupController::class, 'Form']);
     Route::get('/meetupForm/{id}', [MeetupController::class, 'Form'])->name('meetupForm');

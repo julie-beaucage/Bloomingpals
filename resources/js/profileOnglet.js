@@ -5,11 +5,16 @@ document.addEventListener('DOMContentLoaded', function () {
         console.error('Aucun onglet trouvé.');
         return;
     }
-
+    tabLinks.forEach(link => {
+        console.log(`Onglet : ${link.textContent}, Actif : ${link.classList.contains('active')}`);
+    });
     function loadInterets() {
         const interestsTabLink = document.querySelector('.tab-link.active');
         if (interestsTabLink) {
+            console.log("Onglet actif :", interestsTabLink.textContent); // Ajouté pour indiquer l'onglet actif
+
             const url = interestsTabLink.getAttribute('href'); 
+            console.log("URL à charger :", url);
 
             fetch(url)
                 .then(response => {
