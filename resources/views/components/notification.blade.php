@@ -2,19 +2,33 @@
 @props(['notification'])
 
 @php
+date_default_timezone_set('America/Toronto');
 $content=json_decode($notification->content);
-$today=new DateTime(date('Y-m-d'));
+$today=new DateTime(date('Y-m-d H:i:s'));
 
 $notif_date= new DateTime($notification->created_date);
 $diff=$today->diff($notif_date);
 
-$time='Aujourd\'ui';
 
-if($diff->days>0){
-    $time='Il y a '.$diff->days. ' jours';
+$time='Il y a quelques instants';
+// 5 min
+if($diff->i>1){
+    $time='Il y a '. $diff->i.' minutes';
 }
+// 1h
+if($diff->h>0){
+    $time='Il y a '. $diff->h.' heure';
+    if($diff->h>1){ $time=$time.'s';}
+}
+// jour
+if($diff->days>0){
+    $time='Il y a '.$diff->days. ' jour';
+    if($diff->days>1){ $time=$time.'s';}
+}
+// semaine
 if($diff->days>6){
-$time='Il y a '.floor($diff->days/7). ' semaines';
+    $time='Il y a '.floor($diff->days/7). ' semaine';
+    if(floor($diff->days/7)>1){ $time=$time.'s';}
 }
 @endphp
 
@@ -25,13 +39,13 @@ $time='Il y a '.floor($diff->days/7). ' semaines';
 @switch($notification->name)
 
     @case('Friendship Request')
-    <div class="notification-container-page" onclick="window.location.href='profile/{{$content->user_send->id}}'" style="cursor:pointer;">
-        <div class="center-content"><img class="profile-picture"
-        id="notification-profile-picture" src="{{$image = $content->user_send->image_profil != null ? asset($content->user_send->image_profil): '/images/simple_flower.png';}}"></div>
+    <div class="notification-container-page" linking="/possible/de/voir/les/demandes/amis">
+        <div class="center-content"><a href="/profile/{{$content->user_send->id}}"><img class="profile-picture-notif"
+        id="notification-profile-picture" src="{{$image = $content->user_send->image_profil != null ? asset($content->user_send->image_profil): '/images/simple_flower.png';}}"></a></div>
 
         <div class="notification-content">
             <div class="header-and-icon">
-                <div class="center-content" id="notification-username"><a href="profile/{{$content->user_send->id}}">
+                <div class="center-content" id="notification-username"><a href="/profile/{{$content->user_send->id}}">
                     <strong>{{$content->user_send->first_name}}   {{$content->user_send->last_name}}</strong></a>&nbsp&nbsp {{$time}}</div><div></div>
                     @if($notification->status== 'unread')
                     <div class="notif-icon"><div class="inner-notif"></div></div>
@@ -43,13 +57,13 @@ $time='Il y a '.floor($diff->days/7). ' semaines';
 
         @break
         @case('Meetup Request')
-    <div class="notification-container-page" onclick="window.location.href='meetup/page/{{$content->meetup->id}}'" style="cursor:pointer;">
-        <div class="center-content"><img class="profile-picture"
-        id="notification-profile-picture" src="{{$image = $content->user_send->image_profil != null ? asset($content->user_send->image_profil): '/images/simple_flower.png';}}"></div>
+    <div class="notification-container-page" linking="/meetup/page/{{$content->meetup->id}}" >
+        <div class="center-content"><a href="/profile/{{$content->user_send->id}}" ><img class="profile-picture-notif"
+        id="notification-profile-picture" src="{{$image = $content->user_send->image_profil != null ? asset($content->user_send->image_profil): '/images/simple_flower.png';}}"></a></div>
 
         <div class="notification-content">
             <div class="header-and-icon">
-                <div class="center-content" id="notification-username"><a href="profile/{{$content->user_send->id}}">
+                <div class="center-content" id="notification-username"><a href="/profile/{{$content->user_send->id}}">
                     <strong>{{$content->user_send->first_name}}   {{$content->user_send->last_name}}</strong></a>&nbsp&nbsp {{$time}}</div><div></div>
                     @if($notification->status== 'unread')
                     <div class="notif-icon"><div class="inner-notif"></div></div>

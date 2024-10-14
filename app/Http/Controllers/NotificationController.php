@@ -57,6 +57,10 @@ class NotificationController extends Controller
                 $data = (array) json_decode($notification->content);
                 $data['id_notification'] = $notification->id;
                 $data['type'] = $type->name;
+
+                $this->markAsRead($notification->id);
+
+
                 return json_encode($data);
 
             } else {
@@ -70,7 +74,7 @@ class NotificationController extends Controller
         if (intval($id) != null) {
             $notification = New_Notification::where('id', $id)->first();
             if ($notification == null) {
-                return http_response_code(404);
+
             } else {
                 if ($notification->id_user != Auth::user()->id) {
                     abort(403);
@@ -82,7 +86,7 @@ class NotificationController extends Controller
                     $notification->content,
                     $notification->created_date
                 ]);
-                return http_response_code(200);
+
             }
         }
 

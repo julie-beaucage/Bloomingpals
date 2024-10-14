@@ -4,9 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class type_objet extends Model
+class City extends Model
 {
-    protected $table= 'type_objet';
+    protected $table= 'canadacities';
 
     public $timestamps = false;
+
+    
 }
+

@@ -1,4 +1,5 @@
 .notification-container{
+    z-index: 1001;
     display: flex;
     position:absolute;
     top:.5em;
@@ -11,11 +12,12 @@
      rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
     -moz-column-gap: .5em;
          column-gap: .5em;
+         cursor: pointer;
 }
 .notification-content *{
     overflow: hidden;
     text-overflow: ellipsis;
-    text-wrap: nowrap;
+    text-wrap: wrap;
 }
 /* .notification-content a{
     color: #0d6efd;
@@ -25,7 +27,7 @@
     display: flex;
     flex-direction: column;
     width:100%;
-    row-gap: .1em;
+
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -39,7 +41,7 @@
     justify-content: space-between;
 }
 
-.profile-picture {
+.profile-picture-notif {
     width: 3em;
     height: 3em;
     border-radius: 50%;
@@ -56,6 +58,23 @@
 @media only screen and (max-width: 600px) {
     .notification-container{
         top: 3em;
+        width: 97%;
+        padding: .1em;
+        -moz-column-gap: .2em;
+         column-gap: .2em;
+    }
+    .profile-picture-notif {
+        width: 2em;
+        height: 2em;
+        border-radius: 50%;
+        border: .1em solid white;
+    }
+    
+    .notification-content *{
+        font-size: .9em;
+    }
+    .notification-content{
+        font-size: .9em;
     }
     .container{
         margin-top: 4em !important;
@@ -81,6 +100,7 @@
      rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
     -moz-column-gap: .5em;
          column-gap: .5em;
+         cursor: pointer;
 }
 
 .notif-icon{
@@ -107,5 +127,7 @@
     cursor: pointer;
 }
 .border-red{
-    border-color: red;
+    border: 1px solid red;
 }
+
+

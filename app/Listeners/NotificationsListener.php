@@ -38,7 +38,11 @@ class NotificationsListener
         if($event->type=='Meetup Request'){
             $data['user_send']=USER::where('id',$event->user_send)->first();
             $data['meetup']=Meetup::where('id',$event->content['id'])->first();
-            $data['message']='Viens d\'envoyer une demande pour rejoindre votre Meetup :';
+            if($data['user_send']['genre']=='femme'){
+                $data['message']= 'vous as envoyée une demande pour rejoindre votre Meetup :';
+            }else{
+                $data['message']= 'vous a envoyé une demande pour rejoindre votre Meetup :';
+            }
             
         }
 
@@ -47,7 +51,7 @@ class NotificationsListener
             if($data['user_send']['genre']=='femme'){
                 $data['message']= 'vous as envoyée une demande d\'amitié';
             }else{
-                $data['message']= 'vous as envoyé une demande d\'amitié';
+                $data['message']= 'vous a envoyé une demande d\'amitié';
             }
             
 

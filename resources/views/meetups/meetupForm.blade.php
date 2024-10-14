@@ -329,7 +329,7 @@
         if (fileSize > 2000000) {
             $(".fileUploader-container").addClass("is-wrong");
             $(".fileUploader-container").after('<div class="wrong-feedback" id="image-feedback" >L\'image doit être plus petite que 2 Mo</div>');
-            $(".img-preview").attr('src', '');
+            $(".img-preview").hide();
         } else {
             $(".fileUploader-container").removeClass("is-wrong");
             $("#image-feedback").remove();
@@ -337,13 +337,15 @@
 
             reader.onloadend = function () {
                 $(".img-preview").attr('src', reader.result);
+                $(".img-preview").show();
+
 
             }
 
             if (file) {
                 reader.readAsDataURL(file);
             } else {
-                preview.src = "";
+                preview.src="";
             }
         }
 

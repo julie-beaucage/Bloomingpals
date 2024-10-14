@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class signalement extends Model
+class Object_Type extends Model
 {
-    protected $table= 'signalement';
+    protected $table= 'objects_types';
 
     public $timestamps = false;
 }

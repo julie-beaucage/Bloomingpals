@@ -9,8 +9,9 @@
 </head>
 
 <body>
-<x-header/>
+
     <div id="main">
+   
     
         @if (isset($view))
             <x-navbar active="$view" />
@@ -19,6 +20,7 @@
         @endif
 
         <div id="content">
+        <x-header/>
             
             @yield("content", "")
             <x-footer />

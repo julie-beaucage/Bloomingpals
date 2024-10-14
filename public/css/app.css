@@ -390,7 +390,6 @@ a {
     justify-content: space-between;
     background-color: var(--white);
     width: 100%;
-    position:absolute;
     top:0px;
     z-index: 101;
     padding-left: .5em;

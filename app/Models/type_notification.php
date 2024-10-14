@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class type_notification extends Model
+class Type_Notification extends Model
 {
-    protected $table= 'type_notification';
+    protected $table= 'types_notifications';
 
     public $timestamps = false;
 }
