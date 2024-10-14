@@ -7,10 +7,50 @@ if (count($users)  == 0) {
     return;
 }
 
+$html = <<<HTML
+    <div class="userGrid">
+HTML;
+
 foreach ($users as $user) {
-    echo <<< HTML
+
+
+    $buttonHtml = "";
+    $friendFound = false;
+    foreach ($amis as $ami) {
+        if ($ami->id == $user->id) {
+            $buttonHtml = `<div class="lastSpacing" value="addded">Ami</div>`;
+            $friendFound = true;
+        }
+    }
+
+    if (!$friendFound) { 
+        $buttonHtml = `<div class="lastSpacing button" value="add"><a class="blue_button" href="">Ajouter</a></div>`;
+    }
+
+    $imageUser = $user->image_profil ? asset('storage/' . $user->image_profil) : asset('/images/simple_flower.png');
+    $html .= <<<HTML
         <div>
-            <span>{$user->nom}</span>
+            <div class="profile_icon no_select" style="background-image: url($imageUser)">
+                        
+            </div>
+            <div>{$user->prenom}</div>
+            <div>{$user->nom}</div>
+            $buttonHtml
         </div>
     HTML;
 }
+
+$html .= <<< HTML
+    </div>
+HTML;
+
+echo $html;
+
+?>
+
+<script>
+    $(".lastButtonSpacing").on("click", function(button) {
+        button
+    });
+
+</script>

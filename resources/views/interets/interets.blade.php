@@ -11,6 +11,7 @@
 </head>
 
 <body>
+    <a id="testId" href="">TestButton</a>
     @if ($user->id == Auth::user()->id)
         <button class="buttonDetail btn btn-primary" id="openOverlay">
         <i class="fas fa-pencil-alt" style="color: black;"></i>
@@ -76,3 +77,11 @@
     @endif
 </body>
 </html>
+
+<script>
+
+    
+    $(SubMenu).html(`
+
+        `); 
+</script>

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\tag_rencontre;
+use App\Models\rencontre_utlisateur;
 
 class Rencontre extends Model
 {
@@ -40,6 +41,15 @@ class Rencontre extends Model
             }
         }
         return $users;
+    }
+    /**
+     * Summary of GetEventsFromUser
+     * @param mixed $userId
+     * @return evenement_utilisateur[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public static function GetRencontresFromUser($userId) {
+        $rencontresJoined = rencontre_utlisateur::where("id_utilisateur", $userId)->join("rencontre", "rencontre.id", "=", "rencontre_utilisateur.id_rencontre")->orderBy("rencontre.date", 'DESC')->get();
+        return $rencontresJoined;
     }
     /**
      * /

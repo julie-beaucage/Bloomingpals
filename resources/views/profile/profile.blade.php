@@ -32,28 +32,35 @@
     <div class="containerOnglerMain">
         <div class="listOnglet">
             <ul class="nav nav-tabs justify-content-center">
-            <li class="nav-item">
-                <a class="nav-link tab-link {{ request()->is('interets/*/interets') || !request()->is('profile/*') ? 'active' : '' }}"
-                    href="{{ route('interets.interets', $user->id) }}" data-target="interets/interests">Intérêts</a>
-            </li>
-                <li class="nav-item">
+                <li class="nav-item" title="Intérêts">
+                    <a class="nav-link tab-link {{ request()->is('interets/*/interets') || request()->is('profile/personnalite') || !request()->is('profile/*') ? 'active' : '' }}"
+                        href="{{ route('interets.interets', $user->id) }}" data-target="interets/interests">Informations</a>
+                </li>
+                <li class="nav-item" title="Amis">
                     <a class="nav-link tab-link {{ request()->is('profile/amis') ? 'active' : '' }}"
                         href="{{ route('profile.amis', $user->id) }}" data-target="profile/amis">Amis</a>
-                </li>
-                <li class="nav-item">
+                </li><!--
+                <li class="nav-item" title="Personalité">
                     <a class="nav-link tab-link {{ request()->is('profile/personnalite') ? 'active' : '' }}"
                         href="{{ route('profile.personnalite', $user->id) }}"
                         data-target="profile/personnalite">Personnalité</a>
-                </li>
-                <li class="nav-item">
+                </li>-->
+                <li class="nav-item" title="Events">
                     <a class="nav-link tab-link {{ request()->is('profile/events') ? 'active' : '' }}"
                         href="{{ route('profile.events', $user->id) }}"
-                        data-target="profile/events">events</a>
-                </li>
+                        data-target="profile/events">Activitées</a>
+                </li><!--
+                <li class="nav-item" title="Rencontres">
+                    <a class="nav-link tab-link {{ request()->is('profile/rencontres') ? 'active' : '' }}"
+                        href="{{ route('profile.rencontres', $user->id) }}"
+                        data-target="profile/rencontres">Rencontres</a>
+                </li>-->
             </ul>
         </div>
-        <div id="profile-content" class="onglet_profile">
-    </div>
+        <div id="information_container" class="onglet_profile">
+            <div id="SubMenu" class="onglet_profile"></div>
+            <div id="profile-content" class="onglet_profile"><!--information html--></div>
+        </div>
     </div>
 </div>
 @endsection()

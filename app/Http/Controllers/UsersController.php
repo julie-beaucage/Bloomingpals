@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
 use App\Models\User;
 use App\Models\Event;
+use App\Models\Rencontre;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 
@@ -90,6 +91,11 @@ class UsersController extends Controller
     public function events($id) {
         $eventsData = Event::GetEventsFromUser($id);
         return view("profile.events", ["eventsData" => $eventsData]);
+    }
+
+    public function rencontres($id) {
+        $rencontresData = Rencontre::GetRencontresFromUser($id);
+        return view("profile.events", ["eventsData" => $rencontresData]);
     }
 
 

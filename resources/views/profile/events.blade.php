@@ -1,4 +1,6 @@
 <?php
+
+
 $eventsHtml = '<div class="events">';
 foreach ($eventsData as $eventData) {
     $eventImage = "";
@@ -11,36 +13,38 @@ foreach ($eventsData as $eventData) {
     $route = route("event", ["id" => $eventData->id]);
 
     $eventsHtml .= <<<HTML
-        <a href="$route">
-            <div class="event">
-                <img class="image" src="$eventImage">
-                <div class="eventInfoContainer">
-                    <div class="title3 darkgreyText">
-                        $eventData->nom
-                    </div>
-                    <div class="hr">
-                    </div>
-                    <div class="flexSplitH">
-                        <div>
-                            <div class="darkgreyText">
-                                Date
-                            </div>
-                            <div class="greyText">
-                                $eventData->date
-                            </div>
+        <div class="eventContainer">
+            <a href="$route">
+                <div class="event">
+                    <img class="image" src="$eventImage">
+                    <div class="eventInfoContainer">
+                        <div class="title3 darkgreyText">
+                            $eventData->nom
                         </div>
-                        <div>
-                            <div class="darkgreyText">
-                                Lieu
+                        <div class="hr">
+                        </div>
+                        <div class="flexSplitH">
+                            <div>
+                                <div class="darkgreyText">
+                                    Date
+                                </div>
+                                <div class="greyText">
+                                    $eventData->date
+                                </div>
                             </div>
-                            <div class="greyText">
-                                $eventData->ville
+                            <div>
+                                <div class="darkgreyText">
+                                    Lieu
+                                </div>
+                                <div class="greyText">
+                                    $eventData->ville
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </a>
+            </a>
+        </div>
     HTML;
 }
 $eventsHtml .= <<<HTML

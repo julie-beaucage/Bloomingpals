@@ -53,6 +53,6 @@ class SearchController extends Controller
         }
 
         $users = Event::where('nom', 'LIKE', '%'.$query.'%')->get();
-        return view('partial_views.user_cards', ['users' => $users]);
+        return view('partial_views.user_cards', ['users' => $users, "amis" => $amis]);
     }
 }

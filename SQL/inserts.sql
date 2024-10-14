@@ -15,6 +15,8 @@ INSERT INTO rencontre(nom, description, id_organisateur, adresse, date, nb_parti
     INSERT INTO rencontre(nom, description, id_organisateur, adresse, date, nb_participant, public) 
     VALUES("Randonné", "Nous allons monté le Mont-Tremblant", 1, "1234 rue popcorn", DATE "2025-01-01", 100, 1);
 
+INSERT INTO rencontre_utilisateur(id_rencontre, id_utilisateur) VALUES(1, 1), (2, 1), (3, 1);
+
 
 INSERT INTO demande_rencontre (id_utilisateur, id_rencontre) VALUES (2, 1);
 
