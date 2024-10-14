@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MeetupController;
+use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\EventController;
@@ -77,4 +78,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/search/meetups', [SearchController::class, 'meetups'])->name('search.meetups');
     Route::get('/search/events', [SearchController::class, 'events'])->name('search.events');
     Route::get('/search/users', [SearchController::class, 'users'])->name('search.users');
+
+    // Notification
+    Route::get('/getNewNotification', [NotificationController::class, 'getNotification']);
+    Route::get('/ReadNewNotification/{id}', [NotificationController::class, 'markAsRead']);
+    Route::get('/ReadAll', [NotificationController::class, 'readAll']);
+    Route::get('/notifications', [NotificationController::class,'index']);
+    Route::get('/notifications/delete/{id}', [NotificationController::class,'delete'])->where('id', '[0-9]+');
 });

@@ -1,7 +1,7 @@
 @if (Auth::check())
     <nav id="navbar">
-        <span class="title no_select">BloomingPals</span>
-        <span class="shrinked_title no_select shrinked_only">BP</span>
+         <span class="title no_select">BloomingPals</span>
+        <span class="shrinked_title no_select shrinked_only">BP</span> 
         @php
             $tabs = [
                 [
@@ -29,10 +29,10 @@
                     'url' => route('meetup')
                 ],
                 [
-                    'id' => 'meetupForm',
-                    'title' => 'Créer un MeetUp',
-                    'icon' => 'group_add',
-                    'url' => "/meetupForm/"
+                    'id' => 'notification',
+                    'title' => 'Notifications',
+                    'icon' => 'notifications',
+                    'url' => "/notifications"
                 ],
                 [
                     'id' => 'logout',
@@ -40,6 +40,7 @@
                     'icon' => 'logout',
                     'url' => route('logout')
                 ]
+                
             ];
 
             foreach($tabs as $tab) {
@@ -52,12 +53,17 @@
                 $class = 'navbar_item no_select';
                 $class = $id == Route::current()->uri() ? $class . ' active' : $class;
 
+                $hideNotification='';
+
+                if($id=='notification'){ $hideNotification='hideNotification';}else{ $hideNotification='';}
+
+
                 echo <<< HTML
-                    <a class="$class" href="$url">
+                    <a class="$class $hideNotification" href="$url">
                         <div class="shrinked_title shrinked_only">
                             <span class="title">$title</span>
                         </div>
-                        <span class="navbar_icon">
+                        <span class="navbar_icon" >
                             <span class="material-symbols-rounded icon_md">$icon</span>
                             <span class="title">$title</span>
                         </span>

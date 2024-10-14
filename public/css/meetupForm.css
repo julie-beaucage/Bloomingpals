@@ -1,12 +1,12 @@
 a:hover i,
 a,
 i {
-  text-decoration: none !important;
-  color:var(--text) !important;
+    text-decoration: none !important;
+    color: var(--text) !important;
 }
 
 .meetup-container {
-    
+
     width: 80%;
     margin-top: 5em;
     height: -moz-fit-content;
@@ -19,15 +19,17 @@ i {
     padding: 1em;
     background-color: var(--white);
     box-sizing: border-box;
-    overflow-y:auto;
+    overflow-y: auto;
 }
-.float-rightt{
-    float:right;
+
+.float-rightt {
+    float: right;
 }
+
 @media only screen and (max-width: 670px) {
     .float-rightt {
         float: none;
-        }
+    }
 
 }
 
@@ -48,11 +50,13 @@ select {
     background-color: #f7edf7 !important;
 }
 
-.img-preview{
+.img-preview {
     width: 100%;
     max-height: 20em;
     -o-object-fit: cover;
-       object-fit: cover; -o-object-position: 50% 50%; object-position: 50% 50%;
+    object-fit: cover;
+    -o-object-position: 50% 50%;
+    object-position: 50% 50%;
 }
 
 /* drop down css */
@@ -66,15 +70,16 @@ select {
     position: absolute;
     background-color: #f7edf7;
     overflow: auto;
-    width:calc(100% - 10px);
+    width: calc(100% - 10px);
     border: 1px solid var(--neutral-400);
     z-index: 1;
     max-height: 15em;
     border-radius: 0.5em;
     box-sizing: border-box;
     overflow-x: hidden;
-    
+
 }
+
 .city-dropdown-content option:hover {
     background-color: #e3dae3;
 }
@@ -84,17 +89,21 @@ select {
     display: block;
     padding: 12px 16px;
 }
-.show{
+
+.show {
     display: block;
 }
-.selected{
+
+.selected {
     background-color: var(--background);
 }
-.selected:hover{
+
+.selected:hover {
     background-color: var(--background) !important;
 }
+
 .city-dropdown-content option:active {
-    background-color:var(--background);
+    background-color: var(--background);
 }
 
 input[type="file"]::file-selector-button {
@@ -102,64 +111,96 @@ input[type="file"]::file-selector-button {
     padding: 0 0.5em;
     cursor: pointer;
     height: 1.94em;
-    background-color:  #f7edf7 !important;
+    background-color: #f7edf7 !important;
     margin-right: 1em;
     border: 1px solid #ced4da;
-    
-    }
 
-  input[type="file"]{
+}
+
+input[type="file"] {
     background-color: var(--background) !important;
-    content:"GRR";
+    content: "GRR";
 
-  }
-.btn-pink{
+}
+
+.btn-pink {
     background-color: var(--pink);
     color: white !important;
 }
 
 
- /* le file uploader */
+/* le file uploader */
 
-.fileUploader-container{
+.fileUploader-container {
     border: 0.08em solid var(--border);
     border-radius: .8em;
     display: flex;
     flex-direction: column;
-    width:100%;
- }
+    width: 100%;
+}
 
- .fileUploader-header{
+.fileUploader-header {
     display: inline-flex;
-    padding:.5em;
+    padding: .5em;
     border-bottom: 0.08em solid var(--border);
     height: -moz-fit-content;
     height: fit-content;
     box-sizing: border-box;
- }
- .fileUploader-header-btn{
+}
+
+.fileUploader-header-btn {
     width: -moz-fit-content;
     width: fit-content;
     background-color: var(--background) !important;
-    padding:.2em 0.5em;
+    padding: .2em 0.5em;
     border: 1px solid #999;
     border-radius: 3px;
     font-weight: 700;
     font-size: 10pt;
     text-wrap: wrap;
- }
- /*.fileUploader-header-btn::before {
-    content: 'Choisir une image';
-    display: inline-block;
-    background: linear-gradient(top, #f9f9f9, #e3e3e3);
-    border: 1px solid #999;
-    border-radius: 3px;
-    padding: 5px 8px;
-    outline: none;
-    white-space: nowrap;
-    cursor: pointer;
-    text-shadow: 1px 1px #fff;
-    font-weight: 700;
-    font-size: 10pt;
-  } */
+}
 
+.is-wrong {
+    border-color: #dc3545 !important;
+}
+.is-wrong * {
+    border-color: #dc3545 !important;
+}
+
+.wrong-feedback {
+    width: 100%;
+    margin-top: .25rem;
+    font-size: 80%;
+    color: #dc3545;
+    margin-left: .01em;
+    margin-bottom: .5em;
+}
+.pop-up-overlay{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.50);
+    z-index: 999999;
+
+}
+.pop-up{
+   
+    display: flex;
+    flex-direction: column;
+    top:.5em;
+    padding: .5em;
+    width:20em;
+    background-color: white;
+    border-radius: .5em;
+    margin:auto;
+    row-gap: 1em;
+    margin-top: 20%;
+ 
+}
+.close_icon{
+    font-family: 'Material Symbols Rounded';
+    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    font-size: 1.5em !important;
+}

@@ -298,6 +298,12 @@ body {
     #footer {
         display: none;
     }
+    .header-nav{
+        display: flex !important;
+    }
+    .hideNotification{
+        display: none !important;;
+    }
 }
 
 /*-------------------- General styles --------------------*/
@@ -323,6 +329,7 @@ a {
 
 .link {
     color: var(--link) !important;
+    cursor: pointer;
 }
 
 .link:hover {
@@ -376,4 +383,23 @@ a {
 }
 .grey_text {
     color: rgb(168, 168, 168);
+}
+
+.header-nav{
+    display: none;
+    justify-content: space-between;
+    background-color: var(--white);
+    width: 100%;
+    position:absolute;
+    top:0px;
+    z-index: 101;
+    padding-left: .5em;
+    padding-right: .2em;
+    padding-top: 0.1em;
+    box-sizing: border-box;
+    
+}
+.header-title{
+    font-size: 1.5em;
+    font-weight: 600;
 }

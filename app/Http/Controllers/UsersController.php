@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
@@ -10,6 +11,9 @@ use Illuminate\Database\QueryException;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Notifications\Messages\BroadcastMessage;
+use Illuminate\Broadcasting\PrivateChannel;
+
 
 class UsersController extends Controller
 {
@@ -100,6 +104,9 @@ class UsersController extends Controller
         if(auth()->attempt($data)) {
             $request->session()->regenerate();
             $id = auth()->user()->id;
+            $notifController=new NotificationController();
+            $notifController->sendAllToNoficationTable($id);
+            
             return redirect('/profile/'.$id)->with('message', 'Bienvenue sur BloomingPals, '.auth()->user()->prenom);
         }
         return back()->withErrors(['email'=>'Le courriel et le mot de passe ne correspondent pas'])->onlyInput('email');
@@ -174,5 +181,9 @@ class UsersController extends Controller
 
     public function personnalite($id) {
         return view('profile.personnalite', ['user' => User::findOrFail($id)]);
+    }
+    
+    public function receivesBroadcastNotificationsOn():string{
+        return 'notificationRecue';
     }
 }

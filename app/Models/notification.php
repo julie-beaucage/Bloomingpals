@@ -9,5 +9,5 @@ class notification extends Model
 {
     protected $table= 'notification';
 
-    public $timestamps = false;
+    public $timestamps = False;
 }
