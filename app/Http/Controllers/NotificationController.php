@@ -19,6 +19,7 @@ use App\Models\New_Notification;
 use App\Models\Type_Notification;
 use App\Models\Meetup;
 use function PHPUnit\Framework\isNan;
+use DateTime;
 
 
 
@@ -130,6 +131,26 @@ class NotificationController extends Controller
 
         }
         return http_response_code(404);
+    }
+
+    public function sendDailyNotification($id_user){
+        $user=User::where('id','=',$id_user)->first();
+        if($user != null){
+            date_default_timezone_set('America/Toronto');
+            $today=new DateTime(date('Y-m-d H:i:s'));
+            if($user->daily_notif == null){
+
+            }else{
+                $last_notif= new DateTime($user->daily_notif);
+                $diff=$today->diff($last_notif);
+
+
+                if($diff->days>0){
+                    
+                }
+
+            }
+        }
     }
 
 }

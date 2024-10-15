@@ -51,7 +51,8 @@ class MeetupController extends BaseController
 
         if(Auth::user()->id == 2){
             //event(new NewNotif(1,2,'Meetup Request',['id'=>4]));
-            event(new NewNotif(1,2,'Friendship Request',[]));
+            //event(new NewNotif(1,2,'Friendship Request',[]));
+            event(new NewNotif(1,0,'Meetup Interest',['id'=>3]));
 
         }
         

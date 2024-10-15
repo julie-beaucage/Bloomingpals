@@ -106,6 +106,7 @@ class UsersController extends Controller
             $id = auth()->user()->id;
             $notifController=new NotificationController();
             $notifController->sendAllToNoficationTable($id);
+            //$notifController -> send
             
             return redirect('/profile/'.$id)->with('message', 'Bienvenue sur BloomingPals, '.auth()->user()->prenom);
         }

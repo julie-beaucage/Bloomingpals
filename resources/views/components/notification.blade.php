@@ -30,6 +30,8 @@ if($diff->days>6){
     $time='Il y a '.floor($diff->days/7). ' semaine';
     if(floor($diff->days/7)>1){ $time=$time.'s';}
 }
+
+
 @endphp
 
 
@@ -73,7 +75,26 @@ if($diff->days>6){
             </div>
             </div>
 
-        @break            
+        @break 
+        
+        @case('Meetup Interest')
+        
+        <div class="notification-container-page" linking="/meetup/page/{{$content->meetup->id}}" >
+        <div class="center-content"><a ><img class="profile-picture-notif square"
+        id="notification-profile-picture" src="{{$content->meetup->image}}"></a></div>
+
+        <div class="notification-content">
+            <div class="header-and-icon">
+                <div class="center-content" id="notification-username"><a >
+                    <strong>{{$content->header}}</strong></a>&nbsp&nbsp {{$time}}</div><div></div>
+                    @if($notification->status== 'unread')
+                    <div class="notif-icon"><div class="inner-notif"></div></div>
+                    @endif
+                </div>
+            <div style="text-wrap:wrap;">{!! $content->message !!}</div>
+            </div>
+            </div>
+        @break
 @endswitch
 <span class="material-symbols-rounded close_icon-page" id="{{$notification->id}}">close</span>
 </div>

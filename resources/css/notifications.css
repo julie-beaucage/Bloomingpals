@@ -31,17 +31,23 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
-.close_icon{
+.close_icon {
     font-family: 'Material Symbols Rounded';
     font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
     font-size: 1.5em !important;
+}
+* .close_icon {
+    display: flex;
+    align-items: center;
 }
 .header-and-icon{
     display: flex;
     justify-content: space-between;
 }
 
+
 .profile-picture-notif {
+    margin-top: .2em;
     width: 3em;
     height: 3em;
     border-radius: 50%;
@@ -49,6 +55,9 @@
     -o-object-fit: cover;
        object-fit: cover;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+.square{
+ border-radius: 5% !important;   
 }
 
 .center-content{
@@ -112,6 +121,7 @@
     border-radius: 50%;
     background: red;
 }
+
 .inner-notif{
     width: .25em;
     height: .25em;
@@ -129,5 +139,7 @@
 .border-red{
     border: 1px solid red;
 }
+
+
 
 

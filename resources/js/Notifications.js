@@ -33,7 +33,7 @@ $(document).ready(function () {
                  image = parsedData.user_send.image_profil== null ? '/images/simple_flower.png' : 'storage/'+parsedData.user_send.image_profil;
 
 
-            htmlElement = '<div class="notification-container" id="'+ parsedData.id_notification+ ' linking="/possible/de/voir/les/demandes/amis">'+
+            htmlElement = '<div class="notification-container" id="'+ parsedData.id_notification+ '" linking="/possible/de/voir/les/demandes/amis">'+
                  '<div class="center-content"><a href="profile/'+ parsedData.user_send.id+ '"><img class="profile-picture-notif" id="notification-profile-picture" src="' +
                  image + '"></a></div>' +
                  '<div class="notification-content">'+
@@ -47,6 +47,23 @@ $(document).ready(function () {
 
                  $("#content").append(htmlElement);
                 break;
+
+                case 'Meetup Interest':
+                    
+                    htmlElement= '<div class="notification-container" id="'+parsedData.id_notification+'" linking="/meetup/page/'+parsedData.meetup.id+'">'+
+                 '<div class="center-content"><a class="center-content"><img class="profile-picture-notif square" id="notification-profile-picture" src="' +
+                 parsedData.meetup.image + '"></a></div>' +
+                 '<div class="notification-content">'+
+                 '<div class="header-and-icon">'+
+                    '<div class="center-content" id="notification-username"><a><strong>' + parsedData.header +'</strong></a></div>'+
+                    '<a id="close-notification" style="cursor:pointer;"><span class="close_icon">close</span></a>'+
+                    '</div>' +
+                 ' <div style="text-wrap:wrap;">' + parsedData.message + '</div>'+
+                 '</div>'                 
+                 +'</div>';
+                 $("#content").append(htmlElement);
+                break;
+
         }
         handleNewNotification();
     }
@@ -82,7 +99,7 @@ $(document).ready(function () {
         notification_read=true;
     })
 
-     window.setTimeout(function(){ if(!notification_read){$(".notification-container").remove();}}, 10 * 1000);
+     //window.setTimeout(function(){ if(!notification_read){$(".notification-container").remove();}}, 10 * 1000);
     }
 
 
