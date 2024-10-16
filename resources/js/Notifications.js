@@ -3,9 +3,9 @@ $(document).ready(function () {
     function displayNotification(data) {
         parsedData = JSON.parse(data);
         let notification = document.createElement("div");
-        notification.innerText = "testing";
+ 
         notification.classList.add("notification-container");
-        let documentContent = document.getElementById("content");
+
 
         let htmlElement;
         console.log(parsedData.type);
@@ -17,7 +17,7 @@ $(document).ready(function () {
 
                  htmlElement = '<div class="notification-container" id="'+ parsedData.id_notification+ '" linking="/meetup/page/'+parsedData.meetup.id+'">'+
                  '<div class="center-content"><a id="profile-notif" href="/profile/'+parsedData.user_send.id+ '""><img class="profile-picture-notif" id="notification-profile-picture" src="' +
-                 image + '"></a></div>' +
+                 window.location.origin+ '/'+  image + '"></a></div>' +
                  '<div class="notification-content" id="'+parsedData.type+'">'+
                  '<div class="header-and-icon">'+
                     '<div class="center-content" id="notification-username"><a href="/profile/'+ parsedData.user_send.id+ '"><strong>' + parsedData.user_send.first_name + ' ' + parsedData.user_send.last_name +'</strong></a></div>'+
@@ -35,7 +35,7 @@ $(document).ready(function () {
 
             htmlElement = '<div class="notification-container" id="'+ parsedData.id_notification+ '" linking="/possible/de/voir/les/demandes/amis">'+
                  '<div class="center-content"><a href="profile/'+ parsedData.user_send.id+ '"><img class="profile-picture-notif" id="notification-profile-picture" src="' +
-                 image + '"></a></div>' +
+                 window.location.origin+ '/'+  image + '"></a></div>' +
                  '<div class="notification-content">'+
                  '<div class="header-and-icon">'+
                     '<div class="center-content" id="notification-username"><a href="profile/'+ parsedData.user_send.id+ '"><strong>' + parsedData.user_send.first_name + ' ' + parsedData.user_send.last_name +'</strong></a></div>'+
@@ -52,7 +52,7 @@ $(document).ready(function () {
                     
                     htmlElement= '<div class="notification-container" id="'+parsedData.id_notification+'" linking="/meetup/page/'+parsedData.meetup.id+'">'+
                  '<div class="center-content"><a class="center-content"><img class="profile-picture-notif square" id="notification-profile-picture" src="' +
-                 parsedData.meetup.image + '"></a></div>' +
+                 window.location.origin+ '/'+ parsedData.meetup.image + '"></a></div>' +
                  '<div class="notification-content">'+
                  '<div class="header-and-icon">'+
                     '<div class="center-content" id="notification-username"><a><strong>' + parsedData.header +'</strong></a></div>'+
@@ -62,6 +62,7 @@ $(document).ready(function () {
                  '</div>'                 
                  +'</div>';
                  $("#content").append(htmlElement);
+                 console.log( parsedData);
                 break;
 
         }

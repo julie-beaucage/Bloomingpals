@@ -49,10 +49,10 @@ class MeetupController extends BaseController
         //$user->notify(new MeetupJoined(1));
         //$type=Type_Notification::where('name','Meetup Joined')->first();
 
-        if(Auth::user()->id == 2){
+        if(Auth::user()->id == 1){
             //event(new NewNotif(1,2,'Meetup Request',['id'=>4]));
-            //event(new NewNotif(1,2,'Friendship Request',[]));
-            event(new NewNotif(1,0,'Meetup Interest',['id'=>3]));
+            event(new NewNotif(2,1,'Friendship Request',[]));
+            //event(new NewNotif(1,0,'Meetup Interest',['id'=>3]));
 
         }
         

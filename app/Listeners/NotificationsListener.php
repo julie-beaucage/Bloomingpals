@@ -88,9 +88,11 @@ class NotificationsListener
        
         $user=USER::where('id',$event->user_receive)->first();
         $data['user_receive']=$user;
+        $data['user_receive']['password']="";
 
         if($event->type=='Meetup Request'){
             $data['user_send']=USER::where('id',$event->user_send)->first();
+            $data['user_send']['password']="";
             $data['meetup']=Meetup::where('id',$event->content['id'])->first();
             if($data['user_send']['genre']=='femme'){
                 $data['message']= 'vous as envoyée une demande pour rejoindre votre Meetup :';
@@ -101,6 +103,7 @@ class NotificationsListener
 
         if($event->type== 'Friendship Request'){
             $data['user_send']=USER::where('id',$event->user_send)->first();
+            $data['user_send']['password']="";
             if($data['user_send']['genre']=='femme'){
                 $data['message']= 'vous as envoyée une demande d\'amitié';
             }else{

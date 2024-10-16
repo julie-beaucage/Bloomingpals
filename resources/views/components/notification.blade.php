@@ -10,19 +10,19 @@ $notif_date= new DateTime($notification->created_date);
 $diff=$today->diff($notif_date);
 
 
-$time='Il y a quelques instants';
+$time='Quelques instants';
 // 5 min
 if($diff->i>1){
-    $time='Il y a '. $diff->i.' minutes';
+    $time=$diff->i.' minutes';
 }
 // 1h
 if($diff->h>0){
-    $time='Il y a '. $diff->h.' heure';
+    $time=$diff->h.' heure';
     if($diff->h>1){ $time=$time.'s';}
 }
 // jour
 if($diff->days>0){
-    $time='Il y a '.$diff->days. ' jour';
+    $time=$diff->days. ' jour';
     if($diff->days>1){ $time=$time.'s';}
 }
 // semaine
@@ -43,17 +43,17 @@ if($diff->days>6){
     @case('Friendship Request')
     <div class="notification-container-page" linking="/possible/de/voir/les/demandes/amis">
         <div class="center-content"><a href="/profile/{{$content->user_send->id}}"><img class="profile-picture-notif"
-        id="notification-profile-picture" src="{{$image = $content->user_send->image_profil != null ? asset($content->user_send->image_profil): '/images/simple_flower.png';}}"></a></div>
+        id="notification-profile-picture" src="{{$image = $content->user_send->image_profil != null ? asset('storage/'.$content->user_send->image_profil): '/images/simple_flower.png';}}"></a></div>
 
         <div class="notification-content">
             <div class="header-and-icon">
                 <div class="center-content" id="notification-username"><a href="/profile/{{$content->user_send->id}}">
                     <strong>{{$content->user_send->first_name}}   {{$content->user_send->last_name}}</strong></a>&nbsp&nbsp {{$time}}</div><div></div>
                     @if($notification->status== 'unread')
-                    <div class="notif-icon"><div class="inner-notif"></div></div>
+                    <div class="notif-icon"></div>
                     @endif
                 </div>
-            <div style="text-wrap:wrap;">{{$content->message}}</div>
+            <div class="overflow-text">{{$content->message}}</div>
             </div>
             </div>
 
@@ -68,10 +68,10 @@ if($diff->days>6){
                 <div class="center-content" id="notification-username"><a href="/profile/{{$content->user_send->id}}">
                     <strong>{{$content->user_send->first_name}}   {{$content->user_send->last_name}}</strong></a>&nbsp&nbsp {{$time}}</div><div></div>
                     @if($notification->status== 'unread')
-                    <div class="notif-icon"><div class="inner-notif"></div></div>
+                    <div class="notif-icon"></div>
                     @endif
                 </div>
-            <div style="text-wrap:wrap;">{{$content->message}} &nbsp <strong>{{$content->meetup->name}}</strong></div>
+            <div class="overflow-text">{{$content->message}} &nbsp <strong>{{$content->meetup->name}}</strong></div>
             </div>
             </div>
 
@@ -86,12 +86,12 @@ if($diff->days>6){
         <div class="notification-content">
             <div class="header-and-icon">
                 <div class="center-content" id="notification-username"><a >
-                    <strong>{{$content->header}}</strong></a>&nbsp&nbsp {{$time}}</div><div></div>
+                    <strong>{{$content->header}}</strong></a>&nbsp {{$time}}</div><div></div>
                     @if($notification->status== 'unread')
-                    <div class="notif-icon"><div class="inner-notif"></div></div>
+                    <div class="notif-icon"></div>
                     @endif
                 </div>
-            <div style="text-wrap:wrap;">{!! $content->message !!}</div>
+            <div class="overflow-text">{!! $content->message !!}</div>
             </div>
             </div>
         @break

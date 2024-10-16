@@ -61,6 +61,8 @@ class NotificationController extends Controller
 
                 $this->markAsRead($notification->id);
 
+                //log::log(1,'test',$data);
+
 
                 return json_encode($data);
 

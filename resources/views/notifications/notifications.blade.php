@@ -8,7 +8,7 @@
 @section('content')
 
 @if($notifications->first() == null)
-        <div style="margin-top:30%; font-size:1.5em;"><strong>Aucune notifications</strong></div>
+        <div style="margin-top:20%; font-size:1.5em;"><strong>Aucune notifications</strong></div>
 @else
 <div class="container">
     
@@ -29,7 +29,7 @@
                 type: "GET",
                 url: '/ReadAll',
             });
-        }, 5 * 1000);
+        }, 2 * 1000);
 
         $('.notification-container-page').on('click', function (event) {
             window.location.href = $(this).attr('linking');
