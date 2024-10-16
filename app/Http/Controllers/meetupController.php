@@ -121,7 +121,7 @@ class MeetupController extends BaseController
            
             if ($req->file('image') != null and $req->file('image')->getError() == 0)  {
                 
-                $path = $req->file('image')->store('public/tempo\images');
+                $path = $req->file('image')->store('public/tempo/images');
                 $path =str_replace('public/','','storage/' . $path);
             } else {
                 $path = '';
@@ -153,14 +153,14 @@ class MeetupController extends BaseController
                 $tabExplode = explode('/', $req->temporaryImage);
             
                 $fileName = $tabExplode[count($tabExplode) - 1];
-                if (Storage::move($realPath, 'public/meetup\images/' . $fileName) == 1) {
-                    $path = 'storage\meetup\images/' . $fileName;
+                if (Storage::move($realPath, 'public/meetup/images/' . $fileName) == 1) {
+                    $path = 'storage/meetup/images/' . $fileName;
                 }
 
                 
 
             } else if ($req->file('image') != null and $req->file('image')->getError() == 0) {
-                $path = $req->file('image')->store('public/tempo\images');
+                $path = $req->file('image')->store('public/meetup/images');
                 $path =str_replace('public/','','storage/' . $path);
                 
             }
@@ -192,8 +192,8 @@ class MeetupController extends BaseController
             if ($errors['error'] == true) {
 
                 if ($req->file('image') != null and $req->file('image')->getError() == 0) {
-                    $path = $req->file('image')->store('public/tempo\images');
-                $path =str_replace('public/','','storage/' . $path);
+                    $path = $req->file('image')->store('public/tempo/images');
+                    $path =str_replace('public/','','storage/' . $path);
                 } else {
                     $path = '';
                 }
@@ -235,7 +235,7 @@ class MeetupController extends BaseController
                         // dd('file not found');
                     }
 
-                    $path = $req->file('image')->store('public/tempo\images');
+                    $path = $req->file('image')->store('public/meetup/images');
                 $path =str_replace('public/','','storage/' . $path);
                 }
 
