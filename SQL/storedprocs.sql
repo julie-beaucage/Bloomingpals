@@ -1,6 +1,8 @@
 USE BloomingPals;
 
--- Utilisateur ------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
+----------------UTILISATEUR
+-- ------------------------------------------------------------------------------------------------
 DROP PROCEDURE IF EXISTS creerUsager;
 DELIMITER //
 CREATE DEFINER=`root`@`localhost` PROCEDURE creerUsager(
@@ -14,17 +16,17 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE creerUsager(
 BEGIN
     DECLARE nb_courriel INT;
     
-    SELECT COUNT(*) INTO nb_courriel FROM utilisateur WHERE email = p_courriel;
+    SELECT COUNT(*) INTO nb_courriel FROM users WHERE email = p_courriel;
     
     IF nb_courriel != 0 THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Le courriel existe déjà.';
     ELSE
-        INSERT INTO utilisateur (email, nom, prenom, date_naissance, type_personnalite, password, genre)
+        INSERT INTO users (email, last_name, first_name, birthdate, type_personality, password, gender)
         VALUES (p_courriel, p_nom, p_prenom, p_date_naissance, 1, p_password, p_sex);
     END IF;
 END
 // DELIMITER ;
-
+---------------------------------------------------------------------------------------------------
 DROP PROCEDURE IF EXISTS updateUserProfile;
 DELIMITER //
 CREATE DEFINER=`root`@`localhost` PROCEDURE updateUserProfile(IN p_user_id INT,
@@ -35,48 +37,21 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE updateUserProfile(IN p_user_id INT,
      IN p_sexe ENUM('homme', 'femme', 'non-genre')
 )
 BEGIN
-    UPDATE utilisateur
+    UPDATE users
     SET 
-        prenom = p_prenom,
-        nom = p_nom,
+        first_name = p_prenom,
+        last_name = p_nom,
         image_profil = p_image_profil,
         background_image = p_background_image,
-        genre = p_sexe
+        gender = p_sexe
     WHERE id = p_user_id;
 END;
 // DELIMITER ;
--- -----------------------------------------------------
 
--- Interets --------------------------------------------
-DROP PROCEDURE IF EXISTS ajouterInterets;
-DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE ajouterInterets(
-    IN utilisateurId INT,
-    IN interetsParam VARCHAR(255)
-)
-BEGIN
-    DECLARE interetId INT;
-    DECLARE interetList TEXT;
 
-    -- Supprimer les intérêts existants pour l'utilisateur
-    DELETE FROM utilisateur_interet WHERE id_utilisateur = utilisateurId;
-
-    SET interetList = interetsParam;
-
-    WHILE LENGTH(interetList) > 0 DO
-        SET interetId = SUBSTRING_INDEX(interetList, ',', 1);
-        IF interetId <> '' THEN
-            -- Insérer l'intérêt
-            INSERT INTO utilisateur_interet (id_utilisateur, id_interet) VALUES (utilisateurId, interetId);
-        END IF;
-
-        SET interetList = SUBSTRING(interetList, LENGTH(interetId) + 2);
-    END WHILE;
-END;
-// DELIMITER ;
--- -----------------------------------------------------
-
--- Evenement ------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
+----------------EVENEMENTS
+-- ------------------------------------------------------------------------------------------------
 DROP PROCEDURE IF EXISTS ajouterEvenement;
 
 DELIMITER //
@@ -86,37 +61,62 @@ BEGIN
     DECLARE id_evenement_inserted INT;
     
 	START TRANSACTION;
-	SELECT id INTO id_tag_inserted FROM tag WHERE nom = p_category;
+	SELECT id INTO id_tag_inserted FROM tags WHERE name = p_category;
 	IF id_tag_inserted IS NULL THEN
-		INSERT IGNORE INTO tag (nom) 
+		INSERT IGNORE INTO tags (name) 
 		VALUES (p_category);
 	
 		SELECT last_insert_id() INTO id_tag_inserted;
 	END IF;
 	
-	SELECT id INTO id_evenement_inserted FROM evenement WHERE nom = p_nom AND ville = p_ville AND adresse = p_adresse AND `date` = p_date;
+	SELECT id INTO id_evenement_inserted FROM events WHERE name = p_nom AND city = p_ville AND adress = p_adresse AND `date` = p_date;
 	IF id_evenement_inserted IS NULL THEN
-		INSERT IGNORE INTO evenement (nom, `description`, ville, adresse, `date`, prix, image) 
+		INSERT IGNORE INTO events (name, `description`, city, adress, `date`, price, image) 
 		VALUES (p_nom, p_description, p_ville, p_adresse, p_date, p_prix, p_image);
 		
 		SELECT last_insert_id() INTO id_evenement_inserted;
 	ELSE
-		UPDATE evenement
-		SET nom = p_nom, `description`= p_description, ville = p_ville, adresse = p_adresse, `date` = p_date, prix = p_prix, image = p_image 
+		UPDATE events
+		SET name = p_nom, `description`= p_description, city = p_ville, adress = p_adresse, `date` = p_date, price = p_prix, image = p_image 
 		WHERE id = id_evenement_inserted;
 	END IF;
 
-	INSERT IGNORE INTO tag_evenement (id_tag, id_evenement)
+	INSERT IGNORE INTO tags_events (id_tag, id_event)
 	VALUES (id_tag_inserted, id_evenement_inserted);
     COMMIT;
 END;
 // DELIMITER ;
--- -----------------------------------------------------
 
--- Ineret ------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
+----------------INTERET
+-- ------------------------------------------------------------------------------------------------
+
+--PROCEDURE POUR UTILISRE POUR FAIRE ROULER LE SCRIPT D'INSERTION D'INTERETS DE LA TABLE
 DROP PROCEDURE IF EXISTS ajouterInterets;
 DELIMITER //
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ajouterInterets`(
+    IN p_nom_interet VARCHAR(50),
+    IN p_id_category INT
+)
+BEGIN
+     DECLARE nb_interet INT;
+    SELECT COUNT(*) INTO nb_interet 
+    FROM interests 
+    WHERE name = p_nom_interet;
+
+    IF nb_interet != 0 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'ERREUR: Intérêt existe déjà.';
+    ELSE
+        INSERT INTO interests (name, id_category) 
+        VALUES (p_nom_interet, p_id_category);
+    END IF;
+END;
+// DELIMITER ;
+-- -----------------------------------------------------
+--PROCEDURE POUR AJOUTER/MODIF INTERET DE USER
+DROP PROCEDURE IF EXISTS add_user_interests;
+DELIMITER //
+CREATE DEFINER=`root`@`localhost` PROCEDURE `add_user_interests`(
     IN utilisateurId INT,
     IN interetsParam VARCHAR(1000)
 )
@@ -124,31 +124,30 @@ BEGIN
     DECLARE interetId INT;
     DECLARE interetList TEXT;
 
-    DELETE FROM utilisateur_interet WHERE id_utilisateur = utilisateurId;
+    DELETE FROM users_interests WHERE id_user = utilisateurId;
 
     SET interetList = interetsParam;
 
     WHILE LENGTH(interetList) > 0 DO
         SET interetId = SUBSTRING_INDEX(interetList, ',', 1);
         IF interetId <> '' THEN
-            INSERT INTO utilisateur_interet (id_utilisateur, id_interet) VALUES (utilisateurId, interetId);
+            INSERT INTO users_interests (id_user, id_interest) VALUES (utilisateurId, interetId);
         END IF;
 
         SET interetList = SUBSTRING(interetList, LENGTH(interetId) + 2);
     END WHILE;
-END;
+END
 // DELIMITER ;
--- -----------------------------------------------------
-
-
--- Rencontre -------------------------------------------
+-- ------------------------------------------------------------------------------------------------
+----------------RENCONTRE
+-- ------------------------------------------------------------------------------------------------
 DROP PROCEDURE IF EXISTS creerRencontre;
 DELIMITER //
 CREATE PROCEDURE creerRencontre( _nom varchar(100), _description varchar(4096), _id_organisateur INT, _adresse Varchar(100), _ville Varchar(100), _date DATETIME ,_nb_participant INT, _image varchar(1024), _public Bool)
 BEGIN
 
 	START TRANSACTION;
-		Insert INTO rencontre (nom, `description`, id_organisateur, adresse, ville, `date`, nb_participant, image, public) 
+		Insert INTO meetups (name, `description`, id_owner, adress, city, `date`, nb_participant, image, public) 
 		VALUES ( _nom, _description, _id_organisateur, _adresse, _ville, _date,_nb_participant,	_image, _public);
 	COMMIT;
 	
@@ -161,18 +160,18 @@ DELIMITER //
 CREATE PROCEDURE modifierRencontre (id_rencontre INT ,_nom varchar(100), _description varchar(4096),   _id_organisateur INT, _adresse Varchar(100), _ville Varchar(100), _date DATETIME ,_nb_participant INT, _image varchar(1024), _public Bool)
 BEGIN
 	START TRANSACTION;
-		  UPDATE rencontre set nom=_nom where id = id_rencontre;
-          UPDATE rencontre set rencontre.`description`=_description where id = id_rencontre;
-          UPDATE rencontre set adresse=_adresse where id = id_rencontre;
-          UPDATE rencontre set ville=_ville where id = id_rencontre;
-          UPDATE rencontre set rencontre.`date`=_date where id = id_rencontre;
-          UPDATE rencontre set nb_participant=_nb_participant where id = id_rencontre;
+		  UPDATE meetups set name=_nom where id = id_rencontre;
+          UPDATE meetups set meetups.`description`=_description where id = id_rencontre;
+          UPDATE meetups set adress=_adresse where id = id_rencontre;
+          UPDATE meetups set city=_ville where id = id_rencontre;
+          UPDATE meetups set meetups.`date`=_date where id = id_rencontre;
+          UPDATE meetups set nb_participant=_nb_participant where id = id_rencontre;
           
           IF(_image != '') THEN
-          UPDATE rencontre set image=_image where id = id_rencontre;
+          UPDATE meetups set image=_image where id = id_rencontre;
           END IF;
           
-          UPDATE rencontre set public=_public where id = id_rencontre;
+          UPDATE meetups set public=_public where id = id_rencontre;
 	COMMIT;
 	
 END;
@@ -182,7 +181,7 @@ DELIMITER //
 CREATE PROCEDURE effacerRencontre(id_rencontre INT)
 BEGIN
 	START TRANSACTION;
-		  DELETE FROM rencontre where rencontre.id= id_rencontre;
+		  DELETE FROM meetups where meetups.id= id_rencontre;
 	COMMIT;
 	
 END;

@@ -2,306 +2,306 @@
 Create DATABASE IF NOT EXISTS `BloomingPals`  DEFAULT CHARACTER SET utf8mb4;
 USE BloomingPals;
 
-DROP TABLE IF EXISTS utilisateur_interet;
-DROP TABLE IF EXISTS interet;
-DROP TABLE IF EXISTS categorie_interet;
-DROP TABLE IF EXISTS historique_recherche;
-DROP TABLE IF EXISTS message;
-DROP TABLE IF EXISTS clavardage_utilisateur;
-DROP TABLE IF EXISTS salle_clavardage;
-DROP TABLE IF EXISTS affinite_utilisateur;
-DROP TABLE IF EXISTS relation;
-DROP TABLE IF EXISTS rencontre_utilisateur;
-DROP TABLE IF EXISTS evenement_utilisateur;
-DROP TABLE IF EXISTS tag_rencontre;
-DROP TABLE IF EXISTS tag_evenement;
-DROP TABLE IF EXISTS demande_ami;
-DROP TABLE IF EXISTS demande_rencontre;
-DROP TABLE IF EXISTS signalement;
-DROP TABLE IF EXISTS notification;
-DROP TABLE IF EXISTS tag;
-DROP TABLE IF EXISTS rencontre;
-DROP TABLE IF EXISTS type_objet;
-DROP TABLE IF EXISTS utilisateur;
-DROP TABLE IF EXISTS evenement;
-DROP TABLE IF EXISTS type_personnalite;
-DROP TABLE IF EXISTS type_notification;
-DROP TABLE IF EXISTS affinite;
+DROP TABLE IF EXISTS users_interests;
+DROP TABLE IF EXISTS interests;
+DROP TABLE IF EXISTS categories_interests;
+DROP TABLE IF EXISTS search_history;
+DROP TABLE IF EXISTS messages;
+DROP TABLE IF EXISTS chatRooms_users;
+DROP TABLE IF EXISTS chatRooms;
+DROP TABLE IF EXISTS affinities_users;
+DROP TABLE IF EXISTS relations;
+DROP TABLE IF EXISTS meetups_users;
+DROP TABLE IF EXISTS events_users;
+DROP TABLE IF EXISTS tags_meetups;
+DROP TABLE IF EXISTS tags_events;
+DROP TABLE IF EXISTS friendships_requests;
+DROP TABLE IF EXISTS meetups_requests;
+DROP TABLE IF EXISTS reports;
+DROP TABLE IF EXISTS notifications;
+DROP TABLE IF EXISTS tags;
+DROP TABLE IF EXISTS meetups;
+DROP TABLE IF EXISTS objects_types;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS `events`;
+DROP TABLE IF EXISTS types_personalities;
+DROP TABLE IF EXISTS types_notifications;
+DROP TABLE IF EXISTS affinities;
 
--- Type_Personnalite -----------------------------------
-CREATE TABLE IF NOT EXISTS type_personnalite (
+-- types_personalities -----------------------------------
+CREATE TABLE IF NOT EXISTS types_personalities (
     id INT PRIMARY KEY auto_increment ,
-    nom VARCHAR(50) NOT NULL
+    name VARCHAR(50) NOT NULL
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
 
--- Utilisateur -----------------------------------------
-CREATE TABLE IF NOT EXISTS utilisateur (
+-- users -----------------------------------------
+CREATE TABLE IF NOT EXISTS users (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    est_admin BOOLEAN DEFAULT FALSE,
+    is_admin BOOLEAN DEFAULT FALSE,
     email VARCHAR(255) NOT NULL UNIQUE,
-    prenom VARCHAR(50) NOT NULL,
-    nom VARCHAR(50) NOT NULL,
-    date_naissance DATE NOT NULL,
-    type_personnalite INT DEFAULT 0 NOT NULL,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    birthdate DATE NOT NULL,
+    type_personality INT DEFAULT 0 NOT NULL,
     image_profil VARCHAR(2048),
     background_image VARCHAR(2048), 
-    genre ENUM('homme', 'femme', 'non-genre') NOT NULL,
+    gender ENUM('homme', 'femme', 'non-genre') NOT NULL,
     password CHAR(128) NOT NULL,
     email_verified_at TIMESTAMP NULL DEFAULT NULL,
     updated_at TIMESTAMP NULL DEFAULT NULL,
     remember_token VARCHAR(100) NULL,
-    FOREIGN KEY (type_personnalite) REFERENCES type_personnalite (id)
+    FOREIGN KEY (type_personality) REFERENCES types_personalities (id)
 ) ENGINE=InnoDB;
 
-INSERT INTO type_personnalite (id, nom) VALUES (0, 'Aucun'); -- code obligatoire en attendant de remplir la table personnalite)
+INSERT INTO types_personalities (id, name) VALUES (0, 'Aucun'); -- code obligatoire en attendant de remplir la table personality)
 -- -----------------------------------------------------
 
--- Historique_Recherche --------------------------------
-CREATE TABLE IF NOT EXISTS historique_recherche(
-    id_utilisateur INT,
-    Texte VARCHAR(200) NOT NULL,
+-- search_history --------------------------------
+CREATE TABLE IF NOT EXISTS search_history(
+    id_user INT,
+    text VARCHAR(200) NOT NULL,
     `date` Date NOT NULL,
-    FOREIGN KEY (id_utilisateur) REFERENCES utilisateur (id)
+    FOREIGN KEY (id_user) REFERENCES users (id)
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
 
--- Salle_Clavardage ------------------------------------
-CREATE TABLE IF NOT EXISTS salle_clavardage(
+-- chatRooms ------------------------------------
+CREATE TABLE IF NOT EXISTS chatRooms(
     id INT PRIMARY KEY auto_increment
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
 
 -- Message ---------------------------------------------
-CREATE TABLE IF NOT EXISTS message(
+CREATE TABLE IF NOT EXISTS messages(
     id INT PRIMARY KEY auto_increment,
-    id_clavardage INT NOT NULL,
-    id_utilisateur_envoie INT NOT NULL,
+    id_chatRoom INT NOT NULL,
+    id_user_send INT NOT NULL,
     content Varchar(2000) NOT NULL,
-    modifie Bool DEFAULT(False),
-    FOREIGN KEY (id_clavardage) REFERENCES salle_clavardage (id),
-    FOREIGN KEY (id_utilisateur_envoie) REFERENCES utilisateur (id)
+    `modify` Bool DEFAULT(False),
+    FOREIGN KEY (id_chatRoom) REFERENCES chatRooms (id),
+    FOREIGN KEY (id_user_send) REFERENCES users (id)
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
 
--- Clavardage_Utilisateur ------------------------------
-CREATE TABLE IF NOT EXISTS clavardage_utilisateur(
-    id_clavardage INT NOT NULL,
-    id_utilisateur_envoie INT NOT NULL,
-    FOREIGN KEY (id_clavardage) REFERENCES salle_clavardage (id),
-    FOREIGN KEY (id_utilisateur_envoie) REFERENCES utilisateur (id),
-    PRIMARY KEY pk_clavardage_utilisateur (id_clavardage, id_utilisateur_envoie)
+-- chatRooms_users ------------------------------
+CREATE TABLE IF NOT EXISTS chatRooms_users(
+    id_chatRoom INT NOT NULL,
+    id_user_send INT NOT NULL,
+    FOREIGN KEY (id_chatRoom) REFERENCES chatRooms (id),
+    FOREIGN KEY (id_user_send) REFERENCES users (id),
+    PRIMARY KEY pk_chatRooms_users (id_chatRoom, id_user_send)
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
 
--- Affinite --------------------------------------------
-CREATE TABLE IF NOT EXISTS affinite(
+-- affinities --------------------------------------------
+CREATE TABLE IF NOT EXISTS affinities(
     id INT PRIMARY KEY AUTO_INCREMENT,
-    nom Varchar(50) NOT NULL
+    name Varchar(50) NOT NULL
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
 
--- Affinite_Utilisateur --------------------------------
-CREATE TABLE IF NOT EXISTS affinite_utilisateur(
-    id_utilisateur INT NOT NULL,
-    id_affinite INT NOT NULL,
-    FOREIGN KEY (id_affinite) REFERENCES affinite(id),
-    FOREIGN KEY (id_utilisateur) REFERENCES utilisateur (id),
-    PRIMARY KEY pk_affinite_utilisateur (id_utilisateur, id_affinite)
+-- affinities_users --------------------------------
+CREATE TABLE IF NOT EXISTS affinities_users(
+    id_user INT NOT NULL,
+    id_affinity INT NOT NULL,
+    FOREIGN KEY (id_affinity) REFERENCES affinities(id),
+    FOREIGN KEY (id_user) REFERENCES users (id),
+    PRIMARY KEY pk_affinities_users (id_user, id_affinity)
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
 
--- Type_Notification -----------------------------------
-CREATE TABLE IF NOT EXISTS type_notification(
+-- types_notifications -----------------------------------
+CREATE TABLE IF NOT EXISTS types_notifications(
     id INT PRIMARY KEY auto_increment,
-    nom INT NOT NULL
+    name INT NOT NULL
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
 
 -- Auto_Increment --------------------------------------
-CREATE TABLE IF NOT EXISTS type_objet(
+CREATE TABLE IF NOT EXISTS objects_types(
   id INT PRIMARY KEY auto_increment,
-  nom varchar(100) NOT NULL
+  name varchar(100) NOT NULL
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
 
--- Rencontre -------------------------------------------
-CREATE TABLE IF NOT EXISTS rencontre(
+-- meetups -------------------------------------------
+CREATE TABLE IF NOT EXISTS meetups(
   id INT PRIMARY KEY auto_increment,
-  nom varchar(100) NOT NULL,
+  name varchar(100) NOT NULL,
   `description` Varchar(4096),
-  id_organisateur INT,
-  adresse Varchar(100) NOT NULL,
-  ville Varchar(100),
+  id_owner INT,
+  adress Varchar(100) NOT NULL,
+  city Varchar(100),
   `date` DATETIME NOT NULL,
   nb_participant INT DEFAULT(2),
   image varchar(1024),
   public Bool DEFAULT(true),
 
-  FOREIGN KEY (id_organisateur) REFERENCES utilisateur(id)
+  FOREIGN KEY (id_owner) REFERENCES users(id)
   )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
 
--- Rencontre_Utilisateur -------------------------------
-CREATE TABLE IF NOT EXISTS rencontre_utilisateur(
-    id_rencontre INT NOT NULL,
-    id_utilisateur INT NOT NULL,
-    FOREIGN KEY (id_rencontre) REFERENCES rencontre(id),
-    FOREIGN KEY (id_utilisateur) REFERENCES utilisateur(id),
-    PRIMARY KEY pk_rencontre_utilisateur (id_rencontre, id_utilisateur)
+-- meetups_users -------------------------------
+CREATE TABLE IF NOT EXISTS meetups_users(
+    id_meetup INT NOT NULL,
+    id_user INT NOT NULL,
+    FOREIGN KEY (id_meetup) REFERENCES meetups(id),
+    FOREIGN KEY (id_user) REFERENCES users(id),
+    PRIMARY KEY pk_meetup_user (id_meetup, id_user)
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
 
--- Auto_Increment --------------------------------------
-CREATE TABLE IF NOT EXISTS notification(
+-- Notifications--------------------------------------
+CREATE TABLE IF NOT EXISTS notifications(
     id INT PRIMARY KEY auto_increment,
     `type` INT NOT NULL,
-    id_utilisateur INT NOT NULL,
-    id_contenu INT,
-    id_type_objet INT,
-    contenu VARCHAR(1024),
-    FOREIGN KEY (id_utilisateur) REFERENCES utilisateur(id),
-    FOREIGN KEY (id_type_objet) REFERENCES type_objet(id)
+    id_user INT NOT NULL,
+    id_content INT,
+    id_object_type INT,
+    content VARCHAR(1024),
+    FOREIGN KEY (id_user) REFERENCES users(id),
+    FOREIGN KEY (id_object_type) REFERENCES objects_types(id)
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
 
--- Relation --------------------------------------------
-CREATE TABLE IF NOT EXISTS relation(
-    id_utilisateur1 INT NOT NULL,
-    id_utilisateur2 INT NOT NULL,
-    `type` ENUM('bloquer','ami') NOT NULL,
-    FOREIGN KEY (id_utilisateur1) REFERENCES utilisateur(id),
-    FOREIGN KEY (id_utilisateur2) REFERENCES utilisateur(id)
+-- relations --------------------------------------------
+CREATE TABLE IF NOT EXISTS relations(
+    id_user1 INT NOT NULL,
+    id_user2 INT NOT NULL,
+    `type` ENUM('Blocked','Friend') NOT NULL,
+    FOREIGN KEY (id_user1) REFERENCES users(id),
+    FOREIGN KEY (id_user2) REFERENCES users(id)
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
 
--- Evenement -------------------------------------------
-CREATE TABLE IF NOT EXISTS evenement(
+-- events -------------------------------------------
+CREATE TABLE IF NOT EXISTS `events`(
     id INT PRIMARY KEY auto_increment,
-    nom varchar(100) NOT NULL,
+    name varchar(100) NOT NULL,
     `description` Varchar(1024),
-    ville Varchar(100) NOT NULL,
-    adresse Varchar(100) NOT NULL,
+    city Varchar(100) NOT NULL,
+    adress Varchar(100) NOT NULL,
     `date` DATETIME NOT NULL,
-    prix varchar(20),
+    price varchar(20),
     image varchar(2048),
     nb_participant INT DEFAULT(0)
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
 
--- Evenement_Utilisateur -------------------------------
-CREATE TABLE IF NOT EXISTS evenement_utilisateur(
-    id_evenement INT NOT NULL,
-    id_utilisateur INT NOT NULL,
-    FOREIGN KEY (id_evenement) REFERENCES evenement(id),
-    FOREIGN KEY (id_utilisateur) REFERENCES utilisateur(id),
-    PRIMARY KEY pk_evenement_utilisateur (id_evenement, id_utilisateur)
+-- events_users -------------------------------
+CREATE TABLE IF NOT EXISTS events_users(
+    id_event INT NOT NULL,
+    id_user INT NOT NULL,
+    FOREIGN KEY (id_event) REFERENCES events(id),
+    FOREIGN KEY (id_user) REFERENCES users(id),
+    PRIMARY KEY pk_events_users (id_event, id_user)
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
 
--- Demande_Ami -----------------------------------------
-CREATE TABLE IF NOT EXISTS demande_ami(
-    id_utilisateur_envoie INT NOT NULL,
-    id_utilisateur_recoit INT NOT NULL,
-    etat ENUM('Envoyee','Acceptee', 'refusee') NOT NULL,
-    FOREIGN KEY (id_utilisateur_envoie) REFERENCES utilisateur(id),
-    FOREIGN KEY (id_utilisateur_recoit) REFERENCES utilisateur(id),
-    PRIMARY KEY pk_demande_ami (id_utilisateur_envoie, id_utilisateur_recoit)
+-- friendships_requests -----------------------------------------
+CREATE TABLE IF NOT EXISTS friendships_requests(
+    id_user_send INT NOT NULL,
+    id_user_receive INT NOT NULL,
+    state ENUM('Sent','Accepted', 'Refused') NOT NULL,
+    FOREIGN KEY (id_user_send) REFERENCES users(id),
+    FOREIGN KEY (id_user_receive) REFERENCES users(id),
+    PRIMARY KEY pk_friendships_requests (id_user_send, id_user_receive)
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
 
--- Demande_Rencontre -----------------------------------
-CREATE TABLE IF NOT EXISTS demande_rencontre(
+-- meetups_requests -----------------------------------
+CREATE TABLE IF NOT EXISTS meetups_requests(
     id INT PRIMARY KEY auto_increment,
-    id_utilisateur INT NOT NULL,
-    id_rencontre INT NOT NULL,
-    etat ENUM('Envoyee','Acceptee', 'Refusee') NOT NULL,
-    FOREIGN KEY (id_utilisateur) REFERENCES utilisateur(id),
-    FOREIGN KEY (id_rencontre) REFERENCES rencontre(id)
+    id_user INT NOT NULL,
+    id_meetup INT NOT NULL,
+    state ENUM('Sent','Accepted', 'Refused') NOT NULL,
+    FOREIGN KEY (id_user) REFERENCES users(id),
+    FOREIGN KEY (id_meetup) REFERENCES meetups(id)
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
 
--- Tag ------------------------------------------------
-CREATE TABLE IF NOT EXISTS tag(
+-- tags ------------------------------------------------
+CREATE TABLE IF NOT EXISTS tags(
     id INT PRIMARY KEY auto_increment,
-    nom Varchar(50) not null
+    name Varchar(50) not null
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
 
--- Tag_Rencontre --------------------------------------
-CREATE TABLE IF NOT EXISTS tag_rencontre(
-    id_rencontre INT not null,
+-- Tags_meetups --------------------------------------
+CREATE TABLE IF NOT EXISTS tags_meetups(
+    id_meetup INT not null,
     id_tag INT not null,
-    FOREIGN KEY (id_rencontre) REFERENCES rencontre(id),
-    FOREIGN KEY (id_tag) REFERENCES tag(id),
-    PRIMARY KEY (id_tag, id_rencontre)
+    FOREIGN KEY (id_meetup) REFERENCES meetups(id),
+    FOREIGN KEY (id_tag) REFERENCES tags(id),
+    PRIMARY KEY (id_tag, id_meetup)
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
 
--- Tag_Evenement --------------------------------------
-CREATE TABLE IF NOT EXISTS tag_evenement(
+-- Tags_events --------------------------------------
+CREATE TABLE IF NOT EXISTS tags_events(
 	id_tag INT not null,
-    id_evenement INT not null,
-    FOREIGN KEY (id_tag) REFERENCES tag(id),
-    FOREIGN KEY (id_evenement) REFERENCES evenement(id),
-    PRIMARY KEY (id_tag, id_evenement)
+    id_event INT not null,
+    FOREIGN KEY (id_tag) REFERENCES tags(id),
+    FOREIGN KEY (id_event) REFERENCES `events`(id),
+    PRIMARY KEY (id_tag, id_event)
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
 
--- Signalement -----------------------------------------
-CREATE TABLE IF NOT EXISTS signalement(
+-- reports -----------------------------------------
+CREATE TABLE IF NOT EXISTS reports(
     id Int primary key auto_increment,
-    id_utilisateur_envoie INT not null,
-    id_objet INT,
-    id_type_objet INT,
-    FOREIGN KEY (id_utilisateur_envoie) REFERENCES utilisateur(id),
-    FOREIGN KEY (id_type_objet) REFERENCES type_objet(id)
+    id_user_send INT not null,
+    id_object INT,
+    id_type_object INT,
+    FOREIGN KEY (id_user_send) REFERENCES users(id),
+    FOREIGN KEY (id_type_object) REFERENCES objects_types(id)
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
 
--- Categorie_Interet -----------------------------------
-CREATE TABLE IF NOT EXISTS categorie_interet (
+-- categories_interests -----------------------------------
+CREATE TABLE IF NOT EXISTS categories_interests (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    nom VARCHAR(50) NOT NULL UNIQUE
+    name VARCHAR(50) NOT NULL UNIQUE
 ) ENGINE=InnoDB;
 -- -----------------------------------------------------
 
--- Interet ---------------------------------------------
-CREATE TABLE IF NOT EXISTS interet (
+-- interests ---------------------------------------------
+CREATE TABLE IF NOT EXISTS interests (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    nom VARCHAR(50) NOT NULL UNIQUE,
-    id_categorie INT,
-    FOREIGN KEY (id_categorie) REFERENCES categorie_interet(id)
+    name VARCHAR(50) NOT NULL UNIQUE,
+    id_category INT,
+    FOREIGN KEY (id_category) REFERENCES categories_interests(id)
 ) ENGINE=InnoDB;
 -- -----------------------------------------------------
 
--- Utilisateur_interet ---------------------------------
-CREATE TABLE IF NOT EXISTS utilisateur_interet (
-    id_utilisateur INT,
-    id_interet INT,
-    PRIMARY KEY (id_utilisateur, id_interet),
-    FOREIGN KEY (id_utilisateur) REFERENCES utilisateur(id),
-    FOREIGN KEY (id_interet) REFERENCES interet(id)
+-- users_interests ---------------------------------
+CREATE TABLE IF NOT EXISTS users_interests (
+    id_user INT,
+    id_interest INT,
+    PRIMARY KEY (id_user, id_interest),
+    FOREIGN KEY (id_user) REFERENCES users(id),
+    FOREIGN KEY (id_interest) REFERENCES interests(id)
 ) ENGINE=InnoDB;
 -- -----------------------------------------------------

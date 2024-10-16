@@ -12,7 +12,7 @@
         <h2>Créer un compte </h2>
         <hr>
     </header>
-    <form action="/signIn" method="POST">
+    <form action="/signIn" method="POST" id="signupForm">
         @csrf
         <div class="inputContainer">
             <div class="entryarea entryarealogin">
@@ -35,7 +35,7 @@
         <div class="inputContainer">
             <div class="entryarea entryarealogin">
                 <input type="email" class="inputSignup" id="email" placeholder="Courriel" name="email"
-                    value="{{ old('email') }}" required />
+                    value="{{ old('email') }}" required autocomplete="email" />
             </div>
             @error('email')
                 <div class="error-message">{{ $message }}</div>
