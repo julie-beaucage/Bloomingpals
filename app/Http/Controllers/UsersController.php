@@ -119,13 +119,25 @@ class UsersController extends Controller
         if (!$user) {
             return redirect()->route('/login')->with('error', 'Utilisateur non trouvé.');
         }
-        $relation = Relation::GetRelationUsers(Auth::user(), $user);
-        /*à voir si on le met
-        if ($relation == 'Blocked') {
-            return redirect()->back();
-        }*/
-        return view('profile.profile', compact('user', 'relation'));
+        $relation = Relation::GetRelationUsers(Auth::user(), $id);
 
+        if ($relation == 'GotBlocked') {
+            return redirect()->back();
+        } else {
+            $relationRequest = Friendship_Request::GetUserRelationState(Auth::user()->id, $id);
+            if ($relationRequest == "sent") {
+                $relation = "SendingInvitation";
+                return view('profile.profile', compact('user', 'relation'));
+            } else if ($relationRequest == "receive") {
+                $relation = "Invited";
+                return view('profile.profile', compact('user', 'relation'));
+            } else if ($relationRequest == "refuse") {
+                $relation = "Refuse";
+                return view('profile.profile', compact('user', 'relation'));
+            } else {
+                return view('profile.profile', compact('user', 'relation', 'relationRequest'));
+            }
+        }
     }
 
     public function update(Request $request)

@@ -49,6 +49,25 @@ class Friendship_Request extends Model
         return $requests;
     }
 
+    public static function GetUserRelationState($user1, $user2) {
+        $state = Friendship_Request::where("id_user_send", $user2)->where("id_user_receive", $user1)->where("state", "Sent");
+        $message = null;
+        if ($state->count() > 0) {
+            $message = "receive";
+            return $message;
+        }
+        $state = Friendship_Request::where("id_user_send", $user1)->where("id_user_receive", $user2);
+        if ($state->count() > 0) {
+            if ($state->get()->first()->state == "Refused") {
+                $message = "refuse";
+            } else if ($state->get()->first()->state == "Sent") {
+                $message = "sent";
+            }
+        }
+
+        return $message;
+    }
+
     public static function AcceptFriendRequest($user1, $user2) {
         $state = ["state" => "Accepted"];
         $requestsData = Friendship_Request::where("id_user_send", $user1)->where("id_user_receive", $user2)->update($state);

@@ -20,24 +20,30 @@
                 alt="Photo de profil">
         </div>
 
-        <h1 id="profile_name">{{ $user->prenom }} {{ $user->nom }}</h1>
-        @if (Auth::user()->id != $user->id)
+        <h1 id="profile_name">{{ $user->first_name }} {{ $user->last_name }}</h1>
+        @if (Auth::user()->id == $user->id)
             <div class="button_profile">
                 <button type="button" class="btnProfile" data-bs-toggle="modal" data-bs-target="#editProfileModal">
                     Modifier le profil
                 </button>
             </div>
         @elseif ($relation == "Friend")
-            <div class="blue_button">salut</div>
+            <div class="blue_button no_select">Enlever l'amitier</div>
         @elseif ($relation == "Blocked")
-            <div class="blue_button">salut</div>
-        @elseif ($relation == "InvitationSent")
-            <div class="blue_button">salut</div>
+            <div class="red_button no_select">You are blocked</div>
+        @elseif ($relation == "SendingInvitation")
+            <div class="grey_button">En attente</div>
         @elseif ($relation == "Invited")
-            <a href="{{ route("RefuseFriendRequest", ["id" => $user->id])}}"><div class="blue_button">salut</div></a>
-            <a href="{{ route("RefuseFriendRequest", ["id" => $user->id])}}"><div class="blue_button">salut</div></a>
+            <div class="acceptContainer"
+                <a href="{{ route("AcceptFriendRequest", ["id" => $user->id])}}"><div class="green_button">Accepter</div></a>
+                <a href="{{ route("RefuseFriendRequest", ["id" => $user->id])}}"><div class="red_button">Refuser</div></a>
+            </div>
+        @elseif ($relation == "Refuse")
+            <div class="grey_button">Vous avez été refuser</div>
         @else
-            <div class="blue_button">salut</div>
+            <a href="{{ route("SendFriendRequest", ["id" => $user->id])}}"><div class="blue_button">Ajouter en ami</div>
+            {{$relation}}
+            {{$relationRequest}}
         @endif
 
     <div class="containerOnglerMain">
