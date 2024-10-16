@@ -2,6 +2,7 @@
 
 @section('style')
     <link rel="stylesheet" type="text/css" href="{{ asset('css/search.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/cards.css') }}">
 @endsection()
 
 @section('content')
@@ -15,7 +16,7 @@
             </div>
         </div>
 
-        <div id="result">
+        <div id="result" class="cards_container">
         </div>
     </div>
 @endsection()

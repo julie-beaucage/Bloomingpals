@@ -16,16 +16,13 @@ class SearchController extends Controller
     public function meetups(Request $request)
     {
         $query = $request->has('query') ? $request->get('query') : "";
-        $meetups = [];
+        $meetups = ($query == null) ? Meetup::all() : Meetup::where('name', 'LIKE', '%' . $query . '%')->get();
 
-        if ($query == null) {
-            $meetups = Meetup::all();
-            return view('partial_views.meetup_cards', ['meetups' => $meetups]);
-        }
-
-        $meetups = Meetup::where('nom', 'LIKE', '%'.$query.'%')->get();
 
         $page = $request->has('page') ? $request->get('page') : 1;
+        if ($page == null || $page < 1) 
+            return response()->json(['error' => 'Invalid page number']);
+        
         $meetups = $meetups->forPage($page, 20);
 
         return view('partial_views.meetup_cards', ['meetups' => $meetups]);
@@ -34,7 +31,7 @@ class SearchController extends Controller
     public function events(Request $request)
     {
         $query = $request->has('query') ? $request->get('query') : null;
-        $events = ($query == null) ? Event::all() : Event::where('name', 'LIKE', '%'.$query.'%')->get();
+        $events = ($query == null) ? Event::all() : Event::where('name', 'LIKE', '%' . $query . '%')->get();
 
         $page = $request->has('page') ? $request->get('page') : 1;
         if ($page == null || $page < 1) 
@@ -55,7 +52,7 @@ class SearchController extends Controller
             return view('partial_views.user_cards', ['users' => $users]);
         }
 
-        $users = Event::where('nom', 'LIKE', '%'.$query.'%')->get();
+        $users = Event::where('name', 'LIKE', '%'.$query.'%')->get();
         
         $page = $request->has('page') ? $request->get('page') : 1;
         $users = $users->forPage($page, 20);

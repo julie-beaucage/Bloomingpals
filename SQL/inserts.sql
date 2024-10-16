@@ -1,15 +1,12 @@
--- Utilisateurs
-SELECT * FROM `events`;
-SELECT * FROM events_interests;
-SELECT * FROM events_categories;
-
+-- Users --
 CALL creerUsager ('user1@email.com', 'Desroches', 'Caroline', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'femme');
 CALL creerUsager ('user2@email.com', 'Hétu', 'Adrien', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'homme');
 CALL creerUsager ('user3@email.com', 'Delmar', 'Mainville', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'non-genre');
 
--- rencontres
+-- Meetups --
 INSERT INTO meetups(name, description, id_owner, adress, date, nb_participant, public) 
     VALUES("Nom de la rencontre", "Voici la description", 1, "1234 rue popcorn", DATE "2025-01-01", 100, 1);
+    
 INSERT INTO meetups(name, description, id_owner, adress, date, nb_participant, public) 
     VALUES("Sortie au bar", "Voici la description", 2, "1234 rue popcorn", DATE "2025-07-11", 100, 1);
     INSERT INTO meetups (name, description, id_owner, adress, date, nb_participant, public) 
@@ -45,6 +42,7 @@ INSERT INTO interests (name, id_category) VALUES ('Ringuette', 1);
 INSERT INTO interests (name, id_category) VALUES ('Marche', 1);
 INSERT INTO interests (name, id_category) VALUES ('Randonnée pédestre', 1);
 INSERT INTO interests (name, id_category) VALUES ('Soccer', 1);
+INSERT INTO interests (name, id_category) VALUES ('Basketball', 1);
 INSERT INTO interests (name, id_category) VALUES ('Billard', 1);
 INSERT INTO interests (name, id_category) VALUES ('Patinage', 1);
 INSERT INTO interests (name, id_category) VALUES ('Ping-pong', 1);
@@ -169,6 +167,14 @@ INSERT INTO interests (name, id_category) VALUES ('Vidéo', 6);
 INSERT INTO interests (name, id_category) VALUES ('Menuiserie', 6);
 INSERT INTO interests (name, id_category) VALUES ('Scrapbooking', 6);
 INSERT INTO interests (name, id_category) VALUES ('Couture', 6);
+
+-- Meetups Interests --
+INSERT INTO meetups_interests (id_interest, id_meetup) VALUES (24, 2);
+INSERT INTO meetups_interests (id_interest, id_meetup) VALUES (66, 2);
+INSERT INTO meetups_interests (id_interest, id_meetup) VALUES (23, 3);
+INSERT INTO meetups_interests (id_interest, id_meetup) VALUES (14, 4);
+INSERT INTO meetups_interests (id_interest, id_meetup) VALUES (11, 5);
+INSERT INTO meetups_interests (id_interest, id_meetup) VALUES (100, 5);
 
 -- Evenement --
 CALL addEvent ('Kokoroko', '', 'Musique', 'Montreal', '2490 Notre-Dame Ouest', '2024-10-16 00:00:00', 'Paid', '//images.ctfassets.net/3yxl57nu0yl4/3TfzkolK7wt0h5mP17IBgP/28a995a72ffb77715f1a4f0ceff795b0/kokoroko_2024.jpg');

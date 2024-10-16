@@ -33,7 +33,7 @@ foreach ($events as $event) {
     }
 
     echo <<< HTML
-        <a class="event_card no_select hover_darker" href="event/$event->id">
+        <a class="card no_select hover_darker" href="event/$event->id">
             <div class="banner">
                 <img src="{$event->image}" alt="Image de l'évènement">
             </div>
