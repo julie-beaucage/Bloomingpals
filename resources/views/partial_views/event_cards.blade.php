@@ -15,8 +15,8 @@ foreach ($events as $event) {
     $date = date('j-m-Y', strtotime($event->date));
     $tags = "";
 
-    $event_category = Event_Category::where('id_event', $event->id)->get();
-    foreach ($event_category as $event_category) {
+    $event_categories = Event_Category::where('id_event', $event->id)->get();
+    foreach ($event_categories as $event_category) {
         $category = Category_Interest::find($event_category->id_category);
         if ($category == null) continue;
 

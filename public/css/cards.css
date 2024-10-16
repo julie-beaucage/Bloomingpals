@@ -6,12 +6,27 @@
     gap: 2em;
 }
 
+.card_long {
+    width: 100%;
+    height: -moz-fit-content;
+    height: fit-content;
+    border: 1px solid var(--neutral-200);
+    border-radius: 1em;
+    box-sizing: border-box;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    background-color: var(--white);
+    align-items: center;
+}
+
 .card {
     width: calc(50% - 1em);
     border: 1px solid var(--neutral-200);
     border-radius: 1em;
     box-sizing: border-box;
     overflow: hidden;
+    background-color: var(--white);
 }
 
 @media only screen and (max-width: calc(800px)) {    
@@ -21,17 +36,31 @@
 }
 
 .banner {
-    height: 20em;
+    background-color: var(--neutral-200);
+}
+
+.card > .banner {
+    height: 18em;
     overflow: hidden;
+    flex-shrink: 0;
+}
+
+.card_long > .banner {
+    height: 4em;
+    width: 4em;
+    overflow: hidden;
+    margin: 0.75em;
+    border-radius: 4em;
+    flex-shrink: 0;
 }
 
 .banner img {
     width: 100%;
     height: 100%;
     -o-object-fit: cover;
-       object-fit: cover;
+    object-fit: cover;
     -o-object-position: top;
-       object-position: top;
+    object-position: top;
 }
 
 .content {
@@ -39,7 +68,8 @@
     display: flex;
     flex-direction: column;
     gap: 0.5em;
-    background-color: var(--white);
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .header {
@@ -78,4 +108,5 @@ hr {
     align-items: center;
     justify-content: space-between;
     color: var(--neutral-600);
+    font-size: 0.9em;
 }

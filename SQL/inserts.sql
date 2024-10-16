@@ -1,7 +1,12 @@
+USE BloomingPals;
+
 -- Users --
 CALL creerUsager ('user1@email.com', 'Desroches', 'Caroline', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'femme');
 CALL creerUsager ('user2@email.com', 'Hétu', 'Adrien', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'homme');
 CALL creerUsager ('user3@email.com', 'Delmar', 'Mainville', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'non-genre');
+
+CALL ajouterInterets (1, "24, 33");
+CALL ajouterInterets (3, "89");
 
 -- Meetups --
 INSERT INTO meetups(name, description, id_owner, adress, date, nb_participant, public) 

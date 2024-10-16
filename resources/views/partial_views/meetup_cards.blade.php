@@ -43,7 +43,7 @@ foreach ($meetups as $meetup) {
                     </div>
                 </div>
                 <hr>
-                <div class="infos">
+                <div class="row infos">
                     <span>{$date}</span>
                     <span>Aucun participants</span>
                 </div>

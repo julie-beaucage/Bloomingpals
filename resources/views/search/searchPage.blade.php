@@ -8,11 +8,11 @@
 @section('content')
     <div id="search_cntr">
         <div id="search_inputs">
-            <input type="text" id="search_field" placeholder="Rechercher">
+            <input type="text" id="search_field" class="no_select" placeholder="Rechercher">
             <div id="search_categories">
-                <button class="hover_darker" value="meetups" type="button">Rencontres</button>
-                <button class="hover_darker" value="events" type="button">Évènements</button>
-                <button class="hover_darker" value="users" type="button">Utilisateurs</button>
+                <button class="hover_darker no_select" value="meetups" type="button">Rencontres</button>
+                <button class="hover_darker no_select" value="events" type="button">Évènements</button>
+                <button class="hover_darker no_select" value="users" type="button">Utilisateurs</button>
             </div>
         </div>
 
@@ -54,7 +54,7 @@
                             last_data = data;
 
                         if (data == "" && page == 1) {
-                            $("#result").html("<span>Aucun résultat</span>");
+                            $("#result").html('<div id="result_msg"><span>Aucun résultat</span></div>');
                             return;
                         }
 
