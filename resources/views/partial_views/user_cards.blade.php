@@ -14,16 +14,14 @@ HTML;
 
 foreach ($users as $user) {
 
-
-    $buttonHtml = "";
-    $friendFound = false;
-
     if ($user->id != Auth::user()->id) {
+        $buttonHtml = "";
+        $friendFound = false;
         //check if the user is a friend
-        foreach ($friends as $ami) {
-            if ($ami->id == $user->id) {
+        foreach ($friends as $friend) {
+            if ($friend->id == $user->id) {
                 $buttonHtml = <<<HTML
-                    <div class="lastSpacing" value="addded">Ami</div>
+                    <div class="lastSpacing grey_button no_select" value="addded">Ami</div>
                 HTML;
                 $friendFound = true;
                 break;
@@ -60,22 +58,23 @@ foreach ($users as $user) {
                 if (!$friendFound) {
                     $route = route("SendFriendRequest", ["id" => $user->id]);
                     $buttonHtml = <<<HTML
-                        <div class="lastSpacing button" value="add"><a class="blue_button" href="$route">Ajouter</a></div>
+                        <div class="lastSpacing button no_select" value="add"><a class="blue_button" href="$route">Ajouter</a></div>
                     HTML; 
                 }
             }
         }
 
         $imageUser = $user->image_profil ? asset('storage/' . $user->image_profil) : asset('/images/simple_flower.png');
+        $route = route("profile", ["id" => $user->id]);
         $html .= <<<HTML
-            <div>
-                <div class="profile_icon no_select" style="background-image: url($imageUser)">
-                            
+                <div>
+                    <a href="$route">
+                        <div class="profile_icon no_select" style="background-image: url($imageUser)"></div>
+                        <div>{$user->first_name}</div>
+                        <div>{$user->last_name}</div>
+                        {$buttonHtml}
+                    </a>
                 </div>
-                <div>{$user->first_name}</div>
-                <div>{$user->last_name}</div>
-                $buttonHtml
-            </div>
         HTML;
     }
 }

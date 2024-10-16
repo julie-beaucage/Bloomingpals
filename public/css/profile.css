@@ -187,3 +187,13 @@ body {
     font-weight: 600;
     margin: 0.5em;
 }
+.blue_button {
+    background-color: blue;
+    color: white;
+    width: max-content;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    border-radius: 15px;
+}

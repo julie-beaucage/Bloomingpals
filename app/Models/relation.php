@@ -30,17 +30,13 @@ class Relation extends Model
 
     public static function GetFriends($userId) {
         $friends = [];
-        $relationsData = Relation::where('id_user1', $userId)->get();
+        $relationsData = Relation::where('id_user1', $userId)->where("type", "Friend");
 
         if ($relationsData->count() > 0) {
-            foreach ($relationsData as $relationData) {
-
-
+            foreach ($relationsData->get() as $relationData) {
                 if (!Relation::GetIfBlocked($relationData->id_user2, $userId)) {
-                    if ($relationData->type == "Friend") {
-                        $user = User::where("id", $relationData->id_user2)->get()->first();
-                        $friends = array_push($users, $user);
-                    }
+                    $user = User::where("id", $relationData->id_user2)->get()->first();
+                    array_push($friends, $user);
                 }
             }
         }
@@ -48,7 +44,7 @@ class Relation extends Model
     }
 
     public static function GetIfBlocked($user1, $user2) {
-        $relationData = Relation::where('id_user1', $user1)->where('id_user2', $user2)->get();
+        $relationData = Relation::where('id_user1', $user1)->where('id_user2', $user2)->where("type", "Blocked")->get();
         $blocked = true;
         if ($relationData->count() == 0) {
             $blocked = false;

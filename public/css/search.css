@@ -161,10 +161,12 @@ hr {
 
 .userGrid > div {
     border: 1px black solid;
+    border-radius: 2em;
+}
+.userGrid > div > a {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-radius: 2em;
 }
 
 .lastSpacing {
