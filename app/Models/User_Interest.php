@@ -15,9 +15,9 @@ class User_Interest extends Model
     {
         return DB::table('users_interests')
             ->join('interests', 'users_interests.id_interest', '=', 'interests.id')
-            ->join('categories_interests', 'interest.id_category', '=', 'categories_interests.id')
+            ->join('categories_interests', 'interests.id_category', '=', 'categories_interests.id')
             ->where('users_interests.id_user', $userId)
-            ->select('users_interests.id_interest', 'interest.name', 'categories_interests.id', 'categories_interests.nom as categories')
+            ->select('users_interests.id_interest', 'interests.name as InterestName', 'categories_interests.id as idCategorie', 'categories_interests.name as categories')
             ->get();
     }
     public static function getInteretsParUtilisateurTab($userId)
