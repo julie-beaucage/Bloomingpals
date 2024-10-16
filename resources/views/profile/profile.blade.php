@@ -39,22 +39,22 @@
                 <li class="nav-item" title="Amis">
                     <a class="nav-link tab-link {{ request()->is('profile/amis') ? 'active' : '' }}"
                         href="{{ route('profile.amis', $user->id) }}" data-target="profile/amis">Amis</a>
-                </li><!--
+                </li>
                 <li class="nav-item" title="Personalité">
                     <a class="nav-link tab-link {{ request()->is('profile/personnalite') ? 'active' : '' }}"
                         href="{{ route('profile.personnalite', $user->id) }}"
                         data-target="profile/personnalite">Personnalité</a>
-                </li>-->
+                </li>
                 <li class="nav-item" title="Events">
                     <a class="nav-link tab-link {{ request()->is('profile/events') ? 'active' : '' }}"
                         href="{{ route('profile.events', $user->id) }}"
                         data-target="profile/events">Activitées</a>
-                </li><!--
+                </li>
                 <li class="nav-item" title="Rencontres">
                     <a class="nav-link tab-link {{ request()->is('profile/rencontres') ? 'active' : '' }}"
                         href="{{ route('profile.rencontres', $user->id) }}"
                         data-target="profile/rencontres">Rencontres</a>
-                </li>-->
+                </li>
             </ul>
         </div>
         <div id="information_container" class="onglet_profile">
