@@ -1,10 +1,10 @@
-@extends("master")
+@extends('master')
 
-@section("style")
+@section('style')
     <link rel="stylesheet" type="text/css" href="{{ asset('css/search.css') }}">
 @endsection()
 
-@section("content")
+@section('content')
     <div id="search_cntr">
         <div id="search_inputs">
             <input type="text" id="search_field" placeholder="Rechercher">
@@ -14,34 +14,18 @@
                 <button class="hover_darker" value="users" type="button">Utilisateurs</button>
             </div>
         </div>
-        
+
         <div id="result">
         </div>
     </div>
 @endsection()
 
-@section("script")
+@section('script')
     <script>
         $(document).ready(function() {
 
-            function refresh() {
-                let url = new URL(window.location.href);
-                let category = url.searchParams.get("category");
-                let query = url.searchParams.get("query");
-                
-                $.ajax({
-                    url: "/search/" + category,
-                    type: "GET",
-                    success: function(data) {
-                        $("#result").html(data);
-                    },
-                    data: {
-                        'query': query
-                    }
-                });
-            }
-
-            // Init
+            let last_data = "";
+            let curr_page = 1;
             let url = new URL(window.location.href);
             let category = url.searchParams.get("category");
             if (category == null) {
@@ -50,14 +34,50 @@
                 category = "meetups";
             }
             $("#search_categories > button[value='" + category + "']").addClass("selected");
-            refresh();
-            
+            goTo(1, true);
+
+            function goTo(page, refresh = false) {
+                let url = new URL(window.location.href);
+                let category = url.searchParams.get("category");
+                let query = url.searchParams.get("query");
+
+                if (refresh)
+                    window.scrollTo(0, 0);
+
+                $.ajax({
+                    url: "/search/" + category,
+                    type: "GET",
+                    success: function(data) {
+
+                        if (data != last_data)
+                            last_data = data;
+
+                        if (data == "" && page == 1) {
+                            $("#result").html("<span>Aucun résultat</span>");
+                            return;
+                        }
+
+                        if (refresh) {
+                            $("#result").empty();
+                            curr_page = 1;
+                        }
+                            
+
+                        $("#result").append(data);
+                    },
+                    data: {
+                        'query': query,
+                        'page': page
+                    }
+                });
+            }
+
             // Events
             $("#search_categories > button").click(function() {
                 let category = $(this).val();
                 let url = new URL(window.location.href);
 
-                if (category == url.searchParams.get("category")) 
+                if (category == url.searchParams.get("category"))
                     return;
 
                 url.searchParams.set("category", category);
@@ -65,16 +85,49 @@
 
                 $("#search_categories > button").removeClass("selected");
                 $(this).addClass("selected");
-                
-                refresh();
+
+                goTo(1, true);
             });
 
+            $("#search_field").keydown(function(e) {
+                if (e.keyCode == 13) {
+                    goTo(1, true);
+                }
+            });
+
+            let isSearching = false;
             $("#search_field").keyup(function() {
                 let query = $(this).val();
                 let url = new URL(window.location.href);
                 url.searchParams.set("query", query);
                 window.history.replaceState({}, "", url);
-                refresh();
+
+                if (isSearching)
+                    return;
+
+                isSearching = true;
+                $("#result").delay(250).queue(function() {
+                    goTo(1, true);
+                    isSearching = false;
+                    $(this).dequeue();
+                });
+            });
+
+            let isLoading = false;
+            $("#content").scroll(function() {
+                if ($("#content").scrollTop() + $("#content").height() < $("#result").height() - 200)
+                    return;
+
+                if (isLoading)
+                    return;
+
+                isLoading = true;
+                curr_page++;
+                goTo(curr_page);
+                $("#result").delay(500).queue(function() {
+                    isLoading = false;
+                    $(this).dequeue();
+                });
             });
         });
     </script>

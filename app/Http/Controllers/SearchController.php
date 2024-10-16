@@ -2,7 +2,7 @@
 namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\User;
-use App\Models\Rencontre;
+use App\Models\Meetup;
 use Illuminate\Http\Request;
 
 class SearchController extends Controller
@@ -19,11 +19,14 @@ class SearchController extends Controller
         $meetups = [];
 
         if ($query == null) {
-            $meetups = Rencontre::all();
+            $meetups = Meetup::all();
             return view('partial_views.meetup_cards', ['meetups' => $meetups]);
         }
 
-        $meetups = Rencontre::where('nom', 'LIKE', '%'.$query.'%')->get();
+        $meetups = Meetup::where('nom', 'LIKE', '%'.$query.'%')->get();
+
+        $page = $request->has('page') ? $request->get('page') : 1;
+        $meetups = $meetups->forPage($page, 20);
 
         return view('partial_views.meetup_cards', ['meetups' => $meetups]);
     }
@@ -31,14 +34,14 @@ class SearchController extends Controller
     public function events(Request $request)
     {
         $query = $request->has('query') ? $request->get('query') : null;
-        $events = [];
-        
-        if ($query == null) {
-            $events = Event::all();
-            return view('partial_views.event_cards', ['events' => $events]);
-        }
+        $events = ($query == null) ? Event::all() : Event::where('name', 'LIKE', '%'.$query.'%')->get();
 
-        $events = Event::where('nom', 'LIKE', '%'.$query.'%')->get();
+        $page = $request->has('page') ? $request->get('page') : 1;
+        if ($page == null || $page < 1) 
+            return response()->json(['error' => 'Invalid page number']);
+        
+        $events = $events->forPage($page, 20);
+
         return view('partial_views.event_cards', ['events' => $events]);
     }
 
@@ -53,6 +56,10 @@ class SearchController extends Controller
         }
 
         $users = Event::where('nom', 'LIKE', '%'.$query.'%')->get();
+        
+        $page = $request->has('page') ? $request->get('page') : 1;
+        $users = $users->forPage($page, 20);
+    
         return view('partial_views.user_cards', ['users' => $users]);
     }
 }

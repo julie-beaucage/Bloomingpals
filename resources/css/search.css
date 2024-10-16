@@ -92,7 +92,7 @@
     object-position: top;
 }
 
-.body {
+.content {
     padding: 1em;
     display: flex;
     flex-direction: column;
@@ -105,7 +105,8 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: Top;
-    gap: 1em;
+    height: 2em;
+    gap: 0.5em;
 }
 
 .name {
@@ -135,17 +136,4 @@ hr {
     align-items: center;
     justify-content: space-between;
     color: var(--neutral-600);
-}
-
-.text-nowrap {
-    position: relative;
-    width: 100%;
-}
-
-.text-nowrap > span {
-    position: absolute;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-wrap: nowrap;
-    width: 100%;
 }

@@ -142,7 +142,6 @@ body {
     width: auto;
     height: -moz-fit-content;
     padding: 1em;
-    padding-bottom: 0em;
     margin-top: auto
 }
 
@@ -374,7 +373,19 @@ a {
 .btn_primary:hover {
     filter: brightness(1.1);
 }
-
 .grey_text {
     color: rgb(168, 168, 168);
+}
+
+.text_nowrap {
+    position: relative;
+    width: 100%;
+}
+
+.text_nowrap > * {
+    position: absolute;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-wrap: nowrap;
+    width: 100%;
 }
