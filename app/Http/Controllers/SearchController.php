@@ -4,6 +4,7 @@ use App\Models\Event;
 use App\Models\User;
 use App\Models\Meetup;
 use App\Models\Relation;
+use App\Models\Friendship_Request;
 use Illuminate\Http\Request;
 use illuminate\Support\Facades\Auth;
 
@@ -49,14 +50,17 @@ class SearchController extends Controller
         $query = $request->has('query') ? $request->get('query') : "";
         $users = [];
 
-        $amis = Relation::GetFriends(Auth::user()->id);
+        $friends = Relation::GetFriends(Auth::user()->id);
+        $friendRequestsSent = Friendship_Request::GetFriendRequestSent(Auth::user()->id);
+        $friendRequestsReceive = Friendship_Request::GetFriendRequestReceive(Auth::user()->id);
+
 
         if ($query == null) {
             $users = User::all();
-            return view('partial_views.user_cards', ['users' => $users, "amis" => $amis]);
+            return view('partial_views.user_cards', ['users' => $users, "friends" => $friends, "friendRequestsSent" => $friendRequestsSent, "friendRequestsReceive" => $friendRequestsReceive]);
         }
 
         $users = Event::where('nom', 'LIKE', '%'.$query.'%')->get();
-        return view('partial_views.user_cards', ['users' => $users, "amis" => $amis]);
+        return view('partial_views.user_cards', ['users' => $users, "friends" => $friends, "friendRequestsSent" => $friendRequestsSent, "friendRequestsReceive" => $friendRequestsReceive]);
     }
 }

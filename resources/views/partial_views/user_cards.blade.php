@@ -1,4 +1,5 @@
 <?php
+use illuminate\Support\Facades\Auth;
 
 if (count($users)  == 0) {
     echo <<< HTML
@@ -16,28 +17,67 @@ foreach ($users as $user) {
 
     $buttonHtml = "";
     $friendFound = false;
-    foreach ($amis as $ami) {
-        if ($ami->id == $user->id) {
-            $buttonHtml = `<div class="lastSpacing" value="addded">Ami</div>`;
-            $friendFound = true;
+
+    if ($user->id != Auth::user()->id) {
+        //check if the user is a friend
+        foreach ($friends as $ami) {
+            if ($ami->id == $user->id) {
+                $buttonHtml = <<<HTML
+                    <div class="lastSpacing" value="addded">Ami</div>
+                HTML;
+                $friendFound = true;
+                break;
+            }
         }
-    }
 
-    if (!$friendFound) { 
-        $buttonHtml = `<div class="lastSpacing button" value="add"><a class="blue_button" href="">Ajouter</a></div>`;
-    }
+        //check if the connected user sent a friend request to the user
+        if (!$friendFound) {
+            foreach ($friendRequestsSent as $friendRequest) {
+                if ($friendRequest->id == $user->id) {
+                    $buttonHtml = <<<HTML
+                        <div class="lastSpacing grey_button no_select" value="addded">En Attente</div>
+                    HTML;
+                    $friendFound = true;
+                    break;
+                }
+            }
 
-    $imageUser = $user->image_profil ? asset('storage/' . $user->image_profil) : asset('/images/simple_flower.png');
-    $html .= <<<HTML
-        <div>
-            <div class="profile_icon no_select" style="background-image: url($imageUser)">
-                        
+            //check if the user sent a friend request to the connected user
+            if (!$friendFound) {
+                foreach ($friendRequestsReceive as $friendRequest) {
+                    if ($friendRequest->id == $user->id) {
+                        $routeAccept = route("AcceptFriendRequest", ["id" => $user->id]);
+                        $routeRefuse = route("RefuseFriendRequest", ["id" => $user->id]);
+                        $buttonHtml = <<<HTML
+                            <div class="lastSpacing green_button no_select" value="addded"><a class="green_button" href="$routeAccept">Accepter</a></div>
+                            <div class="lastSpacing red_button no_select" value="addded"><a class="red_button" href="$routeRefuse">Refuser</a></div>
+                        HTML;
+                        $friendFound = true;
+                        break;
+                    }
+                }
+
+                if (!$friendFound) {
+                    $route = route("SendFriendRequest", ["id" => $user->id]);
+                    $buttonHtml = <<<HTML
+                        <div class="lastSpacing button" value="add"><a class="blue_button" href="$route">Ajouter</a></div>
+                    HTML; 
+                }
+            }
+        }
+
+        $imageUser = $user->image_profil ? asset('storage/' . $user->image_profil) : asset('/images/simple_flower.png');
+        $html .= <<<HTML
+            <div>
+                <div class="profile_icon no_select" style="background-image: url($imageUser)">
+                            
+                </div>
+                <div>{$user->first_name}</div>
+                <div>{$user->last_name}</div>
+                $buttonHtml
             </div>
-            <div>{$user->first_name}</div>
-            <div>{$user->last_name}</div>
-            $buttonHtml
-        </div>
-    HTML;
+        HTML;
+    }
 }
 
 $html .= <<< HTML

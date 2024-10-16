@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
 use App\Models\User;
 use App\Models\Relation;
+use App\Models\Friendship_Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 
@@ -180,5 +181,30 @@ class UsersController extends Controller
 
     public function personnalite($id) {
         return view('profile.personnalite', ['user' => User::findOrFail($id)]);
+    }
+
+    public function SendFriendRequest($id) {
+        if (Auth::user()->id != $id) {
+            Friendship_Request::AddFriendRequest(Auth::user()->id, $id);
+        }
+
+        return redirect()->back();
+    }
+
+    public function AcceptFriendRequest($id) {
+
+        if (Auth::user()->id != $id) {
+            Friendship_Request::AcceptFriendRequest($id, Auth::user()->id);
+            Relation::AddFriend(Auth::user()->id, $id);
+        }
+
+        return redirect()->back();
+    }
+    public function RefuseFriendRequest($id) {
+        if (Auth::user()->id != $id) {
+            Friendship_Request::RefuseFriendRequest($id, Auth::user()->id);
+        }
+
+        return redirect()->back();
     }
 }
