@@ -8,6 +8,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
 use App\Models\User;
+use App\Models\Relation;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 
@@ -117,7 +118,12 @@ class UsersController extends Controller
         if (!$user) {
             return redirect()->route('/login')->with('error', 'Utilisateur non trouvé.');
         }
-        return view('profile.profile', compact('user'));
+        $relation = Relation::GetRelationUsers(Auth::user(), $user);
+        /*à voir si on le met
+        if ($relation == 'Blocked') {
+            return redirect()->back();
+        }*/
+        return view('profile.profile', compact('user', 'relation'));
 
     }
 

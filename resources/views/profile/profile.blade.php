@@ -1,3 +1,36 @@
+<?php
+    use illuminate\Support\Facades\Auth;
+
+    $relationButtonHtml = "";
+    if (Auth::user()->id != $user->id) {
+        if ($relation == null) {
+
+
+            $relationButtonHtml = <<<HTML
+                <div class="blueButton">
+                    Ajouter en ami
+                </div>
+            HTML;
+        } else if ($relation == "ami") {
+
+            $relationButtonHtml = <<<HTML
+
+            HTML;
+        } else if ($relation == "GotBlocked") {
+
+            $relationButtonHtml = <<<HTML
+
+            HTML;
+        } else {
+            
+            $relationButtonHtml = <<<HTML
+
+            HTML;
+        }
+    }
+?>
+
+
 @extends('master')
 
 @section('style')
@@ -20,7 +53,9 @@
                 alt="Photo de profil">
         </div>
 
-        <h1 id="profile_name">{{ $user->prenom }} {{ $user->nom }}</h1>
+        {{ $relation }}
+
+        <h1 id="profile_name">{{ $user->first_name }} {{ $user->last_name }}</h1>
         <div class="button_profile">
             @if ($user->id == Auth::user()->id)
                 <button type="button" class="btnProfile" data-bs-toggle="modal" data-bs-target="#editProfileModal">

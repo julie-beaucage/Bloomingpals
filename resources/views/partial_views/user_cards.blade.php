@@ -10,7 +10,7 @@ if (count($users)  == 0) {
 foreach ($users as $user) {
     echo <<< HTML
         <div>
-            <span>{$user->nom}</span>
+            <span>{$user->first_name}</span>
         </div>
     HTML;
 }
