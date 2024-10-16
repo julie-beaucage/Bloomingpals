@@ -26,7 +26,7 @@ class Relation extends Model
     }
 
     public static function GetFriends($userId) {
-
+        return "";
     }
 
     public static function GetIfBlocked($user1, $user2) {

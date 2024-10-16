@@ -3,7 +3,9 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\User;
 use App\Models\Meetup;
+use App\Models\Relation;
 use Illuminate\Http\Request;
+use illuminate\Support\Facades\Auth;
 
 class SearchController extends Controller
 {
@@ -47,12 +49,14 @@ class SearchController extends Controller
         $query = $request->has('query') ? $request->get('query') : "";
         $users = [];
 
+        $amis = Relation::GetFriends(Auth::user()->id);
+
         if ($query == null) {
             $users = User::all();
-            return view('partial_views.user_cards', ['users' => $users]);
+            return view('partial_views.user_cards', ['users' => $users, "amis" => $amis]);
         }
 
         $users = Event::where('nom', 'LIKE', '%'.$query.'%')->get();
-        return view('partial_views.user_cards', ['users' => $users]);
+        return view('partial_views.user_cards', ['users' => $users, "amis" => $amis]);
     }
 }
