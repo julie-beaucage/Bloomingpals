@@ -16,12 +16,12 @@ foreach ($users as $user) {
 
     $buttonHtml = "";
     $friendFound = false;
-    /*foreach ($amis as $ami) {
+    foreach ($amis as $ami) {
         if ($ami->id == $user->id) {
             $buttonHtml = `<div class="lastSpacing" value="addded">Ami</div>`;
             $friendFound = true;
         }
-    }*/
+    }
 
     if (!$friendFound) { 
         $buttonHtml = `<div class="lastSpacing button" value="add"><a class="blue_button" href="">Ajouter</a></div>`;
