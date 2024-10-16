@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\cities;
+use App\Models\City;
 use App\Models\Meetup;
-use Auth;
+use illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -30,7 +30,7 @@ class MeetupController extends BaseController
         $users=[];
 
         foreach($meetups as $meetup){
-            array_push($users,User::where('id',$meetup->id_organisateur)->first());
+            array_push($users, Meetup::GetOrganisator($meetup->id));
 
         }
         //dd($users[0]);
@@ -320,7 +320,7 @@ class MeetupController extends BaseController
 
     private function getCities()
     {
-        $cities = cities::orderBy('city_ascii', 'ASC')->get();
+        $cities = City::orderBy('city_ascii', 'ASC')->get();
         return $cities;
     }
 
