@@ -8,6 +8,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
 use App\Models\User;
+use App\Models\Relation;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 
@@ -169,7 +170,9 @@ class usersController extends Controller
     
     public function amis($id) {
         $user = User::find($id);
-        return view('profile.amis', compact('user'));    
+
+        $friends = Relation::GetFriends($id);
+        return view('profile.amis', compact('user', 'friends'));    
     }
 
     public function personnalite($id) {
