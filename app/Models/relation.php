@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 
+
+//in this model, the user 1 is always the one who choose what happen to user 2
 class Relation extends Model
 {
     protected $table= 'relations';
@@ -15,11 +17,12 @@ class Relation extends Model
 
     public static function GetRelationUsers($user1, $user2) {
         $relation = null;
-        $relationData = Relation::where('id_user1', $user1)->where('id_user2', $user2)->get();
 
         if (!Relation::GetIfBlocked($user2, $user1)) {
-            if ($relationData->count() != 0) {
-                $relation = $relationData[0]->type;
+            $relationData = Relation::where('id_user1', $user1)->where('id_user2', $user2);
+
+            if ($relationData->count() > 0) {
+                $relation = $relationData->get()->first()->type;
             }
         } else {
             $relation = "GotBlocked";
@@ -72,6 +75,13 @@ class Relation extends Model
                 ];
                 Relation::Create($table2);
             }
+        }
+    }
+
+    public static function RemoveFriend($user1, $user2) {
+        if (!Relation::GetIfBlocked($user1, $user2)) {
+            Relation::where("id_user1", $user2)->where("id_user2", $user1)->delete();
+            Relation::where("id_user1", $user1)->where("id_user2", $user2)->delete();
         }
     }
 }

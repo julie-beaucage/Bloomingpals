@@ -76,4 +76,13 @@ class Friendship_Request extends Model
         $state = ["state" => "Refused"];
         $requestsData = Friendship_Request::where("id_user_send", $user1)->where("id_user_receive", $user2)->update($state);
     }
+
+    public static function CancelFriendRequest($user1, $user2) {
+        Friendship_Request::where("id_user_send", $user1)->where("id_user_receive", $user2)->delete();
+    }
+
+    public static function RemoveFriendRequest($user1, $user2) {
+        Friendship_Request::where("id_user_send", $user1)->where("id_user_receive", $user2)->delete();
+        Friendship_Request::where("id_user_send", $user2)->where("id_user_receive", $user1)->delete();
+    }
 }

@@ -119,10 +119,12 @@ class UsersController extends Controller
         if (!$user) {
             return redirect()->route('/login')->with('error', 'Utilisateur non trouvé.');
         }
-        $relation = Relation::GetRelationUsers(Auth::user(), $id);
+        $relation = Relation::GetRelationUsers(Auth::user()->id, $id);
 
         if ($relation == 'GotBlocked') {
             return redirect()->back();
+        } else if ($relation == "Friend") {
+            return view('profile.profile', compact('user', 'relation'));
         } else {
             $relationRequest = Friendship_Request::GetUserRelationState(Auth::user()->id, $id);
             if ($relationRequest == "sent") {
@@ -215,6 +217,23 @@ class UsersController extends Controller
     public function RefuseFriendRequest($id) {
         if (Auth::user()->id != $id) {
             Friendship_Request::RefuseFriendRequest($id, Auth::user()->id);
+        }
+
+        return redirect()->back();
+    }
+
+    public function CancelFriendRequest($id) {
+        if (Auth::user()->id != $id) {
+            Friendship_Request::CancelFriendRequest(Auth::user()->id, $id);
+        }
+
+        return redirect()->back();
+    }
+
+    public function RemoveFriend($id) {
+        if (Auth::user()->id != $id) {
+            Friendship_Request::RemoveFriendRequest(Auth::user()->id, $id);
+            Relation::RemoveFriend(Auth::user()->id, $id);
         }
 
         return redirect()->back();
