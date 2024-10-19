@@ -15,7 +15,7 @@ class Interest extends Model
     protected $primaryKey = 'id';
     public function categorie()
     {
-        return $this->belongsTo(Category_Interest::class, 'id_category'); // Utilisez le modèle approprié
+        return $this->belongsTo(Category_Interest::class, 'id_category'); 
     }
     public function getTagsByCategory($categoryId) {
         $tags = Interest::where('id_category', $categoryId)->get(['id', 'name']);

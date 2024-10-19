@@ -1,6 +1,8 @@
 USE BloomingPals;
 
--- Utilisateur ------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
+----------------UTILISATEUR
+-- ------------------------------------------------------------------------------------------------
 DROP PROCEDURE IF EXISTS creerUsager;
 DELIMITER //
 CREATE DEFINER=`root`@`localhost` PROCEDURE creerUsager(
@@ -24,7 +26,7 @@ BEGIN
     END IF;
 END
 // DELIMITER ;
-
+---------------------------------------------------------------------------------------------------
 DROP PROCEDURE IF EXISTS updateUserProfile;
 DELIMITER //
 CREATE DEFINER=`root`@`localhost` PROCEDURE updateUserProfile(IN p_user_id INT,
@@ -45,38 +47,11 @@ BEGIN
     WHERE id = p_user_id;
 END;
 // DELIMITER ;
--- -----------------------------------------------------
 
--- Interets --------------------------------------------
-DROP PROCEDURE IF EXISTS ajouterInterets;
-DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE ajouterInterets(
-    IN utilisateurId INT,
-    IN interetsParam VARCHAR(255)
-)
-BEGIN
-    DECLARE interetId INT;
-    DECLARE interetList TEXT;
 
-    -- Supprimer les intérêts existants pour l'utilisateur
-    DELETE FROM users_interests WHERE id_user = utilisateurId;
-
-    SET interetList = interetsParam;
-
-    WHILE LENGTH(interetList) > 0 DO
-        SET interetId = SUBSTRING_INDEX(interetList, ',', 1);
-        IF interetId <> '' THEN
-            -- Insérer l'intérêt
-            INSERT INTO users_interests (id_users, id_interests) VALUES (utilisateurId, interetId);
-        END IF;
-
-        SET interetList = SUBSTRING(interetList, LENGTH(interetId) + 2);
-    END WHILE;
-END;
-// DELIMITER ;
--- -----------------------------------------------------
-
--- Evenement ------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
+----------------EVENEMENTS
+-- ------------------------------------------------------------------------------------------------
 DROP PROCEDURE IF EXISTS ajouterEvenement;
 
 DELIMITER //
@@ -111,12 +86,37 @@ BEGIN
     COMMIT;
 END;
 // DELIMITER ;
--- -----------------------------------------------------
 
--- Ineret ------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
+----------------INTERET
+-- ------------------------------------------------------------------------------------------------
+
+--PROCEDURE POUR UTILISRE POUR FAIRE ROULER LE SCRIPT D'INSERTION D'INTERETS DE LA TABLE
 DROP PROCEDURE IF EXISTS ajouterInterets;
 DELIMITER //
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ajouterInterets`(
+    IN p_nom_interet VARCHAR(50),
+    IN p_id_category INT
+)
+BEGIN
+     DECLARE nb_interet INT;
+    SELECT COUNT(*) INTO nb_interet 
+    FROM interests 
+    WHERE name = p_nom_interet;
+
+    IF nb_interet != 0 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'ERREUR: Intérêt existe déjà.';
+    ELSE
+        INSERT INTO interests (name, id_category) 
+        VALUES (p_nom_interet, p_id_category);
+    END IF;
+END;
+// DELIMITER ;
+-- -----------------------------------------------------
+--PROCEDURE POUR AJOUTER/MODIF INTERET DE USER
+DROP PROCEDURE IF EXISTS add_user_interests;
+DELIMITER //
+CREATE DEFINER=`root`@`localhost` PROCEDURE `add_user_interests`(
     IN utilisateurId INT,
     IN interetsParam VARCHAR(1000)
 )
@@ -136,12 +136,11 @@ BEGIN
 
         SET interetList = SUBSTRING(interetList, LENGTH(interetId) + 2);
     END WHILE;
-END;
+END
 // DELIMITER ;
--- -----------------------------------------------------
-
-
--- Rencontre -------------------------------------------
+-- ------------------------------------------------------------------------------------------------
+----------------RENCONTRE
+-- ------------------------------------------------------------------------------------------------
 DROP PROCEDURE IF EXISTS creerRencontre;
 DELIMITER //
 CREATE PROCEDURE creerRencontre( _nom varchar(100), _description varchar(4096), _id_organisateur INT, _adresse Varchar(100), _ville Varchar(100), _date DATETIME ,_nb_participant INT, _image varchar(1024), _public Bool)

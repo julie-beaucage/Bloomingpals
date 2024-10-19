@@ -7,6 +7,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\InterestsController;
 use App\Http\Controllers\CustomVerificationController;
+use App\Http\Controllers\PersonalityController;
 
 
 
@@ -50,6 +51,12 @@ Route::middleware('auth')->group(function () {
     //INTERET
     Route::get('interets/interets/{id}', [InterestsController::class, 'interets'])->name('interets.interets');
     Route::put('/interets/update_Interets', [InterestsController::class, 'update_Interets'])->name('interets.update_Interets');
+
+    //TEST
+    Route::get('/personality/test', [PersonalityController::class, 'startTest'])->name('personality.test'); 
+    Route::post('/personality/submit', [PersonalityController::class, 'submitTest'])->name('personality.submit');
+    Route::get('/personality/results', [PersonalityController::class, 'results'])->name('personality.results');
+    
 
     // Meetup
     Route::get('/meetupForm', [MeetupController::class, 'Form']);

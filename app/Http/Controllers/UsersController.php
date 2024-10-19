@@ -13,7 +13,7 @@ use App\Models\Friendship_Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 
-class UsersController extends Controller
+class usersController extends Controller
 {
     public function registerForm()
     {
@@ -26,7 +26,7 @@ class UsersController extends Controller
             'lastname' => ['required', 'min:3', 'max:20'],
             'firstname' => ['required', 'min:3', 'max:20'],
             'birthdate' => ['required', 'date', 'before:' . now()->subYears(15)->toDateString()],
-            'email' => ['required', 'email', 'max:100', Rule::unique('utilisateur', 'email')],
+            'email' => ['required', 'email', 'max:100', Rule::unique('users', 'email')],
             'genre' => ['required', Rule::in(['homme', 'femme', 'non-genre'])],
             'password' => ['required', 'confirmed', 'min:6', 'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/']
         ], [

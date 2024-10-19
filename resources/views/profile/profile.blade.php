@@ -8,6 +8,7 @@
 @include('profile.edit-profile-modal')
 
 @section('content')
+
 <div id="background_cntr" class="no_select">
     <div id="background_color"></div>
     <img id="background_img" src="{{ $user->background_image ? asset('storage/' . $user->background_image) : asset('/images/R.jpg') }}"
