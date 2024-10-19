@@ -45,6 +45,8 @@ Route::middleware('auth')->group(function () {
     Route::put('/profile/update/{id}', [UsersController::class, 'update'])->name('profile.update');
     Route::get('profile/amis/{id}', [UsersController::class, 'amis'])->name('profile.amis');
     Route::get('profile/personnalite/{id}', [UsersController::class, 'personnalite'])->name('profile.personnalite');
+    Route::get('profile/events/{id}', [UsersController::class, 'events'])->name('profile.events');
+    Route::get('profile/rencontres/{id}', [UsersController::class, 'rencontres'])->name('profile.rencontres');
 
     //INTERET
     Route::get('interets/interets/{id}', [InterestsController::class, 'interets'])->name('interets.interets');
@@ -84,4 +86,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/search/meetups', [SearchController::class, 'meetups'])->name('search.meetups');
     Route::get('/search/events', [SearchController::class, 'events'])->name('search.events');
     Route::get('/search/users', [SearchController::class, 'users'])->name('search.users');
+
+    //utilisateurs
+    Route::get("user/friend/request/send/{id}", [UsersController::class, "SendFriendRequest"])->name("SendFriendRequest");
+    Route::get("user/friend/request/accept/{id}", [UsersController::class, "AcceptFriendRequest"])->name("AcceptFriendRequest");
+    Route::get("user/friend/request/refuse/{id}", [UsersController::class, "RefuseFriendRequest"])->name("RefuseFriendRequest");
+    Route::get("user/friend/request/cancel/{id}", [UsersController::class, "CancelFriendRequest"])->name("CancelFriendRequest");
+    Route::get("user/friend/remove/{id}", [UsersController::class, "RemoveFriend"])->name("RemoveFriend");
 });

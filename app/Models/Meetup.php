@@ -47,8 +47,8 @@ class Meetup extends Model
      * @return user[]|\Illuminate\Database\Eloquent\Collection
      */
     public static function GetOrganisator($meetupId) {
-        $rencontre = Meetup::where("id", $meetupId)->get();
-        $organisator = User::where("id", $rencontre[0]->id_organisateur)->get()[0];
+        $rencontre = Meetup::where("id", $meetupId)->get()->first();
+        $organisator = User::where("id", $rencontre->id_organisateur)->get()->first();
         return $organisator;
     }
 
