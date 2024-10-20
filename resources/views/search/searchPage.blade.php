@@ -7,9 +7,16 @@
 
 @section('content')
     <div id="search_cntr">
-        <div id="search_inputs">
-            <input type="text" id="search_field" class="no_select" placeholder="Rechercher">
-            <div id="search_categories">
+        <div id="search_header">
+            <div id="inputs_ctnr">
+                <input type="text" id="search_field" class="no_select" placeholder="Rechercher">
+                <button id="filter_btn" class="hover_darker no_select" value="meetups" type="button">
+                    <span class="material-symbols-rounded">
+                        filter_vintage
+                    </span>
+                </button>
+            </div>
+            <div id="categories_ctnr">
                 <button class="hover_darker no_select" value="meetups" type="button">Rencontres</button>
                 <button class="hover_darker no_select" value="events" type="button">Évènements</button>
                 <button class="hover_darker no_select" value="users" type="button">Utilisateurs</button>
@@ -34,7 +41,39 @@
                 window.history.replaceState({}, "", url);
                 category = "meetups";
             }
-            $("#search_categories > button[value='" + category + "']").addClass("selected");
+            $("#categories_ctnr > button[value='" + category + "']").addClass("selected");
+
+            $("#content").prepend(`
+                <div id="filters_ctnr" class="hidden">
+                    <div id="absolute_ctnr">
+                        <div id="filters">
+                            <div class="header">
+                                <span class="title">Filtres de recherche</span>
+                                <span id="close_filter_btn" class="material-symbols-rounded no_select pointer">close</span>
+                            </div>
+                            <span>Distance</span>
+                            <input type="range" min="0" max="100" value="50">
+
+                            <span>Intérêts</span>
+                            <div id="interests_ctnr">
+                                <span class="tag">Sport
+                                    <span class="material-symbols-rounded">close</span>
+                                </span>
+                                <span class="tag">Musique
+                                    <span class="material-symbols-rounded">close</span>
+                                </span>
+                                <span class="tag">Cuisine
+                                    <span class="material-symbols-rounded">close</span>
+                                </span>
+                                <span class="tag">Jeux vidéos
+                                    <span class="material-symbols-rounded">close</span>
+                                </span>
+                            <div>
+                        </div>
+                    </div>
+                </div>
+            `)
+            
             goTo(1, true);
 
             function goTo(page, refresh = false) {
@@ -74,17 +113,16 @@
             }
 
             // Events
-            $("#search_categories > button").click(function() {
+            $("#categories_ctnr > button").click(function() {
                 let category = $(this).val();
                 let url = new URL(window.location.href);
 
                 if (category == url.searchParams.get("category"))
                     return;
-
                 url.searchParams.set("category", category);
                 window.history.replaceState({}, "", url);
 
-                $("#search_categories > button").removeClass("selected");
+                $("#categories_ctnr > button").removeClass("selected");
                 $(this).addClass("selected");
 
                 goTo(1, true);
@@ -112,6 +150,22 @@
                     isSearching = false;
                     $(this).dequeue();
                 });
+            });
+
+            $("#filter_btn").click(function() {
+                if ($("#filters_ctnr").hasClass("hidden"))
+                    $("#filters_ctnr").removeClass("hidden");
+
+                if (!$("#content").hasClass("no_overflow"))
+                    $("#content").removeClass("no_overflow");
+            });
+
+            $("#close_filter_btn").click(function() {
+                if (!$("#filters_ctnr").hasClass("hidden"))
+                    $("#filters_ctnr").addClass("hidden");
+
+                if ($("#content").hasClass("no_overflow"))
+                    $("#content").removeClass("no_overflow");
             });
 
             let isLoading = false;

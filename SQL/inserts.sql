@@ -5,9 +5,6 @@ CALL creerUsager ('user1@email.com', 'Desroches', 'Caroline', CURDATE(), '$2y$10
 CALL creerUsager ('user2@email.com', 'Hétu', 'Adrien', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'homme');
 CALL creerUsager ('user3@email.com', 'Delmar', 'Mainville', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'non-genre');
 
-CALL ajouterInterets (1, "24, 33");
-CALL ajouterInterets (3, "89");
-
 -- Meetups --
 INSERT INTO meetups(name, description, id_owner, adress, date, nb_participant, public) 
     VALUES("Nom de la rencontre", "Voici la description", 1, "1234 rue popcorn", DATE "2025-01-01", 100, 1);
@@ -172,6 +169,10 @@ INSERT INTO interests (name, id_category) VALUES ('Vidéo', 6);
 INSERT INTO interests (name, id_category) VALUES ('Menuiserie', 6);
 INSERT INTO interests (name, id_category) VALUES ('Scrapbooking', 6);
 INSERT INTO interests (name, id_category) VALUES ('Couture', 6);
+
+-- Users Interests --
+CALL ajouterInterets (1, "24, 33");
+CALL ajouterInterets (3, "89");
 
 -- Meetups Interests --
 INSERT INTO meetups_interests (id_interest, id_meetup) VALUES (24, 2);

@@ -308,11 +308,23 @@ body {
 }
 
 .no_wrap {
-    white-space: nowrap;
+    white-space: nowrap !important;
+}
+
+.no_overflow {
+    overflow: hidden !important;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.hidden {
+    display: none !important;
 }
 
 .text_center {
-    text-align: center;
+    text-align: center !important;
 }
 
 a {
@@ -328,12 +340,24 @@ a {
     text-decoration: underline !important;
 }
 
+.icon_xs {
+    font-size: 1em !important;
+}
+
 .icon_sm {
-    font-size: 1.4em !important;
+    font-size: 1.5em !important;
 }
 
 .icon_md {
     font-size: 2em !important;
+}
+
+.icon_lg {
+    font-size: 2.5em !important;
+}
+
+.icon_xl {
+    font-size: 3em !important;
 }
 
 .hover_darker:hover {
@@ -349,10 +373,10 @@ a {
     height: fit-content;
     width: -moz-fit-content;
     width: fit-content;
-    padding: 0.25em 1em;
+    padding: 0.25em 0.75em;
     border-radius: 0.75em;
     background-color: var(--accent-400);
-    font-size: 1em;
+    font-size: 0.9em;
     font-weight: 500;
     color: var(--white);
     white-space: nowrap;

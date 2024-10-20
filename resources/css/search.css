@@ -10,16 +10,17 @@
     box-sizing: border-box;
 }
 
-#search_inputs {
+#search_header {
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: 1em;
+    align-items: center;
 }
 
 #search_field {
     width: 100%;
-    padding: 0.75em 1em;
+    padding: 0.5em 1em;
     border-radius: 0.75em;
     background-color: var(--white);
     border: 1px solid var(--neutral-200);
@@ -34,14 +35,39 @@
     border: 1px solid var(--neutral-400);
 }
 
-#search_categories {
+#inputs_ctnr {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+}
+
+#inputs_ctnr > button {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    padding: 0.5em;
+    font-size: 1em;
+    font-family: "Poppins", sans-serif !important;
+    font-weight: 500;
+    cursor: pointer;
+    background-color: var(--white);
+    border: 1px solid var(--neutral-200);
+    border-radius: 0.75em;
+}
+
+#categories_ctnr {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 1em;
+    width: 100%;
 }
 
-#search_categories > button {
+#categories_ctnr > button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     flex-grow: 1;
     padding: 0.5em;
     font-size: 1em;
@@ -65,4 +91,52 @@
     width: 100%;
     display: flex;
     justify-content: center;
+}
+
+#filters_ctnr {
+    position: relative;
+    width: 100%;
+    z-index: 100;
+}
+
+#absolute_ctnr {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#absolute_ctnr::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: var(--background-100);
+    opacity: 0.5;
+    z-index: -1;
+}
+
+#filters {
+    display: flex;
+    flex-direction: column;
+    height: 50%;
+    width: 80%;
+    max-width: 40em;
+    gap: 1em;
+    padding: 1em;
+    background-color: var(--white);
+    border-radius: 1em;
+}
+
+#filters > .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#filters > .header > .title {
+    font-size: 1.3em;
+    font-weight: 500;
 }
