@@ -129,8 +129,6 @@ body {
     align-items: center;
     overflow-y: auto;
     overflow-x: hidden;
-    min-width: -moz-fit-content;
-    min-width: fit-content;
     height: auto;
 }
 
@@ -304,6 +302,12 @@ body {
     .hideNotification{
         display: none !important;;
     }
+    .notification-badge{
+        top:.2em;
+        width: .9em !important;
+        height: .9em !important;
+        font-size: .9em;
+    }
 }
 
 /*-------------------- General styles --------------------*/
@@ -401,4 +405,32 @@ a {
 .header-title{
     font-size: 1.5em;
     font-weight: 600;
+}
+
+.notification-badge-container {
+    position: relative;
+}
+
+.notification-badge{
+    position: absolute;
+    right: 0.1em;
+    top:0.2em;
+    background-color: red;
+    border-radius: 50%;
+    width: 1em ;
+    height: 1em ;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.notif-count{
+    color:white;
+    font-size: .9em;
+}
+
+@media only screen and (min-width: 1200px) {
+    .notification-badge{
+        left: 1.9em;
+        
+    }
 }

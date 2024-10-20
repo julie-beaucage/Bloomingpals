@@ -95,9 +95,9 @@ class NotificationsListener
             $data['user_send']['password']="";
             $data['meetup']=Meetup::where('id',$event->content['id'])->first();
             if($data['user_send']['genre']=='femme'){
-                $data['message']= 'vous as envoyée une demande pour rejoindre votre Meetup :';
+                $data['message']= 'veux rejoindre votre Meetup :';
             }else{
-                $data['message']= 'vous a envoyé une demande pour rejoindre votre Meetup :';
+                $data['message']= 'veux rejoindre votre Meetup :';
             }
         }
 

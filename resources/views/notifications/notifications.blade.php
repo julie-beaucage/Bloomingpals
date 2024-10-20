@@ -4,18 +4,21 @@
 <link rel="stylesheet" href="{{ asset('css/notifications.css') }}">
 @endsection()
 
-
+@php
+function truncate($str,$maxlength){
+    if(strlen($str)>$maxlength){
+        return substr($str,0,$maxlength-3).'...';
+    }
+    return $str;
+    
+}
+@endphp
 @section('content')
 
 @if($notifications->first() == null)
         <div style="margin-top:20%; font-size:1.5em;"><strong>Aucune notifications</strong></div>
 @else
-<div class="container">
-    
-    @foreach ($notifications as $notification)
-        <x-notification :notification="$notification" />
-    @endforeach
-</div>
+
 @endif
 
 @endsection()
@@ -31,24 +34,7 @@
             });
         }, 2 * 1000);
 
-        $('.notification-container-page').on('click', function (event) {
-            window.location.href = $(this).attr('linking');
-        });
-
-        $(".close_icon-page").on('click', function () {
-            $.ajax({
-                type: "Get",
-                url: '/notifications/delete/' + $(this).attr('id'),
-            });
-
-            $(this).parent().find(":first").addClass('border-red');
-            container = $(this).parent();
-
-            window.setTimeout(function () {
-                container.remove();
-            }, 500);
-
-        });
+       
 
 
     });

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Blade;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
@@ -26,25 +27,26 @@ use DateTime;
 
 class NotificationController extends Controller
 {
-    public function index()
+    public static function index()
     {
-        $id_user = Auth::user()->id;
-        if ($id_user == null) {
-            abort(404);
+        if (Auth::check()) {
+            $id_user = Auth::user()->id;
+            if ($id_user == null) {
+                return null;
+            }
+
+            $notifications = DB::table('notifications')
+                ->join('types_notifications', 'type', '=', 'types_notifications.id')
+                ->select('notifications.id', 'types_notifications.name', 'id_user', 'content', 'status', 'created_date')
+                ->where('id_user', $id_user)
+                ->get();
+            $notifications = $notifications->sortByDesc('created_date');
+
+            // dd($notifications);
+            return $notifications;
         }
+        return null;
 
-
-        $notifications = DB::table('notifications')
-            ->join('types_notifications', 'type', '=', 'types_notifications.id')
-            ->select('notifications.id', 'types_notifications.name', 'id_user', 'content', 'status', 'created_date')
-            ->where('id_user', $id_user)
-            ->get();
-        $notifications = $notifications->sortByDesc('created_date');
-
-
-        // dd($notifications);
-
-        return view('notifications.notifications', compact('notifications', ));
     }
     public function getNotification()
     {
@@ -120,9 +122,10 @@ class NotificationController extends Controller
         return http_response_code(404);
     }
 
-    public function delete($id){
+    public function delete($id)
+    {
         $id_user = Auth::user()->id;
-        $notification=Notification::where('id','=',$id)->first();
+        $notification = Notification::where('id', '=', $id)->first();
         if (intval($id) != null and $notification->id_user == $id_user) {
 
             DB::statement("Call deleteNotification(?)", [
@@ -135,24 +138,35 @@ class NotificationController extends Controller
         return http_response_code(404);
     }
 
-    public function sendDailyNotification($id_user){
-        $user=User::where('id','=',$id_user)->first();
-        if($user != null){
+    public function sendDailyNotification($id_user)
+    {
+        $user = User::where('id', '=', $id_user)->first();
+        if ($user != null) {
             date_default_timezone_set('America/Toronto');
-            $today=new DateTime(date('Y-m-d H:i:s'));
-            if($user->daily_notif == null){
+            $today = new DateTime(date('Y-m-d H:i:s'));
+            if ($user->daily_notif == null) {
 
-            }else{
-                $last_notif= new DateTime($user->daily_notif);
-                $diff=$today->diff($last_notif);
+            } else {
+                $last_notif = new DateTime($user->daily_notif);
+                $diff = $today->diff($last_notif);
 
 
-                if($diff->days>0){
-                    
+                if ($diff->days > 0) {
+
                 }
 
             }
         }
+    }
+    public function hasNotificationUnread($id_user)
+    {
+        $notif = Notification::where('id', '=', $id_user)->where('status', '=', 'unread')->first();
+
+        if ($notif != null) {
+            return true;
+        }
+        return false;
+
     }
 
 }
