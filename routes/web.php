@@ -45,6 +45,8 @@ Route::middleware('auth')->group(function () {
     Route::get('profile/personnalite/{id}', [UsersController::class, 'personnalite'])->name('profile.personnalite');
     Route::get('profile/events/{id}', [UsersController::class, 'events'])->name('profile.events');
     Route::get('profile/rencontres/{id}', [UsersController::class, 'rencontres'])->name('profile.rencontres');
+    Route::get('profile/informations/{id}', [UsersController::class, 'informations'])->name('profile.informations');
+
 
     //INTERET
     Route::get('interets/interets/{id}', [InterestsController::class, 'interets'])->name('interets.interets');

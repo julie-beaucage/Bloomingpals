@@ -33,8 +33,8 @@
         <div class="listOnglet">
             <ul class="nav nav-tabs justify-content-center">
                 <li class="nav-item" title="Intérêts">
-                    <a class="nav-link tab-link {{ request()->is('interets/*/interets') || request()->is('profile/personnalite') || !request()->is('profile/*') ? 'active' : '' }}"
-                        href="{{ route('interets.interets', $user->id) }}" data-target="interets/interests">Informations</a>
+                    <a class="nav-link tab-link {{ request()->is('profile/informations') ? 'active' : '' }}"
+                        href="{{ route('profile.informations', $user->id) }}" data-target="profile/informations">Informations</a>
                 </li>
                 <li class="nav-item" title="Amis">
                     <a class="nav-link tab-link {{ request()->is('profile/amis') ? 'active' : '' }}"
