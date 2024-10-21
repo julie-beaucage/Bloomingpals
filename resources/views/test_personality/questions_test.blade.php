@@ -11,16 +11,17 @@
         @foreach ($questions as $question)
         <fieldset>
                 <legend>{{ $question->question }}</legend>
-                    @foreach ($question->answerOptions as $option)
+                    @foreach ($question->answers as $option)
                         <div>
                             <input type="radio" id="option-{{ $option->id }}" name="answers[{{ $question->id }}]"
                                 value="{{ $option->id }}">
-                            <label for="option-{{ $option->id }}">{{ $option->answer }} (Score: {{ $option->score }})</label>
+                            <label for="option-{{ $option->id }}">{{ $option->answer }} (Score: {{ $option->type_answer }})</label>
                         </div>
                     @endforeach
 
             </fieldset>
         @endforeach
+          {{-- 
         <div class="pagination">
             @if ($questions->currentPage() > 1)
                 <a href="{{ $questions->previousPageUrl() }}" class="prev">← Précédent</a>
@@ -33,6 +34,8 @@
         @if (!$questions->hasMorePages())
                 <button type="submit" class="sendTest">Submit</button>
             @endif
+              --}}
+              <button type="submit" class="sendTest">Submit</button>
     </form>
 </div>
     </span>

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PersonalityType;
-use App\Models\PersonalityClass;
+use App\Models\Type_personality;
+use App\Models\Personality;
 use App\Models\Question;
-use App\Models\Question_answer;
+use App\Models\Answer;
 use Illuminate\Http\Request;
 
 class PersonalityController extends Controller
@@ -13,10 +13,19 @@ class PersonalityController extends Controller
 
     public function startTest(Request $request)
     {
-        $questions = Question::with('answerOptions')->paginate(10);
+       /* $questions = Question::with('answerOptions')->paginate(10);
         if ($questions->isEmpty()) {
             return redirect()->back()->with('error', 'Aucune question disponible pour le test.');
         }
+        return view('test_personality.questions_test', compact('questions'));*/
+        $questions = Question::with('answers')->take(10)->get();
+
+        // Vérifie s'il y a des questions disponibles
+        if ($questions->isEmpty()) {
+            return redirect()->back()->with('error', 'Aucune question disponible pour le test.');
+        }
+    
+        // Retourne la vue avec les questions
         return view('test_personality.questions_test', compact('questions'));
     }
     
@@ -26,39 +35,32 @@ class PersonalityController extends Controller
         $validated = $request->validate([
             'answers' => 'required|array',
             'answers.*.question_id' => 'required|integer|exists:questions,id',
-            'answers.*.answer' => 'required|string',
+            'answers.*.answer' => 'required|string|in:E,I,S,N,T,F,P,J',
         ]);
 
         $scores = $this->calculateScore($validated['answers']);
 
         $personalityType = $this->calculatePersonalityType($scores);
-        return response()->json(['personality_type' => $personalityType], 200);
+        return view('test_personality.resultat_test', compact('personalityType'));
     }
 
     private function calculateScore($answers)
     {
-        $scores = [];
-
-        foreach ($answers as $answer) {
-            $score = $this->getScoreForAnswer($answer['answer']);
-            $scores[$answer['question_id']] = $score;
+        $scores = [
+            'E' => 0, 'I' => 0,
+            'S' => 0, 'N' => 0,
+            'T' => 0, 'F' => 0,
+            'P' => 0, 'J' => 0,
+        ];
+    
+        foreach ($answers as $answerData) {
+            $answer = Answer::find($answerData['answer_id']); 
+            if ($answer && isset($scores[$answer->type_answer])) {
+                $scores[$answer->type_answer]++;
+            }
         }
 
         return $scores;
-    }
-
-    private function getScoreForAnswer($answer)
-    {
-
-        switch ($answer) {
-            case 'E':
-                return ['E' => 1, 'I' => 0];
-            case 'I':
-                return ['I' => 1, 'E' => 0];
-
-            default:
-                return [];
-        }
     }
 
     private function calculatePersonalityType($scores)
@@ -69,6 +71,8 @@ class PersonalityController extends Controller
         $type .= $scores['T'] > $scores['F'] ? 'T' : 'F';
         $type .= $scores['J'] > $scores['P'] ? 'J' : 'P';
 
-        return $type;
+        $personality = Personality::where('type', $type)->first();
+
+        return $personality ? $personality->name : $type;
     }
 }
