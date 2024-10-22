@@ -23,9 +23,6 @@ Friendship Request: none
 
 Meetup Interest: id => id of meetup, m
 
-
-
-
 */
 
 class NotificationsListener
@@ -141,18 +138,6 @@ class NotificationsListener
             $event->type,
             $content
         ]);
-
-
-        //     $( document ).ready(function() {
-        //         let notification= document.createElement("div");
-        //         notification.innerText="testing";
-        //         notification.classList.add("notification-container");
-        //         let content=document.getElementById("content");
-        //         console.log(content);
-        //     });
-      
-
-        // </script>';
         
        
     }

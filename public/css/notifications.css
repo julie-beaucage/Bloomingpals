@@ -136,6 +136,15 @@
     z-index: 2;
 
 }
+.container-notif::-webkit-scrollbar-thumb{
+    background-color: #bfbfbf;
+  border: 4px solid transparent;
+  border-radius: 8px;
+  background-clip: padding-box; 
+}
+.container-notif::-webkit-scrollbar {
+    width: .9rem;
+  }
 
 .header-notif{
     display: flex;

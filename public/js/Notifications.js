@@ -73,10 +73,10 @@ $(document).ready(function () {
       //notif_badge= $(this).find(">:first-child");
 
       window.setTimeout(function () {
-        // $.ajax({
-        //     type: "GET",
-        //     url: '/ReadAll',
-        // });
+        $.ajax({
+          type: "GET",
+          url: '/ReadAll'
+        });
         $('.navbar_notification').each(function () {
           $(this).find(">:first-child").hide();
         });
