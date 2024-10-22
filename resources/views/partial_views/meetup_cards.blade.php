@@ -17,8 +17,8 @@ foreach ($meetups as $meetup) {
     foreach ($meetup_interests as $meetup_interest) {
         $interest = Interest::find($meetup_interest->id_interest);
         if ($interest == null) continue;
-        $background = Category_Interest::getColor($interest->id_category);
-        $tags .= '<span class="tag" style="background-color:' . $background . '">' . $interest->name . '</span>';
+
+        $tags .= '<span class="tag" style="background-color: var(--category-'. $interest->id_category .')">' . $interest->name . '</span>';
     }
 
     srand($meetup->id);

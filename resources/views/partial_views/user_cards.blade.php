@@ -17,8 +17,7 @@ foreach ($users as $user) {
         $interest = Interest::find($user_interest->id_interest);
         if ($interest == null) continue;
 
-        $background = Category_Interest::getColor($interest->id_category);
-        $tags .= '<span class="tag" style="background-color:' . $background . '">' . $interest->name . '</span>';
+        $tags .= '<span class="tag" style="background-color: var(--category-'. $interest->id_category .')">' . $interest->name . '</span>';
     }
 
     echo <<< HTML

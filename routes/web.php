@@ -77,4 +77,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/search/meetups', [SearchController::class, 'meetups'])->name('search.meetups');
     Route::get('/search/events', [SearchController::class, 'events'])->name('search.events');
     Route::get('/search/users', [SearchController::class, 'users'])->name('search.users');
+    Route::get('/search/cities', [SearchController::class, 'cities'])->name('search.cities');
+    Route::get('/search/interests', [SearchController::class, 'interests'])->name('search.interests');
+    Route::get('/search/getInterests', [SearchController::class, 'getInterests'])->name('search.getInterests');
 });

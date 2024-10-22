@@ -2,6 +2,7 @@
 Create DATABASE IF NOT EXISTS `BloomingPals`  DEFAULT CHARACTER SET utf8mb4;
 USE BloomingPals;
 
+DROP TABLE IF EXISTS canadacities;
 DROP TABLE IF EXISTS meetups_interests;
 DROP TABLE IF EXISTS events_interests;
 DROP TABLE IF EXISTS events_categories;
@@ -306,4 +307,21 @@ CREATE TABLE IF NOT EXISTS events_categories(
     PRIMARY KEY (id_category, id_event)
 )
 ENGINE = InnoDB;
+-- -----------------------------------------------------
+
+-- canada_cities ---------------------------------------
+CREATE TABLE canadacities (
+  city TEXT(120),
+  city_ascii TEXT(120),
+  province_id TEXT(2),
+  province_name TEXT(50),
+  lat TEXT(20),
+  lng TEXT(20),
+  population FLOAT,
+  density FLOAT,
+  timezone TEXT(120),
+  ranking INT,
+  postal TEXT(4000),
+  id TEXT(10)
+);
 -- -----------------------------------------------------

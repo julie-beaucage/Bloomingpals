@@ -65,6 +65,13 @@
     --accent-900: #2f1f04;
     --accent-950: #181002;
 
+    --category-1: #3C57B0;
+    --category-2: #F7B01E;
+    --category-3: #E62A65;
+    --category-4: #199588;
+    --category-5: #54AC58;
+    --category-6: #9936AC;
+
     --success: #202922;
     --error: #dc3545;
 
@@ -373,10 +380,10 @@ a {
     height: fit-content;
     width: -moz-fit-content;
     width: fit-content;
+    display: flex;
     padding: 0.25em 0.75em;
     border-radius: 0.75em;
     background-color: var(--accent-400);
-    font-size: 0.9em;
     font-weight: 500;
     color: var(--white);
     white-space: nowrap;

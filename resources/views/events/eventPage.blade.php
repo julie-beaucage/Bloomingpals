@@ -18,16 +18,15 @@
         $category = Category_Interest::find($event_category->id_category);
         if ($category == null) continue;
 
-        $background = Category_Interest::getColor($category->id);
-        $tags .= '<span class="tag" style="background-color:' . $background . '">' . $category->name . '</span>';
+        $tags .= '<span class="tag" style="background-color: var(--category-'. $category->id .')">' . $category->name . '</span>';
     }
 
     $event_interests = Event_Interest::where('id_event', $event->id)->get();
     foreach ($event_interests as $event_interest) {
         $interest = Interest::find($event_interest->id_interest);
         if ($interest == null) continue;
-        $background = Category_Interest::getColor($interest->id_category);
-        $tags .= '<span class="tag" style="background-color:' . $background . '">' . $interest->name . '</span>';
+
+        $tags .= '<span class="tag" style="background-color: var(--category-'. $interest->id_category .')">' . $interest->name . '</span>';
     }
 @endphp
 
