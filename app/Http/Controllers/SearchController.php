@@ -41,21 +41,10 @@ class SearchController extends Controller
             $interests_filter = Meetup_Interest::select('meetups_interests.id_meetup', DB::raw("COUNT(meetups_interests.id_meetup) as count"))
                 ->whereIn('meetups_interests.id_interest', $interests)
                 ->groupBy('meetups_interests.id_meetup')
-                ->orderBy('count', 'DESC')
+                ->having('count', '>=', count($interests))
                 ->get();
 
-            $new_meetups = collect([]);
-            foreach ($interests_filter as $interest) {
-                if ($interest->count != count($interests))
-                continue;
-
-                foreach ($meetups as $meetup) {
-                    if ($interest->id_meetup == $meetup->id) {
-                        $new_meetups->push($meetup);
-                    }
-                }
-            }
-            $meetups = $new_meetups;
+            $meetups = $meetups->whereIn('id', $interests_filter->map(function($int) { return $int->id_meetup; })->toArray());
         }
 
         $categories = $request->has('categories') ? $request->get('categories') : null;
@@ -67,18 +56,9 @@ class SearchController extends Controller
             ->join('categories_interests', 'interests.id_category', '=', 'categories_interests.id')
             ->whereIn('categories_interests.id', $categories)
             ->groupBy('meetups_interests.id_meetup')
-            ->orderBy('count', 'DESC')
             ->get();
 
-            $new_meetups = collect([]);
-            foreach ($categories_filter as $category) {
-                foreach ($meetups as $meetup) { 
-                    if ($category->id_meetup == $meetup->id) {
-                        $new_meetups->push($meetup);
-                    }
-                }
-            }
-            $meetups = $new_meetups;
+            $meetups = $meetups->whereIn('id', $categories_filter->map(function($cat) { return $cat->id_meetup; })->toArray());
         }
 
         $page = $request->has('page') ? $request->get('page') : 1;
@@ -113,21 +93,10 @@ class SearchController extends Controller
             $interests_filter = Event_Interest::select('events_interests.id_event', DB::raw("COUNT(events_interests.id_event) as count"))
                 ->whereIn('events_interests.id_interest', $interests)
                 ->groupBy('events_interests.id_event')
-                ->orderBy('count', 'DESC')
+                ->having('count', '>=', count($interests))
                 ->get();
-
-            $new_events = collect([]);
-            foreach ($interests_filter as $interest) {
-                if ($interest->count != count($interests))
-                continue;
-
-                foreach ($events as $event) {
-                    if ($interest->id_event == $event->id) {
-                        $new_events->push($event);
-                    }
-                }
-            }
-            $events = $new_events;
+            
+            $events = $events->whereIn('id', $interests_filter->map(function($int) { return $int->id_event; })->toArray());
         }
 
         $categories = $request->has('categories') ? $request->get('categories') : null;
@@ -138,39 +107,11 @@ class SearchController extends Controller
             $categories_filter = Event_Category::select('events_categories.id_event', DB::raw("COUNT(events_categories.id_event) as count"))
             ->whereIn('events_categories.id_category', $categories)
             ->groupBy('events_categories.id_event')
-            ->orderBy('count', 'DESC')
             ->get();
 
-            $new_events_categories = collect([]);
-            foreach ($categories_filter as $category) {
-                foreach ($events as $event) { 
-                    if ($category->id_event == $event->id) {
-                        $new_events_categories->push($event);
-                    }
-                }
-            }
-
-            // Categories of the interests
-            $categories_filter = Event_Interest::select('events_interests.id_event', DB::raw("COUNT(events_interests.id_event) as count"))
-            ->join('interests', 'events_interests.id_interest', '=', 'interests.id')
-            ->join('categories_interests', 'interests.id_category', '=', 'categories_interests.id')
-            ->whereIn('categories_interests.id', $categories)
-            ->groupBy('events_interests.id_event')
-            ->orderBy('count', 'DESC')
-            ->get();
-
-            $new_events_interests = collect([]);
-            foreach ($categories_filter as $category) {
-                foreach ($events as $event) { 
-                    if ($category->id_event == $event->id) {
-                        $new_events_interests->push($event);
-                    }
-                }
-            }
-
-            // Merge Both
-            $events = $new_events_categories->merge($new_events_interests)->unique();
+            $events = $events->whereIn('id', $categories_filter->map(function($cat) { return $cat->id_event; })->toArray());
         }
+
 
         $page = $request->has('page') ? $request->get('page') : 1;
         if ($page == null || $page < 1) 

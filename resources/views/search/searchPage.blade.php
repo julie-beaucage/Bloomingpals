@@ -142,7 +142,7 @@
                             selection.click(function() {
                                 selection.remove();
                                 let url = new URL(window.location.href);
-                                let selections_list = url.searchParams.get(elem.data("param"));
+                                let selections_list = (url.searchParams.has(elem.data("param"))) ? url.searchParams.get(elem.data("param")) : "";
                                 url.searchParams.set(elem.data("param"), selections_list.split(",").filter(e => e != data[i]["id"]).join(","));
                                 window.history.replaceState({}, "", url);
                             });
@@ -158,7 +158,7 @@
                 let parent = $(this).parent();
                 let id = $(this).data("id");
                 let url = new URL(window.location.href);
-                let selections_list = url.searchParams.get(parent.data("param"));
+                let selections_list = (url.searchParams.has(parent.data("param"))) ? url.searchParams.get(parent.data("param")) : "";
 
                 if (selections_list.length == 0) {
                     $(this).addClass("selected");
@@ -221,7 +221,7 @@
                 let parent = $(this).parent();
                 let id = $(this).data("id");
                 let url = new URL(window.location.href);
-                let selections_list = url.searchParams.get(parent.data("param"));
+                let selections_list = (url.searchParams.has(parent.data("param"))) ? url.searchParams.get(parent.data("param")) : "";
 
                 if (selections_list.length == 1 && $(this).hasClass("selected"))
                     return;
@@ -236,7 +236,6 @@
                 }
                 else  {
                     if (selections_list == "") {
-                        selections_list = "";
                         parent.find(".selection_cell").each(function() {
                             let id = $(this).data("id");
                             selections_list = (selections_list == "") ? id : selections_list + "," + id
@@ -362,14 +361,14 @@
                                         let selection = $("<span>").attr("class", "selection tag tag_rmv hover_darker").attr("style", "background-color: " + color).text(data[i][parent.data("name")]);
                                         selections.append(selection);
 
-                                        let selections_list = url.searchParams.get(parent.data("param"));
+                                        let selections_list = (url.searchParams.has(parent.data("param"))) ? url.searchParams.get(parent.data("param")) : "";
                                         url.searchParams.set(parent.data("param"), (selections_list == "") ? data[i]["id"] : selections_list + "," + data[i]["id"]);
                                         window.history.replaceState({}, "", url);
                                         
                                         selection.click(function() {
                                             selection.remove();
                                             let url = new URL(window.location.href);
-                                            let selections_list = url.searchParams.get(parent.data("param"));
+                                            let selections_list = (url.searchParams.has(parent.data("param"))) ? url.searchParams.get(parent.data("param")) : "";
                                             url.searchParams.set(parent.data("param"), selections_list.split(",").filter(e => e != data[i]["id"]).join(","));
                                             window.history.replaceState({}, "", url);
                                         });
