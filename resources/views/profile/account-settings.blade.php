@@ -21,7 +21,7 @@
 
 
 
-                    <div class="flex-coll" style="margin-bottom:.5em;">
+                    <div class="flex-coll" style="margin-bottom:1.3em;">
                         <div class="flex-roww" style="align-items:center;">
                             <h5 class="modal-title">Modifier votre mot de passe</h5>
                             <span class="material-symbols-rounded arrow"
@@ -37,7 +37,6 @@
                             <input type="text" class="form-control" id="nom" name="lastname">
                         </div>
                     </div>
-                    <br>
 
                     <button type="submit" class="btnProfile" style="padding: 0.225em 1em;">Enregistrer les
                         modifications</button>
