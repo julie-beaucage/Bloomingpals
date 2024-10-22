@@ -115,8 +115,7 @@ class NotificationController extends Controller
             $notifications = Notification::where('id_user', '=', $id_user)->where('status', '=', 'unread')
                 ->update(['status' => 'read']);
 
-
-
+                DB::commit();
             return http_response_code(200);
         }
         return http_response_code(404);
@@ -167,6 +166,13 @@ class NotificationController extends Controller
         }
         return false;
 
+    }
+    public function hasNotificationOn(){
+        
+        if(Auth::user()->id !=null ){
+            return User::where('id','=',Auth::user()->id)->first()->notification;
+        }
+        
     }
 
 }

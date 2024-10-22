@@ -112,6 +112,7 @@ class MeetupController extends BaseController
 
     public function create(Request $req)
     {
+        dd($req);
         //dd($req->file('image')->getError());
         $errors = $this->verifErrors($req);
         // verification fail

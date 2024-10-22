@@ -221,8 +221,6 @@
     }
 
     function Confirm(location) {
-
-        
         var content = "<div class='pop-up-overlay'>" +
             "<div class='pop-up'>" +
             "<div style='display:flex; justify-content: space-between; align-items:center; border-bottom: 1px solid black;'>" +
@@ -238,7 +236,6 @@
 
         $('body').append(content);
         removeMeetup(location);
-
     }
 
     $('#city-dropdown-content').hide();

@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Http\Controllers\MeetupController;
+use App\Http\Controllers\NotificationController;
 use App\Models\Meetup;
 use App\Models\Type_Notification;
 use DateTime;
@@ -33,25 +34,27 @@ class NotificationsListener
      * @return void
      */
     public function __construct()
-    {   
-        $default_image_path="\images\meetup_default";
+    {
+        $default_image_path = "\images\meetup_default";
     }
     //replace str in french
-    function ReplaceMonth($str){
+    function ReplaceMonth($str)
+    {
         return str_ireplace(
             array(
-            'Jan',
-            'Feb',
-            'Mar',
-            "Apr",
-            "May",
-            'Jun',
-            'July',
-            'Aug',
-            'Sep',
-            'Oct',
-            'Nov',
-            'Dec'),
+                'Jan',
+                'Feb',
+                'Mar',
+                "Apr",
+                "May",
+                'Jun',
+                'July',
+                'Aug',
+                'Sep',
+                'Oct',
+                'Nov',
+                'Dec'
+            ),
 
             array(
                 'Janvier',
@@ -65,8 +68,10 @@ class NotificationsListener
                 'Septembre',
                 'Octobre',
                 'Novembre',
-                'Decembre'),
-            $str);
+                'Decembre'
+            ),
+            $str
+        );
     }
 
 
@@ -79,66 +84,68 @@ class NotificationsListener
      */
     public function handle(NewNotif $event)
     {
-        setlocale(LC_ALL, 'fr_FR');
-        
-        $data=$event->content;
-       
-        $user=USER::where('id',$event->user_receive)->first();
-        $data['user_receive']=$user;
-        $data['user_receive']['password']="";
+            // if notifications are activated
+        if (User::where('id', '=', $event->user_receive)->first()->notification == 1) {
+            setlocale(LC_ALL, 'fr_FR');
 
-        if($event->type=='Meetup Request'){
-            $data['user_send']=USER::where('id',$event->user_send)->first();
-            $data['user_send']['password']="";
-            $data['meetup']=Meetup::where('id',$event->content['id'])->first();
-            if($data['user_send']['genre']=='femme'){
-                $data['message']= 'veux rejoindre votre Meetup :';
-            }else{
-                $data['message']= 'veux rejoindre votre Meetup :';
-            }
-        }
+            $data = $event->content;
 
-        if($event->type== 'Friendship Request'){
-            $data['user_send']=USER::where('id',$event->user_send)->first();
-            $data['user_send']['password']="";
-            if($data['user_send']['genre']=='femme'){
-                $data['message']= 'vous as envoyée une demande d\'amitié';
-            }else{
-                $data['message']= 'vous a envoyé une demande d\'amitié';
-            }
-        }
+            $user = USER::where('id', $event->user_receive)->first();
+            $data['user_receive'] = $user;
+            $data['user_receive']['password'] = "";
 
-        if($event->type=='Meetup Interest'){
-            $default_image_path="\images\meetup_default";
-            $data['header']= 'Que disez-vous de ce Meetup ?';
-            
-            $data['meetup']=Meetup::where('id','=',$event->content['id'])->first();
-            
-            if($data['meetup']['image'] == null){
-                $data['meetup']['image']= $default_image_path.rand(1,3).'.png';
+            if ($event->type == 'Meetup Request') {
+                $data['user_send'] = USER::where('id', $event->user_send)->first();
+                $data['user_send']['password'] = "";
+                $data['meetup'] = Meetup::where('id', $event->content['id'])->first();
+                if ($data['user_send']['genre'] == 'femme') {
+                    $data['message'] = 'veux rejoindre votre Meetup :';
+                } else {
+                    $data['message'] = 'veux rejoindre votre Meetup :';
+                }
             }
 
-            $date= new DateTime($data['meetup']['date']);
-            $data['message']= '<strong>Date:</strong> '
-            .$this->ReplaceMonth($date->format('j M Y')).'&nbsp&nbsp<strong>Ville:</strong>&nbsp'.$data['meetup']['city'].'&nbsp&nbsp<strong>Affinité:</strong> 73% ';
+            if ($event->type == 'Friendship Request') {
+                $data['user_send'] = USER::where('id', $event->user_send)->first();
+                $data['user_send']['password'] = "";
+                if ($data['user_send']['genre'] == 'femme') {
+                    $data['message'] = 'vous as envoyée une demande d\'amitié';
+                } else {
+                    $data['message'] = 'vous a envoyé une demande d\'amitié';
+                }
+            }
 
-            
+            if ($event->type == 'Meetup Interest') {
+                $default_image_path = "\images\meetup_default";
+                $data['header'] = 'Que disez-vous de ce Meetup ?';
+
+                $data['meetup'] = Meetup::where('id', '=', $event->content['id'])->first();
+
+                if ($data['meetup']['image'] == null) {
+                    $data['meetup']['image'] = $default_image_path . rand(1, 3) . '.png';
+                }
+
+                $date = new DateTime($data['meetup']['date']);
+                $data['message'] = '<strong>Date:</strong> '
+                    . $this->ReplaceMonth($date->format('j M Y')) . '&nbsp&nbsp<strong>Ville:</strong>&nbsp' . $data['meetup']['city'] . '&nbsp&nbsp<strong>Affinité:</strong> 73% ';
+
+
+            }
+
+            //  add notification to database;
+
+            $content = json_encode($data);
+            $event->type = Type_Notification::where('name', $event->type)->first()->id;
+
+
+            //dd($event->type);
+
+            DB::statement("Call addNewNotification(?,?,?)", [
+                $user->id,
+                $event->type,
+                $content
+            ]);
+
         }
-
-        //  add notification to database;
-
-        $content=json_encode($data);
-        $event->type=Type_Notification::where('name',$event->type)->first()->id;
-
-
-        //dd($event->type);
-
-        DB::statement("Call addNewNotification(?,?,?)", [
-            $user->id,
-            $event->type,
-            $content
-        ]);
-        
-       
     }
 }

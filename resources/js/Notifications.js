@@ -1,5 +1,12 @@
 $(document).ready(function () {
 
+    function truncatee(str,length){
+        if(str.length > length){
+            return str.substring(0,length-3)+'...';
+        }
+        return str;
+
+    }
     function displayNotification(data) {
         parsedData = JSON.parse(data);
         let notification = document.createElement("div");
@@ -26,7 +33,7 @@ $(document).ready(function () {
                     '<div class="center-content" id="notification-username"><a href="/profile/' + parsedData.user_send.id + '"><strong>' + parsedData.user_send.first_name + ' ' + parsedData.user_send.last_name + '</strong></a></div>' +
                     '<a id="close-notification" style="cursor:pointer;"><span class="close_icon">close</span></a>' +
                     '</div>' +
-                    ' <div>' + parsedData.message + '  <strong> ' + parsedData.meetup.name + '</strong></div>' +
+                    ' <div>' + parsedData.message + '  <strong> ' + truncatee(parsedData.meetup.name,40) + '</strong></div>' +
                     '</div>'
                     + '</div>';
 
@@ -41,7 +48,7 @@ $(document).ready(function () {
                     window.location.origin + image + '"></a></div>' +
                     '<div class="notification-content">' +
                     '<div class="header-and-icon">' +
-                    '<div class="center-content" id="notification-username"><a href="profile/' + parsedData.user_send.id + '"><strong>' + parsedData.user_send.first_name + ' ' + parsedData.user_send.last_name + '</strong></a></div>' +
+                    '<div class="center-content" id="notification-username"><a href="profile/' + parsedData.user_send.id + '"><strong>' +truncatee(parsedData.user_send.first_name + ' ' + parsedData.user_send.last_name,40) + '</strong></a></div>' +
                     '<a id="close-notification" style="cursor:pointer;"><span class="close_icon">close</span></a>' +
                     '</div>' +
                     ' <div style="text-wrap:wrap;">' + parsedData.message + '</div>' +
@@ -83,11 +90,24 @@ $(document).ready(function () {
             }
         });
     }
-    //checker une fois
-    CheckNewNotifications();
-    //checker plusieurs fois apres 15 sec
-    window.setTimeout(
-        setInterval(CheckNewNotifications, 15 * 1000), 15 * 1000);
+    //check if user wants notifications
+
+    $.ajax({
+        type: "GET",
+        url: '/hasNotificationOn',
+    }).done((data) => {
+        if(data == 1){
+            //checker une fois
+            CheckNewNotifications();
+            //checker plusieurs fois apres 15 sec
+            window.setTimeout(setInterval(CheckNewNotifications, 15 * 1000), 15 * 1000);
+        }
+
+    });
+
+    
+  
+   
 
 
 

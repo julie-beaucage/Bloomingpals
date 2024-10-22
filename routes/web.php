@@ -46,6 +46,9 @@ Route::middleware('auth')->group(function () {
     Route::put('/profile/update/{id}', [UsersController::class, 'update'])->name('profile.update');
     Route::get('profile/amis/{id}', [UsersController::class, 'amis'])->name('profile.amis');
     Route::get('profile/personnalite/{id}', [UsersController::class, 'personnalite'])->name('profile.personnalite');
+    Route::post('profile/update/confidentiality/{id}', [UsersController::class, 'updateConfidentiality'])->name('profile.update.confidentiality');
+    Route::post('profile/checkPassword', [UsersController::class, 'checkPassword'])->name('profile.checkPassword');
+    
 
     //INTERET
     Route::get('interets/interets/{id}', [InterestsController::class, 'interets'])->name('interets.interets');
@@ -92,4 +95,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/ReadAll', [NotificationController::class, 'readAll']);
     Route::get('/notifications', [NotificationController::class,'index']);
     Route::get('/notifications/delete/{id}', [NotificationController::class,'delete'])->where('id', '[0-9]+');
+    Route::get('/hasNotificationOn', [NotificationController::class, 'hasNotificationOn']);
+    
 });

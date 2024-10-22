@@ -112,6 +112,18 @@ class usersController extends Controller
         }
         return back()->withErrors(['email'=>'Le courriel et le mot de passe ne correspondent pas'])->onlyInput('email');
     }
+    public function checkPassword(Request $req){
+        $data = array(
+            "email" => Auth::user()->email,
+            "password" => $req['password']
+        );
+        if(auth()->attempt($data)){
+            return 1;
+        }
+        return 'Le mot de passe ne correspond pas';
+
+        
+    }
 
     public function logout(Request $request){
         Auth::logout();
@@ -173,6 +185,16 @@ class usersController extends Controller
             Log::error('Erreur lors de la mise à jour du profil : ' . $e->getMessage());
             return back()->withErrors(['error' => 'Erreur lors de la mise à jour du profil.']);
         }
+    }
+    public function updateConfidentiality(Request $req,$id){
+ 
+        if($req->confidentiality != null and $id != null and $req->notification != null){
+           DB::table('users')->where('id','=',$id)->update(['confidentiality' => $req->confidentiality,'notification'=> $req->notification]);
+           DB::commit();
+
+           return redirect()->route('profile', ['id' => $id])->with('success', 'Profil mis à jour avec succès!');
+        }
+        
     }
     
     public function amis($id) {
