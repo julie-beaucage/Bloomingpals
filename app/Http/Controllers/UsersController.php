@@ -120,11 +120,11 @@ class usersController extends Controller
         if(auth()->attempt($data)){
             return 1;
         }
-        return 'Le mot de passe ne correspond pas';
-
+        return 'Le mot de passe ne correspond pas';        
+    }
+    public function updateAccount(Request $req){
         
     }
-
     public function logout(Request $request){
         Auth::logout();
         $request->session()->invalidate();

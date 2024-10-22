@@ -70,18 +70,18 @@
     <script>
 
         function refreshFormPassword() {
-            $("#password").removeClass('is-invalid');
+            $("#password-enter").removeClass('is-invalid');
             $('#feedback-account').removeClass('invalid-feedback');
             $('#feedback-account').text("Entrez votre mot de passe pour accéder à vos informations");
-            $("#password").val("");
+            $("#password-enter").val("");
         }
         $(document).ready(function () {
-            $("#account-settings-submit").submit(function (event) {
+            $("#account-settings-password-form").submit(function (event) {
                 event.preventDefault();
                 $.ajax({
                     url: 'checkPassword',
                     type: "POST",
-                    data: $("#account-settings-submit").serialize(),
+                    data: $("#account-settings-password-form").serialize(),
                     success: function (data) {
                         if (data == 1) {
                             $("#account-settings-password").modal('hide');
@@ -89,7 +89,7 @@
 
                         }
                         else {
-                            $("#password").addClass('is-invalid');
+                            $("#password-enter").addClass('is-invalid');
                             $('#feedback-account').addClass('invalid-feedback');
                             $('#feedback-account').text(data);
 
@@ -98,6 +98,11 @@
                 })
 
             });
+            $('#account-settings-form').submit(function(event) {
+                event.preventDefault();
+                
+            });
+
             let arrows = document.querySelectorAll(".arrow");
             arrows.forEach((elem) => {
                 elem.addEventListener("click", function (event) {
