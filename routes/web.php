@@ -66,11 +66,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/meetup/delete/{id}', [MeetupController::class, 'delete'])->where('id', '[0-9]+');
 
 
-    Route::get('/meetup/page/{meetupId}', [MeetupController::class, 'MeetupPage'])->name('meetupPage');
-    Route::get('/meetup/page/join/{meetupId}', [MeetupController::class, 'JoinMeetup'])->name('joinMeetup');
-    Route::get('/meetup/page/leave/{meetupId}', [MeetupController::class, 'LeaveMeetup'])->name('leaveMeetup');
+    Route::get('/meetup/{meetupId}', [MeetupController::class, 'MeetupPage'])->name('meetupPage');
+    Route::get('/meetup/join/{meetupId}', [MeetupController::class, 'JoinMeetup'])->name('joinMeetup');
+    Route::get('/meetup/leave/{meetupId}', [MeetupController::class, 'LeaveMeetup'])->name('leaveMeetup');
 
-    Route::get('/meetup/page/removeParticipant/{meetupId}/{userId}', [MeetupController::class, 'RemoveParticipant'])->name("removeParticipant");
+    Route::get('/meetup/removeParticipant/{meetupId}/{userId}', [MeetupController::class, 'RemoveParticipant'])->name("removeParticipant");
 
     Route::get('/meetup/requests/{meetupId}', [MeetupController::class, 'MeetupRequests'])->name('meetupRequests');
     Route::get('/meetup/requests/accept/{meetupId}/{userId}', [MeetupController::class, 'AcceptRequest'])->name('acceptRequest');
@@ -85,6 +85,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/search/meetups', [SearchController::class, 'meetups'])->name('search.meetups');
     Route::get('/search/events', [SearchController::class, 'events'])->name('search.events');
     Route::get('/search/users', [SearchController::class, 'users'])->name('search.users');
+    Route::get('/search/cities', [SearchController::class, 'cities'])->name('search.cities');
+    Route::get('/search/interests', [SearchController::class, 'interests'])->name('search.interests');
+    Route::get('/search/getInterests', [SearchController::class, 'getInterests'])->name('search.getInterests');
 
     // Notification
     Route::get('/getNewNotification', [NotificationController::class, 'getNotification']);
@@ -92,4 +95,5 @@ Route::middleware('auth')->group(function () {
     Route::get('/ReadAll', [NotificationController::class, 'readAll']);
     Route::get('/notifications', [NotificationController::class,'index']);
     Route::get('/notifications/delete/{id}', [NotificationController::class,'delete'])->where('id', '[0-9]+');
+    
 });

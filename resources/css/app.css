@@ -1,4 +1,5 @@
 @import url(https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap);
+
 /* Variables */
 :root {
 
@@ -17,7 +18,8 @@
     --neutral-900: #535353;
     --neutral-950: #2d2d2d;
 
-    --background-50: #f1f4f1; /* Main color */
+    --background-50: #f1f4f1;
+    /* Main color */
     --background-100: #e2e9e4;
     --background-200: #c5d3c9;
     --background-300: #a9bcae;
@@ -28,23 +30,25 @@
     --background-800: #2c3a30;
     --background-900: #161d18;
     --background-950: #0b0e0c;
-    
+
     --primary-50: #fcede9;
     --primary-100: #f8dad3;
     --primary-200: #f1b6a7;
     --primary-300: #ea917b;
-    --primary-400: #e36c4f; /* Main color */
+    --primary-400: #e36c4f;
+    /* Main color */
     --primary-500: #dd4822;
     --primary-600: #b0391c;
     --primary-700: #842b15;
     --primary-800: #581d0e;
     --primary-900: #2c0e07;
     --primary-950: #160703;
-    
+
     --secondary-50: #eefaeb;
     --secondary-100: #ddf4d7;
     --secondary-200: #baeaae;
-    --secondary-300: #98df86; /* Main color */
+    --secondary-300: #98df86;
+    /* Main color */
     --secondary-400: #76d45e;
     --secondary-500: #53c936;
     --secondary-600: #43a12b;
@@ -57,13 +61,21 @@
     --accent-100: #fbebd0;
     --accent-200: #f7d8a1;
     --accent-300: #f4c471;
-    --accent-400: #f0b042; /* Main color */
+    --accent-400: #f0b042;
+    /* Main color */
     --accent-500: #ec9c13;
     --accent-600: #bd7d0f;
     --accent-700: #8e5e0b;
     --accent-800: #5e3f08;
     --accent-900: #2f1f04;
     --accent-950: #181002;
+
+    --category-1: #3C57B0;
+    --category-2: #F7B01E;
+    --category-3: #E62A65;
+    --category-4: #199588;
+    --category-5: #54AC58;
+    --category-6: #9936AC;
 
     --success: #202922;
     --error: #dc3545;
@@ -86,11 +98,11 @@
 
 /* For icons, do not touch */
 .material-symbols-rounded {
-  font-variation-settings:
-  'FILL' 1,
-  'wght' 400,
-  'GRAD' 0,
-  'opsz' 24
+    font-variation-settings:
+        'FILL' 1,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24
 }
 
 .material-symbols-rounded {
@@ -112,7 +124,7 @@ body {
 #main {
     width: 100%;
     height: 100%;
-    
+
     display: grid;
     grid-template-columns: min-content 1fr;
     grid-template-rows: auto;
@@ -140,7 +152,6 @@ body {
     width: auto;
     height: -moz-fit-content;
     padding: 1em;
-    padding-bottom: 0em;
     margin-top: auto
 }
 
@@ -158,13 +169,13 @@ body {
     z-index: 100;
 }
 
-#navbar > .title {
+#navbar>.title {
     font-size: 1.5em;
     font-weight: 600;
     padding: 1em;
 }
 
-#navbar > .shrinked_title {
+#navbar>.shrinked_title {
     font-size: 1.5em;
     font-weight: 600;
     text-align: center;
@@ -197,12 +208,12 @@ body {
     flex-direction: column;
 }
 
-.navbar_item > .shrinked_title {
+.navbar_item>.shrinked_title {
     position: relative;
     width: 100%;
 }
 
-.navbar_item > .shrinked_title > .title {
+.navbar_item>.shrinked_title>.title {
     position: absolute;
     background-color: var(--white);
     padding: 0.5em;
@@ -224,16 +235,21 @@ body {
 }
 
 @keyframes shrinked_title_width {
-    from {max-width: 0;}
-    to {max-width: 50em;}
-} 
+    from {
+        max-width: 0;
+    }
+
+    to {
+        max-width: 50em;
+    }
+}
 
 @media only screen and (max-width: 1200px) {
-    #navbar > .title {
+    #navbar>.title {
         display: none;
     }
 
-    .navbar_icon > .title {
+    .navbar_icon>.title {
         display: none;
     }
 
@@ -241,14 +257,14 @@ body {
         display: block;
     }
 
-    .navbar_item:hover > .shrinked_title > .title {
+    .navbar_item:hover>.shrinked_title>.title {
         display: inline-flex;
         animation-name: shrinked_title_width;
         animation-duration: 0.8s;
         max-width: 50em;
     }
 
-    .navbar_item:hover > .navbar_icon {
+    .navbar_item:hover>.navbar_icon {
         border-radius: 0.8em 0 0 0.8em;
     }
 }
@@ -274,36 +290,40 @@ body {
         justify-content: space-around;
         border-right: none;
         border-top: var(--neutral-400) solid 1px;
-        width:  auto;
+        width: auto;
     }
 
-    #navbar > .title {
+    #navbar>.title {
         display: none;
     }
 
-    .navbar_icon > .title {
+    .navbar_icon>.title {
         display: none;
     }
 
     .shrinked_only {
         display: none;
     }
-    
-    .navbar_item:hover > .navbar_icon {
+
+    .navbar_item:hover>.navbar_icon {
         border-radius: 0.8em;
     }
 
     #footer {
         display: none;
     }
-    .header-nav{
+
+    .header-nav {
         display: flex !important;
     }
-    .hideNotification{
-        display: none !important;;
+
+    .hideNotification {
+        display: none !important;
+        ;
     }
-    .notification-badge{
-        top:.2em;
+
+    .notification-badge {
+        top: .2em;
         width: .9em !important;
         height: .9em !important;
         font-size: .9em;
@@ -312,18 +332,34 @@ body {
 
 /*-------------------- General styles --------------------*/
 .no_select {
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-    -moz-user-select: none; /* Old versions of Firefox and Internet Explorer */
-    user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+    -webkit-touch-callout: none;
+    /* iOS Safari */
+    -webkit-user-select: none;
+    /* Safari */
+    -moz-user-select: none;
+    /* Old versions of Firefox and Internet Explorer */
+    user-select: none;
+    /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
 }
 
 .no_wrap {
-    white-space: nowrap;
+    white-space: nowrap !important;
+}
+
+.no_overflow {
+    overflow: hidden !important;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.hidden {
+    display: none !important;
 }
 
 .text_center {
-    text-align: center;
+    text-align: center !important;
 }
 
 a {
@@ -340,12 +376,24 @@ a {
     text-decoration: underline !important;
 }
 
+.icon_xs {
+    font-size: 1em !important;
+}
+
 .icon_sm {
-    font-size: 1.4em !important;
+    font-size: 1.5em !important;
 }
 
 .icon_md {
     font-size: 2em !important;
+}
+
+.icon_lg {
+    font-size: 2.5em !important;
+}
+
+.icon_xl {
+    font-size: 3em !important;
 }
 
 .hover_darker:hover {
@@ -361,12 +409,13 @@ a {
     height: fit-content;
     width: -moz-fit-content;
     width: fit-content;
-    padding: 0.25em 0.5em;
+    display: flex;
+    padding: 0.25em 0.75em;
     border-radius: 0.75em;
     background-color: var(--accent-400);
-    font-size: 1em;
     font-weight: 500;
     color: var(--white);
+    white-space: nowrap;
 }
 
 .btn_primary {
@@ -385,24 +434,26 @@ a {
 .btn_primary:hover {
     filter: brightness(1.1);
 }
+
 .grey_text {
     color: rgb(168, 168, 168);
 }
 
-.header-nav{
+.header-nav {
     display: none;
     justify-content: space-between;
     background-color: var(--white);
     width: 100%;
-    top:0px;
+    top: 0px;
     z-index: 101;
     padding-left: .5em;
     padding-right: .2em;
     padding-top: 0.1em;
     box-sizing: border-box;
-    
+
 }
-.header-title{
+
+.header-title {
     font-size: 1.5em;
     font-weight: 600;
 }
@@ -411,26 +462,40 @@ a {
     position: relative;
 }
 
-.notification-badge{
+.notification-badge {
     position: absolute;
     right: 0.1em;
-    top:0.2em;
+    top: 0.2em;
     background-color: red;
     border-radius: 50%;
-    width: 1em ;
-    height: 1em ;
+    width: 1em;
+    height: 1em;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.notif-count{
-    color:white;
+
+.notif-count {
+    color: white;
     font-size: .9em;
 }
 
 @media only screen and (min-width: 1200px) {
-    .notification-badge{
+    .notification-badge {
         left: 1.9em;
-        
+
+    }
+
+    .text_nowrap {
+        position: relative;
+        width: 100%;
+    }
+
+    .text_nowrap>* {
+        position: absolute;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-wrap: nowrap;
+        width: 100%;
     }
 }
