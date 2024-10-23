@@ -24,16 +24,54 @@ DROP TABLE IF EXISTS meetups;
 DROP TABLE IF EXISTS objects_types;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS `events`;
-DROP TABLE IF EXISTS types_personalities;
 DROP TABLE IF EXISTS types_notifications;
 DROP TABLE IF EXISTS affinities;
-
+DROP TABLE IF EXISTS answers;
+DROP TABLE IF EXISTS questions;
+DROP TABLE IF EXISTS types_personalities;
+DROP TABLE IF EXISTS personalities;
+DROP TABLE IF EXISTS groups_personalities;
 -- types_personalities -----------------------------------
-CREATE TABLE IF NOT EXISTS types_personalities (
-    id INT PRIMARY KEY auto_increment ,
+CREATE TABLE IF NOT EXISTS groups_personalities (
+    id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(50) NOT NULL
 )
+ENGINE = InnoDB:;
+
+ CREATE TABLE IF NOT EXISTS personalities (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    group_perso INT,
+    type VARCHAR(4) NOT NULL, 
+    name VARCHAR(50) NOT NULL, 
+    nameDescription VARCHAR(500) NOT NULL,  
+    FOREIGN KEY (group_perso) REFERENCES groups_personalities (id)
+)
 ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS types_personalities (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    type CHAR(1) NOT NULL UNIQUE,  
+    description VARCHAR(50) NOT NULL,  
+    CHECK (type IN ('E', 'I', 'S', 'N', 'T', 'F', 'P', 'J')) 
+) ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS questions (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    no INT NOT NULL, 
+    question VARCHAR(1000) NOT NULL
+) ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS answers (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    question_id INT NOT NULL,  
+    type_answer CHAR(1) NOT NULL, 
+    answer VARCHAR(1000) NOT NULL,  
+    FOREIGN KEY (question_id) REFERENCES questions(id) ON DELETE CASCADE,
+    FOREIGN KEY (type_answer) REFERENCES types_personalities(type)
+) ENGINE = InnoDB;
+
+
+
 -- -----------------------------------------------------
 
 -- users -----------------------------------------
@@ -44,7 +82,7 @@ CREATE TABLE IF NOT EXISTS users (
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     birthdate DATE NOT NULL,
-    type_personality INT DEFAULT 0 NOT NULL,
+    personality INT DEFAULT NULL,
     image_profil VARCHAR(2048),
     background_image VARCHAR(2048), 
     gender ENUM('homme', 'femme', 'non-genre') NOT NULL,
@@ -52,10 +90,9 @@ CREATE TABLE IF NOT EXISTS users (
     email_verified_at TIMESTAMP NULL DEFAULT NULL,
     updated_at TIMESTAMP NULL DEFAULT NULL,
     remember_token VARCHAR(100) NULL,
-    FOREIGN KEY (type_personality) REFERENCES types_personalities (id)
+    FOREIGN KEY (personality) REFERENCES personalities (id)
 ) ENGINE=InnoDB;
 
-INSERT INTO types_personalities (id, name) VALUES (0, 'Aucun'); -- code obligatoire en attendant de remplir la table personality)
 -- -----------------------------------------------------
 
 -- search_history --------------------------------

@@ -1,6 +1,36 @@
 USE BloomingPals;
 
 -- ------------------------------------------------------------------------------------------------
+----------------Test Personalité
+-- ------------------------------------------------------------------------------------------------
+DROP PROCEDURE IF EXISTS update_user_personality;
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_user_personality`(
+IN p_user_id INT, 
+IN p_type VARCHAR(4))
+BEGIN
+DECLARE id_type INT;
+DECLARE nb_type INT;
+DECLARE nb_user INT;
+
+    SELECT COUNT(*) INTO nb_type FROM personalities WHERE type = p_type;
+    SELECT COUNT(*) INTO nb_user FROM users WHERE id = p_user_id;
+	
+    SELECT id INTO id_type 
+    FROM personalities 
+    WHERE type = p_type;
+    
+    IF nb_type = 0 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Type de personalité non valide.';
+    ELSEIF nb_user = 0 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Usager non valide';
+        	ELSE
+		UPDATE users SET personality = id_type
+		WHERE id = p_user_id;
+	END IF;
+        
+END
+-- ------------------------------------------------------------------------------------------------
 ----------------UTILISATEUR
 -- ------------------------------------------------------------------------------------------------
 DROP PROCEDURE IF EXISTS creerUsager;
