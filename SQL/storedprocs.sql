@@ -1,4 +1,4 @@
-USE test;
+USE BloomingPals;
 
 -- ------------------------------------------------------------------------------------------------
 -- --------------Test Personalité
@@ -140,7 +140,7 @@ END;
 -- --------------INTERET
 -- ------------------------------------------------------------------------------------------------
 
---PROCEDURE POUR UTILISRE POUR FAIRE ROULER LE SCRIPT D'INSERTION D'INTERETS DE LA TABLE
+-- PROCEDURE POUR UTILISRE POUR FAIRE ROULER LE SCRIPT D'INSERTION D'INTERETS DE LA TABLE
 DROP PROCEDURE IF EXISTS ajouterInterets;
 DELIMITER //
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ajouterInterets`(
