@@ -314,16 +314,89 @@
                 goTo(1, true);
             });
 
+
+            $(".filter_ctnr").each(function() {
+
+                let filter_ctnr = $(this);
+                let suggestions = [];
+                $.ajax({
+                    url: filter_ctnr.data("url"),
+                    type: "GET",
+                    success: function(data) {
+                        suggestions = data;
+                    }
+                });
+
+                if (data == null || data.length == 0 || jQuery.isEmptyObject(data))
+                    return;
+
+                $(this).children('input').keyup(function() {
+                    let query = $(this).val();
+                    let url = new URL(window.location.href);
+                    let suggestions_ctnr = filter_ctnr.find(".suggestions");
+
+                    suggestions.empty();
+
+                    if (query == "" && !filter_ctnr.hasClass("search_selection")) {
+                        url.searchParams.set(filter_ctnr.data("param"), "");
+                        window.history.replaceState({}, "", url);
+                    }
+
+                    let closest_match = data[0][filter_ctnr.data("name")].normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                    if (query.toLowerCase() == closest_match.toLowerCase() && !filter_ctnr.hasClass("search_selection")) {
+                        url.searchParams.set(filter_ctnr.data("param"), closest_match);
+                        window.history.replaceState({}, "", url);
+                    }
+
+                    for (let i = 0; i < data.length; i++) {
+
+                        if (!data[i][parent.data("name")].toLowerCase().includes(query.toLowerCase()))
+                            return;
+
+                        let elem = $("<span>").attr("class", "suggestion hover_darker").text(data[i][parent.data("name")]);
+                        suggestions.append(elem);
+
+                        if (!filter_ctnr.hasClass("search_selection")) {
+                            elem.click(function() {
+                                if (url.searchParams.get(parent.data("param")) != null && url.searchParams.get(parent.data("param")).split(",").includes(data[i]["id"] + ""))
+                                    return;
+
+                                let selections = parent.find(".selections");
+                                let selection = $("<span>").attr("class", "selection tag tag_rmv hover_darker").attr("style", "background-color: " + color).text(data[i][parent.data("name")]);
+                                selections.append(selection);
+
+                                let selections_list = (url.searchParams.has(parent.data("param"))) ? url.searchParams.get(parent.data("param")) : "";
+                                url.searchParams.set(parent.data("param"), (selections_list == "") ? data[i]["id"] : selections_list + "," + data[i]["id"]);
+                                window.history.replaceState({}, "", url);
+                                
+                                selection.click(function() {
+                                    selection.remove();
+                                    let url = new URL(window.location.href);
+                                    let selections_list = (url.searchParams.has(parent.data("param"))) ? url.searchParams.get(parent.data("param")) : "";
+                                    url.searchParams.set(parent.data("param"), selections_list.split(",").filter(e => e != data[i]["id"]).join(","));
+                                    window.history.replaceState({}, "", url);
+                                });
+
+                                parent.find("input").val("");
+                                parent.find("input").focus();
+                            })
+                        }
+                        else {
+                            elem.click(function() {
+                                parent.find("input").val(value);
+                                url.searchParams.set(parent.data("param"), value);
+                                window.history.replaceState({}, "", url);
+                            });
+                        }
+                    }
+                });
+            });
+
             $(".filter_ctnr > input").keyup(function() {
                 let parent = $(this).parent();
                 let query = $(this).val();
                 let url = new URL(window.location.href);
-                let suggestions = parent.find(".suggestions");
-
-                if (query == "" &&  !parent.hasClass("search_selection")) {
-                    url.searchParams.set(parent.data("param"), "");
-                    window.history.replaceState({}, "", url);
-                }
+                let suggestions = filter.find(".suggestions");
 
                 $.ajax({
                     url: parent.data("url"),
@@ -331,14 +404,6 @@
                     success: function(data) {
                         suggestions.empty();
 
-                        if (data == null || data.length == 0 || jQuery.isEmptyObject(data))
-                            return;
-
-                        let value = data[0][parent.data("name")].normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-                        if (query.toLowerCase() == value.toLowerCase() && !parent.hasClass("search_selection")) {
-                            url.searchParams.set(parent.data("param"), value);
-                            window.history.replaceState({}, "", url);
-                        }
 
                         for (let i = 0; i < data.length; i++) {
                             if (data[i][parent.data("name")].toLowerCase().includes(query.toLowerCase())) {

@@ -166,27 +166,11 @@ class SearchController extends Controller
 
     public function cities(Request $request)
     {
-        $query = $request->has('query') ? $request->get('query') : "";
-        $cities = ($query == null) ? null : DB::table('canadacities')->where('city', 'LIKE', $query . '%')->limit(5)->get();
-        return response()->json($cities);
+        return response()->json(DB::table('canadacities')->all());
     }
 
     public function interests(Request $request)
     {
-        $query = $request->has('query') ? $request->get('query') : "";
-        $interests = ($query == null) ? null : Interest::where('name', 'LIKE', $query . '%')->limit(5)->get();
-        
-        return response()->json($interests);
+        return response()->json(Interest::all());
     } 
-
-    public function getInterests(Request $request)
-    {
-        if (!$request->has('ids'))
-            return response()->json(['error' => 'No ids provided']);
-
-        $ids = $request->get('ids');
-        $interests = Interest::whereIn('id', $ids)->get();
-        
-        return response()->json($interests);
-    }
 }
