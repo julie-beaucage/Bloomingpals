@@ -4,13 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-class Category_Interest extends Model
+class GroupPersonality extends Model
 {
     use HasFactory;
-    protected $table = 'categories_interests';
+    protected $table = 'groups_personalities';
     protected $primaryKey = 'id'; 
-    public function interests()
+    public function personality()
     {
-        return $this->hasMany(Interest::class, 'id_category');
+        return $this->hasMany(Personality::class, 'group_perso');
     }
+
 }

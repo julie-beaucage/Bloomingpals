@@ -23,18 +23,6 @@
                     'url' => route('profile', ['id' => Auth::user()->id])
                 ],
                 [
-                    'id' => 'meetup',
-                    'title' => 'MeetUps',
-                    'icon' => 'groups',
-                    'url' => route('meetup')
-                ],
-                [
-                    'id' => 'meetupForm',
-                    'title' => 'Créer un MeetUp',
-                    'icon' => 'group_add',
-                    'url' => "/meetupForm/"
-                ],
-                [
                     'id' => 'logout',
                     'title' => 'Déconnexion',
                     'icon' => 'logout',
