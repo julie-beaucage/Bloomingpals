@@ -20,7 +20,11 @@ class SearchController extends Controller
 
     public function meetups(Request $request)
     {
-        $meetups = Meetup::all();
+        $page = $request->has('page') ? $request->get('page') : 1;
+        if ($page == null || $page < 1) 
+            return response()->json(['error' => 'Invalid page number']);
+
+        $meetups = Meetup::skip(($page - 1) * 30)->take(30)->get();
 
         $query = $request->has('query') ? $request->get('query') : null;
         if ($query != null) {
@@ -60,19 +64,31 @@ class SearchController extends Controller
 
             $meetups = $meetups->whereIn('id', $categories_filter->map(function($cat) { return $cat->id_meetup; })->toArray());
         }
-
-        $page = $request->has('page') ? $request->get('page') : 1;
-        if ($page == null || $page < 1) 
-            return response()->json(['error' => 'Invalid page number']);
         
-        $meetups = $meetups->forPage($page, 20);
+        $user = User::find(auth()->user()->id);
+        $meetups = $meetups->sort(function($a, $b) use ($user) {
+            $interests_ids_a = Meetup_Interest::select('id_interest')->where('id_meetup', '=', $a->id)->get();
+            $affinity_a = $user->affinity($interests_ids_a);
 
+            $interests_ids_b = Meetup_Interest::select('id_interest')->where('id_meetup', '=', $b->id)->get();
+            $affinity_b = $user->affinity($interests_ids_b);
+
+            $diff = $affinity_b - $affinity_a;
+            return $diff * 100;
+        });
+
+        // Take half and shuffle
+        //$meetups = $meetups->take(15)->shuffle();
         return view('partial_views.meetup_cards', ['meetups' => $meetups]);
     }
 
     public function events(Request $request)
     {
-        $events = Event::all();
+        $page = $request->has('page') ? $request->get('page') : 1;
+        if ($page == null || $page < 1) 
+            return response()->json(['error' => 'Invalid page number']);
+
+        $events = Event::skip(($page - 1) * 30)->take(30)->get();
 
         $query = $request->has('query') ? $request->get('query') : null;
         if ($query != null) {
@@ -112,13 +128,20 @@ class SearchController extends Controller
             $events = $events->whereIn('id', $categories_filter->map(function($cat) { return $cat->id_event; })->toArray());
         }
 
+        $user = User::find(auth()->user()->id);
+        $events = $events->sort(function($a, $b) use ($user) {
+            $interests_ids_a = Event_Interest::select('id_interest')->where('id_event', '=', $a->id)->get();
+            $affinity_a = $user->affinity($interests_ids_a);
 
-        $page = $request->has('page') ? $request->get('page') : 1;
-        if ($page == null || $page < 1) 
-            return response()->json(['error' => 'Invalid page number']);
-        
-        $events = $events->forPage($page, 20);
+            $interests_ids_b = Event_Interest::select('id_interest')->where('id_event', '=', $b->id)->get();
+            $affinity_b = $user->affinity($interests_ids_b);
 
+            $diff = $affinity_b - $affinity_a;
+            return $diff * 100;
+        });
+
+        // Take half and shuffle
+        $events = $events->take(15)->shuffle();
         return view('partial_views.event_cards', ['events' => $events]);
     }
 

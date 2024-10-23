@@ -24,7 +24,7 @@ INSERT INTO meetups_requests (id_user, id_meetup) VALUES (2, 1);
 -- Interets --
 INSERT INTO categories_interests (name) VALUES 
 ('Sport'),
-('Culture'),
+('Culturel'),
 ('Musique'),
 ('Nerd'),
 ('Social'),
@@ -124,8 +124,8 @@ INSERT INTO interests (name, id_category) VALUES ('Manga', 4);
 INSERT INTO interests (name, id_category) VALUES ('Jeux vidéo', 4);
 INSERT INTO interests (name, id_category) VALUES ('Cosplay', 4);
 INSERT INTO interests (name, id_category) VALUES ('Science-fiction', 4);
-INSERT INTO interests (name, id_category) VALUES ('Fantasy', 4);
-INSERT INTO interests (name, id_category) VALUES ('Board games', 4);
+INSERT INTO interests (name, id_category) VALUES ('Fantaisie', 4);
+INSERT INTO interests (name, id_category) VALUES ('Jeux de société', 4);
 INSERT INTO interests (name, id_category) VALUES ('Comics', 4);
 INSERT INTO interests (name, id_category) VALUES ('Jeux de rôle', 4);
 INSERT INTO interests (name, id_category) VALUES ('Cartes à collectionner', 4);
@@ -171,7 +171,7 @@ INSERT INTO interests (name, id_category) VALUES ('Couture', 6);
 INSERT INTO interests (name, id_category) VALUES ('Humour', 6);
 
 -- Users Interests --
-CALL ajouterInterets (1, "24, 33");
+CALL ajouterInterets (1, "24, 25, 51, 63, 89, 100, 122");
 CALL ajouterInterets (3, "89");
 
 -- Meetups Interests --
