@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
 use App\Models\User;
 use App\Models\Event;
-use App\Models\Rencontre;
+use App\Models\Meetup;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 
@@ -93,9 +93,9 @@ class usersController extends Controller
         return view("profile.events", ["eventsData" => $eventsData]);
     }
 
-    public function rencontres($id) {
-        $rencontresData = Rencontre::GetRencontresFromUser($id);
-        return view("profile.events", ["eventsData" => $rencontresData]);
+    public function Meetups($id) {
+        $MeetupsData = Meetup::GetMeetupsFromUser($id);
+        return view("profile.events", ["eventsData" => $MeetupsData]);
     }
 
 

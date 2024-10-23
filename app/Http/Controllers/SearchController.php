@@ -2,7 +2,7 @@
 namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\User;
-use App\Models\Rencontre;
+use App\Models\Meetup;
 use Illuminate\Http\Request;
 
 class SearchController extends Controller
@@ -19,11 +19,11 @@ class SearchController extends Controller
         $meetups = [];
 
         if ($query == null) {
-            $meetups = Rencontre::all();
+            $meetups = Meetup::all();
             return view('partial_views.meetup_cards', ['meetups' => $meetups]);
         }
 
-        $meetups = Rencontre::where('nom', 'LIKE', '%'.$query.'%')->get();
+        $meetups = Meetup::where('nom', 'LIKE', '%'.$query.'%')->get();
 
         return view('partial_views.meetup_cards', ['meetups' => $meetups]);
     }
@@ -53,6 +53,6 @@ class SearchController extends Controller
         }
 
         $users = Event::where('nom', 'LIKE', '%'.$query.'%')->get();
-        return view('partial_views.user_cards', ['users' => $users, "amis" => $amis]);
+        return view('partial_views.user_cards', ['users' => $users]);
     }
 }
