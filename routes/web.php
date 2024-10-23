@@ -44,13 +44,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/{id}', [UsersController::class, 'profile'])->name('profile');
     Route::put('/profile/update/{id}', [UsersController::class, 'update'])->name('profile.update');
     Route::get('profile/amis/{id}', [UsersController::class, 'amis'])->name('profile.amis');
-    Route::get('profile/personnalite/{id}', [UsersController::class, 'personnalite'])->name('profile.personnalite');
 
     //INTERET
     Route::get('interets/interets/{id}', [InterestsController::class, 'interets'])->name('interets.interets');
     Route::put('/interets/update_Interets', [InterestsController::class, 'update_Interets'])->name('interets.update_Interets');
 
     //TEST
+    Route::get('profile/personnalite/{id}', [PersonalityController::class, 'personnalite'])->name('profile.personnalite');
     Route::get('/personality/test', [PersonalityController::class, 'startTest'])->name('personality.test'); 
     Route::post('/personality/submit', [PersonalityController::class, 'submitTest'])->name('personality.submit');
     Route::get('/personality/results', [PersonalityController::class, 'results'])->name('personality.results');
