@@ -4,7 +4,7 @@ USE BloomingPals;
 ----------------Test Personalité
 -- ------------------------------------------------------------------------------------------------
 DROP PROCEDURE IF EXISTS update_user_personality;
-
+DELIMITER //
 CREATE DEFINER=`root`@`localhost` PROCEDURE `update_user_personality`(
 IN p_user_id INT, 
 IN p_type VARCHAR(4))
@@ -30,6 +30,7 @@ DECLARE nb_user INT;
 	END IF;
         
 END
+DELIMITER //
 -- ------------------------------------------------------------------------------------------------
 ----------------UTILISATEUR
 -- ------------------------------------------------------------------------------------------------
