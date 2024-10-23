@@ -22,8 +22,9 @@ mix.postCss('resources/css/event.css', 'public/css', []);
 mix.postCss('resources/css/search.css', 'public/css', []);
 mix.postCss('resources/css/profile.css', 'public/css', []);
 mix.postCss('resources/css/interets.css', 'public/css', []);
+mix.postCss('resources/css/cards.css', 'public/css', []);
 mix.postCss('resources/css/test_perso.css', 'public/css', []);
 mix.postCss('resources/css/personality.css', 'public/css', []);
 
-
-
+// For development
+mix.browserSync('127.0.0.1:8000');
