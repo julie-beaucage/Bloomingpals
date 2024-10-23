@@ -1,4 +1,4 @@
-insert into groupes_personalities (name) values 
+insert into groups_personalities (name) values 
 ('analystes'),
 ('diplomates'),
 ('sentinelles'),

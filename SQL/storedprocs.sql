@@ -77,22 +77,6 @@ BEGIN
     WHERE id = p_user_id;
 END;
 // DELIMITER ;
-    -- Supprimer les intérêts existants pour l'utilisateur
-    DELETE FROM users_interests WHERE id_user = utilisateurId;
-
-    SET interetList = interetsParam;
-
-    WHILE LENGTH(interetList) > 0 DO
-        SET interetId = SUBSTRING_INDEX(interetList, ',', 1);
-        IF interetId <> '' THEN
-            -- Insérer l'intérêt
-            INSERT INTO users_interests (id_users, id_interests) VALUES (utilisateurId, interetId);
-        END IF;
-
-        SET interetList = SUBSTRING(interetList, LENGTH(interetId) + 2);
-    END WHILE;
-END;
-// DELIMITER ;
 -- -----------------------------------------------------
 
 -- Evenement ------------------------------------------------
