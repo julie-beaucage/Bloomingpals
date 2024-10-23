@@ -7,7 +7,7 @@ use App\Models\evenement_utilisateur;
 
 class Event extends Model
 {
-    protected $table= 'evenement';
+    protected $table= 'events';
 
     public $timestamps = false;
 

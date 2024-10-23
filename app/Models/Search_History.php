@@ -5,9 +5,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class type_personnalite extends Model
+class Search_History extends Model
 {
-    protected $table= 'type_personnalite';
+    protected $table= 'search_history';
 
     public $timestamps = false;
 }

@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class clavardage_utilisateur extends Model
+class Event_User extends Model
 {
-    protected $table= 'clavardage_utilisateur';
+    protected $table= 'events_users';
 
     public $timestamps = false;
 }

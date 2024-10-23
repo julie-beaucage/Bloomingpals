@@ -3,12 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\tag_rencontre;
+use App\Models\Tag_Meetup;
 use App\Models\rencontre_utlisateur;
 
-class Rencontre extends Model
+class Meetup extends Model
 {
-    protected $table= 'rencontre';
+    protected $table= 'meetups';
 
     public $timestamps = false;
     
@@ -19,7 +19,7 @@ class Rencontre extends Model
      */
     public static function GetTags($id) {
         $tags = [];
-        foreach (tag_rencontre::where("id_rencontre", $id)->get() as $tag_rencontre) {
+        foreach (Tag_Meetup::where("id_meetup", $id)->get() as $tag_rencontre) {
             $tag = Tag::where("id", $tag_rencontre->id_tags)->get();
             array_push($tags, $tag);
         }
@@ -33,10 +33,10 @@ class Rencontre extends Model
      */
     public static function GetParticipants($meetupId) {
         $users = [];
-        $participants = rencontre_utlisateur::where("id_rencontre", $meetupId)->get();
+        $participants = Meetup_User::where("id_meetup", $meetupId)->get();
         if ($participants->count() > 0) {
             foreach ($participants as $recontre_utilisateur) {
-                $user = user::where("id", $recontre_utilisateur->id_utilisateur)->get()[0];
+                $user = User::where("id", $recontre_utilisateur->id_utilisateur)->get()[0];
                 array_push($users, $user);
             }
         }
@@ -57,8 +57,8 @@ class Rencontre extends Model
      * @return user[]|\Illuminate\Database\Eloquent\Collection
      */
     public static function GetOrganisator($meetupId) {
-        $rencontre = Rencontre::where("id", $meetupId)->get();
-        $organisator = user::where("id", $rencontre[0]->id_organisateur)->get()[0];
+        $rencontre = Meetup::where("id", $meetupId)->get();
+        $organisator = User::where("id", $rencontre[0]->id_organisateur)->get()[0];
         return $organisator;
     }
 

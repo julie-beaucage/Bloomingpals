@@ -8,6 +8,7 @@
 @include('profile.edit-profile-modal')
 
 @section('content')
+
 <div id="background_cntr" class="no_select">
     <div id="background_color"></div>
     <img id="background_img" src="{{ $user->background_image ? asset('storage/' . $user->background_image) : asset('/images/R.jpg') }}"
@@ -20,7 +21,8 @@
                 alt="Photo de profil">
         </div>
 
-        <h1 id="profile_name">{{ $user->prenom }} {{ $user->nom }}</h1>
+        <h1 id="profile_name">{{ $user->first_name}} {{ $user->last_name }}</h1>
+        <h5>0 amis</h5>
         <div class="button_profile">
             @if ($user->id == Auth::user()->id)
                 <button type="button" class="btnProfile" data-bs-toggle="modal" data-bs-target="#editProfileModal">

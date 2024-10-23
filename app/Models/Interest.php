@@ -8,17 +8,17 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Interet extends Model
+class Interest extends Model
 {
     use HasFactory, Notifiable;
-    protected $table = 'interet';
+    protected $table = 'interests';
     protected $primaryKey = 'id';
     public function categorie()
     {
-        return $this->belongsTo(CategorieInteret::class, 'id_categorie'); // Utilisez le modèle approprié
+        return $this->belongsTo(Category_Interest::class, 'id_category'); 
     }
     public function getTagsByCategory($categoryId) {
-        $tags = Interet::where('id_categorie', $categoryId)->get(['id', 'nom']);
+        $tags = Interest::where('id_category', $categoryId)->get(['id', 'name']);
         return response()->json($tags);
     }
     

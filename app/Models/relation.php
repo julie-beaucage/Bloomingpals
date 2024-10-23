@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class relation extends Model
+class Relation extends Model
 {
-    protected $table= 'relation';
+    protected $table= 'relations';
 
     public $timestamps = false;
 

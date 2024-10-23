@@ -1,61 +1,178 @@
-.categorie-div,
-.interet-categorie-div {
+
+.containerInteretOnglet{
     margin-bottom: 1em;
-    border: 1px solid #ccc;
-    padding: 1em;
-    border-radius:5px ;
 }
-
-.tag,
-.interet-tag {
-    display: inline-block;
-    background-color: var(--secondary-300);
-    color: white;
-    border-radius: 5px;
-    padding: 0.5em 0.5em;
-    margin: 0.3em;
-    font-size: 13px;
-    cursor: pointer;
+.buttonOverlayContainerInteret{
+    text-align: right;
 }
-
-.interet-selected {
-    background-color: var(--secondary-700);;
-}
-
 .interet-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.7);
     display: flex;
     justify-content: center;
     align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
     z-index: 1000;
     overflow: auto;
+
 }
 
 .interet-modal {
     background-color: white;
     padding: 2em;
-    margin-left: 20%;
     border-radius: 1em;
+    margin-left: 20%;
     width: 80%;
     max-width: 600px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+.categorie-div,
+.interet-categorie-div {
+    margin: 1em;
+    border: 1px solid #ccc;
+    padding: 1em;
+    border-radius:5px ;
+}
+.categorie-sport {
+    background-color: rgba(76, 76, 226, 0.2); 
 }
 
+.categorie-culture {
+    background-color: rgba(0, 128, 0, 0.2); 
+}
+
+.categorie-musicale {
+    background-color: rgba(128, 0, 128, 0.2);
+}
+
+.categorie-nerd {
+    background-color: rgba(205, 111, 23, 0.2); 
+}
+
+.categorie-social {
+    background-color: rgba(64, 224, 208, 0.2); 
+}
+
+.categorie-art {
+    background-color: rgba(255, 192, 203, 0.2); 
+}
+
+
+.tag,
+.interet-tag {
+    display: inline-block;
+    border-radius: 5px;
+    padding: 0.5em 0.5em;
+    margin: 0.3em;
+    font-size: 13px;
+    cursor: pointer;
+    color: white;
+}
+
+.interet-sport,
+.tag.interet-sport {
+    background-color: rgba(76, 76, 226, 0.7);
+}
+
+.interet-culture,
+.tag.interet-culture {
+    background-color: rgba(0, 128, 0, 0.7);
+}
+
+.interet-musicale,
+.tag.interet-musicale {
+    background-color: rgba(128, 0, 128, 0.7);
+}
+
+.interet-nerd,
+.tag.interet-nerd {
+    background-color: rgba(205, 111, 23, 0.7);
+}
+
+.interet-social,
+.tag.interet-social {
+    background-color: rgba(64, 224, 208, 0.7);
+}
+
+.interet-art,
+.tag.interet-art {
+    background-color: rgba(255, 192, 203, 0.816);
+}
+
+.interet-selected {
+    background-color: rgb(76, 76, 226);
+}
+
+.interet-selected.interet-culture {
+    background-color: green;
+}
+
+.interet-selected.interet-musicale {
+    background-color: purple;
+}
+
+.interet-selected.interet-nerd {
+    background-color: rgb(205, 111, 23);
+}
+
+.interet-selected.interet-social {
+    background-color: var(--turquoise);
+}
+
+.interet-selected.interet-art {
+    background-color: var(--pink);
+}
+
+
 .interet-btn-primary {
-    background-color: #007bff;
+    background-color: var( --primary-400);
     color: white;
     border: none;
     padding: 1em 2em;
     border-radius: 5px;
     cursor: pointer;
+    margin:1em;
 }
 .buttonDetail{
-    background-color: white;
+    background-color: #9ea8b3;
+    color:white;
+}
+.buttonDetail:hover{
+    background-color: var( --primary-400);
+
+}
+
+/*BOUTONS DANS INTERETS MODAL/OVERLAY*/
+.interet-modal button{
+    padding: 0.7em 0.7em;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+
+}
+.interet-btn-submit{
+    background-color: var( --primary-400);
+    color: white;
+}
+.interet-btn-annuler{
+    background-color: #9ea8b3;
+    color: white;
+}
+.close-button-interet{
+    position: absolute;
+    top: 1em; 
+    right: 1em; 
+    background: none;
+    border: none;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    z-index: 1001; 
 }
 
 .close-button {
@@ -69,8 +186,57 @@
     color: #333;
     cursor: pointer;
 }
+@media (max-width: 768px) {
+    .interet-modal {
+        width: 90%;
+        margin: 1em auto;
+        padding: 1em;
+    }
+    .close-button-interet{
+        top: 0.01em; 
+    }
+    .categorie-div,
+    .interet-categorie-div {
+        margin: 0.5em;
+        padding: 0.5em;
+    }
 
-.close-button:hover {
-    color: red;
+    .tag,
+    .interet-tag {
+        font-size: 0.75em; 
+        padding: 0.3em;
+    }
+
+    .buttonDetail {
+        font-size: 0.875em; 
+        padding: 0.5em 1em;
+    }
 }
+
+@media (max-width: 480px) {
+    .interet-modal {
+        width: 95%;
+        padding: 1em;
+    }
+    .close-button-interet{
+        top: 0.01em; 
+    }
+    .categorie-div,
+    .interet-categorie-div {
+        margin: 0.3em;
+        padding: 0.5em;
+    }
+
+    .tag,
+    .interet-tag {
+        font-size: 0.6875em; 
+        padding: 0.2em;
+    }
+
+    .buttonDetail {
+        font-size: 0.75em; 
+        padding: 0.4em 0.8em;
+    }
+}
+
 
