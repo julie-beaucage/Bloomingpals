@@ -78,42 +78,60 @@ BEGIN
     WHERE id = p_user_id;
 END;
 // DELIMITER ;
+-- -----------------------------------------------------
 
-
--- ------------------------------------------------------------------------------------------------
--- --------------EVENEMENTS
--- ------------------------------------------------------------------------------------------------
-DROP PROCEDURE IF EXISTS ajouterEvenement;
+-- Evenement ------------------------------------------------
 DROP PROCEDURE IF EXISTS addEvent;
 DELIMITER //
-CREATE PROCEDURE ajouterEvenement (p_nom VARCHAR(100), p_description VARCHAR(1024), p_category VARCHAR(50), p_ville VARCHAR(100), p_adresse VARCHAR(100), p_date datetime, p_prix varchar(20), p_image varchar(2048))
+CREATE PROCEDURE addEvent (p_name VARCHAR(100), p_description VARCHAR(1024), p_category VARCHAR(50), p_city VARCHAR(100), p_adress VARCHAR(100), p_date datetime, p_price varchar(20), p_image varchar(2048))
 BEGIN
-	DECLARE id_tag_inserted INT;
-    DECLARE id_evenement_inserted INT;
+	DECLARE id_category_inserted INT;
+    DECLARE id_event_inserted INT;
     
 	START TRANSACTION;
-	SELECT id INTO id_tag_inserted FROM tags WHERE name = p_category;
-	IF id_tag_inserted IS NULL THEN
-		INSERT IGNORE INTO tags (name) 
+	SELECT id INTO id_category_inserted FROM categories_interests WHERE `name` = p_category;
+	IF id_category_inserted IS NULL THEN
+		INSERT IGNORE INTO categories_interests (`name`) 
 		VALUES (p_category);
 	
-		SELECT last_insert_id() INTO id_tag_inserted;
+		SELECT last_insert_id() INTO id_category_inserted;
 	END IF;
 	
-	SELECT id INTO id_evenement_inserted FROM events WHERE name = p_nom AND city = p_ville AND adress = p_adresse AND `date` = p_date;
-	IF id_evenement_inserted IS NULL THEN
-		INSERT IGNORE INTO events (name, `description`, city, adress, `date`, price, image) 
-		VALUES (p_nom, p_description, p_ville, p_adresse, p_date, p_prix, p_image);
+	SELECT id INTO id_event_inserted FROM events WHERE `name` = p_name AND city = p_city AND adress = p_adress AND `date` = p_date;
+	IF id_event_inserted IS NULL THEN
+		INSERT IGNORE INTO events (`name`, `description`, city, adress, `date`, price, image) 
+		VALUES (p_name, p_description, p_city, p_adress, p_date, p_price, p_image);
 		
-		SELECT last_insert_id() INTO id_evenement_inserted;
+		SELECT last_insert_id() INTO id_event_inserted;
 	ELSE
 		UPDATE events
-		SET name = p_nom, `description`= p_description, city = p_ville, adress = p_adresse, `date` = p_date, price = p_prix, image = p_image 
-		WHERE id = id_evenement_inserted;
+		SET `name` = p_name, `description`= p_description, city = p_city, adress = p_adress, `date` = p_date, price = p_price, image = p_image 
+		WHERE id = id_event_inserted;
 	END IF;
 
-	INSERT IGNORE INTO tags_events (id_tag, id_event)
-	VALUES (id_tag_inserted, id_evenement_inserted);
+	INSERT IGNORE INTO events_categories (id_category, id_event)
+	VALUES (id_category_inserted, id_event_inserted);
+    COMMIT;
+END;
+// DELIMITER ;
+
+DROP PROCEDURE IF EXISTS addEventInterests;
+DELIMITER //
+CREATE PROCEDURE addEventInterests (p_id_event INT, p_interest VARCHAR(50))
+BEGIN
+	DECLARE id_interest_inserted INT;
+    
+	START TRANSACTION;
+	SELECT id INTO id_interest_inserted FROM interests WHERE `name` = p_interest;
+	IF id_interest_inserted IS NULL THEN
+		INSERT IGNORE INTO interests (`name`) 
+		VALUES (p_interest);
+	
+		SELECT last_insert_id() INTO id_interest_inserted;
+	END IF;
+
+	INSERT IGNORE INTO events_interests (id_interest, id_event)
+	VALUES (id_interest_inserted, p_id_event);
     COMMIT;
 END;
 // DELIMITER ;
