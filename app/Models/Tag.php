@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Event_Category extends Model
+class Tag extends Model
 {
-    protected $table= 'events_categories';
+    protected $table= 'tags';
 
     public $timestamps = false;
 }

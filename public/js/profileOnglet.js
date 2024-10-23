@@ -14,7 +14,8 @@ document.addEventListener('DOMContentLoaded', function () {
   function loadInterets() {
     var interestsTabLink = document.querySelector('.tab-link.active');
     if (interestsTabLink) {
-      console.log("Onglet actif :", interestsTabLink.textContent);
+      console.log("Onglet actif :", interestsTabLink.textContent); // Ajouté pour indiquer l'onglet actif
+
       var url = interestsTabLink.getAttribute('href');
       console.log("URL à charger :", url);
       fetch(url).then(function (response) {

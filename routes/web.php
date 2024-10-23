@@ -48,12 +48,12 @@ Route::middleware('auth')->group(function () {
     Route::get('profile/rencontres/{id}', [UsersController::class, 'rencontres'])->name('profile.rencontres');
     Route::get('profile/informations/{id}', [UsersController::class, 'informations'])->name('profile.informations');
 
+
     //INTERET
     Route::get('interets/interets/{id}', [InterestsController::class, 'interets'])->name('interets.interets');
     Route::put('/interets/update_Interets', [InterestsController::class, 'update_Interets'])->name('interets.update_Interets');
 
     //TEST
-    Route::get('profile/personnalite/{id}', [PersonalityController::class, 'personnalite'])->name('profile.personnalite');
     Route::get('/personality/test', [PersonalityController::class, 'startTest'])->name('personality.test'); 
     Route::post('/personality/submit', [PersonalityController::class, 'submitTest'])->name('personality.submit');
     Route::get('/personality/results', [PersonalityController::class, 'results'])->name('personality.results');
@@ -68,11 +68,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/meetup/delete/{id}', [MeetupController::class, 'delete'])->where('id', '[0-9]+');
 
 
-    Route::get('/meetup/{meetupId}', [MeetupController::class, 'MeetupPage'])->name('meetupPage');
-    Route::get('/meetup/join/{meetupId}', [MeetupController::class, 'JoinMeetup'])->name('joinMeetup');
-    Route::get('/meetup/leave/{meetupId}', [MeetupController::class, 'LeaveMeetup'])->name('leaveMeetup');
+    Route::get('/meetup/page/{meetupId}', [MeetupController::class, 'MeetupPage'])->name('meetupPage');
+    Route::get('/meetup/page/join/{meetupId}', [MeetupController::class, 'JoinMeetup'])->name('joinMeetup');
+    Route::get('/meetup/page/leave/{meetupId}', [MeetupController::class, 'LeaveMeetup'])->name('leaveMeetup');
 
-    Route::get('/meetup/removeParticipant/{meetupId}/{userId}', [MeetupController::class, 'RemoveParticipant'])->name("removeParticipant");
+    Route::get('/meetup/page/removeParticipant/{meetupId}/{userId}', [MeetupController::class, 'RemoveParticipant'])->name("removeParticipant");
 
     Route::get('/meetup/requests/{meetupId}', [MeetupController::class, 'MeetupRequests'])->name('meetupRequests');
     Route::get('/meetup/requests/accept/{meetupId}/{userId}', [MeetupController::class, 'AcceptRequest'])->name('acceptRequest');
@@ -87,7 +87,4 @@ Route::middleware('auth')->group(function () {
     Route::get('/search/meetups', [SearchController::class, 'meetups'])->name('search.meetups');
     Route::get('/search/events', [SearchController::class, 'events'])->name('search.events');
     Route::get('/search/users', [SearchController::class, 'users'])->name('search.users');
-    Route::get('/search/cities', [SearchController::class, 'cities'])->name('search.cities');
-    Route::get('/search/interests', [SearchController::class, 'interests'])->name('search.interests');
-    Route::get('/search/getInterests', [SearchController::class, 'getInterests'])->name('search.getInterests');
 });

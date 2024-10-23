@@ -11,11 +11,11 @@
         @foreach ($questions as $question)
         <fieldset>
                 <legend>{{ $question->question }}</legend>
-                    @foreach ($question->answers as $option)
+                    @foreach ($question->answerOptions as $option)
                         <div>
                             <input type="radio" id="option-{{ $option->id }}" name="answers[{{ $question->id }}]"
                                 value="{{ $option->id }}">
-                            <label for="option-{{ $option->id }}">{{ $option->answer }} (Score: {{ $option->type_answer }})</label>
+                            <label for="option-{{ $option->id }}">{{ $option->answer }} (Score: {{ $option->score }})</label>
                         </div>
                     @endforeach
 
@@ -31,7 +31,7 @@
             @endif
         </div>
         @if (!$questions->hasMorePages())
-                <button type="submit" class="sendTest">Envoyer</button>
+                <button type="submit" class="sendTest">Submit</button>
             @endif
     </form>
 </div>

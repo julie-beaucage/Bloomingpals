@@ -13,4 +13,9 @@ class Category_Interest extends Model
     {
         return $this->hasMany(Interest::class, 'id_category');
     }
+    public static function getCategoryName($categoryId)
+    {
+        return self::where('id', $categoryId)->value('name');
+    }
+
 }

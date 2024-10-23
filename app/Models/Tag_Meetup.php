@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Meetup_Interest extends Model
+class Tag_Meetup extends Model
 {
-    protected $table= 'meetups_interests';
+    protected $table= 'tags_meetups';
 
     public $timestamps = false;
 }

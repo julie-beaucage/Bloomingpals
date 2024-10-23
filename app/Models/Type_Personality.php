@@ -2,19 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 use Illuminate\Database\Eloquent\Model;
 
-class Type_personality extends Model
+class Type_Personality extends Model
 {
-    use HasFactory;
+    protected $table= 'types_personalities';
 
-    protected $table = 'types_personalities';
-    protected $primaryKey = 'id';
-
-    protected $fillable = [
-        'type', 
-        'description', 
-    ];
-
+    public $timestamps = false;
 }

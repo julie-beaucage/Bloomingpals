@@ -2,13 +2,11 @@
 
 namespace App\Models;
 
-
 use Illuminate\Database\Eloquent\Model;
 
-class Personality extends Model
+class Tag_Event extends Model
 {
-    protected $table= 'personalities';
-    protected $primaryKey = 'id';
+    protected $table= 'tags_events';
 
     public $timestamps = false;
 }

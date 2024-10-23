@@ -4,14 +4,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Answer extends Model
+class Question_answer extends Model
 {
     use HasFactory;
-    protected $table = 'answers';
+    protected $table = 'answer_options';
     protected $primaryKey = 'id';
   
     public function question()
     {
-        return $this->belongsTo(Question::class, 'question_id');
+        return $this->belongsTo(Question::class, 'question_id', 'id');
     }
 }
