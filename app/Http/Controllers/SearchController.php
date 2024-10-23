@@ -24,7 +24,7 @@ class SearchController extends Controller
         if ($page == null || $page < 1) 
             return response()->json(['error' => 'Invalid page number']);
 
-        $meetups = Meetup::skip(($page - 1) * 30)->take(30)->get();
+        $meetups = Meetup::all();
 
         $query = $request->has('query') ? $request->get('query') : null;
         if ($query != null) {
@@ -64,6 +64,9 @@ class SearchController extends Controller
 
             $meetups = $meetups->whereIn('id', $categories_filter->map(function($cat) { return $cat->id_meetup; })->toArray());
         }
+
+        // Take page requested
+        $meetups = $meetups->skip(($page - 1) * 30)->take(30);
         
         $user = User::find(auth()->user()->id);
         $meetups = $meetups->sort(function($a, $b) use ($user) {
@@ -78,7 +81,8 @@ class SearchController extends Controller
         });
 
         // Take half and shuffle
-        //$meetups = $meetups->take(15)->shuffle();
+        if (count($meetups) > 15)
+            $meetups = $meetups->take(15)->shuffle();
         return view('partial_views.meetup_cards', ['meetups' => $meetups]);
     }
 
@@ -88,7 +92,7 @@ class SearchController extends Controller
         if ($page == null || $page < 1) 
             return response()->json(['error' => 'Invalid page number']);
 
-        $events = Event::skip(($page - 1) * 30)->take(30)->get();
+        $events = Event::all();
 
         $query = $request->has('query') ? $request->get('query') : null;
         if ($query != null) {
@@ -128,6 +132,9 @@ class SearchController extends Controller
             $events = $events->whereIn('id', $categories_filter->map(function($cat) { return $cat->id_event; })->toArray());
         }
 
+        // Take page requested
+        $events = $events->skip(($page - 1) * 30)->take(30);
+
         $user = User::find(auth()->user()->id);
         $events = $events->sort(function($a, $b) use ($user) {
             $interests_ids_a = Event_Interest::select('id_interest')->where('id_event', '=', $a->id)->get();
@@ -140,8 +147,9 @@ class SearchController extends Controller
             return $diff * 100;
         });
 
-        // Take half and shuffle
-        $events = $events->take(15)->shuffle();
+        //Take half and shuffle
+        if (count($events) > 15)
+            $events = $events->take(15)->shuffle();
         return view('partial_views.event_cards', ['events' => $events]);
     }
 
