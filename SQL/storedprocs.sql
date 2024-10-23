@@ -1,6 +1,37 @@
 USE BloomingPals;
 
 -- ------------------------------------------------------------------------------------------------
+----------------Test Personalité
+-- ------------------------------------------------------------------------------------------------
+DROP PROCEDURE IF EXISTS update_user_personality;
+DELIMITER //
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_user_personality`(
+IN p_user_id INT, 
+IN p_type VARCHAR(4))
+BEGIN
+DECLARE id_type INT;
+DECLARE nb_type INT;
+DECLARE nb_user INT;
+
+    SELECT COUNT(*) INTO nb_type FROM personalities WHERE type = p_type;
+    SELECT COUNT(*) INTO nb_user FROM users WHERE id = p_user_id;
+	
+    SELECT id INTO id_type 
+    FROM personalities 
+    WHERE type = p_type;
+    
+    IF nb_type = 0 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Type de personalité non valide.';
+    ELSEIF nb_user = 0 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Usager non valide';
+        	ELSE
+		UPDATE users SET personality = id_type
+		WHERE id = p_user_id;
+	END IF;
+        
+END
+DELIMITER //
+-- ------------------------------------------------------------------------------------------------
 ----------------UTILISATEUR
 -- ------------------------------------------------------------------------------------------------
 DROP PROCEDURE IF EXISTS creerUsager;
@@ -50,10 +81,10 @@ END;
 
 
 -- ------------------------------------------------------------------------------------------------
-----------------EVENEMENTS
+-- --------------EVENEMENTS
 -- ------------------------------------------------------------------------------------------------
 DROP PROCEDURE IF EXISTS ajouterEvenement;
-
+DROP PROCEDURE IF EXISTS addEvent;
 DELIMITER //
 CREATE PROCEDURE ajouterEvenement (p_nom VARCHAR(100), p_description VARCHAR(1024), p_category VARCHAR(50), p_ville VARCHAR(100), p_adresse VARCHAR(100), p_date datetime, p_prix varchar(20), p_image varchar(2048))
 BEGIN
