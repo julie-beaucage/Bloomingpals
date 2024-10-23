@@ -15,7 +15,7 @@ class Meetup_Request extends Model
         $requests = Meetup_Request::where("id_meetup", $meetupId)->where("state", "Sent")->get();
         if ($requests->count() > 0) {
             foreach ($requests as $request) {
-                $user = User::where("id", $request->id_utilisateur)->get()[0];
+                $user = User::where("id", $request->id_user)->first();
                 array_push($users, $user);
             }
         }

@@ -10,7 +10,12 @@ foreach ($eventsData as $eventData) {
         $default_images=rand(1,3);
         $eventImage = '\images\meetup_default'.$default_images.'.png'; 
     }
-    $route = route("event", ["id" => $eventData->id]);
+    $route = "";
+    if ($type == "rencontre") {
+        $route = route("meetupPage", ["meetupId" => $eventData->id]);
+    } else {
+        $route = route("event", ["id" => $eventData->id]);
+    }
 
     $eventsHtml .= <<<HTML
         <div class="eventContainer">

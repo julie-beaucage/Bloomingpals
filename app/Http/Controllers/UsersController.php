@@ -90,12 +90,12 @@ class usersController extends Controller
 
     public function events($id) {
         $eventsData = Event::GetEventsFromUser($id);
-        return view("profile.events", ["eventsData" => $eventsData]);
+        return view("profile.events", ["eventsData" => $eventsData, "type" => "event"]);
     }
 
     public function rencontres($id) {
         $MeetupsData = Meetup::GetMeetupsFromUser($id);
-        return view("profile.events", ["eventsData" => $MeetupsData]);
+        return view("profile.events", ["eventsData" => $MeetupsData, "type" => "rencontre"]);
     }
 
 

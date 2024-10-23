@@ -270,7 +270,7 @@ body {
     gap: 2em;
 }
 
-a {
+.link {
     width: max-content;
 }
 

@@ -35,25 +35,25 @@
         <div class="listOnglet">
             <ul class="nav nav-tabs justify-content-center">
                 <li class="nav-item" title="Intérêts">
-                    <a class="nav-link tab-link {{ request()->is('profile/informations') ? 'active' : '' }}"
+                    <a class="nav-link link tab-link {{ request()->is('profile/informations') ? 'active' : '' }}"
                         href="{{ route('profile.informations', $user->id) }}" data-target="profile/informations">Informations</a>
                 </li>
                 <li class="nav-item" title="Amis">
-                    <a class="nav-link tab-link {{ request()->is('profile/amis') ? 'active' : '' }}"
+                    <a class="nav-link link tab-link {{ request()->is('profile/amis') ? 'active' : '' }}"
                         href="{{ route('profile.amis', $user->id) }}" data-target="profile/amis">Amis</a>
                 </li>
                 <li class="nav-item" title="Personalité">
-                    <a class="nav-link tab-link {{ request()->is('profile/personnalite') ? 'active' : '' }}"
+                    <a class="nav-link link tab-link {{ request()->is('profile/personnalite') ? 'active' : '' }}"
                         href="{{ route('profile.personnalite', $user->id) }}"
                         data-target="profile/personnalite">Personnalité</a>
                 </li>
                 <li class="nav-item" title="Events">
-                    <a class="nav-link tab-link {{ request()->is('profile/events') ? 'active' : '' }}"
+                    <a class="nav-link link tab-link {{ request()->is('profile/events') ? 'active' : '' }}"
                         href="{{ route('profile.events', $user->id) }}"
                         data-target="profile/events">Activitées</a>
                 </li>
                 <li class="nav-item" title="Rencontres">
-                    <a class="nav-link tab-link {{ request()->is('profile/rencontres') ? 'active' : '' }}"
+                    <a class="nav-link link tab-link {{ request()->is('profile/rencontres') ? 'active' : '' }}"
                         href="{{ route('profile.rencontres', $user->id) }}"
                         data-target="profile/rencontres">Rencontres</a>
                 </li>
