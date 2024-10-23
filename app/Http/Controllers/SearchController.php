@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\User;
+use App\Models\City;
 use App\Models\Meetup;
 use App\Models\Interest;
 use App\Models\Meetup_Interest;
@@ -166,7 +167,7 @@ class SearchController extends Controller
 
     public function cities(Request $request)
     {
-        return response()->json(DB::table('canadacities')->all());
+        return response()->json(City::all());
     }
 
     public function interests(Request $request)

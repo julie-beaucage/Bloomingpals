@@ -171,8 +171,8 @@ INSERT INTO interests (name, id_category) VALUES ('Couture', 6);
 INSERT INTO interests (name, id_category) VALUES ('Humour', 6);
 
 -- Users Interests --
-CALL ajouterInterets (1, "24, 25, 51, 63, 89, 100, 122");
-CALL ajouterInterets (3, "89");
+CALL add_user_interests (1, "24, 25, 51, 63, 89, 100, 122");
+CALL add_user_interests (3, "89");
 
 -- Meetups Interests --
 INSERT INTO meetups_interests (id_interest, id_meetup) VALUES (100, 2);
