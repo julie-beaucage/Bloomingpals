@@ -13,8 +13,7 @@ $notifications=NotificationController::index();
 @endphp
 
 
-<body>
-
+<body class="{{ Auth::user()->getPersonalityType() }}">
     <div id="main">
 
 

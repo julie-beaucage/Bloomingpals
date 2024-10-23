@@ -180,11 +180,4 @@ class usersController extends Controller
         return view('profile.amis', compact('user'));    
     }
 
-    public function personnalite($id) {
-        return view('profile.personnalite', ['user' => User::findOrFail($id)]);
-    }
-    
-    public function receivesBroadcastNotificationsOn():string{
-        return 'notificationRecue';
-    }
 }

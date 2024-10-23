@@ -10,9 +10,9 @@ class Question extends Model
     protected $table = 'questions';
     protected $primaryKey = 'id';
   
-    public function answerOptions()
+    public function answers()
     {
-        return $this->hasMany(Question_answer::class, 'question_id', 'id');
+        return $this->hasMany(Answer::class, 'question_id');
     }
 
 }

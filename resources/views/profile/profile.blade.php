@@ -6,15 +6,17 @@
 @endsection()
 
 @include('profile.edit-profile-modal')
+@php
+    $userPersonality = Auth::user()->getPersonalityType();
+@endphp
 
 @section('content')
-
 <div id="background_cntr" class="no_select">
     <div id="background_color"></div>
     <img id="background_img" src="{{ $user->background_image ? asset('storage/' . $user->background_image) : asset('/images/R.jpg') }}"
         alt="Bannière du profile">
 </div>
-<div id="profile_cntr">
+<div id="profile_cntr"  class="personality {{ $userPersonality  }}">
     <div id="info_cntr">
         <div class="profile-picture no_select">
             <img src="{{ $user->image_profil ? asset('storage/' . $user->image_profil) : asset('/images/simple_flower.png') }}"
