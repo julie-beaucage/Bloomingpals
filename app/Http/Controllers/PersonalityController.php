@@ -6,13 +6,24 @@ use App\Models\Type_personality;
 use App\Models\Personality;
 use App\Models\Question;
 use App\Models\Answer;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class PersonalityController extends Controller
 {
+    public function personnalite($id) {
+        $user = User::findOrFail($id);
+        $personality = $user->getUserPersonality($id);
+        Log::info('Personnalité de l\'utilisateur : ', (array) $personality);
+
+        return view('profile.personnalite', compact('user', 'personality'));
+    }
 
     public function startTest(Request $request)
     {
+        Log::info('Début du test de personnalité.');
        /* $questions = Question::with('answerOptions')->paginate(10);
         if ($questions->isEmpty()) {
             return redirect()->back()->with('error', 'Aucune question disponible pour le test.');
@@ -32,16 +43,36 @@ class PersonalityController extends Controller
 
     public function submitTest(Request $request)
     {
-        $validated = $request->validate([
-            'answers' => 'required|array',
-            'answers.*.question_id' => 'required|integer|exists:questions,id',
-            'answers.*.answer' => 'required|string|in:E,I,S,N,T,F,P,J',
-        ]);
+        Log::info('Soumission du test de personnalité.');
+        if (empty($request->answers) || !is_array($request->answers)) {
+            Log::error('Aucune réponse soumise ou format incorrect.');
+            return redirect()->back()->with('error', 'Veuillez répondre à toutes les questions.');
+        }
+        $selectedAnswers = [];
+        foreach ($request->answers as $questionId => $answerId) {
+            $selectedAnswers[] = $answerId; // Récupère l'ID de la réponse
+        }
 
-        $scores = $this->calculateScore($validated['answers']);
+        Log::info('ID des réponses sélectionnées : ', $selectedAnswers);
+        $scores = $this->calculateScore($request->answers);
+        Log::info('Scores calculés : ', $scores);
+
 
         $personalityType = $this->calculatePersonalityType($scores);
-        return view('test_personality.resultat_test', compact('personalityType'));
+        Log::info('Type de personnalité calculé : ' . $personalityType);
+        $userId = auth()->id();
+        try {
+            DB::statement('CALL update_user_personality(?, ?)', [$userId, $personalityType]);
+        } catch (\Exception $e) {
+            Log::error('Erreur lors de l\'appel à la procédure stockée : ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Une erreur est survenue lors de la mise à jour de votre personnalité.');
+        }
+        $personality = Personality::where('type', $personalityType)->first();
+        if (!$personality) {
+            return redirect()->back()->with('error', 'Type de personnalité non trouvé.');
+        }
+    
+        return view('test_personality.resultat_test', compact('personality'));
     }
 
     private function calculateScore($answers)
@@ -53,8 +84,8 @@ class PersonalityController extends Controller
             'P' => 0, 'J' => 0,
         ];
     
-        foreach ($answers as $answerData) {
-            $answer = Answer::find($answerData['answer_id']); 
+        foreach ($answers as $answerId) { 
+            $answer = Answer::find($answerId); 
             if ($answer && isset($scores[$answer->type_answer])) {
                 $scores[$answer->type_answer]++;
             }
@@ -73,6 +104,6 @@ class PersonalityController extends Controller
 
         $personality = Personality::where('type', $type)->first();
 
-        return $personality ? $personality->name : $type;
+        return $personality ? $personality->type : $type;
     }
 }

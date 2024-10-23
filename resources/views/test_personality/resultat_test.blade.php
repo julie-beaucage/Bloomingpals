@@ -3,11 +3,12 @@
 @section('title', 'Test Results')
 
 @section('content')
-    <h1>Your Personality Type</h1>
-    <p>Your personality type is: <strong>{{ $personality_type }}</strong></p>
+    <h1>Félicitation vous avez complété le test: Résultat</h1>
+    <p>Votre type de personnalité est : <strong>{{ $personality->type  }}</strong></p>
+    <p><strong>{{ $personality->name }}</strong></p>
 
     <h2>Type Description</h2>
-    <p>{{ $type_description }}</p>
+    <p>{{ $personality->nameDescription }}</p>
 
     <a href="{{ route('personality.test') }}">Retake the test</a>
 @endsection
