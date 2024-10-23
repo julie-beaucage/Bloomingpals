@@ -8,7 +8,7 @@
     @yield("style", "")
 </header>
 
-<body>
+<body class="{{ Auth::user()->getPersonalityType() }}">
     <div id="main">
         @if (isset($view))
             <x-navbar active="$view" />

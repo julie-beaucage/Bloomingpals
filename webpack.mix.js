@@ -23,6 +23,7 @@ mix.postCss('resources/css/search.css', 'public/css', []);
 mix.postCss('resources/css/profile.css', 'public/css', []);
 mix.postCss('resources/css/interets.css', 'public/css', []);
 mix.postCss('resources/css/test_perso.css', 'public/css', []);
+mix.postCss('resources/css/personality.css', 'public/css', []);
 
 
 
