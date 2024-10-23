@@ -123,8 +123,13 @@ $(document).ready(function () {
                 type: "GET",
                 url: '/ReadAll',
             });
-            $('.navbar_notification').each(function(){
-                $(this).find(">:first-child").hide();
+            $('.navbar_notification').each(function () {
+                let notif_badge = $(this).children(".notification-badge");
+                if (notif_badge.length != 0) {
+
+                    notif_badge.hide();
+                }
+
             });
             
         }, 2 * 1000);
