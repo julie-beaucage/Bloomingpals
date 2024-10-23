@@ -1,8 +1,8 @@
 $(document).ready(function () {
 
-    function truncatee(str,length){
-        if(str.length > length){
-            return str.substring(0,length-3)+'...';
+    function truncatee(str, length) {
+        if (str.length > length) {
+            return str.substring(0, length - 3) + '...';
         }
         return str;
 
@@ -33,7 +33,7 @@ $(document).ready(function () {
                     '<div class="center-content" id="notification-username"><a href="/profile/' + parsedData.user_send.id + '"><strong>' + parsedData.user_send.first_name + ' ' + parsedData.user_send.last_name + '</strong></a></div>' +
                     '<a id="close-notification" style="cursor:pointer;"><span class="close_icon">close</span></a>' +
                     '</div>' +
-                    ' <div>' + parsedData.message + '  <strong> ' + truncatee(parsedData.meetup.name,40) + '</strong></div>' +
+                    ' <div>' + parsedData.message + '  <strong> ' + truncatee(parsedData.meetup.name, 40) + '</strong></div>' +
                     '</div>'
                     + '</div>';
 
@@ -48,7 +48,7 @@ $(document).ready(function () {
                     window.location.origin + image + '"></a></div>' +
                     '<div class="notification-content">' +
                     '<div class="header-and-icon">' +
-                    '<div class="center-content" id="notification-username"><a href="profile/' + parsedData.user_send.id + '"><strong>' +truncatee(parsedData.user_send.first_name + ' ' + parsedData.user_send.last_name,40) + '</strong></a></div>' +
+                    '<div class="center-content" id="notification-username"><a href="profile/' + parsedData.user_send.id + '"><strong>' + truncatee(parsedData.user_send.first_name + ' ' + parsedData.user_send.last_name, 40) + '</strong></a></div>' +
                     '<a id="close-notification" style="cursor:pointer;"><span class="close_icon">close</span></a>' +
                     '</div>' +
                     ' <div style="text-wrap:wrap;">' + parsedData.message + '</div>' +
@@ -96,7 +96,7 @@ $(document).ready(function () {
         type: "GET",
         url: '/hasNotificationOn',
     }).done((data) => {
-        if(data == 1){
+        if (data == 1) {
             //checker une fois
             CheckNewNotifications();
             //checker plusieurs fois apres 15 sec
@@ -105,9 +105,9 @@ $(document).ready(function () {
 
     });
 
-    
-  
-   
+
+
+
 
 
 
@@ -128,35 +128,40 @@ $(document).ready(function () {
 
     // handle all notification container
 
-        let two_notif_badge=['','']
+    
     $('.navbar_notification').each(function () {
 
- 
+
         $(this).on('click', function () {
             $('#container-notification-toggle').toggle();
 
-            
-           //notif_badge= $(this).find(">:first-child");
-            
-        window.setTimeout(function () {
-            $.ajax({
-                type: "GET",
-                url: '/ReadAll',
-            });
-            $('.navbar_notification').each(function(){
-                $(this).find(">:first-child").hide();
-            });
-            
-        }, 2 * 1000);
+
+            //notif_badge= $(this).find(">:first-child");
+
+            window.setTimeout(function () {
+                $.ajax({
+                    type: "GET",
+                    url: '/ReadAll',
+                });
+                $('.navbar_notification').each(function () {
+                    let notif_badge = $(this).children(".notification-badge");
+                    if (notif_badge.length != 0) {
+
+                        notif_badge.hide();
+                    }
+
+                });
+
+            }, 2 * 1000);
 
         })
     });
 
     $('.notification-container-page').on('click', function (event) {
-       
-        if(!(event.target.classList.contains('close_icon-page'))){
+
+        if (!(event.target.classList.contains('close_icon-page'))) {
             window.location.href = $(this).attr('linking');
-        }        
+        }
     });
 
     $(".close_icon-page").on('click', function () {
@@ -164,7 +169,7 @@ $(document).ready(function () {
             type: "Get",
             url: '/notifications/delete/' + $(this).attr('id'),
         });
-        container=$(this).parent().parent().parent().parent();
+        container = $(this).parent().parent().parent().parent();
         container.addClass('border-red');
 
         window.setTimeout(function () {

@@ -80,7 +80,6 @@ $(document).ready(function () {
 
   // handle all notification container
 
-  var two_notif_badge = ['', ''];
   $('.navbar_notification').each(function () {
     $(this).on('click', function () {
       $('#container-notification-toggle').toggle();
@@ -93,7 +92,10 @@ $(document).ready(function () {
           url: '/ReadAll'
         });
         $('.navbar_notification').each(function () {
-          $(this).find(">:first-child").hide();
+          var notif_badge = $(this).children(".notification-badge");
+          if (notif_badge.length != 0) {
+            notif_badge.hide();
+          }
         });
       }, 2 * 1000);
     });
