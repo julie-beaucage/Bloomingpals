@@ -3,7 +3,9 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\User;
 use App\Models\Meetup;
+use App\Models\Friendship_Request;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SearchController extends Controller
 {
@@ -47,12 +49,17 @@ class SearchController extends Controller
         $query = $request->has('query') ? $request->get('query') : "";
         $users = [];
 
+        $friends = Meetup::GetFriends(Auth::user()->id);
+        $friendRequestsSent = Friendship_Request::GetFriendRequestSent(Auth::user()->id);
+        $friendRequestsReceive = Friendship_Request::GetFriendRequestReceive(Auth::user()->id);
+
+
         if ($query == null) {
             $users = User::all();
-            return view('partial_views.user_cards', ['users' => $users]);
+            return view('partial_views.user_cards', ['users' => $users, "friends" => $friends, "friendRequestsSent" => $friendRequestsSent, "friendRequestsReceive" => $friendRequestsReceive]);
         }
 
         $users = Event::where('nom', 'LIKE', '%'.$query.'%')->get();
-        return view('partial_views.user_cards', ['users' => $users]);
+        return view('partial_views.user_cards', ['users' => $users, "friends" => $friends, "friendRequestsSent" => $friendRequestsSent, "friendRequestsReceive" => $friendRequestsReceive]);
     }
 }

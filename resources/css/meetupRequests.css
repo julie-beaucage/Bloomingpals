@@ -4,7 +4,7 @@
 
 .ibMax {
     display: inline-block;
-    width: max-content;
+    width: auto;
 }
 
 .respondButton {
@@ -33,12 +33,18 @@ a.respondButton:hover {
     display: inline-flex;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
     width: 100%;
 }
 
 .profilesContainer {
+    padding-left: 3em;
+    padding-right: 3em;
+}
+
+.profilesContainer > div{
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(18em, 2fr));
+    grid-template-columns: repeat(auto-fill, minmax(30em, 1fr));
     width: 100%;
 }
 
@@ -52,10 +58,41 @@ hr {
     border-style: solid none;
     border-width: 1px 0 rgba(0, 0, 0, 0.388);
     margin: 1em 2.55em;
-    width: calc(80% - 5em);
+    width: calc(100% - 5em);
 }
 
-.hrEvent {
-    margin-left: 10%;
-    width: 80%;
+.userContainer {
+    background-color: white;
+    border: 1px solid rgb(160, 160, 160);
+    border-radius: 0.5em;
+    padding-left: 1em;
+    padding-right: 1em;
+    opacity: 0.9;
+}
+
+.title1 {
+    width: 100%;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    gap: 1em;
+}
+
+.background {
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+}
+
+.title1 {
+    background-color: white;
+    opacity: 0.9;
+    border: 1px solid rgb(160, 160, 160);
+    border-radius: 0.5em;
+    padding: 0.1em 0.3em 0.1em 0.3em;
 }
