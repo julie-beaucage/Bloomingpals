@@ -8,10 +8,16 @@ document.addEventListener('DOMContentLoaded', function () {
     console.error('Aucun onglet trouvé.');
     return;
   }
+  tabLinks.forEach(function (link) {
+    console.log("Onglet : ".concat(link.textContent, ", Actif : ").concat(link.classList.contains('active')));
+  });
   function loadInterets() {
     var interestsTabLink = document.querySelector('.tab-link.active');
     if (interestsTabLink) {
+      console.log("Onglet actif :", interestsTabLink.textContent); // Ajouté pour indiquer l'onglet actif
+
       var url = interestsTabLink.getAttribute('href');
+      console.log("URL à charger :", url);
       fetch(url).then(function (response) {
         if (!response.ok) {
           throw new Error('Erreur réseau: ' + response.status);

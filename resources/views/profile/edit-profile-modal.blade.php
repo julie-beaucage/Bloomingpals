@@ -12,19 +12,19 @@
                     @method('PUT')
                     <div class="mb-3">
                         <label for="prenom" class="form-label">Prénom</label>
-                        <input type="text" class="form-control" id="prenom" name="firstname" value="{{ Auth::user()->prenom }}">
+                        <input type="text" class="form-control" id="prenom" name="firstname" value="{{ Auth::user()->first_name }}">
                     </div>
                     
                     <div class="mb-3">
                         <label for="nom" class="form-label">Nom</label>
-                        <input type="text" class="form-control" id="nom" name="lastname" value="{{ Auth::user()->nom }}">
+                        <input type="text" class="form-control" id="nom" name="lastname" value="{{ Auth::user()->last_name }}">
                     </div>
                     <div class="mb-3">
                         <label for="genre" class="form-label">Genre</label>
                         <select class="form-select" id="genre" name="genre" required>
-                            <option value="homme" {{ Auth::user()->genre == 'homme' ? 'selected' : '' }}>Homme</option>
-                            <option value="femme" {{ Auth::user()->genre == 'femme' ? 'selected' : '' }}>Femme</option>
-                            <option value="non-genre" {{ Auth::user()->genre == 'non-genre' ? 'selected' : '' }}>Non-genre</option>
+                            <option value="homme" {{ Auth::user()->gender == 'homme' ? 'selected' : '' }}>Homme</option>
+                            <option value="femme" {{ Auth::user()->gender == 'femme' ? 'selected' : '' }}>Femme</option>
+                            <option value="non-genre" {{ Auth::user()->gender == 'non-genre' ? 'selected' : '' }}>Non-genre</option>
                         </select>
                     </div>
                     
