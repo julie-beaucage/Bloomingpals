@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Tag_Meetup;
-use App\Models\rencontre_utlisateur;
+use App\Models\Meetup_User;
 
 class Meetup extends Model
 {
@@ -45,10 +45,10 @@ class Meetup extends Model
     /**
      * Summary of GetEventsFromUser
      * @param mixed $userId
-     * @return evenement_utilisateur[]|\Illuminate\Database\Eloquent\Collection
+     * @return Meetup_User[]|\Illuminate\Database\Eloquent\Collection
      */
-    public static function GetRencontresFromUser($userId) {
-        $rencontresJoined = rencontre_utlisateur::where("id_utilisateur", $userId)->join("rencontre", "rencontre.id", "=", "rencontre_utilisateur.id_rencontre")->orderBy("rencontre.date", 'DESC')->get();
+    public static function GetMeetupsFromUser($userId) {
+        $rencontresJoined = Meetup_User::where("id_user", $userId)->join("meetups", "meetups.id", "=", "meetups_users.id_meetup")->orderBy("meetups.date", 'DESC')->get();
         return $rencontresJoined;
     }
     /**

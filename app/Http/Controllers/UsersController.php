@@ -93,7 +93,7 @@ class usersController extends Controller
         return view("profile.events", ["eventsData" => $eventsData]);
     }
 
-    public function Meetups($id) {
+    public function rencontres($id) {
         $MeetupsData = Meetup::GetMeetupsFromUser($id);
         return view("profile.events", ["eventsData" => $MeetupsData]);
     }

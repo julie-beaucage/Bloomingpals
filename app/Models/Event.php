@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\evenement_utilisateur;
+use App\Models\Event_User;
 
 class Event extends Model
 {
@@ -13,7 +13,7 @@ class Event extends Model
 
 
     public static function GetEventsFromUser($userId) {
-        $eventsJoined = evenement_utilisateur::where("id_utilisateur", $userId)->join("evenement", "evenement.id", "=", "evenement_utilisateur.id_evenement")->orderBy("evenement.date", 'DESC')->get();
+        $eventsJoined = Event_User::where("id_user", $userId)->join("evenement", "evenement.id", "=", "events_users.id_event")->orderBy("evenement.date", 'DESC')->get();
         return $eventsJoined;
     }
 }
