@@ -1,6 +1,37 @@
 USE BloomingPals;
 
 -- ------------------------------------------------------------------------------------------------
+----------------Test Personalité
+-- ------------------------------------------------------------------------------------------------
+DROP PROCEDURE IF EXISTS update_user_personality;
+DELIMITER //
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_user_personality`(
+IN p_user_id INT, 
+IN p_type VARCHAR(4))
+BEGIN
+DECLARE id_type INT;
+DECLARE nb_type INT;
+DECLARE nb_user INT;
+
+    SELECT COUNT(*) INTO nb_type FROM personalities WHERE type = p_type;
+    SELECT COUNT(*) INTO nb_user FROM users WHERE id = p_user_id;
+	
+    SELECT id INTO id_type 
+    FROM personalities 
+    WHERE type = p_type;
+    
+    IF nb_type = 0 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Type de personalité non valide.';
+    ELSEIF nb_user = 0 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Usager non valide';
+        	ELSE
+		UPDATE users SET personality = id_type
+		WHERE id = p_user_id;
+	END IF;
+        
+END
+DELIMITER //
+-- ------------------------------------------------------------------------------------------------
 ----------------UTILISATEUR
 -- ------------------------------------------------------------------------------------------------
 DROP PROCEDURE IF EXISTS creerUsager;
@@ -45,22 +76,6 @@ BEGIN
         background_image = p_background_image,
         gender = p_sexe
     WHERE id = p_user_id;
-END;
-// DELIMITER ;
-    -- Supprimer les intérêts existants pour l'utilisateur
-    DELETE FROM users_interests WHERE id_user = utilisateurId;
-
-    SET interetList = interetsParam;
-
-    WHILE LENGTH(interetList) > 0 DO
-        SET interetId = SUBSTRING_INDEX(interetList, ',', 1);
-        IF interetId <> '' THEN
-            -- Insérer l'intérêt
-            INSERT INTO users_interests (id_users, id_interests) VALUES (utilisateurId, interetId);
-        END IF;
-
-        SET interetList = SUBSTRING(interetList, LENGTH(interetId) + 2);
-    END WHILE;
 END;
 // DELIMITER ;
 -- -----------------------------------------------------
