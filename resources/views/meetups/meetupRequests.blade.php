@@ -1,5 +1,5 @@
 <?php
-    $requestHtml = "";
+    $requestHtml = '';
 
     foreach ($requestsData as $request) {
         $imageRequestHtml = "";
@@ -21,25 +21,28 @@
         $denyRouting = route("denyRequest", ["meetupId" => $meetupData->id, "userId" => $request->id]);
 
         $requestHtml .= <<<HTML
-            <div class="sideHorizontalFlexInline">
-                <div class="profile">
-                    {$imageRequestHtml}
-                    <div class="username_container">
-                        <div>{$request->prenom}</div>
-                        <div class="grey_text">{$request->nom}</div>
+            <div class="userContainer">
+                <div class="sideHorizontalFlexInline">
+                    <div class="profile">
+                        {$imageRequestHtml}
+                        <div class="username_container">
+                            <div>{$request->prenom}</div>
+                            <div class="grey_text">{$request->nom}</div>
+                        </div>
                     </div>
-                </div>
-                <div>
-                    <a class="respondButton" href="{$acceptRouting}"> 
-                        Accepter
-                    </a>
-                    <a class="respondButton" href="{$denyRouting}">
-                        Refuser
-                    </a>
+                    <div>
+                        <a class="respondButton" href="{$acceptRouting}"> 
+                            Accepter
+                        </a>
+                        <a class="respondButton" href="{$denyRouting}">
+                            Refuser
+                        </a>
+                    </div>
                 </div>
             </div>
         HTML;
     }
+    $requestHtml .= '';
 ?>
 
 @extends("master")
@@ -48,24 +51,31 @@
     <?php
         $returnRouting = route("meetupPage", ["meetupId" => $meetupData->id]);
 
+        $imageMeetup = $meetupData->image ? asset('storage/' . $meetupData->image) : asset('/images/R.jpg');
+
+        $trimMeetupName = trim($meetupData->nom);
+
         $html = <<<HTML
-            <div class="row">
-                <div class="ibMax">
-                    <a href="{$returnRouting}">     
-                        <div class="respondButton">
-                            retour
-                        </div>
-                    </a>
-                </div>
-                <div class="ibMax">
-                    <div class="title1">
-                        Requête de la rencontre {$meetupData->nom}
+            <div class="background" style="background-image: url($imageMeetup)">
+                <div class="row">
+                    <div class="ibMax">
+                        <a href="{$returnRouting}">     
+                            <div class="respondButton">
+                                retour
+                            </div>
+                        </a>
+                    </div>
+                    <div class="ibMax">
+                        <div class="title1">
+                            Requête de la rencontre $trimMeetupName</div>
                     </div>
                 </div>
-            </div>
-            <hr>
-            <div class="profilesContainer">
-                $requestHtml
+                <hr>
+                <div class="profilesContainer">
+                    <div>
+                        $requestHtml
+                    </div>
+                </div>
             </div>
         HTML;
         echo $html;
