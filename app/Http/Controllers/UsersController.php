@@ -190,7 +190,8 @@ class usersController extends Controller
     
     public function amis($id) {
         $user = User::find($id);
-        return view('profile.amis', compact('user'));    
+        $friends = Relation::GetFriends($id);
+        return view('profile.amis', compact('user', 'friends'));    
     }
 
     public function personnalite($id) {
