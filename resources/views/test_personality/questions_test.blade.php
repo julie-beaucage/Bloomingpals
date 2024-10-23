@@ -21,7 +21,6 @@
 
             </fieldset>
         @endforeach
-          {{-- 
         <div class="pagination">
             @if ($questions->currentPage() > 1)
                 <a href="{{ $questions->previousPageUrl() }}" class="prev">← Précédent</a>
@@ -32,10 +31,8 @@
             @endif
         </div>
         @if (!$questions->hasMorePages())
-                <button type="submit" class="sendTest">Submit</button>
+                <button type="submit" class="sendTest">Envoyer</button>
             @endif
-              --}}
-              <button type="submit" class="sendTest">Submit</button>
     </form>
 </div>
     </span>

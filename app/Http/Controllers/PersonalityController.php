@@ -23,43 +23,29 @@ class PersonalityController extends Controller
 
     public function startTest(Request $request)
     {
-        Log::info('Début du test de personnalité.');
-       /* $questions = Question::with('answerOptions')->paginate(10);
+        $questions = Question::with('answers')->paginate(10);
         if ($questions->isEmpty()) {
             return redirect()->back()->with('error', 'Aucune question disponible pour le test.');
         }
-        return view('test_personality.questions_test', compact('questions'));*/
-        $questions = Question::with('answers')->take(10)->get();
-
-        // Vérifie s'il y a des questions disponibles
+        //$questions = Question::with('answers')->take(10)->get();
         if ($questions->isEmpty()) {
             return redirect()->back()->with('error', 'Aucune question disponible pour le test.');
         }
-    
-        // Retourne la vue avec les questions
         return view('test_personality.questions_test', compact('questions'));
     }
     
 
     public function submitTest(Request $request)
     {
-        Log::info('Soumission du test de personnalité.');
         if (empty($request->answers) || !is_array($request->answers)) {
-            Log::error('Aucune réponse soumise ou format incorrect.');
             return redirect()->back()->with('error', 'Veuillez répondre à toutes les questions.');
         }
         $selectedAnswers = [];
         foreach ($request->answers as $questionId => $answerId) {
-            $selectedAnswers[] = $answerId; // Récupère l'ID de la réponse
+            $selectedAnswers[] = $answerId; 
         }
-
-        Log::info('ID des réponses sélectionnées : ', $selectedAnswers);
         $scores = $this->calculateScore($request->answers);
-        Log::info('Scores calculés : ', $scores);
-
-
         $personalityType = $this->calculatePersonalityType($scores);
-        Log::info('Type de personnalité calculé : ' . $personalityType);
         $userId = auth()->id();
         try {
             DB::statement('CALL update_user_personality(?, ?)', [$userId, $personalityType]);

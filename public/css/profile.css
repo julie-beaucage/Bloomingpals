@@ -257,8 +257,4 @@ body {
   }
   
   /*----------------*/
-  .containerResultPerso{
-    background-color: var(--personality-color) !important;
-    color:var(--personality-text-color);
 
-  }
