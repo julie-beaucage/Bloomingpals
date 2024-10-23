@@ -33,7 +33,7 @@ class MeetupController extends BaseController
             array_push($users, Meetup::GetOrganisator($meetup->id));
 
         }
-        //dd($users[0]);
+        //dd($meetups[0]);
         $default_images=$this->getDefault_images();
 
         return view('meetups.meetups',compact('meetups','users','default_images'));
