@@ -75,7 +75,7 @@ INSERT INTO interests (name, id_category) VALUES ('Paddleboard', 1);
 -- Culture
 INSERT INTO interests (name, id_category) VALUES ('Lecture', 2);
 INSERT INTO interests (name, id_category) VALUES ('Écriture', 2);
-INSERT INTO interests (name, id_category) VALUES ('Jeux d\'échecs', 2);
+INSERT INTO interests (name, id_category) VALUES ('Jeux d\échecs', 2);
 INSERT INTO interests (name, id_category) VALUES ('Visite de musée', 2);
 INSERT INTO interests (name, id_category) VALUES ('Cinéma', 2);
 INSERT INTO interests (name, id_category) VALUES ('Histoire', 2);
@@ -158,7 +158,7 @@ INSERT INTO interests (name, id_category) VALUES ('Peinture', 6);
 INSERT INTO interests (name, id_category) VALUES ('Sculpture', 6);
 INSERT INTO interests (name, id_category) VALUES ('Photographie', 6);
 INSERT INTO interests (name, id_category) VALUES ('Danse contemporaine', 6);
-INSERT INTO interests (name, id_category) VALUES ('Expositions d\'art', 6);
+INSERT INTO interests (name, id_category) VALUES ('Expositions d\art', 6);
 INSERT INTO interests (name, id_category) VALUES ('Arts visuels', 6);
 INSERT INTO interests (name, id_category) VALUES ('Théâtre', 6);
 INSERT INTO interests (name, id_category) VALUES ('Arts du spectacle', 6);

@@ -1,11 +1,42 @@
 USE BloomingPals;
 
 -- ------------------------------------------------------------------------------------------------
-----------------UTILISATEUR
+-- --------------Test Personalité
+-- ------------------------------------------------------------------------------------------------
+DROP PROCEDURE IF EXISTS update_user_personality;
+DELIMITER //
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_user_personality`(
+IN p_user_id INT, 
+IN p_type VARCHAR(4))
+BEGIN
+DECLARE id_type INT;
+DECLARE nb_type INT;
+DECLARE nb_user INT;
+
+    SELECT COUNT(*) INTO nb_type FROM personalities WHERE type = p_type;
+    SELECT COUNT(*) INTO nb_user FROM users WHERE id = p_user_id;
+	
+    SELECT id INTO id_type 
+    FROM personalities 
+    WHERE type = p_type;
+    
+    IF nb_type = 0 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Type de personalité non valide.';
+    ELSEIF nb_user = 0 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Usager non valide';
+        	ELSE
+		UPDATE users SET personality = id_type
+		WHERE id = p_user_id;
+	END IF;
+        
+END
+DELIMITER //
+-- ------------------------------------------------------------------------------------------------
+-- --------------UTILISATEUR
 -- ------------------------------------------------------------------------------------------------
 DROP PROCEDURE IF EXISTS creerUsager;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE creerUsager(
+CREATE DEFINER=`root`@`localhost` PROCEDURE `creerUsager`(
     IN p_courriel VARCHAR(255),
     IN p_nom VARCHAR(50),
     IN p_prenom VARCHAR(50),
@@ -21,12 +52,12 @@ BEGIN
     IF nb_courriel != 0 THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Le courriel existe déjà.';
     ELSE
-        INSERT INTO users (email, last_name, first_name, birthdate, type_personality, password, gender)
-        VALUES (p_courriel, p_nom, p_prenom, p_date_naissance, 1, p_password, p_sex);
+        INSERT INTO users (email, last_name, first_name, birthdate, password, gender)
+        VALUES (p_courriel, p_nom, p_prenom, p_date_naissance, p_password, p_sex);
     END IF;
 END
 // DELIMITER ;
----------------------------------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
 DROP PROCEDURE IF EXISTS updateUserProfile;
 DELIMITER //
 CREATE DEFINER=`root`@`localhost` PROCEDURE updateUserProfile(IN p_user_id INT,
@@ -45,22 +76,6 @@ BEGIN
         background_image = p_background_image,
         gender = p_sexe
     WHERE id = p_user_id;
-END;
-// DELIMITER ;
-    -- Supprimer les intérêts existants pour l'utilisateur
-    DELETE FROM users_interests WHERE id_user = utilisateurId;
-
-    SET interetList = interetsParam;
-
-    WHILE LENGTH(interetList) > 0 DO
-        SET interetId = SUBSTRING_INDEX(interetList, ',', 1);
-        IF interetId <> '' THEN
-            -- Insérer l'intérêt
-            INSERT INTO users_interests (id_users, id_interests) VALUES (utilisateurId, interetId);
-        END IF;
-
-        SET interetList = SUBSTRING(interetList, LENGTH(interetId) + 2);
-    END WHILE;
 END;
 // DELIMITER ;
 -- -----------------------------------------------------
@@ -122,10 +137,10 @@ END;
 // DELIMITER ;
 
 -- ------------------------------------------------------------------------------------------------
-----------------INTERET
+-- --------------INTERET
 -- ------------------------------------------------------------------------------------------------
 
---PROCEDURE POUR UTILISRE POUR FAIRE ROULER LE SCRIPT D'INSERTION D'INTERETS DE LA TABLE
+-- PROCEDURE POUR UTILISRE POUR FAIRE ROULER LE SCRIPT D'INSERTION D'INTERETS DE LA TABLE
 DROP PROCEDURE IF EXISTS ajouterInterets;
 DELIMITER //
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ajouterInterets`(
@@ -147,7 +162,7 @@ BEGIN
 END;
 // DELIMITER ;
 -- -----------------------------------------------------
---PROCEDURE POUR AJOUTER/MODIF INTERET DE USER
+-- PROCEDURE POUR AJOUTER/MODIF INTERET DE USER
 DROP PROCEDURE IF EXISTS add_user_interests;
 DELIMITER //
 CREATE DEFINER=`root`@`localhost` PROCEDURE `add_user_interests`(
@@ -173,7 +188,7 @@ BEGIN
 END
 // DELIMITER ;
 -- ------------------------------------------------------------------------------------------------
-----------------RENCONTRE
+-- --------------RENCONTRE
 -- ------------------------------------------------------------------------------------------------
 DROP PROCEDURE IF EXISTS creerRencontre;
 DELIMITER //

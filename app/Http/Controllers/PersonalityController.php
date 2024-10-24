@@ -28,9 +28,6 @@ class PersonalityController extends Controller
             return redirect()->back()->with('error', 'Aucune question disponible pour le test.');
         }
         //$questions = Question::with('answers')->take(10)->get();
-        if ($questions->isEmpty()) {
-            return redirect()->back()->with('error', 'Aucune question disponible pour le test.');
-        }
         return view('test_personality.questions_test', compact('questions'));
     }
     
