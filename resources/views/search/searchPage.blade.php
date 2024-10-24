@@ -115,42 +115,29 @@
                 let elem = $(this)
                 let url = new URL(window.location.href);
                 let selections = url.searchParams.get(elem.data("param"));
-                let ids = selections == null ? [] : selections.split(",");
+                let ids = selections == null ? [] : selections.split(",").map(elem=> parseInt(elem));
                 if (ids.length == 0)
                     return;
-
+            
                 $.ajax({
                     url: elem.data("url"),
                     type: "GET",
                     success: function(data) {
-                        for (let i = 0; i < data.length; i++) {
-
-                            let skip = false;
-                            elem.find(".selections").children().each(function() {
-                                if ($(this).text() == data[i][elem.data("name")]) {
-                                    skip = true;
-                                    return false;
-                                }
-                            });
-                            if (skip)
-                                continue;
-
-                            let color = "var(--category-" + data[i]["id_category"] + ")";
-                            let selection = $("<span>").attr("class", "selection tag tag_rmv hover_darker").attr("style", "background-color: " + color).text(data[i][elem.data("name")]);
+                        data.filter(obj => ids.includes(obj["id"])).forEach(obj => {
+                            
+                            let color = "var(--category-" + obj["id_category"] + ")";
+                            let selection = $("<span>").attr("class", "selection tag tag_rmv hover_darker").attr("style", "background-color: " + color).text(obj[elem.data("name")]);
                             elem.find(".selections").append(selection);
                             
                             selection.click(function() {
                                 selection.remove();
                                 let url = new URL(window.location.href);
                                 let selections_list = (url.searchParams.has(elem.data("param"))) ? url.searchParams.get(elem.data("param")) : "";
-                                url.searchParams.set(elem.data("param"), selections_list.split(",").filter(e => e != data[i]["id"]).join(","));
+                                url.searchParams.set(elem.data("param"), selections_list.split(",").filter(e => e != obj["id"]).join(","));
                                 window.history.replaceState({}, "", url);
                             });
-                        }
+                        });
                     },
-                    data: {
-                        'ids': ids
-                    }
                 });
             });
 
@@ -347,11 +334,12 @@
                         window.history.replaceState({}, "", url);
                     }
 
-                    let data = (query == "") ? [] : suggestions.filter((sugg) => sugg[filter_ctnr.data("name")].toLowerCase().startsWith(query.toLowerCase())).slice(0, 5);
+                    let selection_ids = (filter_ctnr.hasClass("search_selection") && url.searchParams.has(filter_ctnr.data("param"))) ? url.searchParams.get(filter_ctnr.data("param")).split(",").map(e => parseInt(e)) : [];
+                    let data = (query == "") ? [] : suggestions.filter((sugg) => sugg[filter_ctnr.data("name")].toLowerCase().startsWith(query.toLowerCase()) && !selection_ids.includes(sugg["id"])).slice(0, 5);
 
                     for (let i = 0; i < data.length; i++) {
 
-                        let elem = $("<span>").attr("class", "suggestion hover_darker").text(data[i][filter_ctnr.data("name")]);
+                        let elem = $("<span>").attr("class", "suggestion hover_darker no_select").text(data[i][filter_ctnr.data("name")]);
                         suggestions_ctnr.append(elem);
 
                         if (filter_ctnr.hasClass("search_selection")) {
@@ -360,7 +348,7 @@
                                     return;
 
                                 let selections = filter_ctnr.find(".selections");
-                                let selection = $("<span>").attr("class", "selection tag tag_rmv hover_darker").attr("style", "background-color: var(--category-" + data[i]["id_category"] + ")").text(data[i][filter_ctnr.data("name")]);
+                                let selection = $("<span>").attr("class", "selection no_select tag tag_rmv hover_darker").attr("style", "background-color: var(--category-" + data[i]["id_category"] + ")").text(data[i][filter_ctnr.data("name")]);
                                 selections.append(selection);
 
                                 let selections_list = (url.searchParams.has(filter_ctnr.data("param"))) ? url.searchParams.get(filter_ctnr.data("param")) : "";
@@ -375,6 +363,7 @@
                                     window.history.replaceState({}, "", url);
                                 });
 
+                                suggestions_ctnr.empty();
                                 filter_ctnr.children('input').val("");
                                 filter_ctnr.children('input').focus();
                             })
