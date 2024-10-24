@@ -81,6 +81,12 @@
     gap: 0.5em;
 }
 
+@media screen and (max-width: 600px) {
+    .header > .tag {
+        display: none;
+    }
+}
+
 .name {
     font-size: 1.5em;
     font-weight: 500;

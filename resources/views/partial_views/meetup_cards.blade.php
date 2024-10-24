@@ -14,11 +14,16 @@ foreach ($meetups as $meetup) {
     $tags = "";
 
     $meetup_interests = Meetup_Interest::where('id_meetup', $meetup->id)->get();
-    foreach ($meetup_interests as $meetup_interest) {
-        $interest = Interest::find($meetup_interest->id_interest);
-        if ($interest == null) continue;
+    $count = count($meetup_interests);
 
+    for ($i = 0; $i < $count && $i < 2; $i++) {
+        $interest = Interest::find($meetup_interests[$i]->id_interest);
+        if ($interest == null) continue;
         $tags .= '<span class="tag" style="background-color: var(--category-'. $interest->id_category .')">' . $interest->name . '</span>';
+    }
+
+    if ($count > 2) {
+        $tags .= '<span class="tag square_tag">+' . $count - 2 . '</span>';
     }
 
     srand($meetup->id);

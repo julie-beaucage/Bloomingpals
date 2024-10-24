@@ -16,19 +16,25 @@ foreach ($events as $event) {
     $tags = "";
 
     $event_categories = Event_Category::where('id_event', $event->id)->get();
-    foreach ($event_categories as $event_category) {
-        $category = Category_Interest::find($event_category->id_category);
+    $count_categories = count($event_categories);
+    
+    for ($i = 0; $i < $count_categories && $i < 2; $i++) {
+        $category = Category_Interest::find($event_categories[$i]->id_category);
         if ($category == null) continue;
-
         $tags .= '<span class="tag" style="background-color: var(--category-'. $category->id .')">' . $category->name . '</span>';
     }
 
     $event_interests = Event_Interest::where('id_event', $event->id)->get();
-    foreach ($event_interests as $event_interest) {
-        $interest = Interest::find($event_interest->id_interest);
-        if ($interest == null) continue;
+    $count_interests = count($event_interests);
 
+    for ($i = 0; $i < $count_interests && $i < 2 - $count_categories; $i++) {
+        $interest = Interest::find($event_interests[$i]->id_interest);
+        if ($interest == null) continue;
         $tags .= '<span class="tag" style="background-color: var(--category-'. $interest->id_category .')">' . $interest->name . '</span>';
+    }
+
+    if ($count_categories + $count_interests > 2) {
+        $tags .= '<span class="tag square_tag">+' . $count_categories + $count_interests - 2 . '</span>';
     }
 
     echo <<< HTML

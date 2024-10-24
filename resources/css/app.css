@@ -383,10 +383,14 @@ a {
     display: flex;
     padding: 0.25em 0.75em;
     border-radius: 0.75em;
-    background-color: var(--accent-400);
+    background-color: var(--neutral-400);
     font-weight: 500;
     color: var(--white);
     white-space: nowrap;
+}
+
+.square_tag {
+    padding: 0.25em 0.5em;
 }
 
 .btn_primary {

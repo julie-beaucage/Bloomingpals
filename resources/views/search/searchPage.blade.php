@@ -99,10 +99,13 @@
     <script>
         $(document).ready(function() {
 
+            // Initialization
             let last_data = "";
             let curr_page = 1;
             let url = new URL(window.location.href);
             let section = url.searchParams.get("section");
+            let last_params = null;
+
             if (section == null) {
                 url.searchParams.set("section", "meetups");
                 window.history.replaceState({}, "", url);
@@ -161,8 +164,13 @@
             
             goTo(1, true);
 
+            // Functions
             function goTo(page, refresh = false) {
+
                 let url = new URL(window.location.href);
+                if (refresh && last_params == url.searchParams.toString()) return;
+                last_params = url.searchParams.toString()
+
                 let section = url.searchParams.get("section");
                 let query = url.searchParams.get("query");
                 let city = url.searchParams.get("city");
@@ -250,27 +258,22 @@
             });
 
             $("#search_field").keydown(function(e) {
-                if (e.keyCode == 13) {
-                    goTo(1, true);
-                }
+                if (e.keyCode != 13) return;
+                goTo(1, true);
             });
 
-            let isSearching = false;
+            let timeout = null;
             $("#search_field").keyup(function() {
+                clearTimeout(timeout);
+
                 let query = $(this).val();
                 let url = new URL(window.location.href);
                 url.searchParams.set("query", query);
                 window.history.replaceState({}, "", url);
 
-                if (isSearching)
-                    return;
-
-                isSearching = true;
-                $("#result").delay(250).queue(function() {
+                timeout = setTimeout(function() {
                     goTo(1, true);
-                    isSearching = false;
-                    $(this).dequeue();
-                });
+                }, 350);
             });
 
             $("#filter_btn").click(function() {
