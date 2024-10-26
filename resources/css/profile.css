@@ -54,7 +54,7 @@ body {
     flex-direction: column;
     overflow-y: auto;
     overflow-x: hidden;
-    padding: 20em 2em 0em 2em;
+    padding: 14em 2em 0em 2em;
 }
 
 @media only screen and (max-width: calc(600px)) {
@@ -165,7 +165,6 @@ body {
 }
 
 .nav-tabs {
-    margin-top: 2em; 
     border-bottom: 0.0625em solid #801111; 
     padding-left: 1.875em; 
     align-items: center;

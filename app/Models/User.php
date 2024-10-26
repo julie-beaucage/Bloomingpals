@@ -24,6 +24,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return !is_null($this->email_verified_at);
     }
+
     public function getUserPersonality($userId)
     {
         return DB::table('users')
@@ -92,4 +93,30 @@ class User extends Authenticatable implements MustVerifyEmail
         $affinity = $points / count($user_interests) / 3;
         return $affinity;
     }
+    public function calculateAffinity($otherUserId) {
+        // 1. Calculer l'affinité de personnalité
+        $userPersonality = $this->getUserPersonality($this->id);
+        $otherUserPersonality = $this->getUserPersonality($otherUserId);
+    
+        $personalityAffinity = 0;
+        if ($userPersonality && $otherUserPersonality) {
+            if ($userPersonality->type === $otherUserPersonality->type) {
+                $personalityAffinity = 1.0; // 100%
+            } elseif ($userPersonality->group_name === $otherUserPersonality->group_name) {
+                $personalityAffinity = 0.5; // 50%
+            }
+        }
+    
+        $otherUserInterests = DB::table('users_interests')
+            ->where('id_user', $otherUserId)
+            ->pluck('id_interest')
+            ->toArray();
+    
+        $interestAffinity = $this->affinity($otherUserInterests);
+    
+        $finalAffinity = ($personalityAffinity * 0.5 + $interestAffinity * 0.5) * 100;
+    
+        return round($finalAffinity, 2) . '%';
+    }
+    
 }

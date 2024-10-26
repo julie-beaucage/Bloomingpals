@@ -10,6 +10,7 @@ use Illuminate\Database\QueryException;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
+use App\Models\User_Interest;
 
 class UsersController extends Controller
 {
@@ -111,7 +112,7 @@ class UsersController extends Controller
         $request->session()->regenerateToken();
         return redirect('/login');
     }
-
+/*
     public function profile($id) {
         $user = User::find($id);
         if (!$user) {
@@ -119,7 +120,33 @@ class UsersController extends Controller
         }
         return view('profile.profile', compact('user'));
 
+    }*/
+    public function profile($id)
+{
+    $user = User::find($id);
+    
+    if (!$user) {
+        return redirect()->route('/login')->with('error', 'Utilisateur non trouvé.');
     }
+    $profileCompletion = 0;
+    if ($user->hasVerifiedEmail()) {
+        $profileCompletion += 1;
+    }
+    $interetsUtilisateurTab = User_Interest::getInteretsParUtilisateurTab($id); 
+    if (count($interetsUtilisateurTab) > 0) {
+        $profileCompletion += 1;
+    }
+    
+    if ($user->personality) {
+        $profileCompletion += 1;
+    }
+    $profileCompletionPercentage = ($profileCompletion / 3) * 100;
+    $profileCompletionPercentage = round($profileCompletionPercentage); 
+
+
+    return view('profile.profile', compact('user', 'profileCompletionPercentage'));
+}
+
 
     public function update(Request $request)
     {
