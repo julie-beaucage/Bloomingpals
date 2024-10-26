@@ -135,7 +135,7 @@ CALL ajouterInterets('Peinture', 6);
 CALL ajouterInterets('Sculpture', 6);
 CALL ajouterInterets('Photographie', 6);
 CALL ajouterInterets('Danse contemporaine', 6);
-CALL ajouterInterets('Expositions d\'art', 6);
+CALL ajouterInterets('Expositions d\art', 6);
 CALL ajouterInterets('Arts visuels', 6);
 CALL ajouterInterets('Théâtre', 6);
 CALL ajouterInterets('Arts du spectacle', 6);

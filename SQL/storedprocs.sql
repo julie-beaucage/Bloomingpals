@@ -1,11 +1,42 @@
 USE BloomingPals;
 
 -- ------------------------------------------------------------------------------------------------
-----------------UTILISATEUR
+-- --------------Test Personalité
+-- ------------------------------------------------------------------------------------------------
+DROP PROCEDURE IF EXISTS update_user_personality;
+DELIMITER //
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_user_personality`(
+IN p_user_id INT, 
+IN p_type VARCHAR(4))
+BEGIN
+DECLARE id_type INT;
+DECLARE nb_type INT;
+DECLARE nb_user INT;
+
+    SELECT COUNT(*) INTO nb_type FROM personalities WHERE type = p_type;
+    SELECT COUNT(*) INTO nb_user FROM users WHERE id = p_user_id;
+	
+    SELECT id INTO id_type 
+    FROM personalities 
+    WHERE type = p_type;
+    
+    IF nb_type = 0 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Type de personalité non valide.';
+    ELSEIF nb_user = 0 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Usager non valide';
+        	ELSE
+		UPDATE users SET personality = id_type
+		WHERE id = p_user_id;
+	END IF;
+        
+END
+DELIMITER //
+-- ------------------------------------------------------------------------------------------------
+-- --------------UTILISATEUR
 -- ------------------------------------------------------------------------------------------------
 DROP PROCEDURE IF EXISTS creerUsager;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE creerUsager(
+CREATE DEFINER=`root`@`localhost` PROCEDURE `creerUsager`(
     IN p_courriel VARCHAR(255),
     IN p_nom VARCHAR(50),
     IN p_prenom VARCHAR(50),
@@ -21,12 +52,12 @@ BEGIN
     IF nb_courriel != 0 THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Le courriel existe déjà.';
     ELSE
-        INSERT INTO users (email, last_name, first_name, birthdate, type_personality, password, gender)
-        VALUES (p_courriel, p_nom, p_prenom, p_date_naissance, 1, p_password, p_sex);
+        INSERT INTO users (email, last_name, first_name, birthdate, password, gender)
+        VALUES (p_courriel, p_nom, p_prenom, p_date_naissance, p_password, p_sex);
     END IF;
 END
 // DELIMITER ;
----------------------------------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
 DROP PROCEDURE IF EXISTS updateUserProfile;
 DELIMITER //
 CREATE DEFINER=`root`@`localhost` PROCEDURE updateUserProfile(IN p_user_id INT,
@@ -47,51 +78,69 @@ BEGIN
     WHERE id = p_user_id;
 END;
 // DELIMITER ;
+-- -----------------------------------------------------
 
-
--- ------------------------------------------------------------------------------------------------
-----------------EVENEMENTS
--- ------------------------------------------------------------------------------------------------
-DROP PROCEDURE IF EXISTS ajouterEvenement;
-
+-- Evenement ------------------------------------------------
+DROP PROCEDURE IF EXISTS addEvent;
 DELIMITER //
-CREATE PROCEDURE ajouterEvenement (p_nom VARCHAR(100), p_description VARCHAR(1024), p_category VARCHAR(50), p_ville VARCHAR(100), p_adresse VARCHAR(100), p_date datetime, p_prix varchar(20), p_image varchar(2048))
+CREATE PROCEDURE addEvent (p_name VARCHAR(100), p_description VARCHAR(1024), p_category VARCHAR(50), p_city VARCHAR(100), p_adress VARCHAR(100), p_date datetime, p_price varchar(20), p_image varchar(2048))
 BEGIN
-	DECLARE id_tag_inserted INT;
-    DECLARE id_evenement_inserted INT;
+	DECLARE id_category_inserted INT;
+    DECLARE id_event_inserted INT;
     
 	START TRANSACTION;
-	SELECT id INTO id_tag_inserted FROM tags WHERE name = p_category;
-	IF id_tag_inserted IS NULL THEN
-		INSERT IGNORE INTO tags (name) 
+	SELECT id INTO id_category_inserted FROM categories_interests WHERE `name` = p_category;
+	IF id_category_inserted IS NULL THEN
+		INSERT IGNORE INTO categories_interests (`name`) 
 		VALUES (p_category);
 	
-		SELECT last_insert_id() INTO id_tag_inserted;
+		SELECT last_insert_id() INTO id_category_inserted;
 	END IF;
 	
-	SELECT id INTO id_evenement_inserted FROM events WHERE name = p_nom AND city = p_ville AND adress = p_adresse AND `date` = p_date;
-	IF id_evenement_inserted IS NULL THEN
-		INSERT IGNORE INTO events (name, `description`, city, adress, `date`, price, image) 
-		VALUES (p_nom, p_description, p_ville, p_adresse, p_date, p_prix, p_image);
+	SELECT id INTO id_event_inserted FROM events WHERE `name` = p_name AND city = p_city AND adress = p_adress AND `date` = p_date;
+	IF id_event_inserted IS NULL THEN
+		INSERT IGNORE INTO events (`name`, `description`, city, adress, `date`, price, image) 
+		VALUES (p_name, p_description, p_city, p_adress, p_date, p_price, p_image);
 		
-		SELECT last_insert_id() INTO id_evenement_inserted;
+		SELECT last_insert_id() INTO id_event_inserted;
 	ELSE
 		UPDATE events
-		SET name = p_nom, `description`= p_description, city = p_ville, adress = p_adresse, `date` = p_date, price = p_prix, image = p_image 
-		WHERE id = id_evenement_inserted;
+		SET `name` = p_name, `description`= p_description, city = p_city, adress = p_adress, `date` = p_date, price = p_price, image = p_image 
+		WHERE id = id_event_inserted;
 	END IF;
 
-	INSERT IGNORE INTO tags_events (id_tag, id_event)
-	VALUES (id_tag_inserted, id_evenement_inserted);
+	INSERT IGNORE INTO events_categories (id_category, id_event)
+	VALUES (id_category_inserted, id_event_inserted);
+    COMMIT;
+END;
+// DELIMITER ;
+
+DROP PROCEDURE IF EXISTS addEventInterests;
+DELIMITER //
+CREATE PROCEDURE addEventInterests (p_id_event INT, p_interest VARCHAR(50))
+BEGIN
+	DECLARE id_interest_inserted INT;
+    
+	START TRANSACTION;
+	SELECT id INTO id_interest_inserted FROM interests WHERE `name` = p_interest;
+	IF id_interest_inserted IS NULL THEN
+		INSERT IGNORE INTO interests (`name`) 
+		VALUES (p_interest);
+	
+		SELECT last_insert_id() INTO id_interest_inserted;
+	END IF;
+
+	INSERT IGNORE INTO events_interests (id_interest, id_event)
+	VALUES (id_interest_inserted, p_id_event);
     COMMIT;
 END;
 // DELIMITER ;
 
 -- ------------------------------------------------------------------------------------------------
-----------------INTERET
+-- --------------INTERET
 -- ------------------------------------------------------------------------------------------------
 
---PROCEDURE POUR UTILISRE POUR FAIRE ROULER LE SCRIPT D'INSERTION D'INTERETS DE LA TABLE
+-- PROCEDURE POUR UTILISRE POUR FAIRE ROULER LE SCRIPT D'INSERTION D'INTERETS DE LA TABLE
 DROP PROCEDURE IF EXISTS ajouterInterets;
 DELIMITER //
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ajouterInterets`(
@@ -113,7 +162,7 @@ BEGIN
 END;
 // DELIMITER ;
 -- -----------------------------------------------------
---PROCEDURE POUR AJOUTER/MODIF INTERET DE USER
+-- PROCEDURE POUR AJOUTER/MODIF INTERET DE USER
 DROP PROCEDURE IF EXISTS add_user_interests;
 DELIMITER //
 CREATE DEFINER=`root`@`localhost` PROCEDURE `add_user_interests`(
@@ -139,7 +188,7 @@ BEGIN
 END
 // DELIMITER ;
 -- ------------------------------------------------------------------------------------------------
-----------------RENCONTRE
+-- --------------RENCONTRE
 -- ------------------------------------------------------------------------------------------------
 DROP PROCEDURE IF EXISTS creerRencontre;
 DELIMITER //
