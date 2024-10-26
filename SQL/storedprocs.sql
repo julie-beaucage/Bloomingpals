@@ -4,6 +4,29 @@ USE BloomingPals;
 -- ------------------------------------------------------------------------------------------------
 -- --------------Test Personalité
 -- ------------------------------------------------------------------------------------------------
+DROP PROCEDURE IF EXISTS insertTablePersonality;
+DELIMITER //
+CREATE DEFINER=`root`@`localhost` PROCEDURE insertTablePersonality(
+    IN p_group_perso INT,
+    IN p_type VARCHAR(4),
+    IN p_name VARCHAR(50),
+    IN p_nameDescription TEXT
+)
+BEGIN
+    DECLARE type_exists INT;
+    SELECT COUNT(*) INTO type_exists 
+    FROM personalities 
+    WHERE type = p_type;
+    IF type_exists > 0 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Type de personnalité existe déjà.';
+    ELSE
+        INSERT INTO personalities (group_perso, type, name, nameDescription) 
+        VALUES (p_group_perso, p_type, p_name, p_nameDescription);
+    END IF;
+END //
+DELIMITER ;
+
+
 DROP PROCEDURE IF EXISTS update_user_personality;
 DELIMITER //
 CREATE DEFINER=`root`@`localhost` PROCEDURE `update_user_personality`(

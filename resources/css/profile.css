@@ -1,5 +1,5 @@
 
-.personality.analystes {
+.analystes {
    --personality-color: #c3b0cd !important;
    --personality-color-pale: #decee7 !important;
    --personality-text-color: #6c4d7b !important;
@@ -7,7 +7,7 @@
    --personality-text-color-button: #ffffff !important;
 }
 
-.personality.diplomates {
+.diplomates {
    --personality-color:  #b1f2d7 !important;
    --personality-color-pale: #d6ece3 !important;
    --personality-text-color: #277d58 !important;
@@ -15,7 +15,7 @@
    --personality-text-color-button: #ffffff !important;
 }
 
-.personality.sentinelles {
+.sentinelles {
    --personality-color: #a7d6e6 !important;
    --personality-color-pale: #cce4ec !important;
    --personality-text-color: #347990 !important;
@@ -23,7 +23,7 @@
    --personality-text-color-button: #ffffff !important;
 }
 
-.personality.explorateurs {
+.explorateurs {
    --personality-color: #f4e27b !important;
    --personality-color-pale: #eee4a7!important;
    --personality-text-color: #e4ae3a !important;
