@@ -48,14 +48,17 @@
         HTML;
     } else {
 
-        if ($userRequested == "notJoining") {
+        if ($userRequested == "joining") {
+            $routing = route('cancelJoiningMeetup', ['meetupId' => $meetupData->id]);
             $actionButtonHtml = <<<HTML
-                <div class="grey_button no_select">
-                    En attente
-                </div>
+                <a href="{$routing}">
+                    <div class="red_button no_select">
+                        Annuler
+                    </div>
+                </a>
             HTML;
-        } else if ($userRequested == "joining") {
-            $routing = route('joinMeetup', ['meetupId' => $meetupData->id, "userId" => $currentUser->id]);
+        } else if ($userRequested == "notJoining") {
+            $routing = route('joinMeetup', ['meetupId' => $meetupData->id]);
             $actionButtonHtml = <<<HTML
                 <a href="{$routing}">
                     <div class="blue_button no_select">

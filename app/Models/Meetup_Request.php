@@ -10,6 +10,8 @@ class Meetup_Request extends Model
     protected $table= 'meetups_requests';
 
     public $timestamps = false;
+
+    protected $fillable = ['id_meetup', 'id_user', 'state'];
     public static function GetMeetupRequestsNotAnswerd($meetupId) {
         $users = [];
         $requests = Meetup_Request::where("id_meetup", $meetupId)->where("state", "Sent")->get();
@@ -45,18 +47,25 @@ class Meetup_Request extends Model
 
         $requests = Meetup_Request::where("id_meetup", $meetupId)->where("id_user", $userId);
         if ($requests->count() > 0) {
-            if ($requests->get()->state == "")
-            return "joining";
+            if ($requests->get()->first()->state == "Sent") {
+                return "joining";
+            } else if ($requests->get()->first()->state == "Accepted") {
+                return "accepted";
+            } else if ($requests->get()->first()->state == "Refused") {
+                return "refused";
+            }
         }
-        if (Meetup_Request::where("id_meetup", $meetupId)->where("id_user", $userId)->where("state", "Refused"))
         return "notJoining";
+    }
+    public static function CancelJoining($userId, $meetupId) {
+        Meetup_Request::where("id_meetup", $meetupId)->where("id_user", $userId)->delete();
     }
 
 
     public static function AddMeetupRequest($userId, $meetupId) 
     {
         if (!Meetup_Request::IsInRequest($userId, $meetupId)) {
-            $demandeRecontre = new Meetup_Request();
+            $demandeRecontre = new Meetup_Request;
             $demandeRecontre->id_user = $userId;
             $demandeRecontre->id_meetup = $meetupId;
             $demandeRecontre->state = 'Sent';

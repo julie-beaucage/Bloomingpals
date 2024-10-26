@@ -330,6 +330,8 @@ class MeetupController extends BaseController
     public function LeaveMeetup($meetupId) {
         $meetupData = Meetup::where("id", $meetupId)->get()[0];
         Meetup_User::DeleteParticipant(Auth::user()->id, $meetupId);
+        Meetup_Request::CancelJoining(Auth::user()->id, $meetupId);
+
         
         return $this->MeetupPage($meetupId);
     }
@@ -352,7 +354,10 @@ class MeetupController extends BaseController
         /*join if public*/
         $meetupData = Meetup::where("id", $meetupId)->get()[0];
         if ($meetupData->public) {
-            Meetup_Request::AddMeetupRequest($meetupId, $userId);
+            Meetup_Request::AddMeetupRequest($userId, $meetupId);
+            return $this->MeetupPage($meetupId);
+        } else {
+            Meetup_Request::AddMeetupRequest($userId, $meetupId);
             return $this->MeetupPage($meetupId);
         }
     }
@@ -373,6 +378,15 @@ class MeetupController extends BaseController
         return view("meetups.meetupPage", ['meetupData' => $meetupData, "meetupTagsData" => $meetupTags, 
             "organisatorData" => $organisator, "participantsData" => $participants, 
             "requestsParticipantsCount" => $GetRequestMeetupCount, "userRequested" => $joining]);
+    }
+    public function CancelJoiningMeetup($meetupId) {
+        $joining = Meetup_Request::IsUserRequesting(Auth::user()->id, $meetupId);
+        if ($joining == "joining") {
+            Meetup_Request::CancelJoining(Auth::user()->id, $meetupId);
+            return $this->MeetupPage($meetupId);
+        } else {
+            return $this->MeetupPage($meetupId);
+        }
     }
 
     public function MeetupRequests($meetupId) {
