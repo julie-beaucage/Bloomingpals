@@ -121,6 +121,7 @@ class UsersController extends Controller
         return view('profile.profile', compact('user'));
 
     }*/
+    /*
     public function profile($id)
 {
     $user = User::find($id);
@@ -145,6 +146,35 @@ class UsersController extends Controller
 
 
     return view('profile.profile', compact('user', 'profileCompletionPercentage'));
+}*/
+public function profile($id)
+{
+    $user = User::find($id);
+    
+    if (!$user) {
+        return redirect()->route('/login')->with('error', 'Utilisateur non trouvé.');
+    }
+
+    $profileCompletion = 0;
+    $emailVerified = $user->hasVerifiedEmail();
+    $interetsUtilisateurTab = User_Interest::getInteretsParUtilisateurTab($id); 
+    $interestsSelected = count($interetsUtilisateurTab) > 0;
+    $personalityTestDone = $user->personality != null;
+
+    if ($emailVerified) {
+        $profileCompletion += 1;
+    }
+    if ($interestsSelected) {
+        $profileCompletion += 1;
+    }
+    if ($personalityTestDone) {
+        $profileCompletion += 1;
+    }
+
+    $profileCompletionPercentage = ($profileCompletion / 3) * 100;
+    $profileCompletionPercentage = round($profileCompletionPercentage); 
+
+    return view('profile.profile', compact('user', 'profileCompletionPercentage', 'emailVerified', 'interestsSelected', 'personalityTestDone'));
 }
 
 

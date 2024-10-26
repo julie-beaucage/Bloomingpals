@@ -38,6 +38,7 @@
 
             @if ($profileCompletionPercentage < 100)
                 <div class="alert alert-warning mt-3">
+                <h5>Vérification du profil :</h5>
                     Complétez votre profil pour pouvoir bloomer de nouvelles relations avec des Pals !
                     <div class="progress mt-4" style="height: 20px;">
                         <div class="progress-bar bg-success" role="progressbar"
@@ -46,9 +47,37 @@
                             {{ $profileCompletionPercentage}}% complété
                         </div>
                     </div>
+                    <div class="profile-checklist mt-3">
+                <ul>
+                    <li>
+                        Courriel validé: 
+                        @if (Auth::user()->$emailVerified)
+                            <i class="fas fa-check-circle" style="color: green;"></i>
+                        @else
+                            <i class="fas fa-times-circle" style="color: red;"></i>
+                        @endif
+                    </li>
+                    <li>
+                        Sélectionner des intérêts: 
+                        @if ($interestsSelected)
+                            <i class="fas fa-check-circle" style="color: green;"></i>
+                        @else
+                            <i class="fas fa-times-circle" style="color: red;"></i>
+                        @endif
+                    </li>
+                    <li>
+                        Faire le test de personnalité: 
+                        @if ($personalityTestDone)
+                            <i class="fas fa-check-circle" style="color: green;"></i>
+                        @else
+                            <i class="fas fa-times-circle" style="color: red;"></i>
+                        @endif
+                    </li>
+                </ul>
+            </div>
                 </div>
+                
             @endif
-
         @endif
 
         <div class="containerOnglerMain">
