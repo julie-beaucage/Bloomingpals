@@ -352,12 +352,8 @@ class MeetupController extends BaseController
         /*join if public*/
         $meetupData = Meetup::where("id", $meetupId)->get()[0];
         if ($meetupData->public) {
-            if (!Meetup_User::IsInRencontre($meetupId, $userId)) {
-                Meetup_User::AddParticipant($userId, $meetupId);
-                return $this->MeetupPage($meetupId);
-            } else {
-                return $this->MeetupPage($meetupId);
-            }
+            Meetup_Request::AddMeetupRequest($meetupId, $userId);
+            return $this->MeetupPage($meetupId);
         }
     }
     public function MeetupPage($meetupId) {
@@ -367,6 +363,7 @@ class MeetupController extends BaseController
         $organisator = Meetup::GetOrganisator($meetupId);
         $participants = Meetup::GetParticipants($meetupId);
         $GetRequestMeetupCount = Meetup_Request::GetMeetupRequestsNotAnswerdCount($meetupId);
+        $joining = Meetup_Request::IsUserRequesting(Auth::user()->id, $meetupId);
 
         /** a faire: 
          * -s'assurer que le client peut y accéder car il doit être amis si l'événement est priver
@@ -375,7 +372,7 @@ class MeetupController extends BaseController
 
         return view("meetups.meetupPage", ['meetupData' => $meetupData, "meetupTagsData" => $meetupTags, 
             "organisatorData" => $organisator, "participantsData" => $participants, 
-            "requestsParticipantsCount" => $GetRequestMeetupCount]);
+            "requestsParticipantsCount" => $GetRequestMeetupCount, "userRequested" => $joining]);
     }
 
     public function MeetupRequests($meetupId) {

@@ -35,7 +35,7 @@ class Meetup extends Model
         $participants = Meetup_User::where("id_meetup", $meetupId)->get();
         if ($participants->count() > 0) {
             foreach ($participants as $recontre_utilisateur) {
-                $user = User::where("id", $recontre_utilisateur->id_utilisateur)->get()[0];
+                $user = User::where("id", $recontre_utilisateur->id_user)->get()[0];
                 array_push($users, $user);
             }
         }

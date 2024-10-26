@@ -13,8 +13,8 @@ class Meetup_User extends Model
     {
         if (!Meetup_User::IsInRencontre($meetupId, $userId)) {
             $rencontreUtilisateur = new Meetup_User();
-            $rencontreUtilisateur->id_rencontre  = $meetupId;
-            $rencontreUtilisateur->id_utilisateur = $userId;
+            $rencontreUtilisateur->id_meetup = $meetupId;
+            $rencontreUtilisateur->id_user = $userId;
             $rencontreUtilisateur->save();
         }
     }

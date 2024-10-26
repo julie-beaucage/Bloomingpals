@@ -47,49 +47,14 @@
                 </div>
         HTML;
     } else {
-        $isCurrentUserParticipant = false;
-        if ($participantCount != 0) {
-            foreach ($participantsData as $participantData) {
-                //if it is the participant
-                if ($participantData->id == $currentUser->id) {
-                    $routing = route('leaveMeetup', ['meetupId' => $meetupData->id]);
-                    $actionButtonHtml = <<<HTML
-                        <a href="{$routing}">
-                            <div class="blue_button no_select">
-                                Quitter
-                            </div>
-                        </a>
-                    HTML;
-                    $isCurrentUserParticipant = true;
-                }
 
-                //Get organisator image
-                $imageParticipantHtml = "";
-                if (isset($participantData->image_profil)) {
-                    $imageParticipantHtml = <<<HTML
-                        <div class="profile_icon no_select" style="background-image: url({$participantData->image_profil})">
-                                    
-                        </div>
-                    HTML;
-                } else {
-                    $imageParticipantHtml = <<<HTML
-                        <div class="profile_icon no_select" style="background-image: url(https://img.freepik.com/photos-gratuite/beaute-abstraite-automne-dans-motif-veines-feuilles-multicolores-genere-par-ia_188544-9871.jpg)">
-                                    
-                        </div>
-                    HTML;
-                }
-                $participantHtml .= <<<HTML
-                    <div class="organisator_profile">
-                        $imageParticipantHtml
-                        <div class="username_container">
-                            <div>{$participantData->prenom}</div>
-                            <div class="grey_text">{$participantData->nom}</div>
-                        </div>
-                    </div>
-                HTML;
-            }
-        }
-        if (!$isCurrentUserParticipant) {
+        if ($userRequested == "notJoining") {
+            $actionButtonHtml = <<<HTML
+                <div class="grey_button no_select">
+                    En attente
+                </div>
+            HTML;
+        } else if ($userRequested == "joining") {
             $routing = route('joinMeetup', ['meetupId' => $meetupData->id, "userId" => $currentUser->id]);
             $actionButtonHtml = <<<HTML
                 <a href="{$routing}">
@@ -97,6 +62,60 @@
                         Rejoindre
                     </div>
                 </a>
+            HTML;
+        } else if ($userRequested == "refused") {
+            $actionButtonHtml = <<<HTML
+                <div class="grey_button no_select">
+                    Vous avez été refusé
+                </div>
+            HTML;
+        }
+    }
+
+    if ($participantCount != 0) {
+        foreach ($participantsData as $participantData) {
+            //if it is the participant
+            if ($participantData->id == $currentUser->id) {
+                $routing = route('leaveMeetup', ['meetupId' => $meetupData->id]);
+                $actionButtonHtml = <<<HTML
+                    <a href="{$routing}">
+                        <div class="blue_button no_select">
+                            Quitter
+                        </div>
+                    </a>
+                HTML;
+                $isCurrentUserParticipant = true;
+            }
+    
+            //Get organisator image
+            $imageParticipantHtml = "";
+            $participantRoute = route("profile", ["id" => $participantData->id]);
+
+            if (isset($participantData->image_profil)) {
+                $imageParticipantHtml = <<<HTML
+                    <a href="$participantRoute">
+                        <div class="profile_icon no_select" style="background-image: url({$participantData->image_profil})">
+                                    
+                        </div>
+                    </a>
+                HTML;
+            } else {
+                $imageParticipantHtml = <<<HTML
+                    <a href="$participantRoute">
+                        <div class="profile_icon no_select" style="background-image: url(https://img.freepik.com/photos-gratuite/beaute-abstraite-automne-dans-motif-veines-feuilles-multicolores-genere-par-ia_188544-9871.jpg)">
+                                
+                        </div>
+                    </a>
+                HTML;
+            }
+            $participantHtml .= <<<HTML
+                <div class="organisator_profile">
+                    $imageParticipantHtml
+                    <div class="username_container">
+                        <div>{$participantData->first_name} {$participantData->last_name}</div>
+                        <div class="grey_text"><!--afinité a faire--></div>
+                    </div>
+                </div>
             HTML;
         }
     }
@@ -140,7 +159,6 @@
 
 @section("content")
     <?php
-    //$routing = route('meetupPage', ['meetupId' => $meetupData->id]);
 
     $html = <<<HTML
         <div class="meetupImageContainer">
@@ -164,14 +182,12 @@
                     <div class="organisator_profile">
                         $imageUtilisateurHtml
                         <div class="username_container">
-                            <div class="title5">{$organisatorData->prenom} {$organisatorData->nom}</div>
+                            <div class="title5">{$organisatorData->first_name} {$organisatorData->last_name}</div>
                             <div class="grey_text"><!--afinité a faire--></div>
                         </div>
                     </div>
                     <div>
-                        <a href="">
-                            $actionButtonHtml
-                        </a>
+                        $actionButtonHtml
                     </div>
                 </div>
             </div>

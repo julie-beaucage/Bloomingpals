@@ -38,17 +38,28 @@ class Meetup_Request extends Model
     }
     public static function GetRequest($userId, $meetupId) {
         return Meetup_Request::where("id_meetup", $meetupId)
-            ->where("id_user", $userId)->get()[0];
+            ->where("id_user", $userId)->get()->first();
+    }
+
+    public static function IsUserRequesting($userId, $meetupId) {
+
+        $requests = Meetup_Request::where("id_meetup", $meetupId)->where("id_user", $userId);
+        if ($requests->count() > 0) {
+            if ($requests->get()->state == "")
+            return "joining";
+        }
+        if (Meetup_Request::where("id_meetup", $meetupId)->where("id_user", $userId)->where("state", "Refused"))
+        return "notJoining";
     }
 
 
     public static function AddMeetupRequest($userId, $meetupId) 
     {
         if (!Meetup_Request::IsInRequest($userId, $meetupId)) {
-            $demandeRecontre = new Meetup_User();
+            $demandeRecontre = new Meetup_Request();
             $demandeRecontre->id_user = $userId;
-            $demandeRecontre->id_rencontre = $meetupId;
-            $demandeRecontre->etat = 'Sent';
+            $demandeRecontre->id_meetup = $meetupId;
+            $demandeRecontre->state = 'Sent';
             $demandeRecontre->save();
         }
     }
