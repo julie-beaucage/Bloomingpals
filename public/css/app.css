@@ -7,6 +7,7 @@
 
     --neutral-50: #f5f5f5;
     --neutral-100: #ebebeb;
+    --neutral-150: #e2e2e2;
     --neutral-200: #d9d9d9;
     --neutral-300: #c7c7c7;
     --neutral-400: #b5b5b5;
@@ -369,21 +370,20 @@ a {
     color: var(--white);
 }
 
-.btn_primary {
-    background-color: var(--primary-400);
+.btn-primary {
     color: var(--white);
     border: none;
-    border-radius: 0.8em;
+    border-radius: 0.25em;
     padding: 0.5em 1em;
     font-size: 1em;
     font-weight: 600;
     cursor: pointer;
     width: -moz-fit-content;
-    width: fit-content;
+    text-align: center;
 }
 
-.btn_primary:hover {
-    filter: brightness(1.1);
+.btn-primary:hover {
+    filter: brightness(0.9);
 }
 .grey_text {
     color: rgb(168, 168, 168);
@@ -433,4 +433,7 @@ a {
         left: 1.9em;
         
     }
+}
+.cursor{
+    cursor: pointer;
 }

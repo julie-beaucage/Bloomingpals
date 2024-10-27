@@ -10,6 +10,9 @@ class Meetup extends Model
     protected $table= 'meetups';
 
     public $timestamps = false;
+      public function __construct(array $attributes = [""]){
+           
+    }
     
     /**
      * /

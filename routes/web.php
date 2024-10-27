@@ -61,12 +61,15 @@ Route::middleware('auth')->group(function () {
     
 
     // Meetup
-    Route::get('/meetupForm', [MeetupController::class, 'Form']);
-    Route::get('/meetupForm/{id}', [MeetupController::class, 'Form'])->name('meetupForm');
+   
     Route::post('/meetup/create', [MeetupController::class, 'create']);
+    Route::post('/meetup/create/{isEvent}', [MeetupController::class, 'create']);
     Route::post('/meetup/edit/{id}', [MeetupController::class, 'edit'])->where('id', '[0-9]+');
     Route::get('/meetup', [MeetupController::class, 'index'])->name('meetup');
     Route::get('/meetup/delete/{id}', [MeetupController::class, 'delete'])->where('id', '[0-9]+');
+    Route::get('/meetup/form',[MeetupController::class, 'Form']);
+    Route::get('/meetup/form/{id}', [MeetupController::class, 'Form']);
+    Route::get('/meetup/form/{id}/{isEvent}', [MeetupController::class, 'Form']);
 
 
     Route::get('/meetup/page/{meetupId}', [MeetupController::class, 'MeetupPage'])->name('meetupPage');

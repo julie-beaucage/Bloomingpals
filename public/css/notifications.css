@@ -145,7 +145,6 @@
 .container-notif::-webkit-scrollbar {
     width: .9rem;
   }
-
 .header-notif{
     display: flex;
     justify-content: space-between;
