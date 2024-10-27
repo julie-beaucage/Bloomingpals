@@ -20,7 +20,7 @@ INSERT INTO meetups(name, description, id_owner, adress, date, nb_participant, p
 
 
 INSERT INTO meetups_requests (id_user, id_meetup) VALUES (2, 1);
-select * from categories_interests;
+
 -- Interets --
 INSERT INTO categories_interests (name) VALUES 
 ('Sport'),

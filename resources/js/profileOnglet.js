@@ -57,13 +57,19 @@ document.addEventListener('DOMContentLoaded', function () {
             .catch(error => console.error('Erreur lors du chargement de la section:', error));
     }
 
-    $(document).on("click", "#openOverlay", function () {
+   /* $(document).on("click", "#openOverlay", function () {
         console.log("Bouton Modifier cliqué.");
         $("#overlay").css("display", "block"); 
+    });*/
+    $(document).on("click", "#openProfileOverlay", function () {
+        $("#overlayProfile").css("display", "block"); // Ouvre l'overlay pour le profil
     });
-
+    
+    $(document).on("click", "#openInterestOverlay", function () {
+        $("#overlayInterests").css("display", "block"); // Ouvre l'overlay pour les intérêts
+    });
+    
     $(document).on("click", ".closeOverlayBtn", function () {
-        console.log("Fermeture de l'overlay.");
         $("#overlay").css("display", "none"); 
     });
 

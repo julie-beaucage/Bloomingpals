@@ -1,4 +1,4 @@
-<div class="interet-overlay" id="overlay" style="display: none;">
+<div class="interet-overlay" id="overlayInterests" style="display: none;">
         <div class="interet-modal">
             <h3 class="titreModalInteret">Modifier vos intérêts :</h3>
             <button class="close-button-interet"

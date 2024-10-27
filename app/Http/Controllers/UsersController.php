@@ -148,7 +148,8 @@ class UsersController extends Controller
     return view('profile.profile', compact('user', 'profileCompletionPercentage'));
 }*/
 public function profile($id)
-{
+{    \Log::info("Appel du contrôleur profile pour l'utilisateur avec ID: " . $id);
+
     $user = User::find($id);
     
     if (!$user) {

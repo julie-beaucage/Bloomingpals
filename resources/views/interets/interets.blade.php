@@ -12,12 +12,12 @@
 
 <body>
     <div class="containerInteretOnglet">
-    @if ($user->id == Auth::user()->id)
-        <div class="buttonOverlayContainerInteret">
-            <button class="buttonDetail btn btn-primary" id="openOverlay">
-                <i class="fas fa-pencil-alt" style="color: black;"></i>
-            </button>
-        </div>
+        @if ($user->id == Auth::user()->id)
+            <div class="buttonOverlayContainerInteret">
+                <button class="buttonDetail btn btn-primary" id="openInterestOverlay">
+                    <i class="fas fa-pencil-alt" style="color: black;"></i>
+                </button>
+            </div>
         @endif
         @foreach ($categories as $categorie)
                 <div class="interet-categorie-div categorie-{{ strtolower($categorie->name) }}">

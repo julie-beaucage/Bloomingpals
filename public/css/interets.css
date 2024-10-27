@@ -1,10 +1,11 @@
-
-.containerInteretOnglet{
+.containerInteretOnglet {
     margin-bottom: 1em;
 }
-.buttonOverlayContainerInteret{
+
+.buttonOverlayContainerInteret {
     text-align: right;
 }
+
 .interet-overlay {
     display: flex;
     justify-content: center;
@@ -14,35 +15,70 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); 
+    background-color: rgba(0, 0, 0, 0.5);
     z-index: 1000;
     overflow: auto;
 
 }
 
 .interet-modal {
-    background-color: white;
     padding: 2em;
+    color: white;
+    text-align: center;
     border-radius: 1em;
-    margin-left: 20%;
+    margin-left: 25%;
     width: 80%;
     max-width: 600px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     position: relative;
+    background: rgba(255, 255, 255, 0.2);
+    border: solid 1px rgba(255, 255, 255, 0.7);
+    border-radius: 5px;
+    padding: 4rem 2rem 1rem 2rem;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, .15);
+    -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+    margin-top: 2em;
+    margin-bottom: 2em;
+
 }
+
+.mb-3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.mb-3 label {
+    min-width: 100px;
+}
+
+.form-control,
+.form-select {
+    flex: 1;
+}
+
+.interet-modal input {
+    background: rgba(255, 255, 255, 0.2);
+    border: solid 1px rgba(255, 255, 255, 0.7);
+    border-radius: 5px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, .15);
+}
+
 .categorie-div,
 .interet-categorie-div {
     margin: 1em;
     border: 1px solid #ccc;
     padding: 1em;
-    border-radius:5px ;
+    border-radius: 5px;
 }
+
 .categorie-sport {
-    background-color: rgba(76, 76, 226, 0.2); 
+    background-color: rgba(76, 76, 226, 0.2);
 }
 
 .categorie-culture {
-    background-color: rgba(0, 128, 0, 0.2); 
+    background-color: rgba(0, 128, 0, 0.2);
 }
 
 .categorie-musicale {
@@ -50,15 +86,15 @@
 }
 
 .categorie-nerd {
-    background-color: rgba(205, 111, 23, 0.2); 
+    background-color: rgba(205, 111, 23, 0.2);
 }
 
 .categorie-social {
-    background-color: rgba(64, 224, 208, 0.2); 
+    background-color: rgba(64, 224, 208, 0.2);
 }
 
 .categorie-art {
-    background-color: rgba(255, 192, 203, 0.2); 
+    background-color: rgba(255, 192, 203, 0.2);
 }
 
 
@@ -129,50 +165,55 @@
 
 
 .interet-btn-primary {
-    background-color: var( --primary-400);
+    background-color: var(--primary-400);
     color: white;
     border: none;
     padding: 1em 2em;
     border-radius: 5px;
     cursor: pointer;
-    margin:1em;
+    margin: 1em;
 }
-.buttonDetail{
+
+.buttonDetail {
     background-color: #9ea8b3;
-    color:white;
+    color: white;
 }
-.buttonDetail:hover{
-    background-color: var( --primary-400);
+
+.buttonDetail:hover {
+    background-color: var(--primary-400);
 
 }
 
 /*BOUTONS DANS INTERETS MODAL/OVERLAY*/
-.interet-modal button{
+.interet-modal button {
     padding: 0.7em 0.7em;
     border-radius: 5px;
     border: none;
     cursor: pointer;
 
 }
-.interet-btn-submit{
-    background-color: var( --primary-400);
+
+.interet-btn-submit {
+    background-color: var(--primary-400);
     color: white;
 }
-.interet-btn-annuler{
+
+.interet-btn-annuler {
     background-color: #9ea8b3;
     color: white;
 }
-.close-button-interet{
+
+.close-button-interet {
     position: absolute;
-    top: 1em; 
-    right: 1em; 
+    top: 1em;
+    right: 1em;
     background: none;
     border: none;
     font-size: 24px;
     font-weight: bold;
     color: #333;
     cursor: pointer;
-    z-index: 1001; 
+    z-index: 1001;
 }
 
 .close-button {
@@ -186,15 +227,18 @@
     color: #333;
     cursor: pointer;
 }
+
 @media (max-width: 768px) {
     .interet-modal {
         width: 90%;
         margin: 1em auto;
         padding: 1em;
     }
-    .close-button-interet{
-        top: 0.01em; 
+
+    .close-button-interet {
+        top: 0.01em;
     }
+
     .categorie-div,
     .interet-categorie-div {
         margin: 0.5em;
@@ -203,12 +247,12 @@
 
     .tag,
     .interet-tag {
-        font-size: 0.75em; 
+        font-size: 0.75em;
         padding: 0.3em;
     }
 
     .buttonDetail {
-        font-size: 0.875em; 
+        font-size: 0.875em;
         padding: 0.5em 1em;
     }
 }
@@ -218,9 +262,11 @@
         width: 95%;
         padding: 1em;
     }
-    .close-button-interet{
-        top: 0.01em; 
+
+    .close-button-interet {
+        top: 0.01em;
     }
+
     .categorie-div,
     .interet-categorie-div {
         margin: 0.3em;
@@ -229,14 +275,12 @@
 
     .tag,
     .interet-tag {
-        font-size: 0.6875em; 
+        font-size: 0.6875em;
         padding: 0.2em;
     }
 
     .buttonDetail {
-        font-size: 0.75em; 
+        font-size: 0.75em;
         padding: 0.4em 0.8em;
     }
 }
-
-
