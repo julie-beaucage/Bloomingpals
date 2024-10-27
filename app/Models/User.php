@@ -50,9 +50,9 @@ class User extends Authenticatable implements MustVerifyEmail
             ->select('groups_personalities.name as personality_name')
             ->first();
 
-        Log::info('Personality type for user ID ' . $this->id . ': ', [
+        /*Log::info('Personality type for user ID ' . $this->id . ': ', [
             'personality' => $personality
-        ]);
+        ]);*/
     
         if ($personality) {
             return $personality->personality_name;
@@ -93,49 +93,7 @@ class User extends Authenticatable implements MustVerifyEmail
         $affinity = $points / count($user_interests) / 3;
         return $affinity;
     }
-/*
-    public function calculateAffinity($otherUserId, $idUser) {
-        Log::info("Calculating affinity for user ID: $idUser with other user ID: $otherUserId");
-        
-        $userPersonality = $this->getUserPersonality($idUser);
-        Log::info("User personality: ", ['personality' => $userPersonality]);
-        
-        $otherUserPersonality = $this->getUserPersonality($otherUserId);
-        Log::info("Other user personality: ", ['personality' => $otherUserPersonality]);
-    
-        $personalityAffinity = 0;
-        if ($userPersonality && $otherUserPersonality) {
-            if ($userPersonality->type === $otherUserPersonality->type) {
-                $personalityAffinity = 1.0; 
-                Log::info("Both users have the same personality type.");
-            } elseif ($userPersonality->group_name === $otherUserPersonality->group_name) {
-                $personalityAffinity = 0.5; 
-                Log::info("Both users are in the same personality group.");
-            }
-        } else {
-            Log::warning("One of the users does not have a personality.");
-        }
-        $userInterests = User_Interest::getInteretsParUtilisateur($idUser); 
-        $otherUserInterests = User_Interest::getInteretsParUtilisateur($otherUserId); 
 
-        $pointsUser1 = 0; 
-        $pointsUser2 = 0;
-
-        $otherUserInterests = DB::table('users_interests')
-            ->where('id_user', $otherUserId)
-            ->pluck('id_interest')
-            ->toArray();
-        Log::info("Other user interests: ", ['interests' => $otherUserInterests]);
-    
-        $interestAffinity = $this->affinity($otherUserInterests);
-        Log::info("Interest affinity: $interestAffinity");
-    
-        $finalAffinity = ($personalityAffinity * 0.5 + $interestAffinity * 0.5) * 100;
-        Log::info("Final affinity calculated: $finalAffinity");
-    
-        return round($finalAffinity, 2) . '%';
-    }*/
-    
     public function calculateAffinity($otherUserId, $idUser) {
         $userPersonality = $this->getUserPersonality($idUser);
         
@@ -163,7 +121,6 @@ class User extends Authenticatable implements MustVerifyEmail
                 message: 
                 $finalAffinity = ($personalityAffinity * 0.5 + ($affinityUser1 / 100) * 0.5) * 100;
                 //Log::info("Final affinity calculated: $finalAffinity");
-    
                 return round($finalAffinity, 2) . '%';
     }
     

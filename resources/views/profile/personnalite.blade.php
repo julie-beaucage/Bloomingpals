@@ -1,8 +1,14 @@
+
+<x-email-verification-modal />
+
+
 @if (is_null($personality))
+
     <p>Découvrez votre personnalité et facilitez la recherche d'affinité pour vous faire de nouveaux amis.</p>
-    <a href="{{ route('personality.test') }}" class="btn btn-primary">
-        Faire le Test
-    </a>
+
+    <button class="btn btn-primary" onclick="handlePersonalityTestClick(event)">
+        Faire le Tests
+    </button>
 @else
     @if ($user->id == Auth::user()->id)
         <div class="containerPerso">
@@ -15,6 +21,10 @@
                 <a href="{{ route('personality.test') }}" class="btn btn-primary">
                     Refaire le Test
                 </a>
+                <x-email-verification-modal />
+                <button class="btn btn-primary" onclick="handlePersonalityTestClick()">
+                    Faire le Test
+                </button>
             </div>
         </div>
     @else
@@ -27,3 +37,7 @@
         </div>
     @endif
 @endif
+@section('script')
+
+
+

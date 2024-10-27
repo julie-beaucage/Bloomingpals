@@ -5,7 +5,7 @@
 .buttonOverlayContainerInteret {
     text-align: right;
 }
-
+/*
 .interet-overlay {
     display: flex;
     justify-content: center;
@@ -63,7 +63,7 @@
     border-radius: 5px;
     box-shadow: 0px 8px 20px rgba(0, 0, 0, .15);
 }
-
+*/
 .categorie-div,
 .interet-categorie-div {
     margin: 1em;

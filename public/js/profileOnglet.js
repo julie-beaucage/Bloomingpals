@@ -3,6 +3,7 @@
   !*** ./resources/js/profileOnglet.js ***!
   \***************************************/
 document.addEventListener('DOMContentLoaded', function () {
+  console.log("profilonglet.js");
   var tabLinks = document.querySelectorAll('.tab-link');
   var activeTab = document.querySelector('.tab-link.active');
   var urlParams = new URLSearchParams(window.location.search);
@@ -60,15 +61,18 @@ document.addEventListener('DOMContentLoaded', function () {
        console.log("Bouton Modifier cliqué.");
        $("#overlay").css("display", "block"); 
    });*/
-  $(document).on("click", "#openProfileOverlay", function () {
-    $("#overlayProfile").css("display", "block"); // Ouvre l'overlay pour le profil
-  });
-  $(document).on("click", "#openInterestOverlay", function () {
-    $("#overlayInterests").css("display", "block"); // Ouvre l'overlay pour les intérêts
-  });
-  $(document).on("click", ".closeOverlayBtn", function () {
-    $("#overlay").css("display", "none");
-  });
+  /* $(document).on("click", "#openProfileOverlay", function () {
+       $("#overlayProfile").css("display", "block"); // Ouvre l'overlay pour le profil
+   });
+   
+   $(document).on("click", "#openInterestOverlay", function () {
+       $("#overlayInterests").css("display", "block"); // Ouvre l'overlay pour les intérêts
+   });
+   
+   $(document).on("click", ".closeOverlayBtn", function () {
+       $("#overlay").css("display", "none"); 
+   });*/
+
   $(document).on("click", ".interet-tag", function () {
     var tagId = $(this).data('id');
     console.log("Tag d'intérêt cliqué :", $(this).text());

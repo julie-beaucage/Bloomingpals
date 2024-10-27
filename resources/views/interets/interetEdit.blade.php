@@ -1,8 +1,8 @@
-<div class="interet-overlay" id="overlayInterests" style="display: none;">
-        <div class="interet-modal">
+<div class="custom-overlay" id="overlayInterests" style="display: none;">
+        <div class="container-custom-modal">
+          <button class="close" onclick="closeModal('overlayInterests')">×</button>
+
             <h3 class="titreModalInteret">Modifier vos intérêts :</h3>
-            <button class="close-button-interet"
-                onclick="window.location.href='{{ route('profile', Auth::user()->id) }}'">&times;</button>
             <form action="{{ route('interets.update_Interets', Auth::user()->id) }}" method="POST" id="interetForm">
                 @csrf
                 @method('PUT')

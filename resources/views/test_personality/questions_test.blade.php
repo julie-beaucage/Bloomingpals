@@ -1,6 +1,6 @@
 @extends("master")
 @section('style')
-  <link rel="stylesheet" href="{{ asset('css/test_perso.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/personality.css') }}">
 @endsection()
 @section("content")
     <span>

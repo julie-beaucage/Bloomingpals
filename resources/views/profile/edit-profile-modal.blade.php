@@ -1,5 +1,6 @@
-<div class="interet-overlay" id="overlayProfile" style="display: none;">
-    <div class="interet-modal">
+<div class="custom-overlay" id="overlayProfile" style="display: none;">
+    <div class="container-custom-modal">
+    <button class="close" onclick="closeModal()">×</button>
         <h3 class="titreModalprofile">Modifier votre profile :</h3>
         <button class="close-button-interet"
             onclick="window.location.href='{{ route('profile', Auth::user()->id) }}'">&times;</button>
@@ -47,8 +48,9 @@
                     <span class="overlay-text">Modifier image</span>
                 </div>
             </div>
-            <button type="submit" class="btnProfile">Enregistrer les modifications</button>
-            <button type="button" class="btn btn-secondary" id="cancelEditButton">Annuler</button>
+            <div class="containerButtonsModal">
+              <button type="submit" class="btnProfile">Enregistrer les modifications</button>
+              <button type="button" class="interet-btn-annuler" onclick="window.location.href='{{ route('profile', Auth::user()->id) }}'">Annuler</button>            </div>
         </form>
     </div>
 </div>

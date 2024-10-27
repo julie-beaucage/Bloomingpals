@@ -44,6 +44,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/{id}', [UsersController::class, 'profile'])->name('profile');
     Route::put('/profile/update/{id}', [UsersController::class, 'update'])->name('profile.update');
     Route::get('profile/amis/{id}', [UsersController::class, 'amis'])->name('profile.amis');
+    // routes/web.php
+    Route::post('/verification/resend', [UsersController::class, 'resend'])->name('verification.resend');
 
     //INTERET
     Route::get('interets/interets/{id}', [InterestsController::class, 'interets'])->name('interets.interets');

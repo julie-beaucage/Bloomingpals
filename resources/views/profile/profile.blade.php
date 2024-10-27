@@ -1,8 +1,9 @@
 @extends('master')
 
 @section('style')
-<link rel="stylesheet" href="{{ asset('css/profile.css') }}">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="{{ asset('css/profile.css') }}">
+<link rel="stylesheet" href="{{ asset('css/overlay-modal.css') }}">
 
 @endsection()
 
@@ -77,7 +78,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link tab-link {{ request()->is('profile/amis') ? 'active' : '' }}"
-                            href="{{ route('profile.amis', $user->id) }}" data-target="profile/amis">Amis</a>
+                            href="{{ route('profile.amis', $user->id) }}" data-target="profile/amis">Mes pals</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link tab-link {{ request()->is('profile/personnalite') ? 'active' : '' }}"
@@ -111,10 +112,20 @@
 
         @section('script')
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
+        <script src="{{asset('/js/overlay-modal.js')}}"></script>
         <script src="{{asset('/js/profileOnglet.js')}}"></script>
-
+        <script src="{{asset('/js/resendEmail.js')}}"></script>
+                <script>
+            function handlePersonalityTestClick() {
+                @if (!$emailVerified)
+                    document.getElementById('emailVerificationModal').style.display = 'flex';
+                @else
+                    window.location.href = "{{ route('personality.test') }}";
+                @endif
+            }
+        </script>
         <script>
+
             $(document).ready(function () {
                 var img = document.getElementById("background_img");
                 var color = document.getElementById("background_color");

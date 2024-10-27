@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
+    console.log("profilonglet.js");
     const tabLinks = document.querySelectorAll('.tab-link');
     let activeTab = document.querySelector('.tab-link.active');
 
@@ -61,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log("Bouton Modifier cliqué.");
         $("#overlay").css("display", "block"); 
     });*/
-    $(document).on("click", "#openProfileOverlay", function () {
+   /* $(document).on("click", "#openProfileOverlay", function () {
         $("#overlayProfile").css("display", "block"); // Ouvre l'overlay pour le profil
     });
     
@@ -71,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
     
     $(document).on("click", ".closeOverlayBtn", function () {
         $("#overlay").css("display", "none"); 
-    });
+    });*/
 
     $(document).on("click", ".interet-tag", function () {
         const tagId = $(this).data('id');
