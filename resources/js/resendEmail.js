@@ -1,3 +1,4 @@
+console.log("resendemail");
 
 function handleSubmit(event) {
     event.preventDefault();

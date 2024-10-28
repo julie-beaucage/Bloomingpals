@@ -1,6 +1,6 @@
 
 <x-email-verification-modal />
-
+<link rel="stylesheet" href="{{ asset('css/profile.css') }}">
 
 @if (is_null($personality))
 
@@ -22,7 +22,7 @@
                     Refaire le Test
                 </a>
                 <x-email-verification-modal />
-                <button class="btn btn-primary" onclick="handlePersonalityTestClick()">
+                <button class="buttonGlass" onclick="handlePersonalityTestClick()">
                     Faire le Test
                 </button>
             </div>
@@ -37,7 +37,7 @@
         </div>
     @endif
 @endif
-@section('script')
+
 
 
 

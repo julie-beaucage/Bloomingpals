@@ -157,7 +157,7 @@
     position: relative;
     cursor: pointer;
 }
-
+/*
 .overlay-text {
     position: absolute;
     top: 50%;
@@ -169,21 +169,13 @@
     font-size: 14px;
     border-radius: 3px;
     display: none;
-}
+}*/
 
 .image-clickable:hover .overlay-text {
     display: inline;
 }
  
   /*  ONGLETS TAB CSS */  
-
-  .onglet_profile {
-    padding: 1em;
-    background-color: white;;
-    box-shadow: 0 0.25em 0.375em rgba(0, 0, 0, 0.1); 
-    overflow-y: auto;
-    flex-grow: 1;
-}
 
  .nav-tabs {
      border-bottom: 0.0625em solid #801111; 
@@ -231,6 +223,13 @@
      display: flex;
      flex-direction: column;
  }
+ .onglet_profile {
+    padding: 1em;
+    background-color: white;;
+    box-shadow: 0 0.25em 0.375em rgba(0, 0, 0, 0.1); 
+    overflow-y: auto;
+    flex-grow: 1;
+}
  
  #footer {
      display: none;

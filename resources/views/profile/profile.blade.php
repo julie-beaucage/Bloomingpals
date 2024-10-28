@@ -4,16 +4,16 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
 <link rel="stylesheet" href="{{ asset('css/overlay-modal.css') }}">
+<link rel="stylesheet" href="{{ asset('css/interets.css') }}">
 
 @endsection()
-
-@include('profile.edit-profile-modal', ['style' => 'display: none;'])
-
 @php
     $userPersonality = Auth::user()->getPersonalityType();
 @endphp
 
 @section('content')
+@include('profile.edit-profile-modal', ['style' => 'display: none;'])
+
 <div id="background_cntr" class="no_select">
     <div id="background_color"></div>
     <img id="background_img"
@@ -34,7 +34,7 @@
         @if ($user->id == Auth::user()->id)
             <div class="button_profile">
                 <div class="text-end">
-                    <button class="buttonDetail btn btn-primary" id="openProfileOverlay">
+                    <button class="buttonGlass" id="openProfileOverlay" title="Modifier profile">
                         <span class="material-symbols-rounded" style="font-size: 24px; color: #333;">settings</span>
                     </button>
                 </div>
@@ -112,10 +112,9 @@
 
         @section('script')
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="{{asset('/js/overlay-modal.js')}}"></script>
-        <script src="{{asset('/js/profileOnglet.js')}}"></script>
-        <script src="{{asset('/js/resendEmail.js')}}"></script>
-                <script>
+        <script src="{{ asset('/js/profileOnglet.js') }}"></script>
+        <script src="{{ asset('/js/resendEmail.js') }}"></script>
+        <script>
             function handlePersonalityTestClick() {
                 @if (!$emailVerified)
                     document.getElementById('emailVerificationModal').style.display = 'flex';
@@ -123,9 +122,27 @@
                     window.location.href = "{{ route('personality.test') }}";
                 @endif
             }
-        </script>
-        <script>
+            function closeModalEmail() {
+                document.getElementById('emailVerificationModal').style.display = 'none';
+            }
+            function closeModalInteret() {
+                document.getElementById('overlayInterests').style.display = 'none';
+            }
+            function previewImage(event, previewId) {
+                const file = event.target.files[0];
+                const preview = document.getElementById(previewId);
 
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        preview.src = e.target.result;
+                    }
+                    reader.readAsDataURL(file);
+                }
+            }
+        </script>
+        <script src="{{ asset('/js/overlay-modal.js') }}"></script>
+        <script>
             $(document).ready(function () {
                 var img = document.getElementById("background_img");
                 var color = document.getElementById("background_color");
