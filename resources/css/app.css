@@ -7,7 +7,7 @@
 
     --neutral-50: #f5f5f5;
     --neutral-100: #ebebeb;
-    --neutral-200: #d9d9d9;
+    --neutral-200: #d9d9d9; /* Main color for border */
     --neutral-300: #c7c7c7;
     --neutral-400: #b5b5b5;
     --neutral-500: #a3a3a3;
@@ -136,9 +136,8 @@ body {
     align-items: center;
     overflow-y: auto;
     overflow-x: hidden;
-    min-width: -moz-fit-content;
-    min-width: fit-content;
     height: auto;
+    max-width: 100%;
 }
 
 #footer {
@@ -383,10 +382,14 @@ a {
     display: flex;
     padding: 0.25em 0.75em;
     border-radius: 0.75em;
-    background-color: var(--accent-400);
+    background-color: var(--neutral-400);
     font-weight: 500;
     color: var(--white);
     white-space: nowrap;
+}
+
+.square_tag {
+    padding: 0.25em 0.5em;
 }
 
 .btn_primary {

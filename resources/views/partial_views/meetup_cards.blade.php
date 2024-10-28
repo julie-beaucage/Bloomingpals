@@ -14,10 +14,17 @@ foreach ($meetups as $meetup) {
     $tags = "";
 
     $meetup_interests = Meetup_Interest::where('id_meetup', $meetup->id)->get();
-    foreach ($meetup_interests as $meetup_interest) {
-        $interest = Interest::find($meetup_interest->id_interest);
-        if ($interest == null) continue;
+    $count = count($meetup_interests);
 
+    for ($i = 0; $i < $count && $i < 2; $i++) {
+
+        if ($count > 2 && $i == 1) {
+            $tags .= '<span class="tag square_tag">+' . $count - 1 . '</span>';
+            break;
+        }
+
+        $interest = Interest::find($meetup_interests[$i]->id_interest);
+        if ($interest == null) continue;
         $tags .= '<span class="tag" style="background-color: var(--category-'. $interest->id_category .')">' . $interest->name . '</span>';
     }
 
@@ -31,10 +38,12 @@ foreach ($meetups as $meetup) {
             </div>
             <div class="content">
                 <div class="header">
-                    <div class="text_nowrap">
+                    <div class="text_nowrap name_cntr">
                         <span class="name">{$meetup->name}</span>
                     </div>
-                    {$tags}
+                    <div class="tags_cntr">
+                        {$tags}
+                    </div>
                 </div>
                 <div class="adress">
                     <span class="material-symbols-rounded icon_sm">location_on</span>
