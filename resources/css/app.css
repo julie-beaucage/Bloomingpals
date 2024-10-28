@@ -180,12 +180,13 @@ body {
     padding: 1em 0 1em 0;
 }
 .title img{
-    width: 30px;
-    height: 30px;
+    width: 2em;
+    height: 2em;
 }
 .title {
     display: flex;
     align-items: center;
+    gap: 0.5em;
 }
 
 .navbar_icon {
@@ -199,6 +200,11 @@ body {
     font-weight: 500;
     background-color: var(--white);
     cursor: pointer;
+}
+
+.navbar_icon img {
+    width: 2em;
+    height: 2em;
 }
 
 .navbar_item.active {
@@ -216,11 +222,13 @@ body {
 
 .navbar_item > .shrinked_title {
     position: relative;
+    display: flex;
     width: 100%;
 }
+
 .shrinked_title img {
-    width: 30px;
-    height: 30px;
+    width: 2em;
+    height: 2em;
 }
 
 .navbar_item > .shrinked_title > .title {
@@ -241,11 +249,9 @@ body {
 }
 
 .profile-image {
-    width: 32px;
-    height: 32px;
     border-radius: 50%;
     object-fit: cover;
-    border:solid black 2px;
+    background-color: var(--neutral-400);
 }
 
 .shrinked_only {
@@ -267,7 +273,7 @@ body {
     }
 
     .shrinked_only {
-        display: block;
+        display: flex;
     }
 
     .navbar_item:hover > .shrinked_title > .title {
