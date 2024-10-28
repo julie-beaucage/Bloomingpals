@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Auth;
 use App\Models\Interest;
 use App\Models\User_Interest;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -12,7 +11,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-
+use illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -60,12 +59,11 @@ class User extends Authenticatable implements MustVerifyEmail
             return 'default-class'; 
         }
     }
-    
     public function affinity($interests_ids) {
         $user_interests = User_Interest::select('users_interests.id_interest as id', 'categories_interests.id as id_category')
         ->join('interests', 'interests.id', '=', 'users_interests.id_interest')
         ->join('categories_interests', 'categories_interests.id', '=', 'interests.id_category')
-        ->where('id_user', '=', $this->id)
+        ->where('id_user', '=', Auth::user()->id)
         ->get();
 
         $interests = Interest::select('interests.id as id', 'categories_interests.id as id_category')
