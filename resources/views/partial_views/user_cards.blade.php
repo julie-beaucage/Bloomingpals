@@ -2,6 +2,7 @@
 use App\Models\User_Interest; 
 use App\Models\Interest;
 use App\Models\Category_Interest;
+use illuminate\Support\Facades\Auth;
 
 if (count($users)  == 0) {
     echo '';
