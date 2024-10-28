@@ -17,12 +17,20 @@ foreach ($users as $user) {
     $tags = "";
 
     $user_interests = User_Interest::where('id_user', $user->id)->get();
-    foreach ($user_interests as $user_interest) {
-        $interest = Interest::find($user_interest->id_interest);
+    $count = count($user_interests);
+    
+    for ($i = 0; $i < $count && $i < 2; $i++) {
+        $interest = Interest::find($user_interests[$i]->id_interest);
         if ($interest == null) continue;
-
+        
         $tags .= '<span class="tag" style="background-color: var(--category-'. $interest->id_category .')">' . $interest->name . '</span>';
     }
+
+    if ($count > 2) {
+        $tags .= '<span class="tag square_tag">+' . $count - 2 . '</span>';
+    }
+
+    $affinity = round(Auth::user()->affinity($user_interests->pluck('id_interest')) * 100);
 
     echo <<< HTML
         <a class="card_long no_select hover_darker" href="profile/$user->id">
@@ -31,13 +39,15 @@ foreach ($users as $user) {
             </div>
             <div class="content">
                 <div class="header">
-                    <div class="text_nowrap">
+                    <div class="text_nowrap name_cntr">
                         <span class="name">$user->first_name $user->last_name</span>
                     </div>
-                    $tags
+                    <div class="tags_cntr">
+                        {$tags}
+                    </div>
                 </div>
                 <div class="infos">
-                    <span>50% d'affinité avec vous</span>
+                    <span>$affinity% d'affinité avec vous</span>
                 </div>
             </div>
         </a>

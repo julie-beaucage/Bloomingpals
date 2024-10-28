@@ -42,14 +42,14 @@
     border: 1px solid var(--neutral-400);
 }
 
-#inputs_ctnr {
+#inputs_cntr {
     width: 100%;
     display: flex;
     flex-direction: row;
     gap: 1em;
 }
 
-#inputs_ctnr > button {
+#inputs_cntr > button {
     display: flex;
     align-items: center;
     flex-shrink: 0;
@@ -63,7 +63,7 @@
     border-radius: 0.75em;
 }
 
-#categories_ctnr {
+#categories_cntr {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -71,7 +71,7 @@
     width: 100%;
 }
 
-#categories_ctnr > button {
+#categories_cntr > button {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -86,7 +86,7 @@
     border-radius: 0.75em;
 }
 
-#categories_ctnr > .selected {
+#categories_cntr > .selected {
     filter: brightness(0.9);
 }
 
@@ -100,13 +100,13 @@
     justify-content: center;
 }
 
-#relative_ctnr {
+#relative_cntr {
     position: relative;
     width: 100%;
     z-index: 100;
 }
 
-#absolute_ctnr {
+#absolute_cntr {
     position: absolute;
     width: 100%;
     height: 100vh;
@@ -115,7 +115,7 @@
     justify-content: center;
 }
 
-#absolute_ctnr::before {
+#absolute_cntr::before {
     content: "";
     position: absolute;
     width: 100%;
@@ -125,7 +125,7 @@
     z-index: -1;
 }
 
-.filters_ctnr {
+.filters_cntr {
     display: flex;
     flex-direction: column;
     height: -moz-fit-content;
@@ -140,29 +140,29 @@
 }
 
 @media only screen and (max-width: 600px) {
-    #absolute_ctnr {
+    #absolute_cntr {
         height: calc(100vh - 5em);
         align-items: end;
     }
 
-    .filters_ctnr {
+    .filters_cntr {
         width: 100%;
         border-radius: 1em 1em 0 0;
     }
 }
 
-.filters_ctnr > .header {
+.filters_cntr > .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.filters_ctnr > .header > .title {
+.filters_cntr > .header > .title {
     font-size: 1.3em;
     font-weight: 500;
 }
 
-.filters_ctnr > .content {
+.filters_cntr > .content {
     -ms-overflow-style: none;
     scrollbar-width: none;
     max-height: calc(100vh - 20em);
@@ -170,7 +170,7 @@
     overflow-y: scroll;
 }
 
-.filters_ctnr > .content::-webkit-scrollbar { 
+.filters_cntr > .content::-webkit-scrollbar { 
     display: none;
 }
 
@@ -198,7 +198,7 @@
     border: 1px solid var(--neutral-400);
 }
 
-.filter_ctnr {
+.filter_cntr {
     display: flex;
     flex-direction: column;
     gap: 1em;

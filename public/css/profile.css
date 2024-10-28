@@ -1,3 +1,11 @@
+.personality {
+    --personality-color: #e2e9e4 !important;
+    --personality-color-pale: #f1f4f1 !important;
+    --personality-text-color: #2c3a30 !important;
+    --personality-text-button: #2c3a30 !important;
+    --personality-text-color-button: #e2e9e4 !important;
+ }
+ 
 
 .personality.analystes {
    --personality-color: #c3b0cd !important;
@@ -220,6 +228,7 @@ body {
     font-size: 2em;
     font-weight: 600;
     margin: 0.5em;
+    text-align: center;
 }
 .blue_button {
     background-color: blue;
