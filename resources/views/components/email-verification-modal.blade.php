@@ -1,6 +1,6 @@
 <div id="emailVerificationModal" class="warning-modal-overlay" style="display: none;">
     <div class="warning-modal-content">
-        <button class="close" onclick="closeModalEmail()">×</button>
+    <button class="close" onclick="closeModalEmail()">×</button>
         <h5 class="warning-modal-title">Vérification de votre courriel</h5>
         <div class="carousel-container">
             <div id="originalMessage" class="carousel-slide">
@@ -15,5 +15,10 @@
                 <p>Email renvoyé à <strong id="userEmail">{{ Auth::user()->email }}</strong></p>
             </div>
         </div>
+
+        <button onclick="closeModal()" class="warning-modal-close-btn">Fermer</button>
     </div>
 </div>
+
+
+

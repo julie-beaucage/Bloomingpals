@@ -106,7 +106,7 @@ class UsersController extends Controller
         return back()->withErrors(['email' => 'Le courriel et le mot de passe ne correspondent pas'])->onlyInput('email');
     }
 
-/*
+
     public function resend(Request $request)
     {
         $user = Auth::user();
@@ -120,18 +120,9 @@ class UsersController extends Controller
         }
 
         return redirect()->back()->with('error', 'Utilisateur non authentifié.');
-    }*/
-    public function resend(Request $request)
-{
-    $user = Auth::user();
-
-    if ($user) {
-        $user->sendEmailVerificationNotification();
-        return response()->json(['message' => 'Un lien de vérification a été renvoyé à votre adresse email.']);
     }
 
-    return response()->json(['message' => 'Utilisateur non authentifié.'], 401);
-}
+
 
 
 

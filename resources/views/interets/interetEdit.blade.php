@@ -2,8 +2,7 @@
     <div class="container-custom-modal">
         <button class="close" onclick="closeModalInteret()">×</button>
         <h3 class="titreModalInteret">Modifier vos intérêts :</h3>
-        <form class="overlay-interet-container" action="{{ route('interets.update_Interets', Auth::user()->id) }}"
-            method="POST" id="interetForm">
+        <form action="{{ route('interets.update_Interets', Auth::user()->id) }}" method="POST" id="interetForm">
             @csrf
             @method('PUT')
             @if (!empty($categories))
@@ -25,7 +24,7 @@
             @endif
             <input type="hidden" name="interets" id="interetSelectedInterets"
                 value="{{ implode(',', $interetsUtilisateurTab) }}">
-            <button type="submit" class="interet-btn-submit">Sauvegarder les changements</button>
+            <button type="submit" class="btnProfile">Sauvegarder les changements</button>
             <button type="button" class="interet-btn-annuler" onclick="closeModalInteret()">Annuler</button>
         </form>
     </div>

@@ -1,5 +1,3 @@
-console.log("resendemail");
-
 function handleSubmit(event) {
     event.preventDefault();
     fetch("{{ route('verification.resend') }}", {
