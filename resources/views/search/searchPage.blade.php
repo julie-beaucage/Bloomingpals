@@ -6,16 +6,16 @@
 @endsection()
 
 @section('content')
-    <div id="relative_ctnr" class="hidden">
-        <div id="absolute_ctnr">
-            <div class="filters_ctnr">
+    <div id="relative_cntr" class="hidden">
+        <div id="absolute_cntr">
+            <div class="filters_cntr">
                 <div class="header">
                     <span class="title">Filtres de recherche</span>
                     <span id="close_filter_btn" class="material-symbols-rounded no_select pointer">close</span>
                 </div>
 
                 <div class="content">
-                    <div class="filter_ctnr selection_grid" data-param="categories">
+                    <div class="filter_cntr selection_grid" data-param="categories">
                         <div class="selection_cell no_select hover_darker" style="background-color: var(--category-1)" data-id="1">
                             Sport
                             <span class="material-symbols-rounded icon">
@@ -55,7 +55,7 @@
                     </div>
                     
                     <span class="filter_name">Tags</span>
-                    <div class="filter_ctnr search_suggestion search_selection" data-url="/search/interests" data-param="interests" data-name="name">
+                    <div class="filter_cntr search_suggestion search_selection" data-url="/search/interests" data-param="interests" data-name="name">
                         <input id="category_search" type="text" class="search_suggestion_input" placeholder="Rechercher par catégorie">
                         <div id="category_selections" class="selections"></div>
                         <div id="category_suggestions" class="suggestions">
@@ -63,7 +63,7 @@
                     </div>
     
                     <span class="filter_name">Ville</span>
-                    <div class="filter_ctnr search_suggestion" data-url="/search/cities" data-param="city" data-name="city">
+                    <div class="filter_cntr search_suggestion" data-url="/search/cities" data-param="city" data-name="city">
                         <input id="city_search" type="text" class="search_suggestion_input" placeholder="Rechercher par ville">
                         <div id="city_suggestions" class="suggestions">
                         </div>
@@ -75,7 +75,7 @@
 
     <div id="search_cntr">
         <div id="search_header">
-            <div id="inputs_ctnr">
+            <div id="inputs_cntr">
                 <input type="text" id="search_field" class="no_select" placeholder="Rechercher">
                 <button id="filter_btn" class="hover_darker no_select" value="meetups" type="button">
                     <span class="material-symbols-rounded">
@@ -83,14 +83,14 @@
                     </span>
                 </button>
             </div>
-            <div id="categories_ctnr">
+            <div id="categories_cntr">
                 <button class="hover_darker no_select" value="meetups" type="button">Rencontres</button>
                 <button class="hover_darker no_select" value="events" type="button">Évènements</button>
                 <button class="hover_darker no_select" value="users" type="button">Utilisateurs</button>
             </div>
         </div>
 
-        <div id="result" class="cards_container">
+        <div id="result" class="cards_list">
         </div>
     </div>
 @endsection()
@@ -111,7 +111,7 @@
                 window.history.replaceState({}, "", url);
                 section = "meetups";
             }
-            $("#categories_ctnr > button[value='" + section + "']").addClass("selected");
+            $("#categories_cntr > button[value='" + section + "']").addClass("selected");
             $("#search_field").val(url.searchParams.get("query"));
 
             $(".search_selection").each(function() {
@@ -242,7 +242,7 @@
                 window.history.replaceState({}, "", url);
             });
 
-            $("#categories_ctnr > button").click(function() {
+            $("#categories_cntr > button").click(function() {
                 let section = $(this).val();
                 let url = new URL(window.location.href);
 
@@ -251,7 +251,7 @@
                 url.searchParams.set("section", section);
                 window.history.replaceState({}, "", url);
 
-                $("#categories_ctnr > button").removeClass("selected");
+                $("#categories_cntr > button").removeClass("selected");
                 $(this).addClass("selected");
 
                 goTo(1, true);
@@ -287,16 +287,16 @@
                 $("#city_search").val(city);
                 $("#city_suggestions").empty();
 
-                if ($("#relative_ctnr").hasClass("hidden"))
-                    $("#relative_ctnr").removeClass("hidden");
+                if ($("#relative_cntr").hasClass("hidden"))
+                    $("#relative_cntr").removeClass("hidden");
 
                 if (!$("#content").hasClass("no_overflow"))
                     $("#content").addClass("no_overflow");
             });
 
             $("#close_filter_btn").click(function() {
-                if (!$("#relative_ctnr").hasClass("hidden"))
-                    $("#relative_ctnr").addClass("hidden");
+                if (!$("#relative_cntr").hasClass("hidden"))
+                    $("#relative_cntr").addClass("hidden");
 
                 if ($("#content").hasClass("no_overflow"))
                     $("#content").removeClass("no_overflow");
@@ -305,10 +305,10 @@
             });
 
             $(".search_suggestion").each(async function() {
-                let filter_ctnr = $(this);
+                let filter_cntr = $(this);
                 let suggestions = null;
                 $.ajax({
-                    url: filter_ctnr.data("url"),
+                    url: filter_cntr.data("url"),
                     type: "GET",
                     success: function(data) {
                         suggestions = data;
@@ -322,61 +322,61 @@
 
                     let query = $(this).val();
                     let url = new URL(window.location.href);
-                    let suggestions_ctnr = filter_ctnr.find(".suggestions");
+                    let suggestions_cntr = filter_cntr.find(".suggestions");
 
-                    suggestions_ctnr.empty();
+                    suggestions_cntr.empty();
 
-                    if (query == "" && !filter_ctnr.hasClass("search_selection")) {
-                        url.searchParams.set(filter_ctnr.data("param"), "");
+                    if (query == "" && !filter_cntr.hasClass("search_selection")) {
+                        url.searchParams.set(filter_cntr.data("param"), "");
                         window.history.replaceState({}, "", url);
                     }
 
-                    let closest_match = suggestions[0][filter_ctnr.data("name")].normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-                    if (query.toLowerCase() == closest_match.toLowerCase() && !filter_ctnr.hasClass("search_selection")) {
-                        url.searchParams.set(filter_ctnr.data("param"), closest_match);
+                    let closest_match = suggestions[0][filter_cntr.data("name")].normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                    if (query.toLowerCase() == closest_match.toLowerCase() && !filter_cntr.hasClass("search_selection")) {
+                        url.searchParams.set(filter_cntr.data("param"), closest_match);
                         window.history.replaceState({}, "", url);
                     }
 
-                    let selection_ids = (filter_ctnr.hasClass("search_selection") && url.searchParams.has(filter_ctnr.data("param"))) ? url.searchParams.get(filter_ctnr.data("param")).split(",").map(e => parseInt(e)) : [];
-                    let data = (query == "") ? [] : suggestions.filter((sugg) => sugg[filter_ctnr.data("name")].toLowerCase().startsWith(query.toLowerCase()) && !selection_ids.includes(sugg["id"])).slice(0, 5);
+                    let selection_ids = (filter_cntr.hasClass("search_selection") && url.searchParams.has(filter_cntr.data("param"))) ? url.searchParams.get(filter_cntr.data("param")).split(",").map(e => parseInt(e)) : [];
+                    let data = (query == "") ? [] : suggestions.filter((sugg) => sugg[filter_cntr.data("name")].toLowerCase().startsWith(query.toLowerCase()) && !selection_ids.includes(sugg["id"])).slice(0, 5);
 
                     for (let i = 0; i < data.length; i++) {
 
-                        let elem = $("<span>").attr("class", "suggestion hover_darker no_select").text(data[i][filter_ctnr.data("name")]);
-                        suggestions_ctnr.append(elem);
+                        let elem = $("<span>").attr("class", "suggestion hover_darker no_select").text(data[i][filter_cntr.data("name")]);
+                        suggestions_cntr.append(elem);
 
-                        if (filter_ctnr.hasClass("search_selection")) {
+                        if (filter_cntr.hasClass("search_selection")) {
                             elem.click(function() {
-                                if (url.searchParams.get(filter_ctnr.data("param")) != null && url.searchParams.get(filter_ctnr.data("param")).split(",").includes(data[i]["id"] + ""))
+                                if (url.searchParams.get(filter_cntr.data("param")) != null && url.searchParams.get(filter_cntr.data("param")).split(",").includes(data[i]["id"] + ""))
                                     return;
 
-                                let selections = filter_ctnr.find(".selections");
-                                let selection = $("<span>").attr("class", "selection no_select tag tag_rmv hover_darker").attr("style", "background-color: var(--category-" + data[i]["id_category"] + ")").text(data[i][filter_ctnr.data("name")]);
+                                let selections = filter_cntr.find(".selections");
+                                let selection = $("<span>").attr("class", "selection no_select tag tag_rmv hover_darker").attr("style", "background-color: var(--category-" + data[i]["id_category"] + ")").text(data[i][filter_cntr.data("name")]);
                                 selections.append(selection);
 
-                                let selections_list = (url.searchParams.has(filter_ctnr.data("param"))) ? url.searchParams.get(filter_ctnr.data("param")) : "";
-                                url.searchParams.set(filter_ctnr.data("param"), (selections_list == "") ? data[i]["id"] : selections_list + "," + data[i]["id"]);
+                                let selections_list = (url.searchParams.has(filter_cntr.data("param"))) ? url.searchParams.get(filter_cntr.data("param")) : "";
+                                url.searchParams.set(filter_cntr.data("param"), (selections_list == "") ? data[i]["id"] : selections_list + "," + data[i]["id"]);
                                 window.history.replaceState({}, "", url);
                                 
                                 selection.click(function() {
                                     selection.remove();
                                     let url = new URL(window.location.href);
-                                    let selections_list = (url.searchParams.has(filter_ctnr.data("param"))) ? url.searchParams.get(filter_ctnr.data("param")) : "";
-                                    url.searchParams.set(filter_ctnr.data("param"), selections_list.split(",").filter(e => e != data[i]["id"]).join(","));
+                                    let selections_list = (url.searchParams.has(filter_cntr.data("param"))) ? url.searchParams.get(filter_cntr.data("param")) : "";
+                                    url.searchParams.set(filter_cntr.data("param"), selections_list.split(",").filter(e => e != data[i]["id"]).join(","));
                                     window.history.replaceState({}, "", url);
                                 });
 
-                                suggestions_ctnr.empty();
-                                filter_ctnr.children('input').val("");
-                                filter_ctnr.children('input').focus();
+                                suggestions_cntr.empty();
+                                filter_cntr.children('input').val("");
+                                filter_cntr.children('input').focus();
                             })
                         }
                         else {
                             elem.click(function() {
-                                filter_ctnr.children('input').val(data[i][filter_ctnr.data("name")]);
-                                url.searchParams.set(filter_ctnr.data("param"), data[i][filter_ctnr.data("name")].normalize("NFD").replace(/[\u0300-\u036f]/g, ""));
+                                filter_cntr.children('input').val(data[i][filter_cntr.data("name")]);
+                                url.searchParams.set(filter_cntr.data("param"), data[i][filter_cntr.data("name")].normalize("NFD").replace(/[\u0300-\u036f]/g, ""));
                                 window.history.replaceState({}, "", url);
-                                suggestions_ctnr.empty();
+                                suggestions_cntr.empty();
                             });
                         }
                     }

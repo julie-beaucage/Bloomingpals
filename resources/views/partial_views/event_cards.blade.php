@@ -18,7 +18,7 @@ foreach ($events as $event) {
     $event_categories = Event_Category::where('id_event', $event->id)->get();
     $count_categories = count($event_categories);
     
-    for ($i = 0; $i < $count_categories && $i < 2; $i++) {
+    for ($i = 0; $i < $count_categories && $i < 1; $i++) {
         $category = Category_Interest::find($event_categories[$i]->id_category);
         if ($category == null) continue;
         $tags .= '<span class="tag" style="background-color: var(--category-'. $category->id .')">' . $category->name . '</span>';
@@ -44,10 +44,12 @@ foreach ($events as $event) {
             </div>
             <div class="content">
                 <div class="header">
-                    <div class="text_nowrap">
+                    <div class="text_nowrap name_cntr">
                         <span class="name">{$event->name}</span>
                     </div>
-                    {$tags}
+                    <div class="tags_cntr">
+                        {$tags}
+                    </div>
                 </div>
                 <div class="adress">
                     <span class="material-symbols-rounded icon_sm">location_on</span>

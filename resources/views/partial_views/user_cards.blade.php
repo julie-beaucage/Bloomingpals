@@ -35,10 +35,12 @@ foreach ($users as $user) {
             </div>
             <div class="content">
                 <div class="header">
-                    <div class="text_nowrap">
+                    <div class="text_nowrap name_cntr">
                         <span class="name">$user->first_name $user->last_name</span>
                     </div>
-                    $tags
+                    <div class="tags_cntr">
+                        {$tags}
+                    </div>
                 </div>
                 <div class="infos">
                     <span>$affinity% d'affinité avec vous</span>

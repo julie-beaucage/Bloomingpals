@@ -1,0 +1,47 @@
+#home_cntr {
+    padding: 3em;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+}
+
+@media (pointer:none), (pointer:coarse) {
+    #home_cntr {
+        padding: 1em;
+    }
+}
+
+#showcase {
+    font-size: 1.2em;
+}
+
+
+@media screen and (max-width: 800px) {
+    #home_cntr {
+        font-size: 0.9em;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    #showcase {
+        font-size: 1em;
+    }
+}
+
+.section {
+    font-size: 1em;
+}
+
+.section .card {
+    width: 17em !important;
+}
+
+.section .card .banner {
+    height: 9em !important;
+}
+
+.section .card .tags_cntr {
+    display: none;
+}

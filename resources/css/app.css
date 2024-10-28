@@ -136,9 +136,8 @@ body {
     align-items: center;
     overflow-y: auto;
     overflow-x: hidden;
-    min-width: -moz-fit-content;
-    min-width: fit-content;
     height: auto;
+    max-width: 100%;
 }
 
 #footer {
