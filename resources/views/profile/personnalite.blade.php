@@ -1,4 +1,3 @@
-
 <x-email-verification-modal />
 <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
 
@@ -37,7 +36,3 @@
         </div>
     @endif
 @endif
-
-
-
-

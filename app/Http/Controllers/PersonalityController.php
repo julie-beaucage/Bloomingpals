@@ -23,11 +23,11 @@ class PersonalityController extends Controller
 
     public function startTest(Request $request)
     {
-        $questions = Question::with('answers')->paginate(10);
+       /* $questions = Question::with('answers')->paginate(10);
         if ($questions->isEmpty()) {
             return redirect()->back()->with('error', 'Aucune question disponible pour le test.');
-        }
-        //$questions = Question::with('answers')->take(10)->get();
+        }*/
+        $questions = Question::with('answers')->take(10)->get();
         return view('test_personality.questions_test', compact('questions'));
     }
     

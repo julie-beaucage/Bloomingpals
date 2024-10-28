@@ -128,6 +128,10 @@
             function closeModalInteret() {
                 document.getElementById('overlayInterests').style.display = 'none';
             }
+            function validateForm() {
+                console.log("validate profile");
+                document.getElementById('error-message').style.display = 'none';
+            }
             function previewImage(event, previewId) {
                 const file = event.target.files[0];
                 const preview = document.getElementById(previewId);
