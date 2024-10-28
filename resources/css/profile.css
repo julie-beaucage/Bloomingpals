@@ -1,3 +1,11 @@
+.personality {
+    --personality-color: #e2e9e4 !important;
+    --personality-color-pale: #f1f4f1 !important;
+    --personality-text-color: #2c3a30 !important;
+    --personality-text-button: #2c3a30 !important;
+    --personality-text-color-button: #e2e9e4 !important;
+ }
+ 
 
 .analystes {
     --personality-color: #c3b0cd !important;

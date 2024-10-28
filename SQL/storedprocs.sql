@@ -54,7 +54,7 @@ DECLARE nb_user INT;
 	END IF;
         
 END
-DELIMITER //
+// DELIMITER ;
 -- ------------------------------------------------------------------------------------------------
 -- --------------UTILISATEUR
 -- ------------------------------------------------------------------------------------------------
@@ -172,7 +172,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ajouterInterets`(
     IN p_id_category INT
 )
 BEGIN
-     DECLARE nb_interet INT;
+	DECLARE nb_interet INT;
     SELECT COUNT(*) INTO nb_interet 
     FROM interests 
     WHERE name = p_nom_interet;

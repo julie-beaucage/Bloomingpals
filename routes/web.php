@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\MeetupController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MeetupController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\SearchController;
@@ -14,11 +15,6 @@ use App\Http\Controllers\PersonalityController;
 Route::get('/', function () {
     return view('auth.login');
 });
-
-// TODO: remove when all controller are done.
-Route::get('/home', function () {
-    return view('home.feed');
-})->name('home');
 
 // Authentification
 Route::get('/email/verify/{id}/{hash}', [CustomVerificationController::class, 'verify'])->name('verification.verify');
@@ -34,11 +30,13 @@ Route::get('/logout', [UsersController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->group(function () {
     
-    // Home page
-    Route::get('/home', function () {
-        return view('home.feed');
-    })->name('home');
-
+    // Home
+    Route::get('/home', [HomeController::class, 'home'])->name('home');
+    Route::get('/home/showcase', [HomeController::class, 'showcase'])->name('showcase');
+    Route::get('/home/user_meetups', [HomeController::class, 'user_meetups'])->name('user_meetups');
+    Route::get('/home/top_events', [HomeController::class, 'top_events'])->name('top_events');
+    Route::get('/home/recent_meetups', [HomeController::class, 'recent_meetups'])->name('recent_meetups');
+    Route::get('/home/upcoming_events', [HomeController::class, 'upcoming_events'])->name('upcoming_events');
 
     // Profile
     Route::get('/profile/{id}', [UsersController::class, 'profile'])->name('profile');

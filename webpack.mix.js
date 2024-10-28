@@ -28,6 +28,7 @@ mix.postCss('resources/css/interets.css', 'public/css', []);
 mix.postCss('resources/css/cards.css', 'public/css', []);
 mix.postCss('resources/css/personality.css', 'public/css', []);
 mix.postCss('resources/css/overlay-modal.css', 'public/css', []);
+mix.postCss('resources/css/home.css', 'public/css', []);
 
 // For development
 mix.browserSync('127.0.0.1:8000');

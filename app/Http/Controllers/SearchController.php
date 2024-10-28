@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\User;
+use App\Models\City;
 use App\Models\Meetup;
 use App\Models\Interest;
 use App\Models\Meetup_Interest;
@@ -92,64 +93,51 @@ class SearchController extends Controller
         if ($page == null || $page < 1) 
             return response()->json(['error' => 'Invalid page number']);
 
-        $events = Event::all();
+        //$events = Event::all();
+        $events = Event::query();
 
         $query = $request->has('query') ? $request->get('query') : null;
         if ($query != null) {
-            $query_filter = Event::where('name', 'LIKE', '%' . $query . '%')->get();
-            $events = ($query == null) ? $events : $events->intersect($query_filter);
+            $events = $events->where('name', 'LIKE', '%' . $query . '%');
         }
         
         $city = $request->has('city') ? $request->get('city') : null;
         if ($city != null) {
-            $city_filter = Event::where(DB::raw('LOWER(`city`)'), 'LIKE', strtolower($city))->get();
-            $events = ($city == null) ? $events : $events->intersect($city_filter);
+            $events = $events->where(DB::raw('LOWER(`city`)'), 'LIKE', strtolower($city));
         }
 
         $interests = $request->has('interests') ? $request->get('interests') : null;
         if ($interests != null) {
             $interests =  explode(',', $interests);
-
-            $interests_filter = Event_Interest::select('events_interests.id_event', DB::raw("COUNT(events_interests.id_event) as count"))
+            $events = $events->join('events_interests', 'events.id', '=', 'events_interests.id_event')
                 ->whereIn('events_interests.id_interest', $interests)
-                ->groupBy('events_interests.id_event')
-                ->having('count', '>=', count($interests))
-                ->get();
-            
-            $events = $events->whereIn('id', $interests_filter->map(function($int) { return $int->id_event; })->toArray());
+                ->groupBy('events.id')
+                ->havingRaw('COUNT(events_interests.id_interest) >= ?', [count($interests)]);
         }
 
         $categories = $request->has('categories') ? $request->get('categories') : null;
         if ($categories != null) {
             $categories = explode(',', $categories);
-
-            // Categories
-            $categories_filter = Event_Category::select('events_categories.id_event', DB::raw("COUNT(events_categories.id_event) as count"))
-            ->whereIn('events_categories.id_category', $categories)
-            ->groupBy('events_categories.id_event')
-            ->get();
-
-            $events = $events->whereIn('id', $categories_filter->map(function($cat) { return $cat->id_event; })->toArray());
+            $events = $events->join('events_categories', 'events.id', '=', 'events_categories.id_event')
+                ->whereIn('events_categories.id_category', $categories)
+                ->groupBy('events.id');
         }
 
         // Take page requested
-        $events = $events->skip(($page - 1) * 30)->take(30);
+        $events = $events->skip(($page - 1) * 20)->take(20)->get();
 
         $user = User::find(auth()->user()->id);
         $events = $events->sort(function($a, $b) use ($user) {
             $interests_ids_a = Event_Interest::select('id_interest')->where('id_event', '=', $a->id)->get();
-            $affinity_a = $user->affinity($interests_ids_a);
+            $affinity_a = $user->affinity($interests_ids_a) + rand(0, 30) / 100;
 
             $interests_ids_b = Event_Interest::select('id_interest')->where('id_event', '=', $b->id)->get();
-            $affinity_b = $user->affinity($interests_ids_b);
+            $affinity_b = $user->affinity($interests_ids_b) + rand(0, 30) / 100;
 
             $diff = $affinity_b - $affinity_a;
             return $diff * 100;
         });
 
-        //Take half and shuffle
-        if (count($events) > 15)
-            $events = $events->take(15)->shuffle();
         return view('partial_views.event_cards', ['events' => $events]);
     }
 
@@ -166,27 +154,11 @@ class SearchController extends Controller
 
     public function cities(Request $request)
     {
-        $query = $request->has('query') ? $request->get('query') : "";
-        $cities = ($query == null) ? null : DB::table('canadacities')->where('city', 'LIKE', $query . '%')->limit(5)->get();
-        return response()->json($cities);
+        return response()->json(City::select('city')->get());
     }
 
     public function interests(Request $request)
     {
-        $query = $request->has('query') ? $request->get('query') : "";
-        $interests = ($query == null) ? null : Interest::where('name', 'LIKE', $query . '%')->limit(5)->get();
-        
-        return response()->json($interests);
+        return response()->json(Interest::all());
     } 
-
-    public function getInterests(Request $request)
-    {
-        if (!$request->has('ids'))
-            return response()->json(['error' => 'No ids provided']);
-
-        $ids = $request->get('ids');
-        $interests = Interest::whereIn('id', $ids)->get();
-        
-        return response()->json($interests);
-    }
 }
