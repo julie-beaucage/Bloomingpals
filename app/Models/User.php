@@ -118,11 +118,14 @@ class User extends Authenticatable implements MustVerifyEmail
     
         $pointsUser1 = $this->calculateInterestPoints($userInterests, $otherUserInterests);
         $totalPointsUser1 = 2 * count($userInterests);
+        if ($totalPointsUser1 == 0) {
+            Log::warning("User 1 has no interests.");
+            return 0;
+        }
         $affinityUser1 = ($pointsUser1 / $totalPointsUser1) * 100;
-                message: 
-                $finalAffinity = ($personalityAffinity * 0.5 + ($affinityUser1 / 100) * 0.5) * 100;
-                //Log::info("Final affinity calculated: $finalAffinity");
-                return round($finalAffinity, 2) . '%';
+        $finalAffinity = ($personalityAffinity * 0.5 + ($affinityUser1 / 100) * 0.5) * 100;
+        //Log::info("Final affinity calculated: $finalAffinity");
+        return round($finalAffinity, 2) . '%';
     }
     
     private function calculateInterestPoints($userInterests, $otherUserInterests) {
@@ -146,7 +149,4 @@ class User extends Authenticatable implements MustVerifyEmail
     
         return $points;
     }
-    
-    
-    
 }
