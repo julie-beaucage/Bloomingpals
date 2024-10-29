@@ -10,6 +10,8 @@ use Illuminate\Database\QueryException;
 use App\Models\User;
 use App\Models\Event;
 use App\Models\Meetup;
+use App\Models\Relation;
+use App\Models\Friendship_Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 
@@ -131,8 +133,27 @@ class UsersController extends Controller
         if (!$user) {
             return redirect()->route('/login')->with('error', 'Utilisateur non trouvé.');
         }
-        return view('profile.profile', compact('user'));
+        $relation = Relation::GetRelationUsers(Auth::user()->id, $id);
 
+        if ($relation == 'GotBlocked') {
+            return redirect()->back();
+        } else if ($relation == "Friend") {
+            return view('profile.profile', compact('user', 'relation'));
+        } else {
+            $relationRequest = Friendship_Request::GetUserRelationState(Auth::user()->id, $id);
+            if ($relationRequest == "sent") {
+                $relation = "SendingInvitation";
+                return view('profile.profile', compact('user', 'relation'));
+            } else if ($relationRequest == "receive") {
+                $relation = "Invited";
+                return view('profile.profile', compact('user', 'relation'));
+            } else if ($relationRequest == "refuse") {
+                $relation = "Refuse";
+                return view('profile.profile', compact('user', 'relation'));
+            } else {
+                return view('profile.profile', compact('user', 'relation', 'relationRequest'));
+            }
+        }
     }
 
     public function update(Request $request)
@@ -183,14 +204,53 @@ class UsersController extends Controller
     
     public function amis($id) {
         $user = User::find($id);
-        return view('profile.amis', compact('user'));    
+        $users = Relation::GetFriends($id);
+        return view('profile.amis', compact('user', 'users'));    
     }
 
     public function personnalite($id) {
         return view('profile.personnalite', ['user' => User::findOrFail($id)]);
     }
 
-    public function informations($id)  {
-        return view("profile.informations", ["userId" => $id]);
+    public function SendFriendRequest($id) {
+        if (Auth::user()->id != $id) {
+            Friendship_Request::AddFriendRequest(Auth::user()->id, $id);
+        }
+
+        return redirect()->back();
+    }
+
+    public function AcceptFriendRequest($id) {
+
+        if (Auth::user()->id != $id) {
+            Friendship_Request::AcceptFriendRequest($id, Auth::user()->id);
+            Relation::AddFriend(Auth::user()->id, $id);
+        }
+
+        return redirect()->back();
+    }
+    public function RefuseFriendRequest($id) {
+        if (Auth::user()->id != $id) {
+            Friendship_Request::RefuseFriendRequest($id, Auth::user()->id);
+        }
+
+        return redirect()->back();
+    }
+
+    public function CancelFriendRequest($id) {
+        if (Auth::user()->id != $id) {
+            Friendship_Request::CancelFriendRequest(Auth::user()->id, $id);
+        }
+
+        return redirect()->back();
+    }
+
+    public function RemoveFriend($id) {
+        if (Auth::user()->id != $id) {
+            Friendship_Request::RemoveFriendRequest(Auth::user()->id, $id);
+            Relation::RemoveFriend(Auth::user()->id, $id);
+        }
+
+        return redirect()->back();
     }
 }

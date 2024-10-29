@@ -30,9 +30,10 @@ class MeetupController extends BaseController
         $users=[];
 
         foreach($meetups as $meetup){
-            array_push($users,Meetup::GetOrganisator($meetup->id));
+            array_push($users, Meetup::GetOrganisator($meetup->id));
+
         }
-        //dd($users[0]);
+        //dd($meetups[0]);
         $default_images=$this->getDefault_images();
 
         return view('meetups.meetups',compact('meetups','users','default_images'));
@@ -51,26 +52,26 @@ class MeetupController extends BaseController
             //$id_owner = 1;
 
             $actionCreate = false;
-            $rencontre = Meetup::where('id', $id)->first();
+            $meetup = Meetup::where('id', $id)->first();
 
-            if ($rencontre != null) {
-                if ($id_owner != $rencontre->id_organisateur) {
+            if ($meetup != null) {
+                if ($id_owner != $meetup->id_organisateur) {
                     abort(403);
                 }
 
-                $date = $rencontre->date;
+                $date = $meetup->date;
                 $date = explode(' ', $date);
                 //dd($rencontre->image);
                 $data = [
-                    'nom' => $rencontre->nom,
-                    'description' => $rencontre->description,
-                    'adresse' => $rencontre->adresse,
-                    'ville' => $rencontre->ville,
+                    'nom' => $meetup->nom,
+                    'description' => $meetup->description,
+                    'adresse' => $meetup->adresse,
+                    'ville' => $meetup->ville,
                     'date' => $date[0],
                     'heure' => $date[1],
-                    'participant' => $rencontre->nb_participant,
-                    'image' =>$rencontre->image == null ? '': $rencontre->image ,
-                    'public' => $rencontre->public,
+                    'participant' => $meetup->nb_participant,
+                    'image' =>$meetup->image == null ? '': $meetup->image ,
+                    'public' => $meetup->public,
                     'id' => $id,
                     'temporaryImage' => '',
                 ];
@@ -192,9 +193,9 @@ class MeetupController extends BaseController
             } else {
 
                 $id_owner = Auth::user()->id;
-                $rencontre = Meetup::where('id', $id)->first();
+                $meetup = Meetup::where('id', $id)->first();
 
-                if ($id_owner != $rencontre->id_organisateur) {
+                if ($id_owner != $meetup->id_organisateur) {
                     abort(403);
                 }
 
@@ -202,7 +203,7 @@ class MeetupController extends BaseController
                     $path = '';
                 } else {
                    
-                    $oldPath =str_replace('storage', 'public', $rencontre->image);
+                    $oldPath =str_replace('storage', 'public', $meetup->image);
                     if (File::exists($oldPath)) {
                         File::delete($oldPath);
                     } else {
@@ -235,12 +236,12 @@ class MeetupController extends BaseController
         }
     }
     public function delete($id){
-        $rencontre = Meetup::where('id', $id)->first();
-        if($rencontre != null){
-            if(Auth::user()->id == $rencontre->id_organisateur){
+        $meetup = Meetup::where('id', $id)->first();
+        if($meetup != null){
+            if(Auth::user()->id == $meetup->id_organisateur){
                 
-                if (File::exists($rencontre->image)) {
-                    File::delete($rencontre->image);
+                if (File::exists($meetup->image)) {
+                    File::delete($meetup->image);
                 }
 
                 DB::statement("Call effacerRencontre(?)", [
@@ -319,8 +320,8 @@ class MeetupController extends BaseController
 
     private function getCity()
     {
-        $City = City::orderBy('city_ascii', 'ASC')->get();
-        return $City;
+        $cities = City::orderBy('city_ascii', 'ASC')->get();
+        return $cities;
     }
 
     private function getDefault_images(){
@@ -329,6 +330,8 @@ class MeetupController extends BaseController
     public function LeaveMeetup($meetupId) {
         $meetupData = Meetup::where("id", $meetupId)->get()[0];
         Meetup_User::DeleteParticipant(Auth::user()->id, $meetupId);
+        Meetup_Request::CancelJoining(Auth::user()->id, $meetupId);
+
         
         return $this->MeetupPage($meetupId);
     }
@@ -351,12 +354,11 @@ class MeetupController extends BaseController
         /*join if public*/
         $meetupData = Meetup::where("id", $meetupId)->get()[0];
         if ($meetupData->public) {
-            if (!Meetup_User::IsInRencontre($meetupId, $userId)) {
-                Meetup_User::AddParticipant($userId, $meetupId);
-                return $this->MeetupPage($meetupId);
-            } else {
-                return $this->MeetupPage($meetupId);
-            }
+            Meetup_Request::AddMeetupRequest($userId, $meetupId);
+            return $this->MeetupPage($meetupId);
+        } else {
+            Meetup_Request::AddMeetupRequest($userId, $meetupId);
+            return $this->MeetupPage($meetupId);
         }
     }
     public function MeetupPage($meetupId) {
@@ -366,6 +368,7 @@ class MeetupController extends BaseController
         $organisator = Meetup::GetOrganisator($meetupId);
         $participants = Meetup::GetParticipants($meetupId);
         $GetRequestMeetupCount = Meetup_Request::GetMeetupRequestsNotAnswerdCount($meetupId);
+        $joining = Meetup_Request::IsUserRequesting(Auth::user()->id, $meetupId);
 
         /** a faire: 
          * -s'assurer que le client peut y accéder car il doit être amis si l'événement est priver
@@ -374,7 +377,16 @@ class MeetupController extends BaseController
 
         return view("meetups.meetupPage", ['meetupData' => $meetupData, "meetupTagsData" => $meetupTags, 
             "organisatorData" => $organisator, "participantsData" => $participants, 
-            "requestsParticipantsCount" => $GetRequestMeetupCount]);
+            "requestsParticipantsCount" => $GetRequestMeetupCount, "userRequested" => $joining]);
+    }
+    public function CancelJoiningMeetup($meetupId) {
+        $joining = Meetup_Request::IsUserRequesting(Auth::user()->id, $meetupId);
+        if ($joining == "joining") {
+            Meetup_Request::CancelJoining(Auth::user()->id, $meetupId);
+            return $this->MeetupPage($meetupId);
+        } else {
+            return $this->MeetupPage($meetupId);
+        }
     }
 
     public function MeetupRequests($meetupId) {
