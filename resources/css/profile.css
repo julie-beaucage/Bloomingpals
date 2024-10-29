@@ -1,3 +1,45 @@
+.personality {
+    --personality-color: #e2e9e4 !important;
+    --personality-color-pale: #f1f4f1 !important;
+    --personality-text-color: #2c3a30 !important;
+    --personality-text-button: #2c3a30 !important;
+    --personality-text-color-button: #e2e9e4 !important;
+ }
+ 
+
+.personality.analystes {
+   --personality-color: #c3b0cd !important;
+   --personality-color-pale: #decee7 !important;
+   --personality-text-color: #6c4d7b !important;
+   --personality-text-button: #620756 !important;
+   --personality-text-color-button: #ffffff !important;
+}
+
+.personality.diplomates {
+   --personality-color:  #b1f2d7 !important;
+   --personality-color-pale: #d6ece3 !important;
+   --personality-text-color: #277d58 !important;
+   --personality-text-button: #53b96c !important;
+   --personality-text-color-button: #ffffff !important;
+}
+
+.personality.sentinelles {
+   --personality-color: #a7d6e6 !important;
+   --personality-color-pale: #cce4ec !important;
+   --personality-text-color: #347990 !important;
+   --personality-text-button: #3b76dc !important;
+   --personality-text-color-button: #ffffff !important;
+}
+
+.personality.explorateurs {
+   --personality-color: #f4e27b !important;
+   --personality-color-pale: #eee4a7!important;
+   --personality-text-color: #e4ae3a !important;
+   --personality-text-button: #d4b02b !important;
+   --personality-text-color-button: #ffffff !important;
+}
+
+
 a:hover i,
 a,
 i {
@@ -57,7 +99,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: var(--background-50);
+    background-color: var(--personality-color-pale) !important; 
     border-radius: 2em 2em 0 0;
     flex-grow: 1;
 }
@@ -110,15 +152,15 @@ body {
 
 .onglet_profile {
     padding: 1em;
-    background-color: #ffffff;
+    background-color: white;;
     box-shadow: 0 0.25em 0.375em rgba(0, 0, 0, 0.1); 
     overflow-y: auto;
     flex-grow: 1;
 }
 
 .btnProfile {
-    background-color: var(--secondary-800);
-    color: white;
+    background-color: var(--personality-text-button) !important;
+    color:var(--personality-text-color-button);
     padding: 0.625em 1.25em; 
     font-size: 1em; 
     border: none;
@@ -235,3 +277,39 @@ body {
     margin-top: 20%;
  
 }
+/* TEST ONGLET CSS */  
+.containerPerso{
+    background-color: var(--personality-color) !important;
+    border-radius: 10px;
+    padding:5em;
+
+}
+  .personality-card {
+    padding: 20px;
+    background-color: #00796b;
+    border-radius: 10px;
+    background-color: var(--personality-color);
+    color: var(--text-color);
+  }
+  
+  .personality-card.analystes {
+   --personality-color: #c3b0cd;
+    --text-color: #6c4d7b;
+  }
+  
+  .personality-card.diplomates {
+   --personality-color:  #d6ece3;
+    --text-color: #277d58;
+  }
+  
+  .personality-card.sentinelles {
+   --personality-color: #cce4ec;
+    --text-color: #347990;
+  }
+  
+  .personality-card.explorateurs{
+   --personality-color: #f4e27b;
+    --text-color: #e4ae3a;
+  }
+  
+  /*----------------*/

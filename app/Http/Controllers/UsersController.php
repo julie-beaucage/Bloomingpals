@@ -15,7 +15,7 @@ use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Broadcasting\PrivateChannel;
 
 
-class usersController extends Controller
+class UsersController extends Controller
 {
     public function registerForm()
     {
