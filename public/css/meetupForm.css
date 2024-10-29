@@ -259,6 +259,9 @@ label {
 .red{
     background-color: var(--error);
 }
+.center{
+    align-items: center;
+}
 
 
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User_Interest;
 use Blade;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
@@ -34,6 +35,7 @@ class NotificationController extends Controller
             if ($id_user == null) {
                 return null;
             }
+            
 
             $notifications = DB::table('notifications')
                 ->join('types_notifications', 'type', '=', 'types_notifications.id')
@@ -50,6 +52,7 @@ class NotificationController extends Controller
     }
     public function getNotification()
     {
+        
         $id = Auth::user()->id;
         if ($id != null) {
 
@@ -121,41 +124,59 @@ class NotificationController extends Controller
         return http_response_code(404);
     }
 
-    public function delete($id)
-    {
-        $id_user = Auth::user()->id;
-        $notification = Notification::where('id', '=', $id)->first();
-        if (intval($id) != null and $notification->id_user == $id_user) {
-
-            DB::statement("Call deleteNotification(?)", [
-                $id
-            ]);
-
-            return http_response_code(200);
-
+    public function delete(Request $req)
+    {  
+        if($req->id != null){
+            $id_user = Auth::user()->id;
+            $notification = Notification::where('id', '=', $req->id)->first();
+            if (intval($req->id) != null and $notification->id_user == $id_user) {
+    
+                DB::statement("Call deleteNotification(?)", [
+                    $req->id
+                ]);
+    
+                return http_response_code(200);
+    
+            }
         }
+        
         return http_response_code(404);
     }
 
-    public function sendDailyNotification($id_user)
+    public function sendDailyNotification()
     {
-        $user = User::where('id', '=', $id_user)->first();
-        if ($user != null) {
-            date_default_timezone_set('America/Toronto');
-            $today = new DateTime(date('Y-m-d H:i:s'));
-            if ($user->daily_notif == null) {
+        $id_user=Auth::user()->id;
+        if($id_user != null){
+            $user = User::where('id', '=', $id_user)->first();
+            if ($user != null) {
+                
 
-            } else {
-                $last_notif = new DateTime($user->daily_notif);
-                $diff = $today->diff($last_notif);
+                date_default_timezone_set('America/Toronto');
+                $today = new DateTime(date('Y-m-d H:i:s'));
+                if ($user->daily_notif == null) {
+                    $user_interest=User_Interest::select('id_interest')->where('id_user','=',$user->id)->get();
+                    //$meetups_by_interest=Meetup_Interest::where('id_owner','!=',$user->id)->whereIn('id')
 
 
-                if ($diff->days > 0) {
+                } else {
+                    $last_notif = new DateTime($user->daily_notif);
+                    $diff = $today->diff($last_notif);
+    
+    
+                    if ($diff->days > 0) {
+                        
+                        $user_interest=User_Interest::where('id_user','=',$user->id)->get()-value('id');
+                        dd($user_interest);
+                        //$meetups_by_interest=Meetup::where('id_owner','!=',$user->id)->whereIn('id')
 
+                        
+    
+                    }
+    
                 }
-
             }
         }
+        
     }
     public function hasNotificationUnread($id_user)
     {

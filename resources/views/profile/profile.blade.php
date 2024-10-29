@@ -69,6 +69,7 @@
         crossorigin="anonymous"></script>
 
     <script>
+        const crsf = $('meta[name="csrf-token"]').attr('content');
         function refreshFormFields() {
             $("#password-enter").removeClass('is-invalid').val("");
             $('#feedback-account').removeClass('invalid-feedback').text("Entrez votre mot de passe pour accéder à vos informations");
@@ -105,7 +106,6 @@
                 });
 
             });
-            let account_settings_form = false;
             document.getElementById('account-settings-form').addEventListener('submit', async function (e) {
                 let data = new FormData(e.target);
                 e.preventDefault();
@@ -123,7 +123,6 @@
                     error = true;
                 }
                 if (data.get('email') !== '') {
-                    let crsf = $('meta[name="csrf-token"]').attr('content');
                     try {
                         const result = await new Promise((resolve) => {
                             $.ajax({

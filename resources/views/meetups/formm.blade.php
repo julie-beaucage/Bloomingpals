@@ -98,6 +98,15 @@
 
     </div>
 
+    <div class="form-flex-col" style=" flex-direction:row !important;">
+        <div class="form-title">Intérets</div>
+        <div class="image-close cursor center"><span class="material-symbols-rounded">
+               keyboard_arrow_right
+            </span></div>
+    </div>
+
+    <div id="interetscontainer"></div>
+
     <div class="form-flex-col spaced" style=" flex-direction:row !important;">
         <div class="form-title">Image</div>
         <div class="image-close cursor" style="display:none;"><span class="material-symbols-rounded">
@@ -135,6 +144,8 @@
 
 @section("script")
 <script>
+        const interestUrl=window.location.origin
+
     const crsf = $('meta[name="csrf-token"]').attr('content');
     function removePop() {
         $('.pop-up-overlay').remove();

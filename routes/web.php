@@ -69,12 +69,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/personality/results', [PersonalityController::class, 'results'])->name('personality.results');
     
 
-    // Meetup
-   
+    // Meetup();
+    Route::get('/meetup', [NotificationController::class, 'sendDailyNotification'])->name('meetup');
     Route::post('/meetup/create', [MeetupController::class, 'create']);
     Route::post('/meetup/create/{isEvent}', [MeetupController::class, 'create']);
     Route::post('/meetup/edit/{id}', [MeetupController::class, 'edit'])->where('id', '[0-9]+');
-    Route::get('/meetup', [MeetupController::class, 'index'])->name('meetup');
+   // Route::get('/meetup', [MeetupController::class, 'index'])->name('meetup');
     Route::delete('/meetup/delete/{id}', [MeetupController::class, 'delete'])->where('id', '[0-9]+');
     Route::get('/meetup/form',[MeetupController::class, 'Form']);
     Route::get('/meetup/form/{id}', [MeetupController::class, 'Form']);
@@ -106,7 +106,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/ReadNewNotification/{id}', [NotificationController::class, 'markAsRead']);
     Route::get('/ReadAll', [NotificationController::class, 'readAll']);
     Route::get('/notifications', [NotificationController::class,'index']);
-    Route::get('/notifications/delete/{id}', [NotificationController::class,'delete'])->where('id', '[0-9]+');
+    Route::delete('/notifications/delete', [NotificationController::class,'delete']);
     Route::get('/hasNotificationOn', [NotificationController::class, 'hasNotificationOn']);
     
 });

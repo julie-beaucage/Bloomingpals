@@ -1,5 +1,5 @@
 $(document).ready(function () {
-
+    const crsf = $('meta[name="csrf-token"]').attr('content');
     function truncatee(str, length) {
         if (str.length > length) {
             return str.substring(0, length - 3) + '...';
@@ -173,7 +173,8 @@ $(document).ready(function () {
     $(".close_icon-page").on('click', function () {
         $.ajax({
             type: "DELETE",
-            url: '/notifications/delete/' + $(this).attr('id'),
+            url: '/notifications/delete',
+            data:{id: $(this).attr('id'),_token:crsf}
         });
         container = $(this).parent().parent().parent().parent();
         container.addClass('border-red');
