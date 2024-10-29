@@ -254,7 +254,7 @@ body {
 }
 
 .shrinked_only {
-    display: none;
+    display: none !important;
 }
 
 @keyframes shrinked_title_width {
@@ -272,7 +272,7 @@ body {
     }
 
     .shrinked_only {
-        display: flex;
+        display: flex !important;
     }
 
     .navbar_item:hover > .shrinked_title > .title {
@@ -320,7 +320,7 @@ body {
     }
 
     .shrinked_only {
-        display: none;
+        display: none !important;
     }
     
     .navbar_item:hover > .navbar_icon {

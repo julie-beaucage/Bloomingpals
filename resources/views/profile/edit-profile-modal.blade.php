@@ -32,7 +32,7 @@
                     onchange="previewImage(event, 'imagePreview')">
                 <div onclick="document.getElementById('image_profile').click()" class="image-clickable">
                     <img id="imagePreview" class="modifImage"
-                        src="{{ Auth::user()->image_profil ? asset('storage/' . Auth::user()->image_profil) : asset('..\images\flower.png') }}"
+                        src="{{ Auth::user()->image_profil ? asset('storage/' . Auth::user()->image_profil) : asset('..\images\simple_flower.png') }}"
                         alt="Aperçu de l'image" />
                     <span class="overlay-text">Modifier image</span>
                 </div>
