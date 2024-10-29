@@ -4,22 +4,25 @@
 <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 @endsection()
+@include('profile.edit-profile-modal', ['style' => 'display: none;'])
 
 @include('profile.edit-profile-modal')
 @include('profile.settings-page')
 @include('profile.confidentiality')
 @include('profile.account-settings-password')
 @include('profile.account-settings')
+@php
+    $userPersonality = Auth::user()->getPersonalityType();
+@endphp
 
 @section('content')
-
 <div id="background_cntr" class="no_select">
     <div id="background_color"></div>
     <img id="background_img"
         src="{{ $user->background_image ? asset('storage/' . $user->background_image) : asset('/images/R.jpg') }}"
         alt="Bannière du profile">
 </div>
-<div id="profile_cntr">
+<div id="profile_cntr"  class="personality {{ $userPersonality  }}">
     <div id="info_cntr">
         <div class="profile-picture no_select">
             <img src="{{ $user->image_profil ? asset('storage/' . $user->image_profil) : asset('/images/simple_flower.png') }}"

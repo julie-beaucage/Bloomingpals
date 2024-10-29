@@ -5,15 +5,28 @@
 @endsection()
 
 @php
-    use App\Models\TagEvent;
-    use App\Models\Tag;
+    use App\Models\Event_Category;
+    use App\Models\Event_Interest;
+    use App\Models\Interest;
+    use App\Models\Category_Interest;
 
     $tags = "";
-    $event_tags = TagEvent::where('id_evenement', $event->id)->get();
+    $attendees = [];
 
-    foreach ($event_tags as $event_tag) {
-        $tag = Tag::find($event_tag->id_tag);
-        $tags .= '<span class="tag">' . $tag->nom . '</span>';
+    $event_category = Event_Category::where('id_event', $event->id)->get();
+    foreach ($event_category as $event_category) {
+        $category = Category_Interest::find($event_category->id_category);
+        if ($category == null) continue;
+
+        $tags .= '<span class="tag" style="background-color: var(--category-'. $category->id .')">' . $category->name . '</span>';
+    }
+
+    $event_interests = Event_Interest::where('id_event', $event->id)->get();
+    foreach ($event_interests as $event_interest) {
+        $interest = Interest::find($event_interest->id_interest);
+        if ($interest == null) continue;
+
+        $tags .= '<span class="tag" style="background-color: var(--category-'. $interest->id_category .')">' . $interest->name . '</span>';
     }
 @endphp
 
@@ -31,7 +44,7 @@
         <div class="container">
             <div class="section">
                 <div id="event_header">
-                    <h1 class="event_name">{{ $event['nom'] }}</h1>
+                    <h1 class="event_name">{{ $event['name'] }}</h1>
                     <div class="tags">
                         @php echo $tags @endphp
                     </div>
@@ -55,20 +68,16 @@
                     <div>
                         <b>Lieu</b>
                         <span class="text_center">
-                            @php 
-                                echo $event["adresse"];
-                            @endphp
+                            {{ $event["adress"] }}
                         </span>
                         <span class="text_center">
-                            @php 
-                                echo $event["ville"];
-                            @endphp
+                            {{ $event["city"] }}
                         </span>
                     </div>
 
                     <div>
                         <b>Prix</b>
-                        <span class="text_center">{{ $event['prix'] }}</span>
+                        <span class="text_center">{{ $event['price'] }}</span>
                     </div>
                 </div>
             </div>
@@ -88,8 +97,8 @@
                     @else
                         @foreach ($attendees as $attendee)
                             <div>
-                                <img src="{{ $attendee['photo'] }}" alt="Photo de profil de {{ $attendee['nom'] }}">
-                                <span>{{ $attendee['nom'] }}</span>
+                                <img src="{{ $attendee['photo'] }}" alt="Photo de profil de {{ $attendee['name'] }}">
+                                <span>{{ $attendee['name'] }}</span>
                             </div>
                         @endforeach
                     @endif
@@ -140,7 +149,6 @@
             try {
                 data = context.getImageData(0, height-5, width, 1);
             } catch (e) {
-                console.log('return default')
                 return defaultRGB;
             }
 

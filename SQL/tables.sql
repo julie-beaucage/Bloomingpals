@@ -2,6 +2,10 @@
 Create DATABASE IF NOT EXISTS `BloomingPals`  DEFAULT CHARACTER SET utf8mb4;
 USE BloomingPals;
 
+DROP TABLE IF EXISTS canadacities;
+DROP TABLE IF EXISTS meetups_interests;
+DROP TABLE IF EXISTS events_interests;
+DROP TABLE IF EXISTS events_categories;
 DROP TABLE IF EXISTS users_interests;
 DROP TABLE IF EXISTS interests;
 DROP TABLE IF EXISTS categories_interests;
@@ -13,27 +17,62 @@ DROP TABLE IF EXISTS affinities_users;
 DROP TABLE IF EXISTS relations;
 DROP TABLE IF EXISTS meetups_users;
 DROP TABLE IF EXISTS events_users;
-DROP TABLE IF EXISTS tags_meetups;
-DROP TABLE IF EXISTS tags_events;
 DROP TABLE IF EXISTS friendships_requests;
 DROP TABLE IF EXISTS meetups_requests;
 DROP TABLE IF EXISTS reports;
 DROP TABLE IF EXISTS notifications;
-DROP TABLE IF EXISTS tags;
 DROP TABLE IF EXISTS meetups;
 DROP TABLE IF EXISTS objects_types;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS `events`;
-DROP TABLE IF EXISTS types_personalities;
 DROP TABLE IF EXISTS types_notifications;
 DROP TABLE IF EXISTS affinities;
-
+DROP TABLE IF EXISTS answers;
+DROP TABLE IF EXISTS questions;
+DROP TABLE IF EXISTS types_personalities;
+DROP TABLE IF EXISTS personalities;
+DROP TABLE IF EXISTS groups_personalities;
 -- types_personalities -----------------------------------
-CREATE TABLE IF NOT EXISTS types_personalities (
-    id INT PRIMARY KEY auto_increment ,
+CREATE TABLE IF NOT EXISTS groups_personalities (
+    id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(50) NOT NULL
 )
 ENGINE = InnoDB;
+
+ CREATE TABLE IF NOT EXISTS personalities (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    group_perso INT,
+    type VARCHAR(4) NOT NULL, 
+    name VARCHAR(50) NOT NULL, 
+    nameDescription VARCHAR(500) NOT NULL,  
+    FOREIGN KEY (group_perso) REFERENCES groups_personalities (id)
+)
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS types_personalities (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    type CHAR(1) NOT NULL UNIQUE,  
+    description VARCHAR(50) NOT NULL,  
+    CHECK (type IN ('E', 'I', 'S', 'N', 'T', 'F', 'P', 'J')) 
+) ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS questions (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    no INT NOT NULL, 
+    question VARCHAR(1000) NOT NULL
+) ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS answers (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    question_id INT NOT NULL,  
+    type_answer CHAR(1) NOT NULL, 
+    answer VARCHAR(1000) NOT NULL,  
+    FOREIGN KEY (question_id) REFERENCES questions(id) ON DELETE CASCADE,
+    FOREIGN KEY (type_answer) REFERENCES types_personalities(type)
+) ENGINE = InnoDB;
+
+
+
 -- -----------------------------------------------------
 
 -- users -----------------------------------------
@@ -44,7 +83,7 @@ CREATE TABLE IF NOT EXISTS users (
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     birthdate DATE NOT NULL,
-    type_personality INT DEFAULT 0 NOT NULL,
+    personality INT DEFAULT NULL,
     image_profil VARCHAR(2048),
     background_image VARCHAR(2048), 
     gender ENUM('homme', 'femme', 'non-genre') NOT NULL,
@@ -52,10 +91,9 @@ CREATE TABLE IF NOT EXISTS users (
     email_verified_at TIMESTAMP NULL DEFAULT NULL,
     updated_at TIMESTAMP NULL DEFAULT NULL,
     remember_token VARCHAR(100) NULL,
-    FOREIGN KEY (type_personality) REFERENCES types_personalities (id)
+    FOREIGN KEY (personality) REFERENCES personalities (id)
 ) ENGINE=InnoDB;
 
-INSERT INTO types_personalities (id, name) VALUES (0, 'Aucun'); -- code obligatoire en attendant de remplir la table personality)
 -- -----------------------------------------------------
 
 -- search_history --------------------------------
@@ -191,14 +229,13 @@ ENGINE = InnoDB;
 -- events -------------------------------------------
 CREATE TABLE IF NOT EXISTS `events`(
     id INT PRIMARY KEY auto_increment,
-    name varchar(100) NOT NULL,
+    `name` varchar(100) NOT NULL,
     `description` Varchar(1024),
     city Varchar(100) NOT NULL,
     adress Varchar(100) NOT NULL,
     `date` DATETIME NOT NULL,
     price varchar(20),
-    image varchar(2048),
-    nb_participant INT DEFAULT(0)
+    image varchar(2048)
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
@@ -238,36 +275,6 @@ CREATE TABLE IF NOT EXISTS meetups_requests(
 ENGINE = InnoDB;
 -- -----------------------------------------------------
 
--- tags ------------------------------------------------
-CREATE TABLE IF NOT EXISTS tags(
-    id INT PRIMARY KEY auto_increment,
-    name Varchar(50) not null
-)
-ENGINE = InnoDB;
--- -----------------------------------------------------
-
--- Tags_meetups --------------------------------------
-CREATE TABLE IF NOT EXISTS tags_meetups(
-    id_meetup INT not null,
-    id_tag INT not null,
-    FOREIGN KEY (id_meetup) REFERENCES meetups(id),
-    FOREIGN KEY (id_tag) REFERENCES tags(id),
-    PRIMARY KEY (id_tag, id_meetup)
-)
-ENGINE = InnoDB;
--- -----------------------------------------------------
-
--- Tags_events --------------------------------------
-CREATE TABLE IF NOT EXISTS tags_events(
-	id_tag INT not null,
-    id_event INT not null,
-    FOREIGN KEY (id_tag) REFERENCES tags(id),
-    FOREIGN KEY (id_event) REFERENCES `events`(id),
-    PRIMARY KEY (id_tag, id_event)
-)
-ENGINE = InnoDB;
--- -----------------------------------------------------
-
 -- reports -----------------------------------------
 CREATE TABLE IF NOT EXISTS reports(
     id Int primary key auto_increment,
@@ -283,14 +290,14 @@ ENGINE = InnoDB;
 -- categories_interests -----------------------------------
 CREATE TABLE IF NOT EXISTS categories_interests (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(50) NOT NULL UNIQUE
+    `name` VARCHAR(50) NOT NULL UNIQUE
 ) ENGINE=InnoDB;
 -- -----------------------------------------------------
 
 -- interests ---------------------------------------------
 CREATE TABLE IF NOT EXISTS interests (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(50) NOT NULL UNIQUE,
+    `name` VARCHAR(50) NOT NULL UNIQUE,
     id_category INT,
     FOREIGN KEY (id_category) REFERENCES categories_interests(id)
 ) ENGINE=InnoDB;
@@ -304,4 +311,54 @@ CREATE TABLE IF NOT EXISTS users_interests (
     FOREIGN KEY (id_user) REFERENCES users(id),
     FOREIGN KEY (id_interest) REFERENCES interests(id)
 ) ENGINE=InnoDB;
+-- -----------------------------------------------------
+
+-- meetups_interests --------------------------------------
+CREATE TABLE IF NOT EXISTS meetups_interests(
+    id_interest INT not null,
+    id_meetup INT not null,
+	FOREIGN KEY (id_interest) REFERENCES interests(id),
+    FOREIGN KEY (id_meetup) REFERENCES meetups(id),
+    PRIMARY KEY (id_interest, id_meetup)
+)
+ENGINE = InnoDB;
+-- -----------------------------------------------------
+
+-- events_interests --------------------------------------
+CREATE TABLE IF NOT EXISTS events_interests(
+    id_interest INT not null,
+    id_event INT not null,
+	FOREIGN KEY (id_interest) REFERENCES interests(id),
+    FOREIGN KEY (id_event) REFERENCES `events`(id),
+    PRIMARY KEY (id_interest, id_event)
+)
+ENGINE = InnoDB;
+-- -----------------------------------------------------
+
+-- events_categories --------------------------------------
+CREATE TABLE IF NOT EXISTS events_categories(
+	id_category INT not null,
+    id_event INT not null,
+    FOREIGN KEY (id_category) REFERENCES categories_interests(id),
+    FOREIGN KEY (id_event) REFERENCES `events`(id),
+    PRIMARY KEY (id_category, id_event)
+)
+ENGINE = InnoDB;
+-- -----------------------------------------------------
+
+-- canada_cities ---------------------------------------
+CREATE TABLE canadacities (
+  city TEXT(120),
+  city_ascii TEXT(120),
+  province_id TEXT(2),
+  province_name TEXT(50),
+  lat TEXT(20),
+  lng TEXT(20),
+  population FLOAT,
+  density FLOAT,
+  timezone TEXT(120),
+  ranking INT,
+  postal TEXT(4000),
+  id TEXT(10)
+);
 -- -----------------------------------------------------

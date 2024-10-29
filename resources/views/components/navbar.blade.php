@@ -28,12 +28,7 @@
                     'icon' => 'account_circle',
                     'url' => route('profile', ['id' => Auth::user()->id])
                 ],
-                [
-                    'id' => 'meetup',
-                    'title' => 'MeetUps',
-                    'icon' => 'groups',
-                    'url' => route('meetup')
-                ],
+               
                 [
                     'id' => 'notification',
                     'title' => 'Notifications',
