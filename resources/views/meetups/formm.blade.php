@@ -98,14 +98,16 @@
 
     </div>
 
-    <div class="form-flex-col" style=" flex-direction:row !important;">
-        <div class="form-title">Intérets</div>
-        <div class="image-close cursor center"><span class="material-symbols-rounded">
-               keyboard_arrow_right
-            </span></div>
-    </div>
+    <div class="form-title">Intérets</div>
 
-    <div id="interetscontainer"></div>
+    <div class="filter_cntr search_suggestion search_selection" data-url="/search/interests" data-param="interests"
+        data-name="name">
+        <input id="category_search" type="text" class="search_suggestion_input" placeholder="Rechercher par catégorie"
+            style="width:100%;">
+        <div id="category_selections" class="selections"></div>
+        <div id="category_suggestions" class="suggestions">
+        </div>
+    </div>
 
     <div class="form-flex-col spaced" style=" flex-direction:row !important;">
         <div class="form-title">Image</div>
@@ -116,7 +118,7 @@
 
 
     <div class="fileUploader cursor drop" id="dragArea">
-        <img class="img-preview" style="display:none;" src="{{$data['image']!=null? asset($data['image']): "";}}">
+        <img class="img-preview" style="display:none;" src="{{$data['image'] != null ? asset($data['image']) : ''}}">
         <div class="fileUploader-content drop" style="margin-top:.5em;">
             <span class="material-symbols-rounded drop">add_photo_alternate</span>
         </div>
@@ -144,8 +146,6 @@
 
 @section("script")
 <script>
-        const interestUrl=window.location.origin
-
     const crsf = $('meta[name="csrf-token"]').attr('content');
     function removePop() {
         $('.pop-up-overlay').remove();
@@ -155,9 +155,9 @@
             $.ajax({
                 type: "DELETE",
                 url: location,
-                data: {_token: crsf}
-            }).done(()=>{
-                window.location.href="/meetup";
+                data: { _token: crsf }
+            }).done(() => {
+                window.location.href = "/meetup";
             });
         });
     }
@@ -177,7 +177,7 @@
             "</div>";
 
         $('body').append(pop_up_box);
-       
+
         removeMeetup(location);
     }
 
@@ -444,6 +444,87 @@
             if ($('.img-preview').attr('src') == "") {
                 document.querySelector('input[type=file]').value = "";
             }
+        });
+
+        //code Alexis
+
+        $(".search_suggestion").each(async function () {
+            let filter_cntr = $(this);
+            let suggestions = null;
+            $.ajax({
+                url: filter_cntr.data("url"),
+                type: "GET",
+                success: function (data) {
+                    suggestions = data;
+                }
+            });
+
+            $(this).children('input').keyup(function () {
+
+                if (suggestions == null || suggestions.length == 0 || jQuery.isEmptyObject(suggestions))
+                    return;
+
+                let query = $(this).val();
+                let url = new URL(window.location.href);
+                let suggestions_cntr = filter_cntr.find(".suggestions");
+
+                suggestions_cntr.empty();
+
+                if (query == "" && !filter_cntr.hasClass("search_selection")) {
+                    url.searchParams.set(filter_cntr.data("param"), "");
+                    window.history.replaceState({}, "", url);
+                }
+
+                let closest_match = suggestions[0][filter_cntr.data("name")].normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                if (query.toLowerCase() == closest_match.toLowerCase() && !filter_cntr.hasClass("search_selection")) {
+                    url.searchParams.set(filter_cntr.data("param"), closest_match);
+                    window.history.replaceState({}, "", url);
+                }
+
+                let selection_ids = (filter_cntr.hasClass("search_selection") && url.searchParams.has(filter_cntr.data("param"))) ? url.searchParams.get(filter_cntr.data("param")).split(",").map(e => parseInt(e)) : [];
+                let data = (query == "") ? [] : suggestions.filter((sugg) => sugg[filter_cntr.data("name")].toLowerCase().startsWith(query.toLowerCase()) && !selection_ids.includes(sugg["id"])).slice(0, 5);
+
+                for (let i = 0; i < data.length; i++) {
+
+                    let elem = $("<span>").attr("class", "suggestion hover_darker no_select").text(data[i][filter_cntr.data("name")]);
+                    suggestions_cntr.append(elem);
+
+                    if (filter_cntr.hasClass("search_selection")) {
+                        elem.click(function () {
+                            if (url.searchParams.get(filter_cntr.data("param")) != null && url.searchParams.get(filter_cntr.data("param")).split(",").includes(data[i]["id"] + ""))
+                                return;
+
+                            let selections = filter_cntr.find(".selections");
+                            let selection = $("<span>").attr("class", "selection no_select tag tag_rmv hover_darker").attr("style", "background-color: var(--category-" + data[i]["id_category"] + ")").text(data[i][filter_cntr.data("name")]);
+                            selections.append(selection);
+
+                            let selections_list = (url.searchParams.has(filter_cntr.data("param"))) ? url.searchParams.get(filter_cntr.data("param")) : "";
+                            url.searchParams.set(filter_cntr.data("param"), (selections_list == "") ? data[i]["id"] : selections_list + "," + data[i]["id"]);
+                            window.history.replaceState({}, "", url);
+
+                            selection.click(function () {
+                                selection.remove();
+                                let url = new URL(window.location.href);
+                                let selections_list = (url.searchParams.has(filter_cntr.data("param"))) ? url.searchParams.get(filter_cntr.data("param")) : "";
+                                url.searchParams.set(filter_cntr.data("param"), selections_list.split(",").filter(e => e != data[i]["id"]).join(","));
+                                window.history.replaceState({}, "", url);
+                            });
+
+                            suggestions_cntr.empty();
+                            filter_cntr.children('input').val("");
+                            filter_cntr.children('input').focus();
+                        })
+                    }
+                    else {
+                        elem.click(function () {
+                            filter_cntr.children('input').val(data[i][filter_cntr.data("name")]);
+                            url.searchParams.set(filter_cntr.data("param"), data[i][filter_cntr.data("name")].normalize("NFD").replace(/[\u0300-\u036f]/g, ""));
+                            window.history.replaceState({}, "", url);
+                            suggestions_cntr.empty();
+                        });
+                    }
+                }
+            });
         });
     });
 </script>
