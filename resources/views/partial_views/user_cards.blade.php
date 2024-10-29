@@ -20,7 +20,7 @@ foreach ($users as $user) {
 
     $user_interests = User_Interest::where('id_user', $user->id)->get();
     $count = "";
-    if ($count != "Undefined") {
+    if ($user_interests != "Undefined") {
         $count = count($user_interests);
     } else {
         $count = 0;
