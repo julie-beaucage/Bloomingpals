@@ -19,7 +19,7 @@
 
                     <hr>
                     <!-- <div class="flex-roww" style="gap:.8em;"  data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#account-settings"> -->
-                    <div class="flex-roww" style="gap:.8em;" onclick="refreshFormPassword();" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#account-settings-password">
+                    <div class="flex-roww" style="gap:.8em;" onclick="refreshFormFields();" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#account-settings-password">
                         <span class="material-symbols-rounded" style="font-size1.5em;">admin_panel_settings</span>
                         <div>Compte</div>
                     </div>

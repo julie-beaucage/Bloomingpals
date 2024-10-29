@@ -107,7 +107,7 @@
 
 
     <div class="fileUploader cursor drop" id="dragArea">
-        <img class="img-preview" style="display:none;" src="{{asset($data['image'])}}">
+        <img class="img-preview" style="display:none;" src="{{$data['image']!=null? asset($data['image']): "";}}">
         <div class="fileUploader-content drop" style="margin-top:.5em;">
             <span class="material-symbols-rounded drop">add_photo_alternate</span>
         </div>
@@ -135,15 +135,20 @@
 
 @section("script")
 <script>
-
+    const crsf = $('meta[name="csrf-token"]').attr('content');
     function removePop() {
         $('.pop-up-overlay').remove();
     }
     function removeMeetup(location) {
-        $('#deleteMeetup').on('click', function () {
-            window.location.href = location;
+        $('#deleteMeetup').click(function (e) {
+            $.ajax({
+                type: "DELETE",
+                url: location,
+                data: {_token: crsf}
+            }).done(()=>{
+                window.location.href="/meetup";
+            });
         });
-
     }
 
     function Confirm(location) {
@@ -161,14 +166,7 @@
             "</div>";
 
         $('body').append(pop_up_box);
-        $('#deleteMeetup').click(function (e) {
-            $.ajax({
-                type: "Get",
-                url: location,
-            }).done(()=>{
-                window.location.href="/meetup";
-            });
-        });
+       
         removeMeetup(location);
     }
 

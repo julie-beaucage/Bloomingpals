@@ -33,6 +33,12 @@ Route::post('/signIn', [UsersController::class, 'create'])->name('signin');
 Route::post('/login', [UsersController::class, 'login'])->name('login');
 Route::get('/logout', [UsersController::class, 'logout'])->name('logout');
 
+//more profile cuz cors dont work
+Route::post('profile/checkPassword', [UsersController::class, 'checkPassword']);
+Route::post('/profile/checkEmail', [UsersController::class, 'isEmailTaken']);
+Route::post('profile/updateAccount', [UsersController::class, 'updateAccount']);
+
+
 Route::middleware('auth')->group(function () {
     
     // Home page
@@ -43,12 +49,15 @@ Route::middleware('auth')->group(function () {
 
     // Profile
     Route::get('/profile/{id}', [UsersController::class, 'profile'])->name('profile');
+    Route::post('/profile/{id}', [UsersController::class, 'profile']);
+
     Route::put('/profile/update/{id}', [UsersController::class, 'update'])->name('profile.update');
     Route::get('profile/amis/{id}', [UsersController::class, 'amis'])->name('profile.amis');
     Route::get('profile/personnalite/{id}', [UsersController::class, 'personnalite'])->name('profile.personnalite');
     Route::post('profile/update/confidentiality/{id}', [UsersController::class, 'updateConfidentiality'])->name('profile.update.confidentiality');
     Route::post('profile/checkPassword', [UsersController::class, 'checkPassword'])->name('profile.checkPassword');
-    
+    Route::post('/profile/checkEmail', [UsersController::class, 'isEmailTaken']);
+    Route::post('profile/updateAccount', [UsersController::class, 'updateAccount']);
 
     //INTERET
     Route::get('interets/interets/{id}', [InterestsController::class, 'interets'])->name('interets.interets');
@@ -66,7 +75,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/meetup/create/{isEvent}', [MeetupController::class, 'create']);
     Route::post('/meetup/edit/{id}', [MeetupController::class, 'edit'])->where('id', '[0-9]+');
     Route::get('/meetup', [MeetupController::class, 'index'])->name('meetup');
-    Route::get('/meetup/delete/{id}', [MeetupController::class, 'delete'])->where('id', '[0-9]+');
+    Route::delete('/meetup/delete/{id}', [MeetupController::class, 'delete'])->where('id', '[0-9]+');
     Route::get('/meetup/form',[MeetupController::class, 'Form']);
     Route::get('/meetup/form/{id}', [MeetupController::class, 'Form']);
     Route::get('/meetup/form/{id}/{isEvent}', [MeetupController::class, 'Form']);

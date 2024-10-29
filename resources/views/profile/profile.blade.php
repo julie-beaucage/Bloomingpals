@@ -49,7 +49,8 @@
                             href="{{ route('profile.amis', $user->id) }}" data-target="profile/amis">Amis</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link tab-link {{ request()->is('profile/personnalite') ? 'active' : '' }}"
+                        <a onclick="refreshFormFields()"
+                            class="nav-link tab-link {{ request()->is('profile/personnalite') ? 'active' : '' }}"
                             href="{{ route('profile.personnalite', $user->id) }}"
                             data-target="profile/personnalite">Personnalité</a>
                     </li>
@@ -68,13 +69,22 @@
         crossorigin="anonymous"></script>
 
     <script>
+        function refreshFormFields() {
+            $("#password-enter").removeClass('is-invalid').val("");
+            $('#feedback-account').removeClass('invalid-feedback').text("Entrez votre mot de passe pour accéder à vos informations");
 
-        function refreshFormPassword() {
-            $("#password-enter").removeClass('is-invalid');
-            $('#feedback-account').removeClass('invalid-feedback');
-            $('#feedback-account').text("Entrez votre mot de passe pour accéder à vos informations");
-            $("#password-enter").val("");
+            // Reset the new password input
+            $("#password-account").removeClass('is-invalid').val("");
+            $('#feedback-new-password').removeClass('invalid-feedback').text("");
+
+            // Reset the confirm password input
+            $("#password-account2").removeClass('is-invalid').val("");
+            $('#feedback-new-password2').removeClass('invalid-feedback').val("");
+
+            $("#email").removeClass('is-invalid').val("");
+            $('#feedback-account-email').removeClass('invalid-feedback').text("");
         }
+
         $(document).ready(function () {
             $("#account-settings-password-form").submit(function (event) {
                 event.preventDefault();
@@ -86,22 +96,67 @@
                         if (data == 1) {
                             $("#account-settings-password").modal('hide');
                             $("#account-settings").modal('show');
-
                         }
                         else {
-                            $("#password-enter").addClass('is-invalid');
-                            $('#feedback-account').addClass('invalid-feedback');
-                            $('#feedback-account').text(data);
-
+                            $("#password-enter").addClass('is-invalid').focus();
+                            $('#feedback-account').addClass('invalid-feedback').text(data);
                         }
                     }
-                })
+                });
 
             });
-            $('#account-settings-form').submit(function(event) {
-                event.preventDefault();
-                
+            let account_settings_form = false;
+            document.getElementById('account-settings-form').addEventListener('submit', async function (e) {
+                let data = new FormData(e.target);
+                e.preventDefault();
+
+                let error = false;
+
+
+                if (data.get('password') != data.get('password2')) {
+                    msg = "Les mots de passe sont différents";
+                    $("#password-account").addClass('is-invalid');
+                    $('#feedback-new-password').addClass('invalid-feedback').text(msg);
+
+                    $("#password-account2").addClass('is-invalid');
+                    $('#feedback-new-password2').addClass('invalid-feedback').text(msg);
+                    error = true;
+                }
+                if (data.get('email') !== '') {
+                    let crsf = $('meta[name="csrf-token"]').attr('content');
+                    try {
+                        const result = await new Promise((resolve) => {
+                            $.ajax({
+                                url: '/profile/checkEmail',
+                                type: "POST",
+                                data: { email: data.get('email'), _token: crsf },
+                                success: function (res) {
+                                    resolve(res);
+                                }
+                            });
+                        });
+
+                        // Check the result
+                        if (result == 1) {
+                            $("#email").addClass('is-invalid');
+                            $('#feedback-account-email').addClass('invalid-feedback').text("Email déjà utilisé");
+                            error = true;
+                        } else {
+                            $("#email").removeClass('is-invalid');
+                            $('#feedback-account-email').removeClassClass('invalid-feedback').text("");
+                        }
+
+                    } catch (er) { }
+                }
+                if (error == false) {
+                    console.log("s");
+                    account_settings_form = true;
+                    $("#account-settings").modal('hide');
+                    this.submit();
+                }
+
             });
+
 
             let arrows = document.querySelectorAll(".arrow");
             arrows.forEach((elem) => {
@@ -117,7 +172,7 @@
                         event.target.innerHTML = "keyboard_arrow_right";
                     }
                 });
-            })
+            });
 
 
             // Set the background color of the body

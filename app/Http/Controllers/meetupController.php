@@ -55,7 +55,8 @@ class MeetupController extends BaseController
         if (Auth::user()->id == 2) {
             event(new NewNotif(1, 2, 'Meetup Request', ['id' => 6]));
             //event(new NewNotif(1,2,'Friendship Request',[]));
-            //event(new NewNotif(1,0,'Meetup Interest',['id'=>3]));
+            //event(new NewNotif(1,0,'Meetup Interest',['id'=>9]));
+            //event(new NewNotif(1,2,'Friendship Accept',[]));
 
         }
 
@@ -81,6 +82,7 @@ class MeetupController extends BaseController
                 if ($dataEvent == null) {
                     abort(404);
                 }
+                
                 $data = json_decode(json_encode($dataEvent), true);
                 $date = $data['date'];
                 $date = explode(' ', $date);
@@ -88,6 +90,7 @@ class MeetupController extends BaseController
                 $data['time'] = $date[1];
                 $data['nb_participant'] = '';
                 $data['empty'] = true;
+                // $data['description'] = ;
                 $data['isEvent'] = $id;
 
                 //dd($data['image']);
@@ -111,7 +114,7 @@ class MeetupController extends BaseController
 
         return view('meetups.formm', compact('data', 'listCities'));
     }
-    public function create($isEvent = null, Request $req)
+    public function create( Request $req,$isEvent = null)
     {
         $id_owner = Auth::user()->id;
         $path = null;

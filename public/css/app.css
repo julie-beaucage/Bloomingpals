@@ -426,6 +426,7 @@ a {
 .notif-count{
     color:white;
     font-size: .9em;
+    line-height:unset;
 }
 
 @media only screen and (min-width: 1200px) {
@@ -437,3 +438,4 @@ a {
 .cursor{
     cursor: pointer;
 }
+

@@ -73,9 +73,6 @@ class NotificationsListener
             $str
         );
     }
-
-
-
     /**
      * Handle the event.
      *
@@ -84,68 +81,60 @@ class NotificationsListener
      */
     public function handle(NewNotif $event)
     {
-            // if notifications are activated
+
+        function getUser($id, $data,$type)
+        {
+            $user = USER::where('id', $id)->first();
+            $data[$type]['first_name'] = $user->first_name;
+            $data[$type]['last_name'] = $user->last_name;
+            $data[$type]['image_profil'] = $user->image_profil;
+            $data[$type]['id'] = $id;
+
+            return $data;
+        }
+        // if notifications are activated
         if (User::where('id', '=', $event->user_receive)->first()->notification == 1) {
             setlocale(LC_ALL, 'fr_FR');
 
             $data = $event->content;
 
-            $user = USER::where('id', $event->user_receive)->first();
-            $data['user_receive'] = $user;
-            $data['user_receive']['password'] = "";
+            $user = getUser($event->user_receive,$data,'user_receive');
+            $data = getUser($event->user_send, $data,'user_send');
 
             if ($event->type == 'Meetup Request') {
-                $data['user_send'] = USER::where('id', $event->user_send)->first();
-                $data['user_send']['password'] = "";
                 $data['meetup'] = Meetup::where('id', $event->content['id'])->first();
-                if ($data['user_send']['genre'] == 'femme') {
-                    $data['message'] = 'veux rejoindre votre Meetup :';
-                } else {
-                    $data['message'] = 'veux rejoindre votre Meetup :';
-                }
+                $data['message'] = 'veux rejoindre votre Meetup :';
             }
 
             if ($event->type == 'Friendship Request') {
-                $data['user_send'] = USER::where('id', $event->user_send)->first();
-                $data['user_send']['password'] = "";
-                if ($data['user_send']['genre'] == 'femme') {
-                    $data['message'] = 'vous as envoyée une demande d\'amitié';
-                } else {
-                    $data['message'] = 'vous a envoyé une demande d\'amitié';
-                }
+                $data['message'] = 'vous a envoyé(e) une demande d\'amitié';
             }
 
             if ($event->type == 'Meetup Interest') {
-                $default_image_path = "\images\meetup_default";
                 $data['header'] = 'Que disez-vous de ce Meetup ?';
-
                 $data['meetup'] = Meetup::where('id', '=', $event->content['id'])->first();
-
-                if ($data['meetup']['image'] == null) {
-                    $data['meetup']['image'] = $default_image_path . rand(1, 3) . '.png';
-                }
-
                 $date = new DateTime($data['meetup']['date']);
                 $data['message'] = '<strong>Date:</strong> '
                     . $this->ReplaceMonth($date->format('j M Y')) . '&nbsp&nbsp<strong>Ville:</strong>&nbsp' . $data['meetup']['city'] . '&nbsp&nbsp<strong>Affinité:</strong> 73% ';
+            }
 
+            if ($event->type == 'Friendship Accept') {
+                $data['message'] = 'a accepté(e) votre demande d\'amitié';
 
             }
 
             //  add notification to database;
-
             $content = json_encode($data);
             $event->type = Type_Notification::where('name', $event->type)->first()->id;
 
-
-            //dd($event->type);
-
             DB::statement("Call addNewNotification(?,?,?)", [
-                $user->id,
+                $event->user_receive,
                 $event->type,
                 $content
             ]);
 
         }
+
+
     }
 }

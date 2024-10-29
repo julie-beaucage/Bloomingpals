@@ -122,9 +122,6 @@ class usersController extends Controller
         }
         return 'Le mot de passe ne correspond pas';        
     }
-    public function updateAccount(Request $req){
-        
-    }
     public function logout(Request $request){
         Auth::logout();
         $request->session()->invalidate();
@@ -192,9 +189,45 @@ class usersController extends Controller
            DB::table('users')->where('id','=',$id)->update(['confidentiality' => $req->confidentiality,'notification'=> $req->notification]);
            DB::commit();
 
-           return redirect()->route('profile', ['id' => $id])->with('success', 'Profil mis à jour avec succès!');
+           return redirect()->route('profile', ['id' => $id]);
         }
         
+    }
+
+    public function isEmailTaken(Request $req){      
+        if(Auth::user()->id != null and $req->email != null ){
+            $emailTaken=User::where('email','=',$req->email)->first();
+           
+            if($emailTaken != null){
+                return 1;
+            }
+            else{
+                return 0;
+            }
+
+        }
+    }
+    public function updateAccount(Request $req){
+        
+        if($req->password == null){
+            $req->password="";
+        }else{
+            $req->password=bcrypt($req->password);
+        }
+        if($req->email == null){
+            $req->email = "";
+        }
+        DB::statement("CALL updateAccount(?, ?, ?)", [
+            Auth::user()->id, 
+            $req->password,
+            $req->email
+        ]);
+
+        if($req->email != ""){
+            Auth::user()->sendEmailVerificationNotification();
+        }
+
+        return redirect()->route('profile', ['id' => Auth::user()->id]);
     }
     
     public function amis($id) {

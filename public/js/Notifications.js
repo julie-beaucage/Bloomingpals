@@ -18,23 +18,48 @@ $(document).ready(function () {
     if (parsedData.message.length > 80) {
       parsedData.message = str.substring(0, 76) + '...';
     }
+    console.log(parsedData);
+    var img_src = "";
+    var profile_link = "";
+    var header_text = "";
+    var linking = "";
+    var content = "";
+    var image = "";
     switch (parsedData.type) {
       case 'Meetup Request':
         image = parsedData.user_send.image_profil == null ? '/images/simple_flower.png' : 'storage/' + parsedData.user_send.image_profil;
-        htmlElement = '<div class="notification-container" id="' + parsedData.id_notification + '" linking="/meetup/page/' + parsedData.meetup.id + '">' + '<div class="center-content"><a id="profile-notif" href="/profile/' + parsedData.user_send.id + '""><img class="profile-picture-notif" id="notification-profile-picture" src="' + window.location.origin + image + '"></a></div>' + '<div class="notification-content" id="' + parsedData.type + '">' + '<div class="header-and-icon">' + '<div class="center-content" id="notification-username"><a href="/profile/' + parsedData.user_send.id + '"><strong>' + parsedData.user_send.first_name + ' ' + parsedData.user_send.last_name + '</strong></a></div>' + '<a id="close-notification" style="cursor:pointer;"><span class="close_icon">close</span></a>' + '</div>' + ' <div>' + parsedData.message + '  <strong> ' + truncatee(parsedData.meetup.name, 40) + '</strong></div>' + '</div>' + '</div>';
-        $("#content").append(htmlElement);
+        img_src = window.location.origin + image;
+        profile_link = '/profile/' + parsedData.user_send.id;
+        header_text = parsedData.user_send.first_name + ' ' + parsedData.user_send.last_name;
+        linking = '/meetup/page/' + parsedData.meetup.id;
+        content = parsedData.message + '  <strong> ' + truncatee(parsedData.meetup.name, 40) + '</strong>';
         break;
       case 'Friendship Request':
         image = parsedData.user_send.image_profil == null ? '/images/simple_flower.png' : 'storage/' + parsedData.user_send.image_profil;
-        htmlElement = '<div class="notification-container" id="' + parsedData.id_notification + '" linking="/possible/de/voir/les/demandes/amis">' + '<div class="center-content"><a href="profile/' + parsedData.user_send.id + '"><img class="profile-picture-notif" id="notification-profile-picture" src="' + window.location.origin + image + '"></a></div>' + '<div class="notification-content">' + '<div class="header-and-icon">' + '<div class="center-content" id="notification-username"><a href="profile/' + parsedData.user_send.id + '"><strong>' + truncatee(parsedData.user_send.first_name + ' ' + parsedData.user_send.last_name, 40) + '</strong></a></div>' + '<a id="close-notification" style="cursor:pointer;"><span class="close_icon">close</span></a>' + '</div>' + ' <div style="text-wrap:wrap;">' + parsedData.message + '</div>' + '</div>' + '</div>';
-        $("#content").append(htmlElement);
+        img_src = window.location.origin + image;
+        profile_link = '/profile/' + parsedData.user_send.id;
+        header_text = truncatee(parsedData.user_send.first_name + ' ' + parsedData.user_send.last_name, 40);
+        linking = "/possible/de/voir/les/demandes/amis";
+        content = parsedData.message;
+        break;
+      case 'Friendship Accept':
+        image = parsedData.user_send.image_profil == null ? '/images/simple_flower.png' : 'storage/' + parsedData.user_send.image_profil;
+        img_src = window.location.origin + image;
+        profile_link = '/profile/' + parsedData.user_send.id;
+        header_text = truncatee(parsedData.user_send.first_name + ' ' + parsedData.user_send.last_name, 40);
+        linking = "/possible/de/voir/les/demandes/amis";
+        content = parsedData.message;
         break;
       case 'Meetup Interest':
-        htmlElement = '<div class="notification-container" id="' + parsedData.id_notification + '" linking="/meetup/page/' + parsedData.meetup.id + '">' + '<div class="center-content"><a class="center-content"><img class="profile-picture-notif square" id="notification-profile-picture" src="' + window.location.origin + parsedData.meetup.image + '"></a></div>' + '<div class="notification-content">' + '<div class="header-and-icon">' + '<div class="center-content" id="notification-username"><a><strong>' + parsedData.header + '</strong></a></div>' + '<a id="close-notification" style="cursor:pointer;"><span class="close_icon">close</span></a>' + '</div>' + ' <div style="text-wrap:wrap;">' + parsedData.message + '</div>' + '</div>' + '</div>';
-        $("#content").append(htmlElement);
-        console.log(parsedData);
+        image = parsedData.meetup.image == null ? 'images/meetup_default' + Math.floor(Math.random() * 3) + 1 + '.png' : 'storage/' + parsedData.meetup.image;
+        img_src = window.location.origin + image;
+        header_text = parsedData.header;
+        linking = "/meetup/page/" + parsedData.meetup.id;
+        content = parsedData.message;
         break;
     }
+    htmlElement = '<div class="notification-container" id="' + parsedData.id_notification + '" linking="' + linking + '">' + '<div class="center-content"><a id="profile-notif" href="' + profile_link + '""><img class="profile-picture-notif" id="notification-profile-picture" src="' + img_src + '"></a></div>' + '<div class="notification-content" id="' + parsedData.type + '">' + '<div class="header-and-icon">' + '<div class="center-content" id="notification-username"><a href="' + profile_link + '"><strong>' + header_text + '</strong></a></div>' + '<a id="close-notification" style="cursor:pointer;"><span class="close_icon">close</span></a>' + '</div>' + ' <div>' + content + '</div>' + '</div>';
+    $("#content").append(htmlElement);
     handleNewNotification();
   }
   function CheckNewNotifications() {
@@ -80,24 +105,29 @@ $(document).ready(function () {
 
   // handle all notification container
 
+  var notif_read = false;
   $('.navbar_notification').each(function () {
     $(this).on('click', function () {
+      console.log("Grr");
       $('#container-notification-toggle').toggle();
-
-      //notif_badge= $(this).find(">:first-child");
-
-      window.setTimeout(function () {
-        $.ajax({
-          type: "GET",
-          url: '/ReadAll'
-        });
-        $('.navbar_notification').each(function () {
-          var notif_badge = $(this).children(".notification-badge");
-          if (notif_badge.length != 0) {
-            notif_badge.hide();
-          }
-        });
-      }, 2 * 1000);
+      if (notif_read == false) {
+        window.setTimeout(function () {
+          $.ajax({
+            type: "GET",
+            url: '/ReadAll'
+          });
+          notif_read = true;
+          $('.notification-badge').each(function () {
+            console.log($(this));
+            $(this).hide();
+          });
+          $('.notif-icon').each(function () {
+            id = $(this).attr('id');
+            $(this).parent().append('<span class="material-symbols-rounded close_icon-page" id="' + id + '">close</span>');
+            $(this).remove();
+          });
+        }, 2 * 1000);
+      }
     });
   });
   $('.notification-container-page').on('click', function (event) {
@@ -107,7 +137,7 @@ $(document).ready(function () {
   });
   $(".close_icon-page").on('click', function () {
     $.ajax({
-      type: "Get",
+      type: "DELETE",
       url: '/notifications/delete/' + $(this).attr('id')
     });
     container = $(this).parent().parent().parent().parent();
