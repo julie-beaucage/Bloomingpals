@@ -63,7 +63,7 @@ class User extends Authenticatable implements MustVerifyEmail
         $user_interests = User_Interest::select('users_interests.id_interest as id', 'categories_interests.id as id_category')
         ->join('interests', 'interests.id', '=', 'users_interests.id_interest')
         ->join('categories_interests', 'categories_interests.id', '=', 'interests.id_category')
-        ->where('id_user', '=', Auth::user()->id)
+        ->where('id_user', '=', $this->id)
         ->get();
 
         $interests = Interest::select('interests.id as id', 'categories_interests.id as id_category')
