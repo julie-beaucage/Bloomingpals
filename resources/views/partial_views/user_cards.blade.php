@@ -10,10 +10,6 @@ if (count($users)  == 0) {
     return;
 }
 
-$html = <<<HTML
-    <div class="userGrid">
-HTML;
-
 foreach ($users as $user) {
     $image = $user->image_profil ? asset('storage/' . $user->image_profil) : asset('/images/simple_flower.png');
     $tags = "";
