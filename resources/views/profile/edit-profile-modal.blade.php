@@ -2,8 +2,8 @@
     <div class="container-custom-modal">
         <div class="header">
             <span class="title no_wrap">Modifier votre profile</span>
-            <button class="close" onclick=closeModalProfile()>
-                <span class="material-symbols-rounded" style="font-size: 24px; color: black;">close</span>
+            <button class="close" data-modal-id="overlayProfile">
+                <span class="material-symbols-rounded">close</span>
             </button>
         </div>
 

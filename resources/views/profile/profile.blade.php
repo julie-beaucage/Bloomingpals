@@ -15,7 +15,10 @@
 
 @section('content')
 <div id="profile-overlay-cntr" class="overlay-cntr">
-    @include('profile.edit-profile-modal', ['style' => 'display: none;'])
+    @if ($user->id == Auth::user()->id)
+        <x-email-verification-modal />
+        @include('profile.edit-profile-modal', ['style' => 'display: none;'])
+    @endif
 </div>
 
 <div id="background_cntr" class="no_select">
@@ -53,7 +56,7 @@
                     <div class="profile-checklist mt-3">
                         <ul>
                             <li>Courriel validé:
-                                {!! Auth::user()->emailVerified ? '<span class="material-symbols-rounded" style="color: green;">check_circle</span>' : '<span class="material-symbols-rounded" style="color: red;">cancel</span>' !!}
+                                {!! $emailVerified ? '<span class="material-symbols-rounded" style="color: green;">check_circle</span>' : '<span class="material-symbols-rounded" style="color: red;">cancel</span>' !!}
                             </li>
                             <li>Sélectionner des intérêts:
                                 {!! $interestsSelected ? '<span class="material-symbols-rounded" style="color: green;">check_circle</span>' : '<span class="material-symbols-rounded" style="color: red;">cancel</span>' !!}
@@ -140,14 +143,16 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <script src="{{ asset('/js/profileOnglet.js') }}"></script>
         <script src="{{ asset('/js/resendEmail.js') }}"></script>
-        <script src="{{ asset('/js/overlay-modal.js') }}"></script>
         <script>
             function showModal(modalId) {
+                console.log(document.body.innerHTML);
                 document.getElementById(modalId).style.display = 'flex';
             }
+
             function closeModal(modalId) {
                 document.getElementById(modalId).style.display = 'none';
             }
+
             function handlePersonalityTestClick() {
                 @if (!$emailVerified)
                     showModal('emailVerificationModal');
@@ -155,14 +160,7 @@
                     window.location.href = "{{ route('personality.test') }}";
                 @endif
             }
-            function handlePersonalityInteretClick() {
-                @if (!$emailVerified)
-                    showModal('emailVerificationModal');
-                @else
-                    showModal('editInterestModal');
-                    console.log('shpw')
-                @endif
-            }
+
             function closeVerificationModal() {
                 closeModal('emailVerificationModal');
                 document.getElementById('originalMessage').style.display = 'block';
@@ -204,9 +202,28 @@
                 }
             }
 
-            function closeModalEmail() { closeModal('emailVerificationModal'); }
-            function closeModalProfile() { closeModal('overlayProfile'); }
-            function closeModalInteret() { closeModal('overlayInterests'); }
+            document.addEventListener("DOMContentLoaded", function () {
+                $("#profile-content").on("DOMSubtreeModified", function () {
+                    $(".close").each(function () {
+                        $(this).click(function () {
+                            const modalId = $(this).data("modal-id");
+                            closeModal(modalId);
+                        });
+                    });
+                });
+
+                $(document).on("click", "#openProfileOverlay", function () {
+                    showModal("overlayProfile");
+                });
+
+                $(document).on("click", "#openInterestOverlay", function () {
+                    @if (!$emailVerified)
+                        showModal('emailVerificationModal');
+                    @else
+                        showModal('overlayInterests');
+                    @endif
+                });
+            });
         </script>
 
         <script>

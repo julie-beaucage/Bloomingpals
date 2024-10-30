@@ -1,14 +1,17 @@
-<x-email-verification-modal />
 <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
 
 @if (is_null($personality))
 
 <div class="personality-container-empty">
-    <p class="personality-message">Découvrez votre personnalité et facilitez la recherche d'affinités pour vous faire de nouveaux amis !</p>
-    <p class="personality-instruction">Complétez le test de personnalité basé sur Myers-Briggs pour trouver des "Pals" similaires à vous !</p>
-    <button class="personality-button-start" onclick="handlePersonalityTestClick(event)">
-        Faire le Test de Personnalité
-    </button>
+    @if ($user->id == Auth::user()->id)
+        <p class="personality-message">Découvrez votre personnalité et facilitez la recherche d'affinités pour vous faire de nouveaux amis !</p>
+        <p class="personality-instruction">Complétez le test de personnalité basé sur Myers-Briggs pour trouver des "Pals" similaires à vous !</p>
+        <button class="personality-button-start" onclick="handlePersonalityTestClick(event)">
+            Faire le Test de Personnalité
+        </button>
+    @else
+        <p class="personality-message">L'utilisateur n'a pas encore complété le test de personnalité.</p>
+    @endif
 </div>
 
 @else
@@ -20,9 +23,8 @@
                 <p>Nom : <strong>{{ $personality->name }}</strong></p>
                 <p>Type : <strong>{{ $personality->type }}</strong></p>
                 <p>Description : {{ $personality->nameDescription }}</p>
-                <x-email-verification-modal />
-                <button class="buttonGlass" onclick="handlePersonalityTestClick()">
-                    Faire le Test
+                <button class="hover_lighter" onclick="handlePersonalityTestClick()">
+                    Refaire le Test
                 </button>
             </div>
         </div>

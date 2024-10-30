@@ -57,10 +57,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
     
                 var overlays = html.getElementsByClassName('custom-overlay');
-                Array.from(overlays).forEach(overlay => {
-                    overlayCntr.innerHTML += overlay.outerHTML;
-                    overlay.remove();
-                });
+                for (var i = 0; i < overlays.length; i++) { 
+                    overlayCntr.innerHTML += overlays[i].outerHTML;
+                    overlays[i].remove();
+                }
     
                 var profileContent = document.getElementById('profile-content');
                 if (profileContent) {

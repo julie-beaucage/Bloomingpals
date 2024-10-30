@@ -264,16 +264,25 @@ body {
 
 /* TEST ONGLET CSS */
 .containerPerso {
-    background-color: var(--personality-color) !important;
+    background-color: var(--personality) !important;
     border-radius: 10px;
     padding: 5em;
 }
 
 .personality-card {
     padding: 20px;
-    background-color: var(--personality-color);
+    background-color: var(--personality-color-pale);
     color: var(--text-color);
     border-radius: 10px;
+}
+
+.personality-card > button {
+    background-color: var(--personality-text-button);
+    color: var(--personality-text-color-button);
+    border: none;
+    border-radius: 10px;
+    padding: 0.5em 1em;
+    cursor: pointer;
 }
 
 
@@ -658,16 +667,25 @@ body {
 
 /* TEST ONGLET CSS */
 .containerPerso {
-    background-color: var(--personality-color) !important;
+    background-color: var(--personality) !important;
     border-radius: 10px;
     padding: 5em;
 }
 
 .personality-card {
     padding: 20px;
-    background-color: var(--personality-color);
+    background-color: var(--personality-color-pale);
     color: var(--text-color);
     border-radius: 10px;
+}
+
+.personality-card > button {
+    background-color: var(--personality-text-button);
+    color: var(--personality-text-color-button);
+    border: none;
+    border-radius: 10px;
+    padding: 0.5em 1em;
+    cursor: pointer;
 }
 
 

@@ -5,6 +5,8 @@ CALL creerUsager ('user1@email.com', 'Desroches', 'Caroline', CURDATE(), '$2y$10
 CALL creerUsager ('user2@email.com', 'Hétu', 'Adrien', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'homme');
 CALL creerUsager ('user3@email.com', 'Delmar', 'Mainville', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'non-genre');
 
+UPDATE users SET email_verified_at = NOW() WHERE id = 1 OR id = 2;
+
 -- Meetups --
 INSERT INTO meetups(name, description, id_owner, adress, date, nb_participant, public) 
     VALUES("Nom de la rencontre", "Voici la description", 1, "1234 rue popcorn", DATE "2025-01-01", 100, 1);
@@ -318,7 +320,7 @@ INSERT INTO answers (question_id, answer, type_answer) VALUES
 
 -- Users Interests --
 CALL add_user_interests (1, "24, 25, 51, 63, 89, 100, 122");
-CALL add_user_interests (3, "89");
+CALL add_user_interests (2, "89");
 
 -- Meetups Interests --
 INSERT INTO meetups_interests (id_interest, id_meetup) VALUES (100, 2);

@@ -147,10 +147,6 @@ label {
 	color: #fff;
 }
 
-div {
-	margin-bottom: 10px;
-}
-
 .pagination {
     display: flex;
     justify-content: space-between;

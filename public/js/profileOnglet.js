@@ -53,10 +53,10 @@ document.addEventListener('DOMContentLoaded', function () {
         return; // Stop the function if overlayCntr is not found
       }
       var overlays = html.getElementsByClassName('custom-overlay');
-      Array.from(overlays).forEach(function (overlay) {
-        overlayCntr.innerHTML += overlay.outerHTML;
-        overlay.remove();
-      });
+      for (var i = 0; i < overlays.length; i++) {
+        overlayCntr.innerHTML += overlays[i].outerHTML;
+        overlays[i].remove();
+      }
       var profileContent = document.getElementById('profile-content');
       if (profileContent) {
         profileContent.innerHTML = html.querySelector("body").innerHTML;

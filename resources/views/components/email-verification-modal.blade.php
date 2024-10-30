@@ -1,8 +1,12 @@
-<div id="emailVerificationModal" class="warning-modal-overlay" style="display: none;">
-    <div class="warning-modal-content">
-    <button class="close" onclick="closeModalEmail()">×</button>
-        <h5 class="warning-modal-title">Vérification de votre courriel</h5>
-        <div class="carousel-container">
+<div id="emailVerificationModal" class="custom-overlay" style="display: none;">
+    <div class="container-custom-modal">
+        <div class="header">
+            <span class="title no_wrap">Vérification de votre courriel</span>
+            <button class="close"  data-modal-id="emailVerificationModal">
+                <span class="material-symbols-rounded">close</span>
+            </button>
+        </div>
+        <div class="body carousel-container">
             <div id="originalMessage" class="carousel-slide">
                 <p>Vous devez valider votre courriel afin de continuer.</p>
                 <p>Vous n'avez pas reçu le courriel ?</p>
