@@ -8,6 +8,8 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
 use App\Models\User;
+use App\Models\Relation;
+use App\Models\Friendship_Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use App\Models\User_Interest;
@@ -135,14 +137,13 @@ class UsersController extends Controller
     }
     public function profile($id)
     {
-        \Log::info("Appel du contrôleur profile pour l'utilisateur avec ID: " . $id);
+        Log::info("Appel du contrôleur profile pour l'utilisateur avec ID: " . $id);
 
         $user = User::find($id);
 
         if (!$user) {
             return redirect()->route('/login')->with('error', 'Utilisateur non trouvé.');
         }
-
         $profileCompletion = 0;
         $emailVerified = $user->hasVerifiedEmail();
         $interetsUtilisateurTab = User_Interest::getInteretsParUtilisateurTab($id);
@@ -162,7 +163,25 @@ class UsersController extends Controller
         $profileCompletionPercentage = ($profileCompletion / 3) * 100;
         $profileCompletionPercentage = round($profileCompletionPercentage);
 
-        return view('profile.profile', compact('user', 'profileCompletionPercentage', 'emailVerified', 'interestsSelected', 'personalityTestDone'));
+        
+        $relation = Relation::GetRelationUsers(Auth::user()->id, $id);
+
+        if ($relation == 'GotBlocked') {
+            return redirect()->back();
+        } else if ($relation == "Friend") {
+            return view('profile.profile', compact('user', 'relation'));
+        } else {
+            $relationRequest = Friendship_Request::GetUserRelationState(Auth::user()->id, $id);
+            if ($relationRequest == "sent") {
+                $relation = "SendingInvitation";
+            } else if ($relationRequest == "receive") {
+                $relation = "Invited";
+            } else if ($relationRequest == "refuse") {
+                $relation = "Refuse";
+            }
+        }
+
+        return view('profile.profile', compact('user', 'profileCompletionPercentage', 'emailVerified', 'interestsSelected', 'personalityTestDone', 'relation'));
     }
 
 
@@ -215,7 +234,53 @@ class UsersController extends Controller
     public function amis($id)
     {
         $user = User::find($id);
-        return view('profile.amis', compact('user'));
+        $users = Relation::GetFriends($id);
+        return view('profile.amis', compact('user', 'users'));    
     }
 
+    public function personnalite($id) {
+        return view('profile.personnalite', ['user' => User::findOrFail($id)]);
+    }
+
+    public function SendFriendRequest($id) {
+        if (Auth::user()->id != $id) {
+            Friendship_Request::AddFriendRequest(Auth::user()->id, $id);
+        }
+
+        return redirect()->back();
+    }
+
+    public function AcceptFriendRequest($id) {
+
+        if (Auth::user()->id != $id) {
+            Friendship_Request::AcceptFriendRequest($id, Auth::user()->id);
+            Relation::AddFriend(Auth::user()->id, $id);
+        }
+
+        return redirect()->back();
+    }
+    public function RefuseFriendRequest($id) {
+        if (Auth::user()->id != $id) {
+            Friendship_Request::RefuseFriendRequest($id, Auth::user()->id);
+        }
+
+        return redirect()->back();
+    }
+
+    public function CancelFriendRequest($id) {
+        if (Auth::user()->id != $id) {
+            Friendship_Request::CancelFriendRequest(Auth::user()->id, $id);
+        }
+
+        return redirect()->back();
+    }
+
+    public function RemoveFriend($id) {
+        if (Auth::user()->id != $id) {
+            Friendship_Request::RemoveFriendRequest(Auth::user()->id, $id);
+            Relation::RemoveFriend(Auth::user()->id, $id);
+        }
+
+        return redirect()->back();
+    }
 }

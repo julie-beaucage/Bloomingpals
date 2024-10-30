@@ -310,3 +310,47 @@
      }
  }
  
+ .blue_button {
+    background-color: blue;
+    color: white;
+    width: max-content;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    border-radius: 15px;
+}
+.grey_button {
+    background-color: grey;
+    color: white;
+    width: max-content;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    border-radius: 15px;
+}
+.green_button {
+    background-color: green;
+    color: white;
+    width: max-content;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    border-radius: 15px;
+}
+.red_button {
+    background-color: red;
+    color: white;
+    width: max-content;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    border-radius: 15px;
+}
+.acceptContainer {
+    display: flex;
+    gap: 2em
+}

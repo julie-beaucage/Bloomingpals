@@ -3,6 +3,7 @@
 @section('style')
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
+<link rel="stylesheet" href="{{ asset('css/cards.css') }}">
 <link rel="stylesheet" href="{{ asset('css/overlay-modal.css') }}">
 <link rel="stylesheet" href="{{ asset('css/interets.css') }}">
 
@@ -28,10 +29,8 @@
                 alt="Photo de profil">
         </div>
 
-        <h1 id="profile_name">{{ $user->first_name}} {{ $user->last_name }}</h1>
-        <h5>0 amis</h5>
-
-        @if ($user->id == Auth::user()->id)
+        <h1 id="profile_name">{{ $user->first_name }} {{ $user->last_name }}</h1>
+        @if (Auth::user()->id == $user->id)
             <div class="button_profile">
                 <div class="text-end">
                     <button class="buttonGlass" id="openProfileOverlay" title="Modifier profile">
@@ -39,8 +38,29 @@
                     </button>
                 </div>
             </div>
+        @elseif ($relation == "Friend")
+        <a href="{{ route("RemoveFriend", ["id" => $user->id])}}"><div class="red_button no_select">Enlever l'amitier</div></a>
+        @elseif ($relation == "Blocked")
+            <div class="red_button no_select">You are blocked</div>
+        @elseif ($relation == "SendingInvitation")
+            <div class="acceptContainer">
+                <a href="{{ route("CancelFriendRequest", ["id" => $user->id])}}"><div class="red_button">annuler la demande d'amitier</div></a>
+            </div>
+        @elseif ($relation == "Invited")
+            <div class="acceptContainer">
+                <a href="{{ route("AcceptFriendRequest", ["id" => $user->id])}}"><div class="green_button">Accepter</div></a>
+                <a href="{{ route("RefuseFriendRequest", ["id" => $user->id])}}"><div class="red_button">Refuser</div></a>
+            </div>
+        @elseif ($relation == "Refuse")
+            <div class="grey_button">Vous avez été refuser</div>
+        @else
+            <a href="{{ route("SendFriendRequest", ["id" => $user->id])}}"><div class="blue_button">Ajouter en ami</div>
+            {{$relation}}
+            {{$relationRequest}}
+            </a>
+        @endif
 
-            @if ($profileCompletionPercentage < 100)
+        @if ($profileCompletionPercentage < 100)
                 <div class="alert alert-warning mt-3">
                     <h5>Vérification du profil :</h5>
                     Complétez votre profil pour pouvoir bloomer de nouvelles relations avec des Pals !
@@ -67,48 +87,47 @@
                     </div>
                 </div>
             @endif
-        @endif
-        <div class="containerOnglerMain">
-            <div class="listOnglet">
-                <ul class="nav nav-tabs justify-content-center" id="main-tabs">
-                    <li class="nav-item">
-                        <a class="nav-link tab-link {{ request()->is('interets/*/interets') || !request()->is('profile/*') ? 'active' : '' }}"
-                            href="{{ route('interets.interets', $user->id) }}"
-                            data-target="interets/interests">Intérêts</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link tab-link {{ request()->is('profile/amis') ? 'active' : '' }}"
-                            href="{{ route('profile.amis', $user->id) }}" data-target="profile/amis">Mes pals</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link tab-link {{ request()->is('profile/personnalite') ? 'active' : '' }}"
-                            href="{{ route('profile.personnalite', $user->id) }}"
-                            data-target="profile/personnalite">Personnalité</a>
-                    </li>
-                    <li class="nav-item dropdown" id="more-dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="moreDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Plus
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="moreDropdown">
-                            <li class="nav-item">
-                                <a class="nav-link tab-link {{ request()->is('profile/personnalite') ? 'active' : '' }}"
-                                    href="{{ route('profile.personnalite', $user->id) }}"
-                                    data-target="profile/personnalite">Personnalité</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link tab-link {{ request()->is('profile/personnalite') ? 'active' : '' }}"
-                                    href="{{ route('profile.personnalite', $user->id) }}"
-                                    data-target="profile/personnalite">Personnalité</a>
-                            </li>
-                        </ul>
-                    <li>
-                </ul>
-            </div>
-            <div id="profile-content" class="onglet_profile"></div>
-        </div>
 
-        @endsection()
+            <div class="containerOnglerMain">
+                <div class="listOnglet">
+                    <ul class="nav nav-tabs justify-content-center" id="main-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link tab-link {{ request()->is('interets/*/interets') || !request()->is('profile/*') ? 'active' : '' }}"
+                                href="{{ route('interets.interets', $user->id) }}"
+                                data-target="interets/interests">Intérêts</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link tab-link {{ request()->is('profile/amis') ? 'active' : '' }}"
+                                href="{{ route('profile.amis', $user->id) }}" data-target="profile/amis">Mes pals</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link tab-link {{ request()->is('profile/personnalite') ? 'active' : '' }}"
+                                href="{{ route('profile.personnalite', $user->id) }}"
+                                data-target="profile/personnalite">Personnalité</a>
+                        </li>
+                        <li class="nav-item dropdown" id="more-dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="moreDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Plus
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="moreDropdown">
+                                <li class="nav-item">
+                                    <a class="nav-link tab-link {{ request()->is('profile/personnalite') ? 'active' : '' }}"
+                                        href="{{ route('profile.personnalite', $user->id) }}"
+                                        data-target="profile/personnalite">Personnalité</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link tab-link {{ request()->is('profile/personnalite') ? 'active' : '' }}"
+                                        href="{{ route('profile.personnalite', $user->id) }}"
+                                        data-target="profile/personnalite">Personnalité</a>
+                                </li>
+                            </ul>
+                        <li>
+                    </ul>
+                </div>
+                <div id="profile-content" class="onglet_profile"></div>
+            </div>
+@endsection()
 
         @section('script')
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
