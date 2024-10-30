@@ -1,11 +1,9 @@
 @extends("master")
 @php
-    $action = $actionCreate ? "/meetup/create" : "/meetup/edit/" . $data['id'];
+$action = $actionCreate ? "/meetup/create" : "/meetup/edit/" . $data['id'];
 @endphp
 
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
-    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 @section("content")
 
 <link rel="stylesheet" href="{{ asset('css/meetupForm.css') }}">
@@ -141,42 +139,42 @@
 
         </div>
         <div class="form-group">
-        </div>
-        <div class="fileUploader-container">
-            <div class="fileUploader-header">
-                <div style="width:fit-content;">
-                    <input type="file" id="selectedFile" style="display: none;" accept="image/*"
-                        onchange="previewFile()" name="image" />
-                    <input type="button" value="Choisir une image" class="fileUploader-header-btn"
-                        onclick="document.getElementById('selectedFile').click();" />
-
-                </div>
-                <div style="padding-left:.5em; font-size:.8em; height:fit-content; overflow: hidden;">
-                    Il se peut que votre image soit redimensionnée
-                </div>
             </div>
-            <div style="max-width:98%; min-height:2em; margin:.5em;">
-                @if($data != null)
-                    @if($data['temporaryImage'] != '')
-                        <input type="text" name="temporaryImage" hidden value="{{$data['temporaryImage']}}">
-                        <img class="img-preview" src="{{asset($data['temporaryImage'])}}">
-                    @elseif($data['image'] != '')
-                        <img class="img-preview" src="{{asset($data['image'])}}">
-                    @else
-                        <img class="img-preview" id="2">
-                    @endif
+            <div class="fileUploader-container">
+                <div class="fileUploader-header">
+                    <div style="width:fit-content;">
+                        <input type="file" id="selectedFile" style="display: none;" accept="image/*"
+                            onchange="previewFile()" name="image" />
+                        <input type="button" value="Choisir une image" class="fileUploader-header-btn"
+                            onclick="document.getElementById('selectedFile').click();" />
+                        
+                    </div>
+                    <div style="padding-left:.5em; font-size:.8em; height:fit-content; overflow: hidden;">
+                            Il se peut que votre image soit redimensionnée
+                        </div>
+                </div>
+                <div style="max-width:98%; min-height:2em; margin:.5em;">       
+            @if($data != null)
+                @if($data['temporaryImage'] != '')
+                    <input type="text" name="temporaryImage" hidden value="{{$data['temporaryImage']}}">
+                    <img class="img-preview" src="{{asset($data['temporaryImage'])}}">
+                @elseif($data['image'] != '')
+                    <img class="img-preview" src="{{asset($data['image'])}}">
                 @else
-                    <img class="img-preview">
+                    <img class="img-preview" id="2">
                 @endif
+            @else
+                <img class="img-preview">
+            @endif
             </div>
-
+            
             @if($data != null)
 
             @endif
         </div>
         <div class="form-group">
 
-            <div class="form-check mb-2">
+        <div class="form-check mb-2">
                 @if($data != null)
                     @if($data['public'] == true)
                         <input class="form-check-input" type="checkbox" id="prive" name="prive">
@@ -190,17 +188,16 @@
             </div>
         </div>
 
-        <div style="overflow-y:auto;">
+        <div style="overflow-y:auto;" >
 
-            <button type="submit" style="margin-bottom:.2em;"
+            <button type="submit" style="margin-bottom:.2em;" 
                 class="btn btn-pink">{{$actionCreate ? "Crée le MeetUp" : "Modifier le MeetUp"}}</button>
-            <a class="btn btn-secondary" style="color:white !important; margin-bottom:.2em;"
-                onclick="window.history.go(-1);">Retour</a>
+            <a class="btn btn-secondary" style="color:white !important; margin-bottom:.2em;" onclick="window.history.go(-1);">Retour</a>
             @if($actionCreate != "/meetup/create")
                 <button type="button" class="btn btn-danger float-rightt"
-                    onclick="Confirm('/meetup/delete/{{$data['id']}}')">Effacer la rencontre</button>
+                    onclick="window.location.href='/meetup/delete/{{$data['id']}}';">Effacer la rencontre</button>
             @endif
-
+           
 
         </div>
     </form>
@@ -208,58 +205,11 @@
 @endsection()
 
 @section("script")
-
 <script>
-    function removePop() {
-        $('.pop-up-overlay').remove();
-    }
-    function removeMeetup(location) {
-        $('#deleteMeetup').on('click',function(){
-            window.location.href=location;
-        });
-        
-    }
-
-    function Confirm(location) {
-        var content = "<div class='pop-up-overlay'>" +
-            "<div class='pop-up'>" +
-            "<div style='display:flex; justify-content: space-between; align-items:center; border-bottom: 1px solid black;'>" +
-            '<div><strong> Effacer le Meetup ?</strong></div> <a onclick="removePop()" id="close-pop" style="cursor:pointer;"><span class="close_icon">close</span></a>' +
-            '</div>' +
-            '<div> Êtes-vous certain de vouloir effacer le Meetup ?</div>' +
-            '<div style=" display:flex; justify-content:flex-end; gap:.5em; ">' +
-            "<button class='btn btn-secondary'style='color:white !important;' onclick='removePop()'>Annuler</button> " +
-            "<button class='btn btn-danger' id='deleteMeetup'>Effacer</button> " +
-
-            "</div>" +
-            "</div>";
-
-        $('body').append(content);
-        removeMeetup(location);
-    }
-
     $('#city-dropdown-content').hide();
     let selectedOption = null;
 
-    if(document.getElementById("selectedFile").files.length != 0){
-            var file = document.querySelector('input[type=file]').files[0];
-            var reader = new FileReader();
-            reader.onloadend = function () {
-                $(".img-preview").attr('src', reader.result);
-
-            }
-
-            if (file) {
-                reader.readAsDataURL(file);
-            }
-        }
-
     $(document).ready(function () {
-
-     
-
-
-
         // click outside du dropdown
         $(document).on("click", function (event) {
             let dropContent = document.getElementById("city-dropdown-content");
@@ -318,34 +268,17 @@
     function previewFile() {
         var preview = $(".img-preview");
         var file = document.querySelector('input[type=file]').files[0];
-        var fileSize = file.size;
+        var reader = new FileReader();
 
-        $(".fileUploader-container").removeClass("is-wrong");
-        $("#image-feedback").remove();
-
-        if (fileSize > 2000000) {
-            $(".fileUploader-container").addClass("is-wrong");
-            $(".fileUploader-container").after('<div class="wrong-feedback" id="image-feedback" >L\'image doit être plus petite que 2 Mo</div>');
-            $(".img-preview").hide();
-        } else {
-            $(".fileUploader-container").removeClass("is-wrong");
-            $("#image-feedback").remove();
-            var reader = new FileReader();
-
-            reader.onloadend = function () {
-                $(".img-preview").attr('src', reader.result);
-                $(".img-preview").show();
-
-
-            }
-
-            if (file) {
-                reader.readAsDataURL(file);
-            } else {
-                preview.src="";
-            }
+        reader.onloadend = function () {
+            $(".img-preview").attr('src', reader.result);
         }
 
+        if (file) {
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = "";
+        }
     }
 
 </script>

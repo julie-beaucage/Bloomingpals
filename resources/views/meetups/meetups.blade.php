@@ -2,19 +2,18 @@
 
 @section('style')
 <link rel="stylesheet" href="{{ asset('css/meetup.css') }}">
-<link rel="stylesheet" href="{{ asset('css/notifications.css') }}">
 @endsection
 @php
 $index=0;
+setlocale(LC_ALL, 'fr_FR');
 @endphp
 
 @section("content")
 
 <div class="container-meetups">
 
-
     @foreach ($meetups as $meetup)
-    @if(!(Auth::user()->id != $meetup->id_owner and $meetup->public ==0 ))
+    @if(!(Auth::user()->id != $meetup->id_organisateur and $meetup->public ==0 ))
         <div class="container-meetup" id="{{$meetup->id}}">
             <div>
                 @if($meetup->image != null)
@@ -28,13 +27,13 @@ $index=0;
                 @endif
             </div>
             <div class="meetup-header">
-                {{$meetup->name}}
+                {{$meetup->nom}}
             </div>
             
             <div class="flex-row">
                 <img class="profile-picture" src="{{ $users[$index]->image_profil ? asset('storage/' . $users[$index]->image_profil) : asset('/images/simple_flower.png') }}"  id="{{$users[$index]->id}}">
                 <div sty>
-                    <div class="text">{{$users[$index]->first_name}} {{$users[$index]->last_name}}</div>
+                    <div class="text">{{$users[$index]->prenom}} {{$users[$index]->nom}}</div>
                     <div>Affinité: 50%</div>
                 </div>
             </div>
@@ -47,7 +46,7 @@ $index=0;
                 </div>
                 <div class="flex-row" style="justify-content:space-between; width:100%;">
                     <div>{{date("Y-m-d",strtotime($meetup->date));}}</div>
-                    <div style>{{$meetup->city}}   </div>
+                    <div style>{{$meetup->ville}}   </div>
 
                 </div>
             </div>
@@ -77,5 +76,4 @@ $index=0;
     });
 
 </script>
-
 @endsection

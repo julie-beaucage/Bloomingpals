@@ -241,13 +241,9 @@ BEGIN
           UPDATE meetups set nb_participant=_nb_participant where id = id_rencontre;
           
           IF(_image != '') THEN
-			IF(_image = 'delete') THEN
-				UPDATE meetups set image=null where id = id_rencontre;
-              else
-				UPDATE meetups set image=_image where id = id_rencontre;
-              END IF;
+          UPDATE meetups set image=_image where id = id_rencontre;
           END IF;
-	
+          
           UPDATE meetups set public=_public where id = id_rencontre;
 	COMMIT;
 	
@@ -258,90 +254,9 @@ DELIMITER //
 CREATE PROCEDURE effacerRencontre(id_rencontre INT)
 BEGIN
 	START TRANSACTION;
-		DELETE from meetups_requests where id_meetup=id_rencontre;
-		DELETE FROM meetups where meetups.id= id_rencontre;
+		  DELETE FROM meetups where meetups.id= id_rencontre;
 	COMMIT;
 	
-END;
-// DELIMITER ;
-DROP PROCEDURE IF EXISTS addNewNotification;
-DELIMITER //
-CREATE PROCEDURE addNewNotification(id_user INT, _type varchar(50), content varchar(4096))
-BEGIN
-	START TRANSACTION;
-		  INSERT INTO new_notifications (id_user,`type`,content,created_date) VALUES(id_user,_type,content,NOW());
-	COMMIT;
-	
-END;
-// DELIMITER ;
-
-DROP PROCEDURE IF EXISTS moveNotification;
-DELIMITER //
-CREATE PROCEDURE moveNotification(id_new_notification INT,id_user INT, id_type INT, content varchar(4096),_date datetime)
-BEGIN
-
-	START TRANSACTION;
-		  INSERT INTO notifications (id_user,`type`,content,status,created_date) VALUES(id_user,id_type,content,'read',_date);
-          Delete From new_notifications where id = id_new_notification;
-	COMMIT;
-	
-END;
-// DELIMITER ;
-
-DROP PROCEDURE IF EXISTS moveTableNewNotifications;
-DELIMITER //
-Create Procedure moveTableNewNotifications( _id_user INT)
-Begin
-
-	Declare done INT DEFAULT FALSE;
-	DECLARE id_type INT;
-	declare _content Varchar(4096);
-    Declare _date datetime;
-
-	Declare cur CURSOR FOR SELECT `type`,content,created_date from new_notifications where new_notifications.id_user= _id_user;
-	 DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
-
-	OPEN  cur;
-
-	getNotif: LOOP
-		Fetch cur into id_type,_content,_date;
-		
-		IF done Then
-			LEAVE getNotif;
-		end if;
-		
-		Insert into notifications (`type`, id_user, content, status,created_date) VALUES (id_type, _id_user, _content, 'unread',_date);
-		End loop;
-		
-		close cur;
-        
-        Delete from new_notifications where id_user=_id_user;
-commit;
-End;
-// DELIMITER ;
-
-DROP PROCEDURE IF EXISTS deleteNotification;
-DELIMITER //
-Create Procedure deleteNotification(_id INT)
-BEGIN
-	DELETE FROM notifications WHERE id=_id;
-	
-END;
-// DELIMITER ;
-
-DROP PROCEDURE IF EXISTS updateAccount;
-DELIMITER //
-Create Procedure updateAccount(_id INT,_password CHAR(128), _email VARCHAR(255))
-BEGIN
-	IF( _password !='') 
-    THEN
-		UPDATE users SET password =_password where id =_id;
-	END IF;
-    
-    IF( _email !='') 
-    THEN
-		UPDATE users SET email =_email where id=_id;
-	END IF;
 END;
 // DELIMITER ;
 -- -----------------------------------------------------
