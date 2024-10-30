@@ -1,11 +1,11 @@
 <?php
+use App\Models\Meetup_Interest;
+use App\Models\Interest;
 
-USE App\Models\Interest;
-USE App\Models\Meetup_Interest;
-USE App\Models\Category_Interest;
-
-if (count($meetups) == 0) {
-    echo '';
+if (count($meetups)  == 0) {
+    echo <<< HTML
+        <span>Aucun résultat</span>
+    HTML;
     return;
 }
 
@@ -13,8 +13,9 @@ foreach ($meetups as $meetup) {
     $date = date('j-m-Y', strtotime($meetup->date));
     $tags = "";
 
-    $meetup_interests = Meetup_Interest::where('id_meetup', $meetup->id)->get();
+    $meetup_interests = Meetup_Interest::where('id_meetup', $meetup->id_meetup)->get();
     $count = count($meetup_interests);
+
 
     for ($i = 0; $i < $count && $i < 2; $i++) {
 
