@@ -31,26 +31,29 @@
                     Modifier le profil
                 </button>
             </div>
-        @elseif ($relation == "Friend")
-        <a href="{{ route("RemoveFriend", ["id" => $user->id])}}"><div class="red_button no_select">Enlever l'amitier</div></a>
-        @elseif ($relation == "Blocked")
-            <div class="red_button no_select">You are blocked</div>
-        @elseif ($relation == "SendingInvitation")
-            <div class="acceptContainer">
-                <a href="{{ route("CancelFriendRequest", ["id" => $user->id])}}"><div class="red_button">annuler la demande d'amitier</div></a>
-            </div>
-        @elseif ($relation == "Invited")
-            <div class="acceptContainer">
-                <a href="{{ route("AcceptFriendRequest", ["id" => $user->id])}}"><div class="green_button">Accepter</div></a>
-                <a href="{{ route("RefuseFriendRequest", ["id" => $user->id])}}"><div class="red_button">Refuser</div></a>
-            </div>
-        @elseif ($relation == "Refuse")
-            <div class="grey_button">Vous avez été refuser</div>
         @else
-            <a href="{{ route("SendFriendRequest", ["id" => $user->id])}}"><div class="blue_button">Ajouter en ami</div>
-            {{$relation}}
-            {{$relationRequest}}
-            </a>
+            @if ($relation == "Friend")
+                <a href="{{ route("RemoveFriend", ["id" => $user->id])}}"><div class="red_button no_select">Enlever l'amitier</div></a>
+            @elseif ($relation == "Blocked")
+                <div class="red_button no_select">You are blocked</div>
+            @elseif ($relation == "SendingInvitation")
+                <div class="acceptContainer">
+                    <a href="{{ route("CancelFriendRequest", ["id" => $user->id])}}"><div class="red_button">annuler la demande d'amitier</div></a>
+                </div>
+            @elseif ($relation == "Invited")
+                <div class="acceptContainer">
+                    <a href="{{ route("AcceptFriendRequest", ["id" => $user->id])}}"><div class="green_button">Accepter</div></a>
+                    <a href="{{ route("RefuseFriendRequest", ["id" => $user->id])}}"><div class="red_button">Refuser</div></a>
+                </div>
+            @elseif ($relation == "Refuse")
+                <div class="grey_button">Vous avez été refuser</div>
+            @else
+                <a href="{{ route("SendFriendRequest", ["id" => $user->id])}}"><div class="blue_button">Ajouter en ami</div>
+                {{$relation}}
+                {{$relationRequest}}
+                </a>
+            @endif
+            <a href="{{ route("ReportUser", ["id" => $user->id])}}"><div class="red_button">Signalé</div></a>
         @endif
 
     <div class="containerOnglerMain">
