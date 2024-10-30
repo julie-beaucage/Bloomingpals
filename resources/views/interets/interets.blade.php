@@ -6,8 +6,7 @@
     <div class="containerInteretOnglet">
         @if ($user->id == Auth::user()->id)
             <div class="buttonOverlayContainerInteret">
-            <x-email-verification-modal />
-                <button class="buttonGlass" id="openInterestOverlay" title="Modifier intérêt" onclick="handlePersonalityInteretClick(event)">
+                <button class="buttonGlass" id="openInterestOverlay" title="Modifier intérêt">
                     <span class="material-symbols-rounded" style="font-size: 24px; color: black;">edit</span>
                 </button>
             </div>

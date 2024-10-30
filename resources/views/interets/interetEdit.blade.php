@@ -2,8 +2,8 @@
     <div class="container-custom-modal">
         <div class="header">
             <span class="title no_wrap">Modifier vos intérêts</span>
-            <button class="close"  onclick="closeModalInteret()">
-                <span class="material-symbols-rounded" style="font-size: 24px; color: black;">close</span>
+            <button class="close"  data-modal-id="overlayInterests">
+                <span class="material-symbols-rounded">close</span>
             </button>
         </div>
         <div class="body">

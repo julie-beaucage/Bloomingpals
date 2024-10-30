@@ -42,6 +42,7 @@
 
                 $class = 'navbar_item no_select';
                 $class = $id == Route::current()->uri() ? $class . ' active' : $class;
+                $class .= ' ' . Auth::user()->getPersonalityType();
 
                 if ($id === 'profile') {
                     echo <<< HTML
