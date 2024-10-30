@@ -95,9 +95,10 @@
                     </a>
                 @endif
                     <button class="red_button" id="openReport">
-                        Signalé
+                        Signalée
                     </button>
                 </div>
+            @endif
         </h1>
         
 
@@ -139,6 +140,7 @@
                 </ul>
             </div>
             <div id="profile-content" class="onglet_profile"></div>
+            @include ('reports/reportUser')
         </div>
 @endsection()
 
