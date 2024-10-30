@@ -47,10 +47,6 @@ class User extends Authenticatable implements MustVerifyEmail
             ->where('users.id', $this->id)
             ->select('groups_personalities.name as personality_name')
             ->first();
-
-        /*Log::info('Personality type for user ID ' . $this->id . ': ', [
-            'personality' => $personality
-        ]);*/
     
         if ($personality) {
             return $personality->personality_name;
@@ -101,10 +97,8 @@ class User extends Authenticatable implements MustVerifyEmail
         if ($userPersonality && $otherUserPersonality) {
             if ($userPersonality->type === $otherUserPersonality->type) {
                 $personalityAffinity = 1.0; 
-                //Log::info("Both users have the same personality type.");
             } elseif ($userPersonality->group_name === $otherUserPersonality->group_name) {
                 $personalityAffinity = 0.5; 
-               // Log::info("Both users are in the same personality group.");
             }
         } else {
             Log::warning("One of the users does not have a personality.");
@@ -121,7 +115,6 @@ class User extends Authenticatable implements MustVerifyEmail
         }
         $affinityUser1 = ($pointsUser1 / $totalPointsUser1) * 100;
         $finalAffinity = ($personalityAffinity * 0.5 + ($affinityUser1 / 100) * 0.5) * 100;
-        //Log::info("Final affinity calculated: $finalAffinity");
         return round($finalAffinity, 2);
     }
     
