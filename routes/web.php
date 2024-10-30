@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\MeetupController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MeetupController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\SearchController;
@@ -33,11 +34,13 @@ Route::get('/logout', [UsersController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->group(function () {
     
-    // Home page
-    Route::get('/home', function () {
-        return view('home.feed');
-    })->name('home');
-
+    // Home
+    Route::get('/home', [HomeController::class, 'home'])->name('home');
+    Route::get('/home/showcase', [HomeController::class, 'showcase'])->name('showcase');
+    Route::get('/home/user_meetups', [HomeController::class, 'user_meetups'])->name('user_meetups');
+    Route::get('/home/top_events', [HomeController::class, 'top_events'])->name('top_events');
+    Route::get('/home/recent_meetups', [HomeController::class, 'recent_meetups'])->name('recent_meetups');
+    Route::get('/home/upcoming_events', [HomeController::class, 'upcoming_events'])->name('upcoming_events');
 
     // Profile
     Route::get('/profile/{id}', [UsersController::class, 'profile'])->name('profile');
@@ -68,9 +71,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/meetup/delete/{id}', [MeetupController::class, 'delete'])->where('id', '[0-9]+');
 
 
-    Route::get('/meetup/page/{meetupId}', [MeetupController::class, 'MeetupPage'])->name('meetupPage');
-    Route::get('/meetup/page/join/{meetupId}', [MeetupController::class, 'JoinMeetup'])->name('joinMeetup');
-    Route::get('/meetup/page/leave/{meetupId}', [MeetupController::class, 'LeaveMeetup'])->name('leaveMeetup');
+    Route::get('/meetup/{meetupId}', [MeetupController::class, 'MeetupPage'])->name('meetupPage');
+    Route::get('/meetup/join/{meetupId}', [MeetupController::class, 'JoinMeetup'])->name('joinMeetup');
+    Route::get('/meetup/cancel/{meetupId}', [MeetupController::class, 'CancelJoiningMeetup'])->name('cancelJoiningMeetup');
+    Route::get('/meetup/leave/{meetupId}', [MeetupController::class, 'LeaveMeetup'])->name('leaveMeetup');
 
     Route::get('/meetup/page/removeParticipant/{meetupId}/{userId}', [MeetupController::class, 'RemoveParticipant'])->name("removeParticipant");
 
@@ -87,4 +91,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/search/meetups', [SearchController::class, 'meetups'])->name('search.meetups');
     Route::get('/search/events', [SearchController::class, 'events'])->name('search.events');
     Route::get('/search/users', [SearchController::class, 'users'])->name('search.users');
+    Route::get('/search/cities', [SearchController::class, 'cities'])->name('search.cities');
+    Route::get('/search/interests', [SearchController::class, 'interests'])->name('search.interests');
+    Route::get('/search/getInterests', [SearchController::class, 'getInterests'])->name('search.getInterests');
+
+    //utilisateurs
+    Route::get("user/friend/request/send/{id}", [UsersController::class, "SendFriendRequest"])->name("SendFriendRequest");
+    Route::get("user/friend/request/accept/{id}", [UsersController::class, "AcceptFriendRequest"])->name("AcceptFriendRequest");
+    Route::get("user/friend/request/refuse/{id}", [UsersController::class, "RefuseFriendRequest"])->name("RefuseFriendRequest");
+    Route::get("user/friend/request/cancel/{id}", [UsersController::class, "CancelFriendRequest"])->name("CancelFriendRequest");
+    Route::get("user/friend/remove/{id}", [UsersController::class, "RemoveFriend"])->name("RemoveFriend");
 });

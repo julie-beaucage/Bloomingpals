@@ -1,3 +1,45 @@
+.personality {
+    --personality-color: #e2e9e4 !important;
+    --personality-color-pale: #f1f4f1 !important;
+    --personality-text-color: #2c3a30 !important;
+    --personality-text-button: #2c3a30 !important;
+    --personality-text-color-button: #e2e9e4 !important;
+ }
+ 
+
+.personality.analystes {
+   --personality-color: #c3b0cd !important;
+   --personality-color-pale: #decee7 !important;
+   --personality-text-color: #6c4d7b !important;
+   --personality-text-button: #620756 !important;
+   --personality-text-color-button: #ffffff !important;
+}
+
+.personality.diplomates {
+   --personality-color:  #b1f2d7 !important;
+   --personality-color-pale: #d6ece3 !important;
+   --personality-text-color: #277d58 !important;
+   --personality-text-button: #53b96c !important;
+   --personality-text-color-button: #ffffff !important;
+}
+
+.personality.sentinelles {
+   --personality-color: #a7d6e6 !important;
+   --personality-color-pale: #cce4ec !important;
+   --personality-text-color: #347990 !important;
+   --personality-text-button: #3b76dc !important;
+   --personality-text-color-button: #ffffff !important;
+}
+
+.personality.explorateurs {
+   --personality-color: #f4e27b !important;
+   --personality-color-pale: #eee4a7!important;
+   --personality-text-color: #e4ae3a !important;
+   --personality-text-button: #d4b02b !important;
+   --personality-text-color-button: #ffffff !important;
+}
+
+
 a:hover i,
 a,
 i {
@@ -198,14 +240,56 @@ body {
     font-weight: 600;
     margin: 0.5em;
 }
+.blue_button {
+    background-color: blue;
+    color: white;
+    width: max-content;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    border-radius: 15px;
+}
+.grey_button {
+    background-color: grey;
+    color: white;
+    width: max-content;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    border-radius: 15px;
+}
+.green_button {
+    background-color: green;
+    color: white;
+    width: max-content;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    border-radius: 15px;
+}
+.red_button {
+    background-color: red;
+    color: white;
+    width: max-content;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    border-radius: 15px;
+}
+.acceptContainer {
+    display: flex;
+    gap: 2em
+}
+/* TEST ONGLET CSS */  
+.containerPerso{
+    background-color: var(--personality-color) !important;
+    border-radius: 10px;
+    padding:5em;
 
-.events {
-    display: grid;
-    grid-template-columns: repeat( auto-fit, minmax(20em, 1fr) );
-    row-gap: 5em;
-    justify-content: left;
-    padding: 2em;
-    justify-content: center;
 }
 
 .event {
