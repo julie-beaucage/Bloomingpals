@@ -36,9 +36,11 @@
         </div>
 
         <h1 id="profile_name">{{ $user->first_name }} {{ $user->last_name }}
-            <button class="icon-btn hover_darker" id="openProfileOverlay" title="Modifier profile">
-                <span class="material-symbols-rounded">edit</span>
-            </button>
+            @if ($user->id == Auth::user()->id)
+                <button class="icon-btn hover_darker" id="openProfileOverlay" title="Modifier profile">
+                    <span class="material-symbols-rounded">edit</span>
+                </button>
+            @endif
         </h1>
         @if (Auth::user()->id == $user->id)
 

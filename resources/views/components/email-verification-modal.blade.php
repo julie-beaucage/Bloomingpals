@@ -12,7 +12,7 @@
                 <p>Vous n'avez pas reçu le courriel ?</p>
                 <form id="resendVerificationForm" class="resend-form" onsubmit="return handleSubmit(event);">
                     @csrf
-                    <button type="submit" class="btn btn-primary">Renvoyer un lien de vérification</button>
+                    <button type="submit" class="btn_primary">Renvoyer un lien de vérification</button>
                 </form>
             </div>
             <div id="successMessage" class="carousel-slide success-slide" style="display: none;">
