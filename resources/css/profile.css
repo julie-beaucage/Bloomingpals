@@ -360,3 +360,40 @@ body {
 a {
     width: max-content;
 }
+
+  /* TEST ONGLET CSS */  
+.containerPerso{
+    background-color: var(--personality-color) !important;
+    border-radius: 10px;
+    padding:5em;
+
+}
+  .personality-card {
+    padding: 20px;
+    background-color: #00796b;
+    border-radius: 10px;
+    background-color: var(--personality-color);
+    color: var(--text-color);
+  }
+
+  .personality-card.analystes {
+   --personality-color: #c3b0cd;
+    --text-color: #6c4d7b;
+  }
+
+  .personality-card.diplomates {
+   --personality-color:  #d6ece3;
+    --text-color: #277d58;
+  }
+
+  .personality-card.sentinelles {
+   --personality-color: #cce4ec;
+    --text-color: #347990;
+  }
+
+  .personality-card.explorateurs{
+   --personality-color: #f4e27b;
+    --text-color: #e4ae3a;
+  }
+
+  /*----------------*/
