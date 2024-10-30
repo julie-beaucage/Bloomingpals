@@ -10,19 +10,32 @@
     <form id="personality-test-form" method="POST" action="{{ route('personality.submit') }}" onsubmit="return false;"> <!-- Empêcher l'envoi -->
         @csrf
         @foreach ($questions as $question)
-        <fieldset>
-                <legend>{{ $question->question }}</legend>
-                    @foreach ($question->answers as $option)
-                        <div>
-                            <input type="radio" id="option-{{ $option->id }}" name="answers[{{ $question->id }}]"
-                                value="{{ $option->id }}">
-                            <label for="option-{{ $option->id }}">{{ $option->answer }} (Score: {{ $option->type_answer }})</label>
-                        </div>
-                    @endforeach
-            </fieldset>
-        @endforeach
+<fieldset class="questionContainer">
+    <legend>{{ $question->question }}</legend>
+    @foreach ($question->answers as $option)
+        <div class="containerAnswers">
+            <input type="radio" id="option-{{ $option->id }}" name="answers[{{ $question->id }}]"
+                value="{{ $option->id }}"
+                @if (isset($answers[$question->id]) && $answers[$question->id] == $option->id) checked @endif>
+            <label for="option-{{ $option->id }}">{{ $option->answer }} ({{ $option->type_answer }})</label>
+        </div>
+    @endforeach
+</fieldset>
+@endforeach
 
-        <button type="button" class="sendTest">Envoyer</button> 
+
+        <div class="pagination">
+            @if ($questions->currentPage() > 1)
+                <a href="{{ $questions->previousPageUrl() }}" class="prev">← Précédent</a>
+            @endif
+
+            @if ($questions->hasMorePages())
+                <a href="{{ $questions->nextPageUrl() }}" class="next">Suivant →</a>
+            @endif
+        </div>
+        @if (!$questions->hasMorePages())
+                <button type="submit" class="sendTest">Envoyer</button>
+            @endif
         <div id="error-message" style="color: red; display: none;"></div> 
     </form>
 </div>
