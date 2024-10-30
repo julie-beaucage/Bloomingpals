@@ -2,48 +2,69 @@
 /*!***************************************************!*\
   !*** ./resources/js/validationTestPersonality.js ***!
   \***************************************************/
-// Fonction pour valider le formulaire
 window.validateForm = function () {
-  document.getElementById('error-message').style.display = 'none'; // Masquer le message d'erreur au début
+  document.getElementById('error-message').style.display = 'none';
   var questions = document.querySelectorAll('fieldset');
   var allAnswered = true;
-
-  // Réinitialiser les styles de chaque question
   questions.forEach(function (question) {
-    question.classList.remove('error'); // Supprime la classe d'erreur pour chaque question
+    question.classList.remove('error');
   });
+  var selectedAnswers = [];
   questions.forEach(function (question) {
     var radios = question.querySelectorAll('input[type="radio"]');
     var isChecked = false;
     radios.forEach(function (radio) {
       if (radio.checked) {
         isChecked = true;
-        question.classList.add('selected-question'); // Ajoute une classe pour la question sélectionnée
+        selectedAnswers.push({
+          questionId: question.querySelector('legend').innerText,
+          answer: radio.nextElementSibling.innerText
+        });
+        question.classList.add('selected-question');
+        var nextQuestion = question.nextElementSibling;
+        if (nextQuestion) {
+          nextQuestion.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+          });
+        }
       }
     });
     if (!isChecked) {
-      question.classList.add('error'); // Ajoute une classe d'erreur pour les questions non répondues
-      allAnswered = false; // Marque que toutes les questions ne sont pas répondues
+      question.classList.add('error');
+      allAnswered = false;
     }
   });
   if (!allAnswered) {
     var errorMessage = document.getElementById('error-message');
-    errorMessage.innerText = "Veuillez répondre à toutes les questions."; // Définit le message d'erreur
-    errorMessage.style.display = 'block'; // Affiche le message d'erreur
-    console.log("Formulaire non valide.");
+    errorMessage.innerText = "Veuillez répondre à toutes les questions.";
+    errorMessage.style.display = 'block';
     return false;
   }
-  console.log("Formulaire valide.");
   return true;
 };
 
-// Événements de navigation
-document.querySelectorAll('.prev, .next').forEach(function (link) {
-  link.addEventListener('click', function (event) {
-    event.preventDefault(); // Empêche le lien de s'exécuter immédiatement
-    if (validateForm()) {
-      // Valide avant de changer de page
-      window.location.href = this.href; // Navigue vers la page suivante
+// Écouter le changement de réponse dans les questions
+document.querySelectorAll('input[type="radio"]').forEach(function (radio) {
+  radio.addEventListener('change', function () {
+    var questionFieldset = this.closest('fieldset');
+    questionFieldset.classList.add('selected-question'); // Marquer la question comme répondue
+
+    var nextQuestion = questionFieldset.nextElementSibling;
+    if (nextQuestion) {
+      nextQuestion.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      });
+    }
+  });
+});
+
+// Ajouter un écouteur d'événements pour les boutons de pagination et de soumission
+document.querySelectorAll('.prev, .next, .sendTest').forEach(function (button) {
+  button.addEventListener('click', function (event) {
+    if (!window.validateForm()) {
+      event.preventDefault();
     }
   });
 });

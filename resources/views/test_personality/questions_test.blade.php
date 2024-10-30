@@ -1,61 +1,88 @@
 @extends("master")
 @section('style')
-  <link rel="stylesheet" href="{{ asset('css/personality.css') }}">
+<link rel="stylesheet" href="{{ asset('css/personality.css') }}">
 @endsection
 
 @section("content")
-    <span>
+<span>
     <div class="test_container">
-    <h3>Test de Personnalité</h3>
-    <form id="personality-test-form" method="POST" action="{{ route('personality.submit') }}" onsubmit="return false;"> <!-- Empêcher l'envoi -->
-        @csrf
-        @foreach ($questions as $question)
-<fieldset class="questionContainer">
-    <legend>{{ $question->question }}</legend>
-    @foreach ($question->answers as $option)
-        <div class="containerAnswers">
-            <input type="radio" id="option-{{ $option->id }}" name="answers[{{ $question->id }}]"
-                value="{{ $option->id }}"
-                @if (isset($answers[$question->id]) && $answers[$question->id] == $option->id) checked @endif>
-            <label for="option-{{ $option->id }}">{{ $option->answer }} ({{ $option->type_answer }})</label>
-        </div>
-    @endforeach
-</fieldset>
-@endforeach
+        <h3>Test de Personnalité</h3>
+        <form id="personality-test-form" method="POST" action="{{ route('personality.submit') }}"
+            onsubmit="return false;"> <!-- Empêcher l'envoi -->
+            @csrf
+            @foreach ($questions as $question)
+                <fieldset class="questionContainer">
+                    <legend>{{ $question->question }}</legend>
+                    @foreach ($question->answers as $option)
+                        <div class="containerAnswers">
+                            <input type="radio" id="option-{{ $option->id }}" name="answers[{{ $question->id }}]"
+                                value="{{ $option->id }}" @if (isset($answers[$question->id]) && $answers[$question->id] == $option->id) checked @endif
+                                onchange="saveAnswer('{{ $question->id }}', '{{ $option->id }}')"> <!-- Appel de la fonction -->
+                            <label for="option-{{ $option->id }}">{{ $option->answer }} ({{ $option->type_answer }})</label>
+                        </div>
+                    @endforeach
+                </fieldset>
+            @endforeach
 
+            <div class="pagination">
+                @if ($questions->currentPage() > 1)
+                    <a href="{{ $questions->previousPageUrl() }}" class="prev">← Précédent</a>
+                @endif
 
-        <div class="pagination">
-            @if ($questions->currentPage() > 1)
-                <a href="{{ $questions->previousPageUrl() }}" class="prev">← Précédent</a>
-            @endif
-
-            @if ($questions->hasMorePages())
-                <a href="{{ $questions->nextPageUrl() }}" class="next">Suivant →</a>
-            @endif
-        </div>
-        @if (!$questions->hasMorePages())
+                @if ($questions->hasMorePages())
+                    <a href="{{ $questions->nextPageUrl() }}" class="next">Suivant →</a>
+                @endif
+            </div>
+            @if (!$questions->hasMorePages())
                 <button type="submit" class="sendTest">Envoyer</button>
             @endif
-        <div id="error-message" style="color: red; display: none;"></div> 
-    </form>
-</div>
-    </span>
+            <div id="error-message" style="color: red; display: none;"></div>
+        </form>
+    </div>
+</span>
 @endsection
 
 @section('script')
-    <script src="{{ asset('/js/validationTestPersonality.js') }}"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelector('.sendTest').onclick = function() {
-                if (typeof validateForm === 'function') {
-                    var isValid = validateForm(); 
-                    if (isValid) {
-                        document.getElementById('personality-test-form').submit(); 
-                    }
-                } else {
-                    console.error('validateForm is not defined');
+<script>
+function saveAnswer(questionId, answerId) {
+    let answers = JSON.parse(localStorage.getItem('personalityAnswers')) || {};
+    answers[questionId] = answerId;
+    localStorage.setItem('personalityAnswers', JSON.stringify(answers));
+    
+    // Ajouter la classe selected-question au fieldset correspondant
+    const questionFieldset = document.querySelector(`fieldset.questionContainer[data-question-id="${questionId}"]`);
+    if (questionFieldset) {
+        questionFieldset.classList.add('selected-question');
+    }
+}
+
+function loadAnswers() {
+    let answers = JSON.parse(localStorage.getItem('personalityAnswers')) || {};
+    for (const [questionId, answerId] of Object.entries(answers)) {
+        const radioButton = document.querySelector(`input[name="answers[${questionId}]"][value="${answerId}"]`);
+        if (radioButton) {
+            radioButton.checked = true;
+            const questionFieldset = radioButton.closest('fieldset');
+            questionFieldset.classList.add('selected-question');
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', loadAnswers);
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelector('.sendTest').onclick = function () {
+            if (typeof validateForm === 'function') {
+                var isValid = validateForm();
+                if (isValid) {
+                    document.getElementById('personality-test-form').submit();
                 }
-            };
-        });
-    </script>
+            } else {
+                console.error('validateForm is not defined');
+            }
+        };
+    });
+</script>
+<script src="{{ asset('/js/validationTestPersonality.js') }}"></script>
 @endsection

@@ -21,7 +21,7 @@ class PersonalityController extends Controller
         return view('profile.personnalite', compact('user', 'personality'));
     }
 
-   /* public function startTest(Request $request)
+    public function startTest(Request $request)
     {
         $questions = Question::with('answers')->paginate(10);
         if ($questions->isEmpty()) {
@@ -31,7 +31,7 @@ class PersonalityController extends Controller
         return view('test_personality.questions_test', compact('questions'));
     }
     
-
+/*
     public function submitTest(Request $request)
     {
         if (empty($request->answers) || !is_array($request->answers)) {
@@ -57,21 +57,6 @@ class PersonalityController extends Controller
     
         return view('test_personality.resultat_test', compact('personality'));
     }*/
-    public function startTest(Request $request)
-    {
-        // Récupérer les réponses de la session si elles existent
-        $answers = $request->session()->get('answers', []);
-        
-        // Récupérer les questions avec les réponses associées
-        $questions = Question::with('answers')->paginate(10);
-        
-        if ($questions->isEmpty()) {
-            return redirect()->back()->with('error', 'Aucune question disponible pour le test.');
-        }
-
-        return view('test_personality.questions_test', compact('questions', 'answers')); // Passer les réponses à la vue
-    }
-
     public function submitTest(Request $request)
     {
         if (empty($request->answers) || !is_array($request->answers)) {

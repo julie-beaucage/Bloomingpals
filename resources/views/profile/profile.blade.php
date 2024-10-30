@@ -152,6 +152,7 @@
                 @if (!$emailVerified)
                     showModal('emailVerificationModal');
                 @else
+                    localStorage.removeItem('personalityAnswers');
                     window.location.href = "{{ route('personality.test') }}";
                 @endif
             }

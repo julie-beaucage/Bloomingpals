@@ -1,4 +1,36 @@
 
+
+.analystes {
+    --personality-color: #c3b0cd !important;
+    --personality-color-pale: #decee7 !important;
+    --personality-text-color: #6c4d7b !important;
+    --personality-text-button: #620756 !important;
+    --personality-text-color-button: #ffffff !important;
+ }
+ 
+ .diplomates {
+    --personality-color:  #b1f2d7 !important;
+    --personality-color-pale: #d6ece3 !important;
+    --personality-text-color: #277d58 !important;
+    --personality-text-button: #53b96c !important;
+    --personality-text-color-button: #ffffff !important;
+ }
+ 
+ .sentinelles {
+    --personality-color: #a7d6e6 !important;
+    --personality-color-pale: #cce4ec !important;
+    --personality-text-color: #347990 !important;
+    --personality-text-button: #3b76dc !important;
+    --personality-text-color-button: #ffffff !important;
+ }
+ 
+ .explorateurs {
+    --personality-color: #f4e27b !important;
+    --personality-color-pale: #f5edb6!important;
+    --personality-text-color: #e4ae3a !important;
+    --personality-text-button: #d4b02b !important;
+    --personality-text-color-button: #ffffff !important;
+ }
 /* Styles pour la section vide de personnalité */
 .personality-container-empty {
     display: flex;
@@ -230,6 +262,70 @@ fieldset.error {
         background-color: #ca8489;
     }
 }
+
+/* CSSS POUR LE RESULAT DE PRSONALITÉ */
+.result_test {
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: auto;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s forwards; 
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Personality Specific Styles */
+.analystes.result_test {
+    background-color: var(--personality-color);
+    color: var(--personality-text-color);
+}
+
+.diplomates.result_test {
+    background-color: var(--personality-color);
+    color: var(--personality-text-color);
+}
+
+.sentinelles.result_test {
+    background-color: var(--personality-color);
+    color: var(--personality-text-color);
+}
+
+.explorateurs.result_test {
+    background-color: var(--personality-color);
+    color: var(--personality-text-color);
+}
+
+/* Button Styles */
+.result_test a {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: var(--personality-text-button);
+    color: var(--personality-text-color-button);
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.3s; 
+}
+
+.result_test a:hover {
+    background-color: var(--personality-text-color);
+    transform: scale(1.05); 
+}
+
+
+
 
 @media (max-width: 768px) {
     .test_container {
