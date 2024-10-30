@@ -56,11 +56,15 @@ class Friendship_Request extends Model
             $message = "receive";
             return $message;
         }
-        $state = Friendship_Request::where("id_user_send", $user1)->where("id_user_receive", $user2);
-        if ($state->count() > 0) {
-            if ($state->get()->first()->state == "Refused") {
+        $sent = Friendship_Request::where("id_user_send", $user1)->where("id_user_receive", $user2);
+        $receive = Friendship_Request::where("id_user_send", $user2)->where("id_user_receive", $user1);
+        if ($receive->count() > 0) {
+            if ($receive->get()->first()->state == "Refused") {
                 $message = "refuse";
-            } else if ($state->get()->first()->state == "Sent") {
+            }
+        }
+        if ($sent->count() > 0) {
+            if ($sent->get()->first()->state == "Sent") {
                 $message = "sent";
             }
         }
@@ -78,11 +82,18 @@ class Friendship_Request extends Model
     }
 
     public static function CancelFriendRequest($user1, $user2) {
-        $other_request = Friendship_Request::where("id_user_send", $user1)->where("id_user_receive", $user2)->get();
+        /*$other_request = Friendship_Request::where("id_user_send", $user2)->where("id_user_receive", $user1)->get();
         if ($other_request->count() > 0) {
             if (!$other_request->first()->state == "Refused") {
                 Friendship_Request::where("id_user_send", $user1)->where("id_user_receive", $user2)->delete();
+                return;
             }
+        } else {
+            Friendship_Request::where("id_user_send", $user1)->where("id_user_receive", $user2)->delete();
+        }*/
+        $other_request = Friendship_Request::where("id_user_send", $user1)->where("id_user_receive", $user2)->get();
+        if (!($other_request->count() > 0 && $other_request->first()->state == "Refused")) {
+            Friendship_Request::where("id_user_send", $user1)->where("id_user_receive", $user2)->delete();
         }
     }
 
