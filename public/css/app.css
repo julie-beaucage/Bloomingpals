@@ -7,6 +7,7 @@
 
     --neutral-50: #f5f5f5;
     --neutral-100: #ebebeb;
+    --neutral-150: #e2e2e2;
     --neutral-200: #d9d9d9; /* Main color for border */
     --neutral-300: #c7c7c7;
     --neutral-400: #b5b5b5;
@@ -259,6 +260,9 @@ body {
     background-color: var(--white);
     cursor: pointer;
 }
+.header-nav{
+    display:none;
+}
 
 .navbar_icon img {
     width: 2.5em;
@@ -391,6 +395,29 @@ body {
     #footer {
         display: none;
     }
+    .header-nav{
+        width: 100%;
+        padding:0 .2em 0 .2em;
+        display: flex !important;
+        justify-content: space-between;
+        background-color: var(--white);
+        text-align: center;
+    }
+    .header-title{
+        font-size: 1.2em;
+        font-weight: 600;
+    }
+    .hideNotification{
+        display: none !important;;
+    }
+    .notification-badge{
+        right:.1em !important;
+        left: 0;
+        top:.2em;
+        width: .9em !important;
+        height: .9em !important;
+        font-size: .8em;
+    }
 }
 
 /*-------------------- General styles --------------------*/
@@ -428,6 +455,7 @@ a {
 
 .link {
     color: var(--link) !important;
+    cursor: pointer;
 }
 
 .link:hover {
@@ -483,35 +511,46 @@ a {
     padding: 0.25em 0.5em;
 }
 
-.btn_primary {
-    background-color: var(--primary-400);
+.btn-primary {
     color: var(--white);
     border: none;
-    border-radius: 0.8em;
+    border-radius: 0.25em;
     padding: 0.5em 1em;
     font-size: 1em;
     font-weight: 600;
     cursor: pointer;
     width: -moz-fit-content;
-    width: fit-content;
+    text-align: center;
 }
 
-.btn_primary:hover {
-    filter: brightness(1.1);
+.btn-primary:hover {
+    filter: brightness(0.9);
 }
 .grey_text {
     color: rgb(168, 168, 168);
 }
-
-.text_nowrap {
+cursor{
+    cursor: pointer;
+}
+.notification-badge-container{
     position: relative;
-    width: 100%;
+}
+.notification-badge{
+    position: absolute;
+    left: 2.1em;
+    top:0.2em;
+    background-color: red;
+    border-radius: 50%;
+    width: 1em ;
+    height: 1em ;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+}
+.notif-count{
+    color:white;
+    font-size: .85em;
+    line-height:unset;
 }
 
-.text_nowrap > * {
-    position: absolute;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-wrap: nowrap;
-    width: 100%;
-}

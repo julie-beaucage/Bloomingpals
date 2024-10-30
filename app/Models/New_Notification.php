@@ -4,8 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Event_Interest extends Model
+class New_Notification extends Model
 {
-    protected $table= 'events_interests';
+    protected $table= 'new_notifications';
+
     public $timestamps = false;
 }
