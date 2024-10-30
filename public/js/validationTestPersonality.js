@@ -48,8 +48,7 @@ window.validateForm = function () {
 document.querySelectorAll('input[type="radio"]').forEach(function (radio) {
   radio.addEventListener('change', function () {
     var questionFieldset = this.closest('fieldset');
-    questionFieldset.classList.add('selected-question'); // Marquer la question comme répondue
-
+    questionFieldset.classList.add('selected-question');
     var nextQuestion = questionFieldset.nextElementSibling;
     if (nextQuestion) {
       nextQuestion.scrollIntoView({
@@ -59,9 +58,7 @@ document.querySelectorAll('input[type="radio"]').forEach(function (radio) {
     }
   });
 });
-
-// Ajouter un écouteur d'événements pour les boutons de pagination et de soumission
-document.querySelectorAll('.prev, .next, .sendTest').forEach(function (button) {
+document.querySelectorAll('.next, .sendTest').forEach(function (button) {
   button.addEventListener('click', function (event) {
     if (!window.validateForm()) {
       event.preventDefault();
