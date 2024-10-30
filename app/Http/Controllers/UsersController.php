@@ -137,8 +137,6 @@ class UsersController extends Controller
     }
     public function profile($id)
     {
-        Log::info("Appel du contrôleur profile pour l'utilisateur avec ID: " . $id);
-
         $user = User::find($id);
 
         if (!$user) {
@@ -166,7 +164,7 @@ class UsersController extends Controller
         
         $relation = Relation::GetRelationUsers(Auth::user()->id, $id);
 
-        if ($relation == 'GotBlocked') {
+        if ($relation == 'Friend') {
             return redirect()->back();
         } else if ($relation != "Friend") {
             $relationRequest = Friendship_Request::GetUserRelationState(Auth::user()->id, $id);
