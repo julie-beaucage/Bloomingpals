@@ -1,12 +1,12 @@
 <!doctype html>
 <html>
-<header>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield("title", "BloomingPals")</title>
     @include("bundles.stylesBundle")
     @yield("style", "")
-</header>
+</head>
 
 <body>
     <div id="main">

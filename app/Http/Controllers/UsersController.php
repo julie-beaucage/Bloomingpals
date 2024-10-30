@@ -14,7 +14,7 @@ use App\Models\Object_Type;
 use App\Models\Friendship_Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
-use PhpParser\Node\Expr\Cast\Object_;
+use App\Models\User_Interest;
 
 class UsersController extends Controller
 {
@@ -36,23 +36,23 @@ class UsersController extends Controller
             'lastname.required' => 'Le champ nom est obligatoire.',
             'lastname.min' => 'Le nom doit contenir au moins :min caractères.',
             'lastname.max' => 'Le nom ne peut pas dépasser :max caractères.',
-            
+
             'firstname.required' => 'Le champ prénom est obligatoire.',
             'firstname.min' => 'Le prénom doit contenir au moins :min caractères.',
             'firstname.max' => 'Le prénom ne peut pas dépasser :max caractères.',
-            
+
             'birthdate.required' => 'La date de naissance est obligatoire.',
             'birthdate.date' => 'La date de naissance doit être une date valide.',
             'birthdate.before' => 'Vous devez avoir au moins 15 ans.',
-        
+
             'email.required' => 'Le champ email est obligatoire.',
             'email.email' => 'Veuillez entrer une adresse email valide.',
             'email.max' => 'L\'email ne peut pas dépasser :max caractères.',
             'email.unique' => 'Cette adresse email est déjà utilisée.',
-        
+
             'genre.required' => 'Le genre est obligatoire.',
             'genre.in' => 'Le genre doit être l\'un des suivants : femme, homme, non-genre.',
-        
+
             'password.required' => 'Le mot de passe est obligatoire.',
             'password.confirmed' => 'La confirmation du mot de passe ne correspond pas.',
             'password.min' => 'Le mot de passe doit contenir au moins :min caractères.',
@@ -61,7 +61,7 @@ class UsersController extends Controller
 
         $password = bcrypt($formFields['password']);
 
-        DB::beginTransaction(); 
+        DB::beginTransaction();
 
         try {
             DB::statement("CALL creerUsager(?, ?, ?, ?, ?,?)", [
@@ -80,17 +80,17 @@ class UsersController extends Controller
                     $user->sendEmailVerificationNotification();
                 }
             }
-            DB::commit(); 
-            return view('auth.verify'); 
+            DB::commit();
+            return view('auth.verify');
         } catch (QueryException $e) {
             DB::rollBack();
             Log::error('Erreur lors de la création de l\'utilisateur : ' . $e->getMessage());
 
             return back()->withErrors(['error' => $e->getMessage()]);
         }
-    
+
     }
-    
+
     public function loginForm()
     {
         return view('auth.login');
@@ -102,26 +102,70 @@ class UsersController extends Controller
             "email" => $request['email'],
             "password" => $request['password']
         );
-        if(auth()->attempt($data)) {
+        if (auth()->attempt($data)) {
             $request->session()->regenerate();
             $id = auth()->user()->id;
-            return redirect('/profile/'.$id)->with('message', 'Bienvenue sur BloomingPals, '.auth()->user()->prenom);
+            return redirect('/profile/' . $id)->with('message', 'Bienvenue sur BloomingPals, ' . auth()->user()->prenom);
         }
-        return back()->withErrors(['email'=>'Le courriel et le mot de passe ne correspondent pas'])->onlyInput('email');
+        return back()->withErrors(['email' => 'Le courriel et le mot de passe ne correspondent pas'])->onlyInput('email');
     }
 
-    public function logout(Request $request){
+
+    public function resend(Request $request)
+    {
+        $user = Auth::user();
+         Log::info("resend fonction");
+
+        if ($user) {
+         Log::info("renvoie de courriel fait ");
+
+            $user->sendEmailVerificationNotification();
+            return redirect()->back()->with('message', 'Un lien de vérification a été renvoyé à votre adresse email.');
+        }
+
+        return redirect()->back()->with('error', 'Utilisateur non authentifié.');
+    }
+
+
+
+
+
+    public function logout(Request $request)
+    {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect('/login');
     }
+    public function profile($id)
+    {
+        Log::info("Appel du contrôleur profile pour l'utilisateur avec ID: " . $id);
 
-    public function profile($id) {
         $user = User::find($id);
+
         if (!$user) {
             return redirect()->route('/login')->with('error', 'Utilisateur non trouvé.');
         }
+        $profileCompletion = 0;
+        $emailVerified = $user->hasVerifiedEmail();
+        $interetsUtilisateurTab = User_Interest::getInteretsParUtilisateurTab($id);
+        $interestsSelected = count($interetsUtilisateurTab) > 0;
+        $personalityTestDone = $user->personality != null;
+
+        if ($emailVerified) {
+            $profileCompletion += 1;
+        }
+        if ($interestsSelected) {
+            $profileCompletion += 1;
+        }
+        if ($personalityTestDone) {
+            $profileCompletion += 1;
+        }
+
+        $profileCompletionPercentage = ($profileCompletion / 3) * 100;
+        $profileCompletionPercentage = round($profileCompletionPercentage);
+
+        
         $relation = Relation::GetRelationUsers(Auth::user()->id, $id);
         $reportsReasons = Object_Type::all();
 
@@ -137,8 +181,9 @@ class UsersController extends Controller
                 $relation = "Refuse";
             }
         }
-        return view('profile.profile', compact('user', 'relation', 'reportsReasons'));
+        return view('profile.profile', compact('user', 'profileCompletionPercentage', 'emailVerified', 'interestsSelected', 'personalityTestDone', 'relation', 'reportsReasons'));
     }
+
 
     public function update(Request $request)
     {
@@ -147,10 +192,10 @@ class UsersController extends Controller
             'firstname' => ['required', 'min:3', 'max:20'],
             'genre' => ['required', 'in:femme,homme,non-genre'],
         ]);
-    
+
         DB::beginTransaction();
         try {
-            $user = auth()->user();  
+            $user = auth()->user();
             if ($request->hasFile('image_profile')) {
                 if ($user->image_profil && Storage::disk('public')->exists($user->image_profil)) {
                     Storage::disk('public')->delete($user->image_profil);
@@ -170,7 +215,7 @@ class UsersController extends Controller
             }
 
             DB::statement("CALL updateUserProfile(?, ?, ?, ?, ?, ?)", [
-                $user->id, 
+                $user->id,
                 $formFields['firstname'],
                 $formFields['lastname'],
                 $formFields['image_profile'],
@@ -185,8 +230,9 @@ class UsersController extends Controller
             return back()->withErrors(['error' => 'Erreur lors de la mise à jour du profil.']);
         }
     }
-    
-    public function amis($id) {
+
+    public function amis($id)
+    {
         $user = User::find($id);
         $users = Relation::GetFriends($id);
         return view('profile.amis', compact('user', 'users'));    
@@ -239,7 +285,7 @@ class UsersController extends Controller
     }
 
     public function ReportUser(Request $request) {
-        Report::AddReport($request["userId"], $request["objectId"], $request["objectTypeId"]);
+        Report::AddReport(Auth::user()->id, $request["userId"], $request["object"], $request["objectTypeId"]);
 
         return $this->profile($request["userId"]);
     }

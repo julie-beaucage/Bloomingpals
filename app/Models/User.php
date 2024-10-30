@@ -22,6 +22,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return !is_null($this->email_verified_at);
     }
+
     public function getUserPersonality($userId)
     {
         return DB::table('users')
@@ -47,9 +48,9 @@ class User extends Authenticatable implements MustVerifyEmail
             ->select('groups_personalities.name as personality_name')
             ->first();
 
-        Log::info('Personality type for user ID ' . $this->id . ': ', [
+        /*Log::info('Personality type for user ID ' . $this->id . ': ', [
             'personality' => $personality
-        ]);
+        ]);*/
     
         if ($personality) {
             return $personality->personality_name;
@@ -89,5 +90,60 @@ class User extends Authenticatable implements MustVerifyEmail
         $count = count($interests);
         $affinity = ($count == 0) ? 0 : $points / $count / 3;
         return $affinity;
+    }
+
+    public function calculateAffinity($otherUserId, $idUser) {
+        $userPersonality = $this->getUserPersonality($idUser);
+        
+        $otherUserPersonality = $this->getUserPersonality($otherUserId);
+    
+        $personalityAffinity = 0;
+        if ($userPersonality && $otherUserPersonality) {
+            if ($userPersonality->type === $otherUserPersonality->type) {
+                $personalityAffinity = 1.0; 
+                //Log::info("Both users have the same personality type.");
+            } elseif ($userPersonality->group_name === $otherUserPersonality->group_name) {
+                $personalityAffinity = 0.5; 
+               // Log::info("Both users are in the same personality group.");
+            }
+        } else {
+            Log::warning("One of the users does not have a personality.");
+        }
+
+        $userInterests = User_Interest::getInteretsParUtilisateur($idUser);
+        $otherUserInterests = User_Interest::getInteretsParUtilisateur($otherUserId);
+    
+        $pointsUser1 = $this->calculateInterestPoints($userInterests, $otherUserInterests);
+        $totalPointsUser1 = 2 * count($userInterests);
+        if ($totalPointsUser1 == 0) {
+            Log::warning("User 1 has no interests.");
+            return 0;
+        }
+        $affinityUser1 = ($pointsUser1 / $totalPointsUser1) * 100;
+        $finalAffinity = ($personalityAffinity * 0.5 + ($affinityUser1 / 100) * 0.5) * 100;
+        //Log::info("Final affinity calculated: $finalAffinity");
+        return round($finalAffinity, 2);
+    }
+    
+    private function calculateInterestPoints($userInterests, $otherUserInterests) {
+        $points = 0;
+        $otherUserInterestNames = array_column($otherUserInterests->toArray(), 'InterestName');
+    
+        foreach ($userInterests as $interest) {
+            if (in_array($interest->InterestName, $otherUserInterestNames)) {
+                $points += 2;
+               // echo "Intérêt identique : " . $interest->InterestName . "\n"; // Ajout d'un log
+            } else {
+                foreach ($otherUserInterests as $otherInterest) {
+                    if ($interest->categories === $otherInterest->categories) {
+                        $points += 1;
+                       // echo "Intérêt dans la même catégorie : " . $interest->InterestName . "\n"; // Ajout d'un log
+                        break;
+                    }
+                }
+            }
+        }
+    
+        return $points;
     }
 }

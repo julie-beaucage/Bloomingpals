@@ -1,36 +1,361 @@
-:root {
-    --main-bg-color: #f5f5f5;
-    --text-color: #333;
-  }
-  
-  .test{
-    color: #d81b60;
-  }
-  .personality-card {
+
+
+.analystes {
+    --personality-color: #c3b0cd !important;
+    --personality-color-pale: #decee7 !important;
+    --personality-text-color: #6c4d7b !important;
+    --personality-text-button: #620756 !important;
+    --personality-text-color-button: #ffffff !important;
+ }
+ 
+ .diplomates {
+    --personality-color:  #b1f2d7 !important;
+    --personality-color-pale: #d6ece3 !important;
+    --personality-text-color: #277d58 !important;
+    --personality-text-button: #53b96c !important;
+    --personality-text-color-button: #ffffff !important;
+ }
+ 
+ .sentinelles {
+    --personality-color: #a7d6e6 !important;
+    --personality-color-pale: #cce4ec !important;
+    --personality-text-color: #347990 !important;
+    --personality-text-button: #3b76dc !important;
+    --personality-text-color-button: #ffffff !important;
+ }
+ 
+ .explorateurs {
+    --personality-color: #f4e27b !important;
+    --personality-color-pale: #f5edb6!important;
+    --personality-text-color: #e4ae3a !important;
+    --personality-text-button: #d4b02b !important;
+    --personality-text-color-button: #ffffff !important;
+ }
+/* Styles pour la section vide de personnalité */
+.personality-container-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 30px;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(10px);
+    text-align: center;
+    color: #333;
+    animation: fadeIn 1.5s ease;
+}
+
+.personality-message, .personality-instruction {
+    font-size: 18px;
+    color: #333;
+    margin: 0 0 15px 0;
+}
+
+/* Bouton avec animation au survol */
+.personality-button-start {
+    padding: 12px 25px;
+    font-size: 16px;
+    color: #fff;
+    font-weight: bold;
+    background: linear-gradient(135deg, #42a5f5, #1e88e5);
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, background 0.3s ease;
+    outline: none;
+}
+
+.personality-button-start:hover {
+    transform: scale(1.05);
+    background: linear-gradient(135deg, #64b5f6, #1976d2);
+}
+
+/* Animation d'entrée en fondu */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* CSSS POUR LE TEST DE PRSONALITÉ */
+.test_container {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    align-items: center;
+	place-items: center; 
+    flex-direction: column;
+    display: flex;
+    place-items: center;
+    font-family: sans-serif;
+    font-size: 1rem;
+    background-image: linear-gradient(
+        to bottom right,
+        #b3b6bf,
+        #99d2ba,
+        #8bc1e2,
+        #fbcfd0,
+        #f4d03f
+    );
+}
+
+.test_container fieldset {
+    width: 80%;
+    min-height: fit-content;
+    margin: 3% auto;
+    padding: 4%;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    display: inline-block;
+    border: none;
+    box-sizing: border-box; 
+	margin-left: 10%;
+}
+
+.test_container legend {
+    font-size: 1rem;
+    font-weight: bold;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(2px);
+    border-radius: 20px;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    color: white;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.containerAnswers {
+    display: flex; 
+    align-items: center; 
+    justify-content: flex-start; 
+    margin: 3px;
+}
+
+.containerAnswers input {
+    margin-right: 10px; 
+}
+
+.containerAnswers label {
+    margin: 0; 
+    display: inline; 
+}
+
+#error-message {
+    color: red;
+    display: none; 
+    margin-top: 10px;
+    font-weight: bold; 
+    animation: fadeIn 0.5s; 
+}
+
+fieldset.error {
+    background-color: rgba(255, 0, 0, 0.421); 
+}
+
+.test_container fieldset.selected-question { 
+    background-color: #77e6ad4a; 
+    transition: background-color 0.3s;
+}
+
+.test_container input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    margin-right: 10px;
+    background-color: transparent;
+    position: relative;
+}
+
+.test_container input[type="radio"]:checked::before {
+    content: "";
+    display: block;
+    width: 12px;
+    height: 12px;
+    background-color: #ca8489;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: appear 0.8s;
+}
+
+.test_container label {
+    font-weight: bold;
+    color: #fff;
+}
+
+.test_container div {
+    margin-bottom: 10px;
+}
+
+.test_container .pagination {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.prev, .next{
+    font-size: 1rem;
+    font-weight: bold;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(2px);
+    border-radius: 20px;
+    padding: 10px 20px;
+    color: rgb(92, 185, 129);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+.sendTest{
+	margin-left:50%;
+	font-size: 1rem;
+    font-weight: bold;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(2px);
+    border-radius: 20px;
+    padding: 10px 20px;
+    color: rgb(92, 185, 129);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.prev:hover, .next:hover, .sendTest:hover {
+    background-color: #e9a5e4;
+}
+
+@keyframes appear {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        background-color: #fff;
+    }
+    45% {
+        transform: translate(-50%, -50%) scale(1.6);
+        background-color: #64aedf;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.7);
+        background-color: #ad97b3;
+    }
+    55% {
+        transform: translate(-50%, -50%) scale(1.6);
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        background-color: #ca8489;
+    }
+}
+
+/* CSSS POUR LE RESULAT DE PRSONALITÉ */
+.result_test {
     padding: 20px;
-    background-color: #00796b;
-    border-radius: 10px;
-    background-color: var(--main-bg-color);
-    color: var(--text-color);
-  }
-  
-  .personality-card.analystes {
-    --main-bg-color: #e0f7fa;
-    --text-color: #00796b;
-  }
-  
-  .personality-card.diplomates {
-    --main-bg-color: #ffe0b2;
-    --text-color: #e65100;
-  }
-  
-  .personality-card.sentinelles {
-    --main-bg-color: #e8eaf6;
-    --text-color: #3f51b5;
-  }
-  
-  .personality-card.explorateurs{
-    --main-bg-color: #fce4ec;
-    --text-color: #d81b60;
-  }
-  
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: auto;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s forwards; 
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Personality Specific Styles */
+.analystes.result_test {
+    background-color: var(--personality-color);
+    color: var(--personality-text-color);
+}
+
+.diplomates.result_test {
+    background-color: var(--personality-color);
+    color: var(--personality-text-color);
+}
+
+.sentinelles.result_test {
+    background-color: var(--personality-color);
+    color: var(--personality-text-color);
+}
+
+.explorateurs.result_test {
+    background-color: var(--personality-color);
+    color: var(--personality-text-color);
+}
+
+/* Button Styles */
+.result_test a {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: var(--personality-text-button);
+    color: var(--personality-text-color-button);
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.3s; 
+}
+
+.result_test a:hover {
+    background-color: var(--personality-text-color);
+    transform: scale(1.05); 
+}
+
+
+
+
+@media (max-width: 768px) {
+    .test_container {
+        font-size: 1.4rem; 
+    }
+    
+    .test_container fieldset {
+        padding: 10px; 
+		height: fit-content;   
+		width: 85%;
+	}
+
+    .test_container label {
+        font-size: 1rem; 
+    }
+    
+    .test_container legend {
+        font-size: 1rem; 
+    }
+}
+
+@media (max-width: 480px) {
+    .test_container {
+        font-size: 1rem; 
+    }
+
+    .test_container fieldset {
+		width: 90%;
+		margin-left: 5%;
+    }
+
+    .test_container label {
+        font-size: 0.9rem; 
+    }
+    
+    .test_container legend {
+        font-size: 1rem; 
+    }
+}
