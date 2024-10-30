@@ -3,7 +3,7 @@
 @section('style')
 <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-@endsection()
+
 @include('profile.edit-profile-modal', ['style' => 'display: none;'])
 
 @include('profile.edit-profile-modal')
@@ -47,9 +47,7 @@
 
         <h1 id="profile_name">{{ $user->first_name }} {{ $user->last_name }}
             @if ($user->id == Auth::user()->id)
-                <button type="button" class="btnProfile" data-bs-toggle="modal" data-bs-target="#settings">
-                    Paramètres
-                <button class="icon-btn hover_darker" id="openProfileOverlay" title="Modifier profile">
+                <button class="icon-btn hover_darker" id="openProfileOverlay" title="Modifier profile" data-bs-toggle="modal" data-bs-target="#settings">
                     <span class="material-symbols-rounded">edit</span>
                 </button>
             @endif
@@ -151,7 +149,6 @@
             </div>
             <div id="profile-content" class="onglet_profile"></div>
         </div>
-        @endsection()
 
         <div class="containerOnglerMain">
             <div class="listOnglet">
@@ -178,6 +175,9 @@
         </div>
     </div>
     @endsection()
+
+    @section('script')
+    
     <script src="{{asset('/js/profileOnglet.js')}}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
@@ -352,8 +352,7 @@
             return rgb;
         }
     </script>
-    @endsection()
-        @section('script')
+
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <script src="{{ asset('/js/profileOnglet.js') }}"></script>
         <script src="{{ asset('/js/resendEmail.js') }}"></script>
@@ -427,7 +426,7 @@
                     });
                 });
 
-                $(document).on("click", "#openProfileOverlay", function () {
+                $(document).on("click", "#showFormProfileJulie", function () {
                     showModal("overlayProfile");
                 });
 

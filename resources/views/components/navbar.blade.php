@@ -73,7 +73,21 @@
                 if($id == 'notification'){
                 $notifId='navbar_notification';
                 }
-                echo <<<HTML
+
+                if ($id === 'profile') {
+                    echo <<< HTML
+                                <a class="$class" href="$url">
+                                    <div class="shrinked_title shrinked_only">
+                                        <span class="title">$title</span>
+                                    </div>
+                                    <span class="navbar_icon">
+                                        <img src="$icon" alt="Photo de profil" class="profile-image">
+                                        <span class="title">$title</span>
+                                    </span>
+                                </a>
+                            HTML;
+                }else{
+                    echo <<<HTML
                                                     <a class="$class $hideNotification $notifId" href="$url" >
                                                     $unreadNotif
                                                         <div class="shrinked_title shrinked_only">
@@ -92,7 +106,8 @@
                                                         </span>
                                                     </a>
                                                 HTML;
-            }
+            
+            
 
             echo <<<HTML
                                                 <svg style="visibility: hidden; position: absolute;" width="0" height="0" xmlns="http://www.w3.org/2000/svg" version="1.1">
@@ -104,31 +119,9 @@
                                                     </defs>
                                                 </svg>
                                             HTML;
-                if ($id === 'profile') {
-                    echo <<< HTML
-                                <a class="$class" href="$url">
-                                    <div class="shrinked_title shrinked_only">
-                                        <span class="title">$title</span>
-                                    </div>
-                                    <span class="navbar_icon">
-                                        <img src="$icon" alt="Photo de profil" class="profile-image">
-                                        <span class="title">$title</span>
-                                    </span>
-                                </a>
-                            HTML;
-                } else {
-                    echo <<< HTML
-                                <a class="$class" href="$url">
-                                    <div class="shrinked_title shrinked_only">
-                                        <span class="title">$title</span>
-                                    </div>
-                                    <span class="navbar_icon">
-                                        <span class="material-symbols-rounded icon_md">$icon</span>
-                                        <span class="title">$title</span>
-                                    </span>
-                                </a>
-                            HTML;
                 }
+                
+
             }
         @endphp
     </nav>
