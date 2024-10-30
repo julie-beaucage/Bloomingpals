@@ -13,7 +13,9 @@
 @endphp
 
 @section('content')
-@include('profile.edit-profile-modal', ['style' => 'display: none;'])
+<div id="profile-overlay-cntr" class="overlay-cntr">
+    @include('profile.edit-profile-modal', ['style' => 'display: none;'])
+</div>
 
 <div id="background_cntr" class="no_select">
     <div id="background_color"></div>
@@ -127,6 +129,7 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <script src="{{ asset('/js/profileOnglet.js') }}"></script>
         <script src="{{ asset('/js/resendEmail.js') }}"></script>
+        <script src="{{ asset('/js/overlay-modal.js') }}"></script>
         <script>
             function handlePersonalityTestClick() {
                 @if (!$emailVerified)
@@ -183,7 +186,6 @@
             }
             //
         </script>
-        <script src="{{ asset('/js/overlay-modal.js') }}"></script>
         <script>
             $(document).ready(function () {
                 var img = document.getElementById("background_img");

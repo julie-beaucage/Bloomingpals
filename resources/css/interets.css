@@ -1,5 +1,8 @@
 .containerInteretOnglet {
     margin-bottom: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
 }
 
 .buttonOverlayContainerInteret {
@@ -8,100 +11,106 @@
 
 .categorie-div,
 .interet-categorie-div {
-    margin: 1em;
-    border: 1px solid #ccc;
     padding: 1em;
-    border-radius: 5px;
+    border-radius: 1em;
+}
+
+.interet-categorie-div > .title {
+    display: flex;
+    font-size: 1.2em;
+    font-weight: 500;
+    margin-bottom: 0.5em;
+}
+
+.interet-categorie-div > .tags_cntr {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5em;
 }
 
 .categorie-sport {
-    background-color: rgba(76, 76, 226, 0.2);
+    background-color: var(--category-1-bg);
 }
 
-.categorie-culture {
-    background-color: rgba(0, 128, 0, 0.2);
+.categorie-culturel {
+    background-color: var(--category-2-bg);
 }
 
-.categorie-musicale {
-    background-color: rgba(128, 0, 128, 0.2);
+.categorie-musique {
+    background-color: var(--category-3-bg);
 }
 
 .categorie-nerd {
-    background-color: rgba(205, 111, 23, 0.2);
+    background-color: var(--category-4-bg);
 }
 
 .categorie-social {
-    background-color: rgba(64, 224, 208, 0.2);
+    background-color: var(--category-5-bg);
 }
 
 .categorie-art {
-    background-color: rgba(255, 192, 203, 0.2);
+    background-color: var(--category-6-bg);
 }
 
 
-.tag,
 .interet-tag {
     display: inline-block;
-    border-radius: 5px;
-    padding: 0.5em 0.5em;
-    margin: 0.3em;
-    font-size: 13px;
     cursor: pointer;
     color: white;
 }
 
 .interet-sport,
 .tag.interet-sport {
-    background-color: rgba(76, 76, 226, 0.7);
+    background-color: var(--category-1-pale);
 }
 
 .interet-culturel,
 .tag.interet-culturel {
-    background-color: rgba(0, 128, 0, 0.7);
+    background-color: var(--category-2-pale);
 }
 
-.interet-Musique,
-.tag.interet-Musique {
-    background-color: rgba(128, 0, 128, 0.7);
+.interet-musique,
+.tag.interet-musique {
+    background-color: var(--category-3-pale);
 }
 
 .interet-nerd,
 .tag.interet-nerd {
-    background-color: rgba(205, 111, 23, 0.7);
+    background-color: var(--category-4-pale);
 }
 
 .interet-social,
 .tag.interet-social {
-    background-color: rgba(64, 224, 208, 0.7);
+    background-color: var(--category-5-pale);
 }
 
 .interet-art,
 .tag.interet-art {
-    background-color: rgba(255, 192, 203, 0.816);
+    background-color: var(--category-6-pale);
 }
 
-.interet-selected {
-    background-color: rgb(76, 76, 226);
+.interet-selected.interet-sport {
+    background-color: var(--category-1);
 }
 
 .interet-selected.interet-culturel {
-    background-color: green;
+    background-color: var(--category-2);
 }
 
 .interet-selected.interet-musique {
-    background-color: purple;
+    background-color: var(--category-3);
 }
 
 .interet-selected.interet-nerd {
-    background-color: rgb(205, 111, 23);
+    background-color: var(--category-4);
 }
 
 .interet-selected.interet-social {
-    background-color: var(--turquoise);
+    background-color: var(--category-5);
 }
 
 .interet-selected.interet-art {
-    background-color: var(--pink);
+    background-color: var(--category-6);
 }
 
 
@@ -139,20 +148,23 @@
     border-radius: 1em;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border: solid 1px rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
  }
 .interet-btn-submit {
     background-color: var(--primary-400);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     color: white;
-    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
 }
 
 .interet-btn-annuler {
     background-color: #9ea8b3;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     color: white;
-    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
 }
 
 .close-button-interet {
@@ -218,7 +230,6 @@
     .container-custom-modal {
         width: 100%; 
         height: 100%; 
-
     }
     .containerButtonsModal button {
         width: 70%;
@@ -228,18 +239,6 @@
 @media (max-width: 768px) {
     .close-button-interet {
         top: 0.01em;
-    }
-
-    .categorie-div,
-    .interet-categorie-div {
-        margin: 0.5em;
-        padding: 0.5em;
-    }
-
-    .tag,
-    .interet-tag {
-        font-size: 0.75em;
-        padding: 0.3em;
     }
 
     .buttonDetail {
@@ -252,18 +251,6 @@
     .close-button-interet {
         top: -0.5em;
         font-size: 3em;
-    }
-
-    .categorie-div,
-    .interet-categorie-div {
-        margin: 0.3em;
-        padding: 0.5em;
-    }
-
-    .tag,
-    .interet-tag {
-        font-size: 0.6875em;
-        padding: 0.2em;
     }
 
     .buttonDetail {

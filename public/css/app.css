@@ -66,11 +66,23 @@
     --accent-950: #181002;
 
     --category-1: #3C57B0;
+    --category-1-pale: #8aa9e4;
+    --category-1-bg: #D3D8F0;
     --category-2: #F7B01E;
+    --category-2-pale: #f7d885;
+    --category-2-bg: #F9E8C7;
     --category-3: #E62A65;
+    --category-3-pale: #f8a7c0;
+    --category-3-bg: #F4D4E0;
     --category-4: #199588;
+    --category-4-pale: #7ed9d2;
+    --category-4-bg: #C9EFE3;
     --category-5: #54AC58;
+    --category-5-pale: #b4e1b3;
+    --category-5-bg: #D4EAD6;
     --category-6: #9936AC;
+    --category-6-pale: #d9a7e8;
+    --category-6-bg: #E8D4F0;
 
     --personality-color: var(--neutral-400) !important;
     --personality-color-pale: var(--neutral-200) !important;
@@ -206,9 +218,17 @@ body {
 }
 
 #navbar > .title {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
     font-size: 1.5em;
     font-weight: 600;
     padding: 1em;
+}
+
+#navbar > .title img{
+    width: 2em;
+    height: 2em;
 }
 
 #navbar > .shrinked_title {
@@ -217,15 +237,6 @@ body {
     text-align: center;
     padding: 1em 0 1em 0;
 }
-.title img{
-    width: 2em;
-    height: 2em;
-}
-.title {
-    display: flex;
-    align-items: center;
-    gap: 0.5em;
-}
 
 .profile-image {
     border-radius: 50%;
@@ -233,6 +244,7 @@ body {
        object-fit: cover;
     background-color: var(--personality-color-pale);
     border: 2px solid var(--personality-color);
+    box-sizing: border-box;
 }
 
 .navbar_icon {
@@ -462,6 +474,9 @@ a {
     font-weight: 500;
     color: var(--white);
     white-space: nowrap;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+            user-select: none;
 }
 
 .square_tag {

@@ -1,61 +1,129 @@
 .custom-overlay {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
-    width:100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    height: 100vh;
+    width: 100%;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: start;
     overflow-y: scroll;
     z-index: 50;
 }
 
+.custom-overlay::before {
+    position: absolute;
+    content: "";
+    background-color: var(--background-100);
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+}
+
 .container-custom-modal {
-    padding: 2em;
-    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
     text-align: center;
     border-radius: 1em;
-    height: 100%;
-    width: 70%;
-    max-height: -moz-max-content;
-    max-height: max-content;
-    min-height: 100%;
-    background: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    -webkit-backdrop-filter: blur(20px);
-            backdrop-filter: blur(20px);
+    height: -moz-fit-content;
+    height: fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
+    background: var(--white);
     position: relative;
     overflow-y: scroll;
-    margin: 0 auto;
+    margin: 2em;
+    overflow: hidden;
 }
 
-.container-custom-modal h1 {
-    margin: 0;
-    padding-bottom: 1rem;
-}
 
-.mb-3 {
+.container-custom-modal > .header {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 1em;
+    width: 100%;
 }
 
-.mb-3 label {
-    min-width: 10em;
+.container-custom-modal > .header > .title {
+    font-size: 1.3em;
+    font-weight: 500;
 }
 
-.form-control,
-.form-select {
-    flex: 1;
+.container-custom-modal > .header > button {
+    background-color: transparent;
 }
 
-.container-custom-modal input {
-    background: rgba(255, 255, 255, 0.2);
-    border: solid 1px rgba(255, 255, 255, 0.7);
-    border-radius: 5px;
-    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+.container-custom-modal > .body {
+    display: flex;
+    justify-content: center;
+    padding: 1em;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: var(--neutral-200) var(--white);
+    height: 100%;
+    width: 100%;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+}
+
+.text-input {
+    width: 100%;
+    padding: 0.5em 1em;
+    border-radius: 0.75em;
+    background-color: var(--white);
+    border: 1px solid var(--neutral-200);
+    font-size: 1em;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif !important;
+    cursor: text;
+}
+
+.text-input:focus {
+    outline: none;
+    border: 1px solid var(--neutral-400);
+}
+
+.select-input {
+    width: 100%;
+    padding: 0.5em 1em;
+    border-radius: 0.75em;
+    background-color: var(--white);
+    border: 1px solid var(--neutral-200);
+    font-size: 1em;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif !important;
+    cursor: pointer;
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' class='icon icon-prefix-chevron-down' id='icon-prefix-chevron-down' viewBox='0 0 24 24'%3E%3Cpolyline points='6 9 12 15 18 9' fill='none' stroke-linecap='round' stroke-width='2' stroke='black' %3E%3C/polyline%3E%3C/svg%3E%0A");
+    background-repeat: no-repeat;
+    background-position-x: calc(100% - 0.5em);
+    background-position-y: 50%;
+}
+
+.select-input:focus {
+    outline: none;
+    border: 1px solid var(--neutral-600);
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.field > label {
+    font-size: 1em;
+    font-weight: 500;
+    align-self: flex-start;
 }
 
 .warning-modal-overlay {
@@ -121,11 +189,6 @@
     transform: translateX(-100%);
 }
 
-.container-custom-modal {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.5) rgba(255, 255, 255, 0.2);
-}
-
 .container-custom-modal::-webkit-scrollbar {
     width: 8px;
 }
@@ -152,13 +215,27 @@
     margin-top: 1.5em;
 }
 
-@media (max-width: 600px) {
-    .custom-overlay {
-        height: calc(100% - 60px);
-    }
+.submit-btn {
+    background-color: var(--primary-400);
+    color: white;
+    border-radius: 1em;
+    padding: 0.5em 1em;
+    font-size: 1em;
+    cursor: pointer;
+    border: none;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 600px) {
+    .custom-overlay {
+        height: calc(100vh - 5em);
+    }
 
+    .container-custom-modal {
+        margin: 0;
+        border-radius: 0;
+    }
+    .container-custom-modal > .body {
+        scrollbar-width: none;
+    }
 }
 

@@ -3,7 +3,6 @@
   !*** ./resources/js/profileOnglet.js ***!
   \***************************************/
 document.addEventListener('DOMContentLoaded', function () {
-  console.log("profilonglet.js");
   var tabLinks = document.querySelectorAll('.tab-link');
   var activeTab = document.querySelector('.tab-link.active');
   var urlParams = new URLSearchParams(window.location.search);
@@ -45,10 +44,18 @@ document.addEventListener('DOMContentLoaded', function () {
         throw new Error('Erreur réseau: ' + response.status);
       }
       return response.text();
-    }).then(function (html) {
+    }).then(function (data) {
+      var parser = new DOMParser();
+      var html = parser.parseFromString(data, 'text/html');
+      var overlayCntr = document.getElementById('profile-overlay-cntr');
+      var overlay = html.getElementsByClassName('custom-overlay');
+      for (var i = 0; i < overlay.length; i++) {
+        overlayCntr.innerHTML += overlay[i].outerHTML;
+        overlay[i].remove();
+      }
       var profileContent = document.getElementById('profile-content');
       if (profileContent) {
-        profileContent.innerHTML = html;
+        profileContent.innerHTML = html.querySelector("body").innerHTML;
       } else {
         console.error('Élément profile-content introuvable.');
       }

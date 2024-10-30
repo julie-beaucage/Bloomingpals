@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-    console.log("profilonglet.js");
     const tabLinks = document.querySelectorAll('.tab-link');
     let activeTab = document.querySelector('.tab-link.active');
 
@@ -47,12 +46,22 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
                 return response.text();
             })
-            .then(html => {
-                const profileContent = document.getElementById('profile-content');
+            .then(data => {
+                var parser = new DOMParser();
+                var html = parser.parseFromString(data, 'text/html');
+                var overlayCntr = document.getElementById('profile-overlay-cntr');
+                var overlay = html.getElementsByClassName('custom-overlay');
+          
+                for (var i = 0; i < overlay.length; i++) { 
+                  overlayCntr.innerHTML += overlay[i].outerHTML;
+                  overlay[i].remove();
+                }
+          
+                var profileContent = document.getElementById('profile-content');
                 if (profileContent) {
-                    profileContent.innerHTML = html;
+                  profileContent.innerHTML = html.querySelector("body").innerHTML;
                 } else {
-                    console.error('Élément profile-content introuvable.');
+                  console.error('Élément profile-content introuvable.');
                 }
             })
             .catch(error => console.error('Erreur lors du chargement de la section:', error));

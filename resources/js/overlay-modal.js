@@ -15,7 +15,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     $(document).on("click", "#openProfileOverlay", function () {
-        console.log("openProfile");
         toggleModal("overlayProfile");
     });
 
@@ -23,12 +22,12 @@ document.addEventListener("DOMContentLoaded", function () {
         toggleModal("overlayInterests");
     });
 
-    const closeButtons = document.querySelectorAll(".close");
-    closeButtons.forEach((button) => {
-        button.addEventListener("click", function () {
-            const modalId = this.closest(".custom-overlay").id; 
-            console.log("click");
-            toggleModal(modalId); 
+    $("#profile-content").on("DOMSubtreeModified", function () {
+        $(".close").each(function () {
+            $(this).click(function () {
+                const modalId = $(this).data("modal-id");
+                toggleModal(modalId);
+            });
         });
     });
 });
