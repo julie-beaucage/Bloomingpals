@@ -67,20 +67,71 @@
     --accent-950: #181002;
 
     --category-1: #3C57B0;
+    --category-1-pale: #8aa9e4;
+    --category-1-bg: #D3D8F0;
     --category-2: #F7B01E;
+    --category-2-pale: #f7d885;
+    --category-2-bg: #F9E8C7;
     --category-3: #E62A65;
+    --category-3-pale: #f8a7c0;
+    --category-3-bg: #F4D4E0;
     --category-4: #199588;
+    --category-4-pale: #7ed9d2;
+    --category-4-bg: #C9EFE3;
     --category-5: #54AC58;
+    --category-5-pale: #b4e1b3;
+    --category-5-bg: #D4EAD6;
     --category-6: #9936AC;
+    --category-6-pale: #d9a7e8;
+    --category-6-bg: #E8D4F0;
+
+    --personality-color: var(--neutral-400) !important;
+    --personality-color-pale: var(--neutral-200) !important;
+    --personality-text-color: var(--background-800) !important;
+    --personality-text-button: #var(--background-800) !important;
+    --personality-text-color-button: var(--background-100) !important;
 
     --success: #202922;
     --error: #dc3545;
+    --accept: #28a745;
 
     --link: #007bff;
     --selection: #90c6ff;
 
     --border: #606770;
     --pink: #f42da8;
+}
+
+.analystes {
+    --personality-color: #c3b0cd !important;
+    --personality-color-pale: #decee7 !important;
+    --personality-text-color: #6c4d7b !important;
+    --personality-text-button: #620756 !important;
+    --personality-text-color-button: #ffffff !important;
+}
+
+.diplomates {
+    --personality-color: #b1f2d7 !important;
+    --personality-color-pale: #d6ece3 !important;
+    --personality-text-color: #277d58 !important;
+    --personality-text-button: #53b96c !important;
+    --personality-text-color-button: #ffffff !important;
+}
+
+.sentinelles {
+    --personality-color: #a7d6e6 !important;
+    --personality-color-pale: #cce4ec !important;
+    --personality-text-color: #347990 !important;
+    --personality-text-button: #3b76dc !important;
+    --personality-text-color-button: #ffffff !important;
+}
+
+.explorateurs {
+    --personality-color: #f4e27b !important;
+    --personality-color-pale: #eee4a7 !important;
+    --personality-text-color: #e4ae3a !important;
+    --personality-text-button: #d4b02b !important;
+    --personality-text-color-button: #ffffff !important;
 }
 
 /* Selection Color */
@@ -151,6 +202,7 @@ body {
     padding: 1em;
     margin-top: auto
 }
+/* -------------------- Navigation layout --------------------*/
 
 #navbar {
     grid-area: navbar;
@@ -167,9 +219,17 @@ body {
 }
 
 #navbar > .title {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
     font-size: 1.5em;
     font-weight: 600;
     padding: 1em;
+}
+
+#navbar > .title img{
+    width: 2em;
+    height: 2em;
 }
 
 #navbar > .shrinked_title {
@@ -177,6 +237,14 @@ body {
     font-weight: 600;
     text-align: center;
     padding: 1em 0 1em 0;
+}
+
+.profile-image {
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: var(--personality-color-pale);
+    border: 2px solid var(--personality-color);
+    box-sizing: border-box;
 }
 
 .navbar_icon {
@@ -195,6 +263,19 @@ body {
     display:none;
 }
 
+.navbar_icon img {
+    width: 2.5em;
+    height: 2.5em;
+}
+
+.navbar_icon:has(img) {
+    padding: 0.25em;
+}
+
+.navbar_icon > .profile-image {
+    border-width: 1px;
+}
+
 .navbar_item.active {
     filter: brightness(0.9);
 }
@@ -210,7 +291,13 @@ body {
 
 .navbar_item > .shrinked_title {
     position: relative;
+    display: flex;
     width: 100%;
+}
+
+.shrinked_title img {
+    width: 2em;
+    height: 2em;
 }
 
 .navbar_item > .shrinked_title > .title {
@@ -231,7 +318,7 @@ body {
 }
 
 .shrinked_only {
-    display: none;
+    display: none !important;
 }
 
 @keyframes shrinked_title_width {
@@ -249,7 +336,7 @@ body {
     }
 
     .shrinked_only {
-        display: block;
+        display: flex !important;
     }
 
     .navbar_item:hover > .shrinked_title > .title {
@@ -297,7 +384,7 @@ body {
     }
 
     .shrinked_only {
-        display: none;
+        display: none !important;
     }
     
     .navbar_item:hover > .navbar_icon {
@@ -414,6 +501,7 @@ a {
     font-weight: 500;
     color: var(--white);
     white-space: nowrap;
+    user-select: none;
 }
 
 .square_tag {
