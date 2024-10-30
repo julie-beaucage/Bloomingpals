@@ -12,6 +12,7 @@
                     </select>
                 </div><br><br>
                 <div>
+                    <textarea maxlength="1000" name="object" cols="50" rows="10"></textarea>
                     <input type='hidden' class="errorMessage" name='userId' value="{{$user->id}}"></input>
                     <input type="submit" class="red_button" value="Signalé">
                     <button type="button" class="interet-btn-annuler" onclick="window.location.href='{{ route('profile', $user->id) }}'">Annuler</button>
