@@ -15,8 +15,6 @@
                 <p>Email renvoyé à <strong id="userEmail">{{ Auth::user()->email }}</strong></p>
             </div>
         </div>
-
-        <button onclick="closeModal()" class="warning-modal-close-btn">Fermer</button>
     </div>
 </div>
 

@@ -3,11 +3,14 @@
 
 @if (is_null($personality))
 
-    <p>Découvrez votre personnalité et facilitez la recherche d'affinité pour vous faire de nouveaux amis.</p>
-
-    <button class="btn btn-primary" onclick="handlePersonalityTestClick(event)">
-        Faire le Tests
+<div class="personality-container-empty">
+    <p class="personality-message">Découvrez votre personnalité et facilitez la recherche d'affinités pour vous faire de nouveaux amis !</p>
+    <p class="personality-instruction">Complétez le test de personnalité basé sur Myers-Briggs pour trouver des "Pals" similaires à vous !</p>
+    <button class="personality-button-start" onclick="handlePersonalityTestClick(event)">
+        Faire le Test de Personnalité
     </button>
+</div>
+
 @else
     @if ($user->id == Auth::user()->id)
         <div class="containerPerso">
@@ -17,9 +20,6 @@
                 <p>Nom : <strong>{{ $personality->name }}</strong></p>
                 <p>Type : <strong>{{ $personality->type }}</strong></p>
                 <p>Description : {{ $personality->nameDescription }}</p>
-                <a href="{{ route('personality.test') }}" class="btn btn-primary">
-                    Refaire le Test
-                </a>
                 <x-email-verification-modal />
                 <button class="buttonGlass" onclick="handlePersonalityTestClick()">
                     Faire le Test

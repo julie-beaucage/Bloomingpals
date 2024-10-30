@@ -48,38 +48,25 @@ document.addEventListener('DOMContentLoaded', function () {
       var parser = new DOMParser();
       var html = parser.parseFromString(data, 'text/html');
       var overlayCntr = document.getElementById('profile-overlay-cntr');
-      var overlay = html.getElementsByClassName('custom-overlay');
-      for (var i = 0; i < overlay.length; i++) {
-        overlayCntr.innerHTML += overlay[i].outerHTML;
-        overlay[i].remove();
+      if (!overlayCntr) {
+        console.error("Élément 'profile-overlay-cntr' introuvable.");
+        return; // Stop the function if overlayCntr is not found
       }
+      var overlays = html.getElementsByClassName('custom-overlay');
+      Array.from(overlays).forEach(function (overlay) {
+        overlayCntr.innerHTML += overlay.outerHTML;
+        overlay.remove();
+      });
       var profileContent = document.getElementById('profile-content');
       if (profileContent) {
         profileContent.innerHTML = html.querySelector("body").innerHTML;
       } else {
-        console.error('Élément profile-content introuvable.');
+        console.error("Élément 'profile-content' introuvable.");
       }
     })["catch"](function (error) {
       return console.error('Erreur lors du chargement de la section:', error);
     });
   }
-
-  /* $(document).on("click", "#openOverlay", function () {
-       console.log("Bouton Modifier cliqué.");
-       $("#overlay").css("display", "block"); 
-   });*/
-  /* $(document).on("click", "#openProfileOverlay", function () {
-       $("#overlayProfile").css("display", "block"); // Ouvre l'overlay pour le profil
-   });
-   
-   $(document).on("click", "#openInterestOverlay", function () {
-       $("#overlayInterests").css("display", "block"); // Ouvre l'overlay pour les intérêts
-   });
-   
-   $(document).on("click", ".closeOverlayBtn", function () {
-       $("#overlay").css("display", "none"); 
-   });*/
-
   $(document).on("click", ".interet-tag", function () {
     var tagId = $(this).data('id');
     console.log("Tag d'intérêt cliqué :", $(this).text());

@@ -1,3 +1,62 @@
+
+/* Styles pour la section vide de personnalité */
+.personality-container-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 30px;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+    -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+    text-align: center;
+    color: #333;
+    animation: fadeIn 1.5s ease;
+}
+
+.personality-message, .personality-instruction {
+    font-size: 18px;
+    color: #333;
+    margin: 0 0 15px 0;
+}
+
+/* Bouton avec animation au survol */
+.personality-button-start {
+    padding: 12px 25px;
+    font-size: 16px;
+    color: #fff;
+    font-weight: bold;
+    background: linear-gradient(135deg, #42a5f5, #1e88e5);
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, background 0.3s ease;
+    outline: none;
+}
+
+.personality-button-start:hover {
+    transform: scale(1.05);
+    background: linear-gradient(135deg, #64b5f6, #1976d2);
+}
+
+/* Animation d'entrée en fondu */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* CSSS POUR LE TEST DE PRSONALITÉ */
 .test_container {
 	height:100%;
     width: 100%;

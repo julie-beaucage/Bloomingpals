@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="{{ asset('css/cards.css') }}">
 <link rel="stylesheet" href="{{ asset('css/overlay-modal.css') }}">
 <link rel="stylesheet" href="{{ asset('css/interets.css') }}">
+<link rel="stylesheet" href="{{ asset('css/personality.css') }}">
 
 @endsection()
 @php
@@ -66,64 +67,74 @@
                 </div>
             @endif
         @elseif ($relation == "Friend")
-        <a href="{{ route("RemoveFriend", ["id" => $user->id])}}"><div class="red_button no_select">Enlever l'amitier</div></a>
+            <a href="{{ route("RemoveFriend", ["id" => $user->id])}}">
+                <div class="red_button no_select">Enlever l'amitier</div>
+            </a>
         @elseif ($relation == "Blocked")
             <div class="red_button no_select">You are blocked</div>
         @elseif ($relation == "SendingInvitation")
             <div class="acceptContainer">
-                <a href="{{ route("CancelFriendRequest", ["id" => $user->id])}}"><div class="red_button">annuler la demande d'amitier</div></a>
+                <a href="{{ route("CancelFriendRequest", ["id" => $user->id])}}">
+                    <div class="red_button">annuler la demande d'amitier</div>
+                </a>
             </div>
         @elseif ($relation == "Invited")
             <div class="acceptContainer">
-                <a href="{{ route("AcceptFriendRequest", ["id" => $user->id])}}"><div class="green_button">Accepter</div></a>
-                <a href="{{ route("RefuseFriendRequest", ["id" => $user->id])}}"><div class="red_button">Refuser</div></a>
+                <a href="{{ route("AcceptFriendRequest", ["id" => $user->id])}}">
+                    <div class="green_button">Accepter</div>
+                </a>
+                <a href="{{ route("RefuseFriendRequest", ["id" => $user->id])}}">
+                    <div class="red_button">Refuser</div>
+                </a>
             </div>
         @elseif ($relation == "Refuse")
             <div class="grey_button">Vous avez été refuser</div>
         @else
-            <a href="{{ route("SendFriendRequest", ["id" => $user->id])}}"><div class="blue_button">Ajouter en ami</div></a>
+            <a href="{{ route("SendFriendRequest", ["id" => $user->id])}}">
+                <div class="blue_button">Ajouter en ami</div>
+            </a>
         @endif
 
-            <div class="containerOnglerMain">
-                <div class="listOnglet">
-                    <ul class="nav nav-tabs justify-content-center" id="main-tabs">
-                        <li class="nav-item">
-                            <a class="nav-link tab-link no_wrap {{ request()->is('interets/*/interets') || !request()->is('profile/*') ? 'active' : '' }}"
-                                href="{{ route('interets.interets', $user->id) }}"
-                                data-target="interets/interests">Intérêts</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link tab-link no_wrap {{ request()->is('profile/amis') ? 'active' : '' }}"
-                                href="{{ route('profile.amis', $user->id) }}" data-target="profile/amis">Mes pals</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link tab-link no_wrap {{ request()->is('profile/personnalite') ? 'active' : '' }}"
-                                href="{{ route('profile.personnalite', $user->id) }}"
-                                data-target="profile/personnalite">Personnalité</a>
-                        </li>
-                        <li class="nav-item dropdown" id="more-dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="moreDropdown" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                Plus
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="moreDropdown">
-                                <li class="nav-item">
-                                    <a class="nav-link tab-link no_wrap {{ request()->is('profile/personnalite') ? 'active' : '' }}"
-                                        href="{{ route('profile.personnalite', $user->id) }}"
-                                        data-target="profile/personnalite">Personnalité</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link tab-link no_wrap {{ request()->is('profile/personnalite') ? 'active' : '' }}"
-                                        href="{{ route('profile.personnalite', $user->id) }}"
-                                        data-target="profile/personnalite">Personnalité</a>
-                                </li>
-                            </ul>
-                        <li>
-                    </ul>
-                </div>
-                <div id="profile-content" class="onglet_profile"></div>
+        <div class="containerOnglerMain">
+            <div class="listOnglet">
+                <ul class="nav nav-tabs justify-content-center" id="main-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link tab-link no_wrap {{ request()->is('interets/*/interets') || !request()->is('profile/*') ? 'active' : '' }}"
+                            href="{{ route('interets.interets', $user->id) }}"
+                            data-target="interets/interests">Intérêts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link tab-link no_wrap {{ request()->is('profile/amis') ? 'active' : '' }}"
+                            href="{{ route('profile.amis', $user->id) }}" data-target="profile/amis">Mes pals</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link tab-link no_wrap {{ request()->is('profile/personnalite') ? 'active' : '' }}"
+                            href="{{ route('profile.personnalite', $user->id) }}"
+                            data-target="profile/personnalite">Personnalité</a>
+                    </li>
+                    <li class="nav-item dropdown" id="more-dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="moreDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Plus
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="moreDropdown">
+                            <li class="nav-item">
+                                <a class="nav-link tab-link no_wrap {{ request()->is('profile/personnalite') ? 'active' : '' }}"
+                                    href="{{ route('profile.personnalite', $user->id) }}"
+                                    data-target="profile/personnalite">Personnalité</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link tab-link no_wrap {{ request()->is('profile/personnalite') ? 'active' : '' }}"
+                                    href="{{ route('profile.personnalite', $user->id) }}"
+                                    data-target="profile/personnalite">Personnalité</a>
+                            </li>
+                        </ul>
+                    <li>
+                </ul>
             </div>
-@endsection()
+            <div id="profile-content" class="onglet_profile"></div>
+        </div>
+        @endsection()
 
         @section('script')
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -131,20 +142,33 @@
         <script src="{{ asset('/js/resendEmail.js') }}"></script>
         <script src="{{ asset('/js/overlay-modal.js') }}"></script>
         <script>
+            function showModal(modalId) {
+                document.getElementById(modalId).style.display = 'flex';
+            }
+            function closeModal(modalId) {
+                document.getElementById(modalId).style.display = 'none';
+            }
             function handlePersonalityTestClick() {
                 @if (!$emailVerified)
-                    document.getElementById('emailVerificationModal').style.display = 'flex';
+                    showModal('emailVerificationModal');
                 @else
                     window.location.href = "{{ route('personality.test') }}";
                 @endif
             }
-            function closeModalEmail() {
-                document.getElementById('emailVerificationModal').style.display = 'none';
+            function handlePersonalityInteretClick() {
+                @if (!$emailVerified)
+                    showModal('emailVerificationModal');
+                @else
+                    showModal('editInterestModal');
+                    console.log('shpw')
+                @endif
             }
-            function closeModalInteret() {
-                document.getElementById('overlayInterests').style.display = 'none';
+            function closeVerificationModal() {
+                closeModal('emailVerificationModal');
+                document.getElementById('originalMessage').style.display = 'block';
+                document.getElementById('successMessage').style.display = 'none';
             }
-            //CODE DE RESENDEMAIL.JS
+
             function handleSubmit(event) {
                 event.preventDefault();
                 fetch("{{ route('verification.resend') }}", {
@@ -167,11 +191,6 @@
                     .catch(error => console.error("Erreur réseau:", error));
             }
 
-            function closeVerificationModal() {
-                closeModal('emailVerificationModal');
-                document.getElementById('originalMessage').style.display = 'block';
-                document.getElementById('successMessage').style.display = 'none';
-            }
             function previewImage(event, previewId) {
                 const file = event.target.files[0];
                 const preview = document.getElementById(previewId);
@@ -184,8 +203,12 @@
                     reader.readAsDataURL(file);
                 }
             }
-            //
+
+            function closeModalEmail() { closeModal('emailVerificationModal'); }
+            function closeModalProfile() { closeModal('overlayProfile'); }
+            function closeModalInteret() { closeModal('overlayInterests'); }
         </script>
+
         <script>
             $(document).ready(function () {
                 var img = document.getElementById("background_img");

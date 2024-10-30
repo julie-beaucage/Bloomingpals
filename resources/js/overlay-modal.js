@@ -18,10 +18,6 @@ document.addEventListener("DOMContentLoaded", function () {
         toggleModal("overlayProfile");
     });
 
-    $(document).on("click", "#openInterestOverlay", function () {
-        toggleModal("overlayInterests");
-    });
-
     $("#profile-content").on("DOMSubtreeModified", function () {
         $(".close").each(function () {
             $(this).click(function () {
