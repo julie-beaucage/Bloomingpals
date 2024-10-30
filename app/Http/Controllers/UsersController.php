@@ -164,7 +164,7 @@ class UsersController extends Controller
         
         $relation = Relation::GetRelationUsers(Auth::user()->id, $id);
 
-        if ($relation == 'Friend') {
+        if ($relation == 'GotBlocked') {
             return redirect()->back();
         } else if ($relation != "Friend") {
             $relationRequest = Friendship_Request::GetUserRelationState(Auth::user()->id, $id);
