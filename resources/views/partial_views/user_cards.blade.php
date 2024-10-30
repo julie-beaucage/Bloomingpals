@@ -44,7 +44,7 @@ foreach ($users as $user) {
                     $tags
                 </div>
                 <div class="infos">
-                    <span>$affinity % d'affinité avec vous</span>
+                    <span>$affinity% d'affinité avec vous</span>
                 </div>
             </div>
         </a>
