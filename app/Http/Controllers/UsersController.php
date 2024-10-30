@@ -106,6 +106,7 @@ class UsersController extends Controller
             $id = auth()->user()->id;
             $notifController=new NotificationController();
             $notifController->sendAllToNoficationTable($id);
+            $notifController->sendDailyNotification();
             //$notifController -> send
             
             return redirect('/profile/'.$id)->with('message', 'Bienvenue sur BloomingPals, '.auth()->user()->prenom);
@@ -191,7 +192,6 @@ class UsersController extends Controller
 
            return redirect()->route('profile', ['id' => $id]);
         }
-        
     }
 
     public function isEmailTaken(Request $req){      
@@ -204,7 +204,6 @@ class UsersController extends Controller
             else{
                 return 0;
             }
-
         }
     }
     public function updateAccount(Request $req){

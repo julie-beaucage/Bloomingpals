@@ -11,9 +11,13 @@
         $checked = $data['public'] == 1 ? 0 : 1;
     }
 @endphp
+@section('style')
+<link rel="stylesheet" href="{{ asset('css/meetupForm.css') }}">
+
+@endsection
 
 @section("content")
-<link rel="stylesheet" href="{{ asset('css/meetupForm.css') }}">
+
 <form class="form-meetup" method="POST" action="{{$action}}" enctype="multipart/form-data"
     isEvent="{{$data['isEvent']}}">
     @csrf
@@ -130,7 +134,7 @@
     <div class="form-flex-col spaced" style="margin: 3em 0 .5em 0; ">
         <div class="form-flex-col flex-600">
             <button class="btn-primary green expand center" id="submit" type="submit">Enregistrer</button>
-            <button class="btn-primary gray expand center" onclick="window.history.go(-1);">Retour</button>
+            <button class="btn-primary gray expand center" onclick='window.location.replace("/home");'>Retour</button>
         </div>
         @if($action != "/meetup/create")
             <div class="btn-primary red expand center" onclick="Confirm('/meetup/delete/{{$data['id']}}')">Effacer le Meetup
@@ -146,6 +150,45 @@
 
 @section("script")
 <script>
+    const MeetupId = window.location.href.indexOf('event') == -1 ? window.location.href.substring((window.location.origin + '/meetup/form/').length) :
+        window.location.href.substring((window.location.origin + '/meetup/form/event/').length);
+
+    let interest_tab = [];
+    let interest_ids = [];
+    function add_interest(tab) {
+        interest_ids = [];
+    }
+    if (MeetupId != "") {
+        fetch(window.location.origin + '/meetup/interests/' + MeetupId).then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+        }).then(data => {
+            interest_tab = data;
+
+            let selections = $(".search_suggestion").find(".selections");
+            for (var index in interest_tab) {
+                var interest = interest_tab[index];
+                interest_ids.push(interest.id);
+                selections.append($("<span>").attr("class", "selection no_select tag tag_rmv hover_darker")
+                    .attr("style", "background-color: var(--category-" + interest.id_category + ")")
+                    .text(interest.name));
+            }
+
+            selections.children().click(function () {
+                for (var index in interest_tab) {
+                    if(interest_tab[index].name == $(this).text()){
+                        interest_ids=interest_ids.filter((e) => e != interest_tab[index].id);
+                        break;
+                    }
+                }
+                $(this).remove();
+            });
+        });
+    }
+
+
+
     const crsf = $('meta[name="csrf-token"]').attr('content');
     function removePop() {
         $('.pop-up-overlay').remove();
@@ -439,10 +482,21 @@
             }
             if (errors == true) {
                 e.preventDefault();
+            }else{
+                let str="";
+                interest_ids.forEach(function(id) {str=str.concat(id,',');});
+                str=str.substring(0,str.length-1);
+
+                $(this).append($('<input>').attr('name','interests').attr('style','display:none;').val(str));
             }
 
             if ($('.img-preview').attr('src') == "") {
-                document.querySelector('input[type=file]').value = "";
+                console.log("submit");
+                //e.preventDefault();
+                //document.querySelector('input[type=file]').value = "";
+                document.querySelector('input[type=file]').remove();
+                
+                $(this).append($('<input>').attr('name','image').attr('style','display:none;').val("delete"));
             }
         });
 
@@ -482,7 +536,7 @@
                 }
 
                 let selection_ids = (filter_cntr.hasClass("search_selection") && url.searchParams.has(filter_cntr.data("param"))) ? url.searchParams.get(filter_cntr.data("param")).split(",").map(e => parseInt(e)) : [];
-                let data = (query == "") ? [] : suggestions.filter((sugg) => sugg[filter_cntr.data("name")].toLowerCase().startsWith(query.toLowerCase()) && !selection_ids.includes(sugg["id"])).slice(0, 5);
+                let data = (query == "") ? [] : suggestions.filter((sugg) => sugg[filter_cntr.data("name")].toLowerCase().startsWith(query.toLowerCase()) && !interest_ids.includes(sugg["id"])).slice(0, 5);
 
                 for (let i = 0; i < data.length; i++) {
 
@@ -499,14 +553,20 @@
                             selections.append(selection);
 
                             let selections_list = (url.searchParams.has(filter_cntr.data("param"))) ? url.searchParams.get(filter_cntr.data("param")) : "";
-                            url.searchParams.set(filter_cntr.data("param"), (selections_list == "") ? data[i]["id"] : selections_list + "," + data[i]["id"]);
-                            window.history.replaceState({}, "", url);
+                            selected_interest = (selections_list == "") ? data[i]["id"] : selections_list + "," + data[i]["id"];
+                            //window.history.replaceState({}, "", url);
+                            let interest= new Object();
+                            interest.id=selected_interest; interest.name=data[i][filter_cntr.data("name")]; interest.id_category= data[i]['category'];
+                            interest_tab.push(interest);
+                            interest_ids.push(selected_interest);
+
 
                             selection.click(function () {
                                 selection.remove();
                                 let url = new URL(window.location.href);
                                 let selections_list = (url.searchParams.has(filter_cntr.data("param"))) ? url.searchParams.get(filter_cntr.data("param")) : "";
                                 url.searchParams.set(filter_cntr.data("param"), selections_list.split(",").filter(e => e != data[i]["id"]).join(","));
+
                                 window.history.replaceState({}, "", url);
                             });
 
@@ -519,6 +579,7 @@
                         elem.click(function () {
                             filter_cntr.children('input').val(data[i][filter_cntr.data("name")]);
                             url.searchParams.set(filter_cntr.data("param"), data[i][filter_cntr.data("name")].normalize("NFD").replace(/[\u0300-\u036f]/g, ""));
+
                             window.history.replaceState({}, "", url);
                             suggestions_cntr.empty();
                         });

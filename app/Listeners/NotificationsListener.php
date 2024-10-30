@@ -84,6 +84,7 @@ class NotificationsListener
 
         function getUser($id, $data,$type)
         {
+
             $user = USER::where('id', $id)->first();
             $data[$type]['first_name'] = $user->first_name;
             $data[$type]['last_name'] = $user->last_name;
@@ -99,7 +100,9 @@ class NotificationsListener
             $data = $event->content;
 
             $user = getUser($event->user_receive,$data,'user_receive');
-            $data = getUser($event->user_send, $data,'user_send');
+            if($event->user_send!= -1){
+                $data = getUser($event->user_send, $data,'user_send');
+            }
 
             if ($event->type == 'Meetup Request') {
                 $data['meetup'] = Meetup::where('id', $event->content['id'])->first();

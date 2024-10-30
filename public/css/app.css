@@ -7,7 +7,8 @@
 
     --neutral-50: #f5f5f5;
     --neutral-100: #ebebeb;
-    --neutral-200: #d9d9d9;/* Main color for border */
+    --neutral-150: #e2e2e2;
+    --neutral-200: #d9d9d9; /* Main color for border */
     --neutral-300: #c7c7c7;
     --neutral-400: #b5b5b5;
     --neutral-500: #a3a3a3;
@@ -190,6 +191,9 @@ body {
     background-color: var(--white);
     cursor: pointer;
 }
+.header-nav{
+    display:none;
+}
 
 .navbar_item.active {
     filter: brightness(0.9);
@@ -304,16 +308,27 @@ body {
         display: none;
     }
     .header-nav{
+        width: 100%;
+        padding:0 .2em 0 .2em;
         display: flex !important;
+        justify-content: space-between;
+        background-color: var(--white);
+        text-align: center;
+    }
+    .header-title{
+        font-size: 1.2em;
+        font-weight: 600;
     }
     .hideNotification{
         display: none !important;;
     }
     .notification-badge{
+        right:.1em !important;
+        left: 0;
         top:.2em;
         width: .9em !important;
         height: .9em !important;
-        font-size: .9em;
+        font-size: .8em;
     }
 }
 
@@ -423,32 +438,15 @@ a {
 .grey_text {
     color: rgb(168, 168, 168);
 }
-
-.header-nav{
-    display: none;
-    justify-content: space-between;
-    background-color: var(--white);
-    width: 100%;
-    top:0px;
-    z-index: 101;
-    padding-left: .5em;
-    padding-right: .2em;
-    padding-top: 0.1em;
-    box-sizing: border-box;
-    
+cursor{
+    cursor: pointer;
 }
-.header-title{
-    font-size: 1.5em;
-    font-weight: 600;
-}
-
-.notification-badge-container {
+.notification-badge-container{
     position: relative;
 }
-
 .notification-badge{
     position: absolute;
-    right: 0.1em;
+    left: 2.1em;
     top:0.2em;
     background-color: red;
     border-radius: 50%;
@@ -457,33 +455,11 @@ a {
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 2;
 }
 .notif-count{
     color:white;
-    font-size: .9em;
+    font-size: .85em;
     line-height:unset;
 }
 
-@media only screen and (min-width: 1200px) {
-    .notification-badge{
-        left: 1.9em;
-        
-    }
-}
-.cursor{
-    cursor: pointer;
-}
-
-
-.text_nowrap {
-    position: relative;
-    width: 100%;
-}
-
-.text_nowrap > * {
-    position: absolute;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-wrap: nowrap;
-    width: 100%;
-}

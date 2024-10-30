@@ -256,6 +256,59 @@ label {
     background-color: var(--error);
 }
 
+.suggestions {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.suggestions .suggestion:first-child {
+    border-radius: 0.75em 0.75em 0 0;
+}
+
+.suggestions .suggestion:last-child {
+    border-radius: 0 0 0.75em 0.75em;
+}
+
+.suggestions .suggestion:only-child {
+    border-radius: 0.75em;
+}
+
+.suggestion + .suggestion {
+    border-top: 1px solid var(--neutral-200);
+}
+
+.suggestion {
+    padding: 0.5em 1em;
+    background-color: var(--white);
+}
+
+.suggestion:hover {
+    cursor: pointer;
+}
+
+.suggestions {
+    display: none;
+}
+  
+.suggestions:has(.suggestion) {
+    display: flex;
+}
+
+.selections {
+    display: none;
+}
+
+.selections:has(.selection) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5em;
+}
+.filter_cntr {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
 
 
 

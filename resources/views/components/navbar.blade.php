@@ -1,7 +1,4 @@
 @if (Auth::check())
-
-
-
     <nav id="navbar">
         <span class="title no_select">BloomingPals</span>
         <span class="shrinked_title no_select shrinked_only">BP</span>

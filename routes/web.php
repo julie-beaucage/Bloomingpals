@@ -76,6 +76,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/meetup/edit/{id}', [MeetupController::class, 'edit'])->where('id', '[0-9]+');
     Route::get('/meetup', [MeetupController::class, 'index'])->name('meetup');
     Route::get('/meetup/delete/{id}', [MeetupController::class, 'delete'])->where('id', '[0-9]+');
+    Route::get('/meetup/form', [MeetupController::class, 'form']);
+    Route::get('/meetup/form/{id}', [MeetupController::class, 'form']);
+    Route::get('/meetup/form/event/{id}', [MeetupController::class, 'formEvent']);
+    Route::get('/meetup/interests/{id}', [MeetupController::class, 'interests']);
+
+
+
 
 
     Route::get('/meetup/page/{meetupId}', [MeetupController::class, 'MeetupPage'])->name('meetupPage');

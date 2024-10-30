@@ -16,20 +16,18 @@ $(document).ready(function () {
     notification.classList.add("notification-container");
     var htmlElement;
     console.log(parsedData.type);
-    if (parsedData.message.length > 80) {
-      parsedData.message = str.substring(0, 76) + '...';
-    }
-    console.log(parsedData);
     var img_src = "";
     var profile_link = "";
     var header_text = "";
     var linking = "";
     var content = "";
     var image = "";
+    var img_square = parsedData.type == 'Meetup Interest' ? "square" : "";
+    img = window.location.origin + '/';
     switch (parsedData.type) {
       case 'Meetup Request':
         image = parsedData.user_send.image_profil == null ? '/images/simple_flower.png' : 'storage/' + parsedData.user_send.image_profil;
-        img_src = window.location.origin + image;
+        img_src = img + image;
         profile_link = '/profile/' + parsedData.user_send.id;
         header_text = parsedData.user_send.first_name + ' ' + parsedData.user_send.last_name;
         linking = '/meetup/page/' + parsedData.meetup.id;
@@ -37,7 +35,7 @@ $(document).ready(function () {
         break;
       case 'Friendship Request':
         image = parsedData.user_send.image_profil == null ? '/images/simple_flower.png' : 'storage/' + parsedData.user_send.image_profil;
-        img_src = window.location.origin + image;
+        img_src = img + image;
         profile_link = '/profile/' + parsedData.user_send.id;
         header_text = truncatee(parsedData.user_send.first_name + ' ' + parsedData.user_send.last_name, 40);
         linking = "/possible/de/voir/les/demandes/amis";
@@ -45,21 +43,22 @@ $(document).ready(function () {
         break;
       case 'Friendship Accept':
         image = parsedData.user_send.image_profil == null ? '/images/simple_flower.png' : 'storage/' + parsedData.user_send.image_profil;
-        img_src = window.location.origin + image;
+        img_src = img + image;
         profile_link = '/profile/' + parsedData.user_send.id;
         header_text = truncatee(parsedData.user_send.first_name + ' ' + parsedData.user_send.last_name, 40);
         linking = "/possible/de/voir/les/demandes/amis";
         content = parsedData.message;
         break;
       case 'Meetup Interest':
-        image = parsedData.meetup.image == null ? 'images/meetup_default' + Math.floor(Math.random() * 3) + 1 + '.png' : 'storage/' + parsedData.meetup.image;
-        img_src = window.location.origin + image;
+        image = parsedData.meetup.image == null ? 'images/meetup_default' + Math.floor(Math.random() * 3 + 1) + '.png' : parsedData.meetup.image;
+        img_src = img + image;
         header_text = parsedData.header;
         linking = "/meetup/page/" + parsedData.meetup.id;
+        profile_link = linking;
         content = parsedData.message;
         break;
     }
-    htmlElement = '<div class="notification-container" id="' + parsedData.id_notification + '" linking="' + linking + '">' + '<div class="center-content"><a id="profile-notif" href="' + profile_link + '""><img class="profile-picture-notif" id="notification-profile-picture" src="' + img_src + '"></a></div>' + '<div class="notification-content" id="' + parsedData.type + '">' + '<div class="header-and-icon">' + '<div class="center-content" id="notification-username"><a href="' + profile_link + '"><strong>' + header_text + '</strong></a></div>' + '<a id="close-notification" style="cursor:pointer;"><span class="close_icon">close</span></a>' + '</div>' + ' <div>' + content + '</div>' + '</div>';
+    htmlElement = '<div class="notification-container" id="' + parsedData.id_notification + '" linking="' + linking + '">' + '<div class="center-content"><a id="profile-notif" href="' + profile_link + '""><img class="profile-picture-notif ' + img_square + '" id="notification-profile-picture" src="' + img_src + '"></a></div>' + '<div class="notification-content" id="' + parsedData.type + '">' + '<div class="header-and-icon">' + '<div class="center-content" id="notification-username"><a href="' + profile_link + '"><strong>' + header_text + '</strong></a></div>' + '<a id="close-notification" style="cursor:pointer;"><span class="close_icon">close</span></a>' + '</div>' + ' <div>' + content + '</div>' + '</div>';
     $("#content").append(htmlElement);
     handleNewNotification();
   }

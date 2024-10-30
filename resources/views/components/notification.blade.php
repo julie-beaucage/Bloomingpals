@@ -44,7 +44,7 @@ switch($notification->name){
 
         $linking='/meetup/page/'.$content->meetup->id;
         $profil_link='/profile/'.$content->user_send->id;
-        $img_src=$content->user_send->image_profil != null ? asset($content->user_send->image_profil): asset('/images/simple_flower.png');
+        $img_src=$content->user_send->image_profil != null ? asset('storage/'.$content->user_send->image_profil): asset('/images/simple_flower.png');
         $header_text=$content->user_send->first_name.'   '.$content->user_send->last_name;
         $content_text=$content->message.'  <strong>'.truncate($content->meetup->name,25);
         break;
@@ -52,7 +52,7 @@ switch($notification->name){
     case('Friendship Request'):
         $linking='/possible/de/voir/les/demandes/amis';
         $profil_link="/profile/".$content->user_send->id;
-        $img_src=$content->user_send->image_profil != null ? asset($content->user_send->image_profil): asset('/images/simple_flower.png');
+        $img_src=$content->user_send->image_profil != null ? asset('storage/'.$content->user_send->image_profil): asset('/images/simple_flower.png');
         $header_text= truncate($content->user_send->first_name.'  '. $content->user_send->last_name,35);
         $content_text=$content->message;
         break;
@@ -67,7 +67,7 @@ switch($notification->name){
     case('Friendship Accept'):
         $linking='/possible/de/voir/les/demandes/amis';
         $profil_link="/profile/".$content->user_send->id;
-        $img_src=$content->user_send->image_profil != null ? asset($content->user_send->image_profil): asset('/images/simple_flower.png');
+        $img_src=$content->user_send->image_profil != null ? asset('storage/'.$content->user_send->image_profil): asset('/images/simple_flower.png');
         $header_text= truncate($content->user_send->first_name.'  '. $content->user_send->last_name,35);
         $content_text=$content->message;
         break;
