@@ -3,8 +3,8 @@
         <div class="header">
             <span class="title no_wrap">Modifier vos intérêts</span>
             <button class="close" onclick="closeModal('overlayInterests')">
-        <span class="material-symbols-rounded" style="font-size: 24px; color: black;">close</span>
-    </button>
+                <span class="material-symbols-rounded" style="font-size: 24px; color: black;">close</span>
+            </button>
         </div>
         <div class="body">
             <form action="{{ route('interets.update_Interets', Auth::user()->id) }}" method="POST" id="interetForm">

@@ -2,8 +2,8 @@
     <div class="container-custom-modal">
         <div class="header">
             <span class="title no_wrap">Modifier votre profile</span>
-            <button class="close" data-modal-id="overlayProfile">
-                <span class="material-symbols-rounded">close</span>
+            <button class="close" onclick="closeModal('overlayProfile')">
+                <span class="material-symbols-rounded" style="font-size: 24px; color: black;">close</span>
             </button>
         </div>
 
@@ -19,7 +19,8 @@
 
                 <div class="field">
                     <label for="nom">Nom</label>
-                    <input type="text" class="text-input" id="nom" name="lastname" value="{{ Auth::user()->last_name }}">
+                    <input type="text" class="text-input" id="nom" name="lastname"
+                        value="{{ Auth::user()->last_name }}">
                 </div>
 
                 <div class="field">
@@ -34,8 +35,8 @@
 
                 <div class="field image-container">
                     <label>Image de profil</label>
-                    <input type="file" class="form-control" id="image_profile" name="image_profile" style="display: none;"
-                        onchange="previewImage(event, 'imagePreview')">
+                    <input type="file" class="form-control" id="image_profile" name="image_profile"
+                        style="display: none;" onchange="previewImage(event, 'imagePreview')">
                     <div onclick="document.getElementById('image_profile').click()" class="image-clickable">
                         <img id="imagePreview" class="modifImage"
                             src="{{ Auth::user()->image_profil ? asset('storage/' . Auth::user()->image_profil) : asset('..\images\simple_flower.png') }}"

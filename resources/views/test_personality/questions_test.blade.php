@@ -8,7 +8,7 @@
     <div class="test_container">
         <h3>Test de Personnalité</h3>
         <form id="personality-test-form" method="POST" action="{{ route('personality.submit') }}"
-            onsubmit="return false;"> <!-- Empêcher l'envoi -->
+            onsubmit="return false;"> 
             @csrf
             @foreach ($questions as $question)
                 <fieldset class="questionContainer">
