@@ -7,7 +7,7 @@
             </div>
             <div class="modal-body" style="padding:0px;">
                 <div class="profile-settings">
-                    <div class="flex-roww" style="gap:.8em;" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+                    <div  id="showFormProfileJulie" class="flex-roww" style="gap:.8em;" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#editProfileModal">
                         <span class="material-symbols-rounded" style="font-size1.5em;">person</span>
                         <div>Profil</div>
                     </div>

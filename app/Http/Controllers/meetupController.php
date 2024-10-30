@@ -95,6 +95,9 @@ class MeetupController extends BaseController
             if ($data == null) {
                 abort(404);
             }
+            if(Auth::user()->id != $data->id_owner){
+                abort(403);
+            }
             $date = $data->date;
             $date = explode(' ', $date);
             $data->date = $date[0];
@@ -136,16 +139,19 @@ class MeetupController extends BaseController
                 $path,
                 $req->public
             ]);
-
-            $id_interests=explode(',',$req->interests);
-            $meetup=Meetup::where('image',$path)->where('date', date_create("$req->date" . " " . "$req->time"))
-            ->where('name',$req->name)->where('adress',$req->adress)->where('id_owner', $id_owner)->first();
-
-            foreach($id_interests as $id){
-                Meetup_Interest::insert(['id_interest'=>$id,
-                                        'id_meetup'=>$meetup->id]);
+            
+            if($req->interests != ""){
+                $id_interests=explode(',',$req->interests);
+                $meetup=Meetup::where('image',$path)->where('date', date_create("$req->date" . " " . "$req->time"))
+                ->where('name',$req->name)->where('adress',$req->adress)->where('id_owner', $id_owner)->first();
+    
+                foreach($id_interests as $id){
+                    Meetup_Interest::insert(['id_interest'=>$id,
+                                            'id_meetup'=>$meetup->id]);
+                }
+                DB::commit();
             }
-            DB::commit();
+            
 
 
         }
@@ -280,6 +286,8 @@ class MeetupController extends BaseController
         $meetupData = Meetup::where("id", $meetupId)->get()[0];
         if ($meetupData->public) {
             Meetup_Request::AddMeetupRequest($userId, $meetupId);
+            event(new NewNotif($meetupData->id_owner, 2, 'Meetup Request', ['id' => $meetupId]));
+
             return $this->MeetupPage($meetupId);
         } else {
             Meetup_Request::AddMeetupRequest($userId, $meetupId);
@@ -323,7 +331,7 @@ class MeetupController extends BaseController
 
         $meetupData = Meetup::where("id", $meetupId)->get()[0];
         $requests = Meetup_Request::GetMeetupRequestsNotAnswerd($meetupId);
-
+        
         return view("meetups.meetupRequests", ["meetupData" => $meetupData, "organisatorData" => $organisator, "requestsData" => $requests]);
     }
 
