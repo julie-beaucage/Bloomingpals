@@ -35,7 +35,7 @@
                 alt="Photo de profil">
         </div>
 
-        <h1 id="profile_name">{{ $user->first_name }} {{ $user->last_name }}
+        <h1 id="profile_name">{{ $user->first_name }} {{ $user->last_name }}</h1>
             @if ($user->id == Auth::user()->id)
                 @if ($profileCompletionPercentage < 100)
                     <div class="alert alert-warning mt-3">
@@ -99,7 +99,7 @@
                     </button>
                 </div>
             @endif
-        </h1>
+        
         
 
         <div class="containerOnglerMain">
