@@ -19,7 +19,7 @@ class Meetup extends Model
     public static function GetTags($id) {
         $tags = [];
         foreach (Meetup_Interest::where("id_meetup", $id)->get() as $tag_rencontre) {
-            $tag = Interest::where("id", $tag_rencontre->id_category)->get()->first();
+            $tag = Interest::where("id", $tag_rencontre->id)->get()->first();
             array_push($tags, $tag);
         }
         return $tags;
