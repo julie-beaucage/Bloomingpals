@@ -49,14 +49,13 @@ Route::middleware('auth')->group(function () {
     Route::get('profile/personnalite/{id}', [UsersController::class, 'personnalite'])->name('profile.personnalite');
     Route::get('profile/events/{id}', [UsersController::class, 'events'])->name('profile.events');
     Route::get('profile/rencontres/{id}', [UsersController::class, 'rencontres'])->name('profile.rencontres');
-    Route::post('/verification/resend', [UsersController::class, 'resend'])->name('verification.resend');
+    Route::get('profile/informations/{id}', [UsersController::class, 'informations'])->name('profile.informations');
+
 
     //INTERET
     Route::get('interets/interets/{id}', [InterestsController::class, 'interets'])->name('interets.interets');
-    //Route::put('/interets/update_Interets', [InterestsController::class, 'update_Interets'])->name('interets.update_Interets');
-    Route::put('/interets/update_Interets/{id}', [InterestsController::class, 'update_Interets'])->name('interets.update_Interets');
+    Route::put('/interets/update_Interets', [InterestsController::class, 'update_Interets'])->name('interets.update_Interets');
 
-    
     //TEST
     Route::get('/personality/test', [PersonalityController::class, 'startTest'])->name('personality.test'); 
     Route::post('/personality/submit', [PersonalityController::class, 'submitTest'])->name('personality.submit');

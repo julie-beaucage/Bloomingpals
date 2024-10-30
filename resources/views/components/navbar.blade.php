@@ -1,11 +1,7 @@
 @if (Auth::check())
     <nav id="navbar">
-            <span class="title no_select">BloomingPals
-              <img src="{{ asset('/images/logo.png') }}" alt="Logo" class="logo">
-            </span>
-            <span class="shrinked_title no_select shrinked_only">
-              <img src="{{ asset('/images/logo.png') }}" alt="Logo" class="logo">
-            </span>
+        <span class="title no_select">BloomingPals</span>
+        <span class="shrinked_title no_select shrinked_only">BP</span>
         @php
             $tabs = [
                 [
@@ -22,8 +18,8 @@
                 ],
                 [
                     'id' => 'profile',
-                    'title' => 'Profil',
-                    'icon' => Auth::user()->image_profil ? asset('storage/' . Auth::user()->image_profil) : asset('/images/simple_flower.png'),
+                    'title' => 'Profile',
+                    'icon' => 'account_circle',
                     'url' => route('profile', ['id' => Auth::user()->id])
                 ],
                 [
@@ -46,7 +42,8 @@
                 ]
             ];
 
-            foreach ($tabs as $tab) {
+            foreach($tabs as $tab) {
+
                 $id = $tab['id'];
                 $title = $tab['title'];
                 $icon = $tab['icon'];
@@ -54,34 +51,30 @@
 
                 $class = 'navbar_item no_select';
                 $class = $id == Route::current()->uri() ? $class . ' active' : $class;
-                $class .= ' ' . Auth::user()->getPersonalityType();
 
-                if ($id === 'profile') {
-                    echo <<< HTML
-                                <a class="$class" href="$url">
-                                    <div class="shrinked_title shrinked_only">
-                                        <span class="title">$title</span>
-                                    </div>
-                                    <span class="navbar_icon">
-                                        <img src="$icon" alt="Photo de profil" class="profile-image">
-                                        <span class="title">$title</span>
-                                    </span>
-                                </a>
-                            HTML;
-                } else {
-                    echo <<< HTML
-                                <a class="$class" href="$url">
-                                    <div class="shrinked_title shrinked_only">
-                                        <span class="title">$title</span>
-                                    </div>
-                                    <span class="navbar_icon">
-                                        <span class="material-symbols-rounded icon_md">$icon</span>
-                                        <span class="title">$title</span>
-                                    </span>
-                                </a>
-                            HTML;
-                }
+                echo <<< HTML
+                    <a class="$class" href="$url">
+                        <div class="shrinked_title shrinked_only">
+                            <span class="title">$title</span>
+                        </div>
+                        <span class="navbar_icon">
+                            <span class="material-symbols-rounded icon_md">$icon</span>
+                            <span class="title">$title</span>
+                        </span>
+                    </a>
+                HTML;
             }
+
+            echo <<< HTML
+                <svg style="visibility: hidden; position: absolute;" width="0" height="0" xmlns="http://www.w3.org/2000/svg" version="1.1">
+                    <defs>
+                        <filter id="goo"><feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur" />    
+                            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo" />
+                            <feComposite in="SourceGraphic" in2="goo" operator="atop"/>
+                        </filter>
+                    </defs>
+                </svg>
+            HTML;
         @endphp
     </nav>
 @endif

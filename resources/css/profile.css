@@ -1,45 +1,50 @@
+.personality {
+    --personality-color: #e2e9e4 !important;
+    --personality-color-pale: #f1f4f1 !important;
+    --personality-text-color: #2c3a30 !important;
+    --personality-text-button: #2c3a30 !important;
+    --personality-text-color-button: #e2e9e4 !important;
+ }
+ 
 
-.analystes {
-    --personality-color: #c3b0cd !important;
-    --personality-color-pale: #decee7 !important;
-    --personality-text-color: #6c4d7b !important;
-    --personality-text-button: #620756 !important;
-    --personality-text-color-button: #ffffff !important;
- }
- 
- .diplomates {
-    --personality-color:  #b1f2d7 !important;
-    --personality-color-pale: #d6ece3 !important;
-    --personality-text-color: #277d58 !important;
-    --personality-text-button: #53b96c !important;
-    --personality-text-color-button: #ffffff !important;
- }
- 
- .sentinelles {
-    --personality-color: #a7d6e6 !important;
-    --personality-color-pale: #cce4ec !important;
-    --personality-text-color: #347990 !important;
-    --personality-text-button: #3b76dc !important;
-    --personality-text-color-button: #ffffff !important;
- }
- 
- .explorateurs {
-    --personality-color: #f4e27b !important;
-    --personality-color-pale: #f5edb6!important;
-    --personality-text-color: #e4ae3a !important;
-    --personality-text-button: #d4b02b !important;
-    --personality-text-color-button: #ffffff !important;
- }
- 
-body {
-    background-color: black;
+.personality.analystes {
+   --personality-color: #c3b0cd !important;
+   --personality-color-pale: #decee7 !important;
+   --personality-text-color: #6c4d7b !important;
+   --personality-text-button: #620756 !important;
+   --personality-text-color-button: #ffffff !important;
 }
+
+.personality.diplomates {
+   --personality-color:  #b1f2d7 !important;
+   --personality-color-pale: #d6ece3 !important;
+   --personality-text-color: #277d58 !important;
+   --personality-text-button: #53b96c !important;
+   --personality-text-color-button: #ffffff !important;
+}
+
+.personality.sentinelles {
+   --personality-color: #a7d6e6 !important;
+   --personality-color-pale: #cce4ec !important;
+   --personality-text-color: #347990 !important;
+   --personality-text-button: #3b76dc !important;
+   --personality-text-color-button: #ffffff !important;
+}
+
+.personality.explorateurs {
+   --personality-color: #f4e27b !important;
+   --personality-color-pale: #eee4a7!important;
+   --personality-text-color: #e4ae3a !important;
+   --personality-text-button: #d4b02b !important;
+   --personality-text-color-button: #ffffff !important;
+}
+
 
 a:hover i,
 a,
 i {
-    text-decoration: none !important;
-    color: var(--text) !important;
+  text-decoration: none !important;
+  color:var(--text) !important;
 }
 
 body {
@@ -57,8 +62,7 @@ body {
     flex-direction: column;
     overflow-y: auto;
     overflow-x: hidden;
-    padding: 14em 2em 0em 2em;
-    
+    padding: 20em 2em 0em 2em;
 }
 
 @media only screen and (max-width: calc(600px)) {
@@ -69,6 +73,25 @@ body {
     #profile_cntr{
         padding: 18em 0em 0em 0em;
     }
+
+    #info_cntr {
+        width: 100vw;
+    }
+}
+
+@media only screen and (min-width: calc(600px)) {
+    #info_cntr {
+        width: auto;
+    }
+}
+
+#info_cntr {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--background-50);
+    border-radius: 2em 2em 0 0;
+    flex-grow: 1;
 }
 
 #background_cntr {
@@ -100,42 +123,34 @@ body {
     position: relative;
     width: 100%;
     border-radius: 50%;
-    border: 0.3125em solid var(--personality-color);
-    background-color: var(--personality-color-pale);
+    border: 0.3125em solid white;
+    background-color: white;
     -o-object-fit: cover;
-    object-fit: cover;
+       object-fit: cover;
     box-shadow: 0px 0.25em 0.375em rgba(0, 0, 0, 0.1);
     Top: -5em;
     aspect-ratio: 1 / 1;
 }
 
-/* CSS OVERLAY FORM EDIT PROFILE*/
 .modifImage {
-    width: 15em;
-    border: solid white 2px;
-    border-radius: 1em;
-    min-width: 15em;
-    min-height: 15em;
-    border: 2px dashed var(--neutral-200);
-    padding: 0.25em;
+    width: 30em; 
 }
 
 .edit-profile-form {
-    max-width: 37.5em;
+    max-width: 37.5em; 
     margin: auto;
 }
 
 .form-group {
-    margin-bottom: 0.9375em;
+    margin-bottom: 0.9375em; 
 }
 
-.profile-picture-preview,
-.background-picture-preview {
-    margin-top: 0.625em;
-    width: 6.25em;
+.profile-picture-preview, .background-picture-preview {
+    margin-top: 0.625em; 
+    width: 6.25em; 
     height: 6.25em;
     -o-object-fit: cover;
-    object-fit: cover;
+       object-fit: cover;
 }
 
 .button_profile {
@@ -146,15 +161,15 @@ body {
 
 .onglet_profile {
     padding: 1em;
-    background-color: white;;
+    background-color: #ffffff;
     box-shadow: 0 0.25em 0.375em rgba(0, 0, 0, 0.1); 
     overflow-y: auto;
     flex-grow: 1;
 }
 
 .btnProfile {
-    background-color: var(--personality-text-button) !important;
-    color:var(--personality-text-color-button);
+    background-color: var(--secondary-800);
+    color: white;
     padding: 0.625em 1.25em; 
     font-size: 1em; 
     border: none;
@@ -166,32 +181,10 @@ body {
     background-color: #365899;
 }
 
-.image-container {
-    position: relative;
-    display: inline-block;
-}
-
-.image-clickable {
-    position: relative;
-    cursor: pointer;
-}
-
-.image-clickable:hover .overlay-text {
-    display: inline;
-}
-
-/*  ONGLETS TAB CSS */
-
-#main-tabs {
-    display: flex;
-    flex-direction: row;
-    align-items: end;
-    justify-content: center;
-    gap: 0.5em;
-}
-
 .nav-tabs {
-    border-bottom: 0.0625em solid var(--neutral-200);
+    margin-top: 2em; 
+    border-bottom: 0.0625em solid #801111; 
+    padding-left: 1.875em; 
     align-items: center;
     flex-wrap: wrap !important;
 }
@@ -205,47 +198,30 @@ body {
 
 .nav-tabs .nav-link {
     color: #467abc;
-    padding: 0.625em 1.25em;
+    padding: 0.625em 1.25em; 
     text-decoration: none;
-    font-size: 1em;
+    font-size: 1em; 
     border: none;
-    border-bottom: 0.1875em solid transparent;
+    border-bottom: 0.1875em solid transparent; 
+    margin-right: 0.625em; 
 }
 
 .nav-tabs .nav-link:hover {
+    color: #1877f2;
     background-color: var(--white);
-    border-color: var(--neutral-200);
 }
 
 .nav-tabs .nav-link.active {
     color: #1877f2;
-    border-bottom: 0.1875em solid #1877f2; 
     font-weight: bold;
-    box-sizing: border-box;
-}
-
-.dropdown-menu {
-    border-radius: 1em !important;
-    padding: 0;
-    background-color: var(--background-50);
-    overflow: hidden;
-}
-
-.dropdown-menu .nav-item {
-    width: 100%;
-}
-
-.dropdown-menu .nav-link {
-    border-radius: 0 !important;
-    text-align: center;
 }
 
 .tab-content {
-    padding: 1.25em 1.875em;
+    padding: 1.25em 1.875em; 
     background-color: white;
     border-radius: 8px;
-    box-shadow: 0 0.625em rgba(0, 0, 0, 0.1);
-    margin-top: 1.25em;
+    box-shadow: 0 0.625em rgba(0, 0, 0, 0.1); 
+    margin-top: 1.25em; 
 }
 
 .containerOnglerMain {
@@ -253,15 +229,6 @@ body {
     height: 100%;
     display: flex;
     flex-direction: column;
-}
-
-.onglet_profile {
-    padding: 1em;
-    background-color: white;
-    ;
-    box-shadow: 0 0.25em 0.375em rgba(0, 0, 0, 0.1);
-    overflow-y: auto;
-    flex-grow: 1;
 }
 
 #footer {
@@ -272,88 +239,10 @@ body {
     font-size: 2em;
     font-weight: 600;
     margin: 0.5em;
-    text-align: center;
 }
-
-/* TEST ONGLET CSS */
-.containerPerso {
-    background-color: var(--personality) !important;
-    border-radius: 10px;
-    padding: 5em;
-}
-
-.personality-card {
-    padding: 20px;
-    background-color: var(--personality-color-pale);
-    color: var(--text-color);
-    border-radius: 10px;
-}
-
-.personality-card > button {
-    background-color: var(--personality-text-button);
-    color: var(--personality-text-color-button);
-    border: none;
-    border-radius: 10px;
-    padding: 0.5em 1em;
-    cursor: pointer;
-}
-
-
-
-/* Mobile Styles */
-
-@media only screen and (max-width: 600px) {
-    body {
-        font-size: 14px;
-    }
-
-    #profile_cntr {
-        padding: 18em 0em 0em 0em;
-    }
-
-    .profile-picture {
-        width: 8em;
-    }
-
-    .btnProfile {
-        width: 100%;
-        margin-top: 1em;
-    }
-
-    .nav-tabs .nav-link {
-        padding: 0.5em 1em;
-        font-size: 0.9em;
-    }
-
-    .onglet_profile {
-        overflow-y: auto;
-        flex-grow: 1;
-    }
-
-    .listOnglet {
-        width: 100%;
-    }
-}
-
-@media screen and (max-width: 1240px) {
-    .dropdownLabel {
-        visibility: visible;
-        position: relative;
-    }
-
-    #dropdownCheck:checked+.menus {
-        right: 0;
-    }
-
-    .listOnglet {
-        width: 100%;
-    }
-}
-
 .blue_button {
     background-color: blue;
     color: white;
-    width: -moz-max-content;
     width: max-content;
     padding-left: 15px;
     padding-right: 15px;
@@ -361,11 +250,9 @@ body {
     padding-top: 5px;
     border-radius: 15px;
 }
-
 .grey_button {
     background-color: grey;
     color: white;
-    width: -moz-max-content;
     width: max-content;
     padding-left: 15px;
     padding-right: 15px;
@@ -373,11 +260,9 @@ body {
     padding-top: 5px;
     border-radius: 15px;
 }
-
 .green_button {
     background-color: green;
     color: white;
-    width: -moz-max-content;
     width: max-content;
     padding-left: 15px;
     padding-right: 15px;
@@ -385,11 +270,9 @@ body {
     padding-top: 5px;
     border-radius: 15px;
 }
-
 .red_button {
     background-color: red;
     color: white;
-    width: -moz-max-content;
     width: max-content;
     padding-left: 15px;
     padding-right: 15px;
@@ -397,7 +280,6 @@ body {
     padding-top: 5px;
     border-radius: 15px;
 }
-
 .acceptContainer {
     display: flex;
     gap: 2em
@@ -409,32 +291,70 @@ body {
     padding:5em;
 
 }
-  .personality-card {
-    padding: 20px;
-    background-color: #00796b;
-    border-radius: 10px;
-    background-color: var(--personality-color);
-    color: var(--text-color);
-  }
-  
-  .personality-card.analystes {
-   --personality-color: #c3b0cd;
-    --text-color: #6c4d7b;
-  }
-  
-  .personality-card.diplomates {
-   --personality-color:  #d6ece3;
-    --text-color: #277d58;
-  }
-  
-  .personality-card.sentinelles {
-   --personality-color: #cce4ec;
-    --text-color: #347990;
-  }
-  
-  .personality-card.explorateurs{
-   --personality-color: #f4e27b;
-    --text-color: #e4ae3a;
-  }
-  
-  /*----------------*/
+
+.event {
+    width: calc(100% - 4em);
+    max-width: 20em;
+    margin-left: 2em;
+    margin-right: 2em;
+    border: 1px solid grey;
+    border-radius: 1em;
+    overflow: hidden;
+}
+
+.eventContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.eventInfoContainer {
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    margin-bottom: 0.5em;
+}
+.image {
+    width: 100%;
+    height: auto;
+    -o-object-fit: cover;
+    object-fit: cover;
+    -o-object-position: 50% 50%;
+    object-position: 50% 50%;
+}
+
+.title3 {
+    font-size: 2em;
+}
+
+.darkgreyText {
+    color: rgb(105, 105, 105);
+}
+
+.greyText {
+    color: rgb(180, 180, 180);
+}
+
+.event:hover {
+    filter: brightness(50%);
+    background-color: rgb(207, 207, 207);
+}
+
+.hr {
+    width: 100%;
+    border-width: 1px;
+    border-style: inset;
+    height: 0px;
+    border-color: rgba(0, 0, 0, 0.233);
+    margin-bottom: 0.2em;
+}
+
+.flexSplitH {
+    display: flex;
+    flex-direction: row;
+    gap: 2em;
+}
+
+.link {
+    width: max-content;
+}
+

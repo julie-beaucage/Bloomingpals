@@ -57,13 +57,4 @@ class Meetup extends Model
     public static function RemoveParticipant($userId, $meetupId) {
 
     }
-    /**
-     * Summary of GetEventsFromUser
-     * @param mixed $userId
-     * @return Meetup_User[]|\Illuminate\Database\Eloquent\Collection
-     */
-    public static function GetMeetupsFromUser($userId) {
-        $rencontresJoined = Meetup_User::where("id_user", $userId)->join("meetups", "meetups.id", "=", "meetups_users.id_meetup")->orderBy("meetups.date", 'DESC')->get();
-        return $rencontresJoined;
-    }
 }

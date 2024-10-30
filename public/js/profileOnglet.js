@@ -44,32 +44,31 @@ document.addEventListener('DOMContentLoaded', function () {
         throw new Error('Erreur réseau: ' + response.status);
       }
       return response.text();
-    }).then(function (data) {
-      var parser = new DOMParser();
-      var html = parser.parseFromString(data, 'text/html');
-      var overlayCntr = document.getElementById('profile-overlay-cntr');
-      if (!overlayCntr) {
-        console.error("Élément 'profile-overlay-cntr' introuvable.");
-        return;
-      }
-      var overlays = html.getElementsByClassName('custom-overlay');
-      for (var i = 0; i < overlays.length; i++) {
-        overlayCntr.innerHTML += overlays[i].outerHTML;
-        overlays[i].remove();
-      }
+    }).then(function (html) {
       var profileContent = document.getElementById('profile-content');
       if (profileContent) {
-        profileContent.innerHTML = html.querySelector("body").innerHTML;
+        profileContent.innerHTML = html;
       } else {
-        console.error("Élément 'profile-content' introuvable.");
+        console.error('Élément profile-content introuvable.');
       }
     })["catch"](function (error) {
       return console.error('Erreur lors du chargement de la section:', error);
     });
   }
+  $(document).on("click", "#openOverlay", function () {
+    console.log("Bouton Modifier cliqué.");
+    $("#overlay").css("display", "block");
+  });
+  $(document).on("click", ".closeOverlayBtn", function () {
+    console.log("Fermeture de l'overlay.");
+    $("#overlay").css("display", "none");
+  });
   $(document).on("click", ".interet-tag", function () {
     var tagId = $(this).data('id');
-    if ($(this).hasClass('interet-selected')) {} else {
+    console.log("Tag d'intérêt cliqué :", $(this).text());
+    if ($(this).hasClass('interet-selected')) {
+      console.log("Il était déjà sélectionné. Désélectionné :", tagId);
+    } else {
       console.log("Sélectionné :", tagId);
     }
     $(this).toggleClass('interet-selected');

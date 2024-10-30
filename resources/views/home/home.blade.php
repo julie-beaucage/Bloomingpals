@@ -79,20 +79,21 @@
 
             $(".cards_scroller").mouseenter(function(){
                 let cards_row = $(this).find(".cards_row");
-
+                
+                console.log(cards_row[0].scrollWidth - cards_row.outerWidth());
                 if (cards_row[0].scrollWidth - cards_row.outerWidth() < 1)
                     $(this).find(".scroll_btn").hide();
                 else
                     $(this).find(".scroll_btn").show();
                 
 
-                if (cards_row.scrollLeft() + cards_row.outerWidth() >= cards_row[0].scrollWidth - 1)
-                    $(this).find(".scroll_right").hide();
+                if (cards_row.scrollLeft() + cards_row.outerWidth() >= cards_row[0].scrollWidth)
+                    $(this).parent().find(".scroll_right").hide();
                 else if (cards_row.scrollLeft() == 0)
-                    $(this).find(".scroll_left").hide();
+                    $(this).parent().find(".scroll_left").hide();
                 else {
-                    $(this).find(".scroll_left").show();
-                    $(this).find(".scroll_right").show();
+                    $(this).parent().find(".scroll_left").show();
+                    $(this).parent().find(".scroll_right").show();
                 }
             });
 
@@ -110,14 +111,11 @@
                 if (scroll_width < 1)
                     return;
     
-                let scroll_amount = card_width + gap;
-                if (cards_row.attr('id') != "showcase")
-                    scroll_amount *= 2;    
 
                 if ($(this).hasClass("scroll_left"))
-                    scroll -= scroll_amount;
+                    scroll -= (card_width + gap) * 2;
                 else if ($(this).hasClass("scroll_right"))
-                    scroll += scroll_amount;
+                    scroll += (card_width + gap) * 2;
 
                 if (scroll < 0)
                     scroll = 0;
@@ -127,14 +125,10 @@
                 cards_row.finish();
                 cards_row.animate({scrollLeft: scroll}, 250);
 
-                if (scroll + cards_row.outerWidth() >= cards_row[0].scrollWidth - 1) {
+                if (scroll + cards_row.outerWidth() >= cards_row[0].scrollWidth)
                     $(this).parent().find(".scroll_right").hide();
-                    $(this).parent().find(".scroll_left").show();
-                }
-                else if (scroll == 0) {
+                else if (scroll == 0)
                     $(this).parent().find(".scroll_left").hide();
-                    $(this).parent().find(".scroll_right").show();
-                }
                 else {
                     $(this).parent().find(".scroll_left").show();
                     $(this).parent().find(".scroll_right").show();

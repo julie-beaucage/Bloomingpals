@@ -242,3 +242,76 @@ hr {
     padding-top: 5px;
     border-radius: 15px;
 }
+
+.userGrid {
+    display: grid;
+    grid-template-columns: repeat( auto-fit, minmax(25em, 1fr) );
+    width: 100%;
+    gap: 2em;
+}
+
+.userGrid > div {
+    border: 1px black solid;
+    border-radius: 2em;
+}
+.userGrid > div > a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.lastSpacing {
+    margin-right: 1em;
+}
+
+.profile_icon {
+    width: 3em;
+    max-width: 3em;
+    height: 3em;
+    background-size: cover;
+    border-radius: 2em;
+    display: inline-block;
+    background-position: center;
+    border-right: 1px solid black;
+}
+
+.blue_button {
+    background-color: blue;
+    color: white;
+    width: max-content;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    border-radius: 15px;
+}
+.grey_button {
+    background-color: grey;
+    color: white;
+    width: max-content;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    border-radius: 15px;
+}
+.green_button {
+    background-color: green;
+    color: white;
+    width: max-content;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    border-radius: 15px;
+}
+.red_button {
+    background-color: red;
+    color: white;
+    width: max-content;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    border-radius: 15px;
+}

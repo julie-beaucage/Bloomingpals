@@ -23,18 +23,16 @@ DROP TABLE IF EXISTS reports;
 DROP TABLE IF EXISTS notifications;
 DROP TABLE IF EXISTS meetups;
 DROP TABLE IF EXISTS objects_types;
-DROP TABLE IF EXISTS answers;
-DROP TABLE IF EXISTS questions;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS `events`;
 DROP TABLE IF EXISTS types_notifications;
 DROP TABLE IF EXISTS affinities;
+DROP TABLE IF EXISTS answers;
+DROP TABLE IF EXISTS questions;
 DROP TABLE IF EXISTS types_personalities;
 DROP TABLE IF EXISTS personalities;
 DROP TABLE IF EXISTS groups_personalities;
-
 -- types_personalities -----------------------------------
-
 CREATE TABLE IF NOT EXISTS groups_personalities (
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(50) NOT NULL
@@ -251,7 +249,6 @@ CREATE TABLE IF NOT EXISTS events_users(
     PRIMARY KEY pk_events_users (id_event, id_user)
 )
 ENGINE = InnoDB;
-
 -- -----------------------------------------------------
 
 -- friendships_requests -----------------------------------------

@@ -1,10 +1,3 @@
-@import 'profile.css';
-:root {
-    --personality-color: #ffffff; 
-    --personality-color-pale: #ffffff; 
-    --personality-text-color: #000000; 
-    --personality-text-color-button: #ffffff; 
-}
 
 .cards_list {
     display: flex;
@@ -83,8 +76,6 @@
     margin: 0.75em;
     border-radius: 4em;
     flex-shrink: 0;
-    background-color: var(--personality-color-pale) !important;
-    border: 2px solid var(--personality-color);
 }
 
 .banner img {
@@ -162,7 +153,6 @@ hr {
 
 .cards_scroller {
     position: relative;
-    padding: 0 1rem;
 }
 
 .scroll_btn {
@@ -181,12 +171,12 @@ hr {
 
 .scroll_left {
     left: 0;
-    transform: translate(calc(-50% + 1rem), -50%);
+    transform: translate(-50%, -50%);
 }
 
 .scroll_right {
     right: 0;
-    transform: translate(calc(50% - 1rem), -50%);
+    transform: translate(50%, -50%);
 }
 
 .cards_scroller:hover .scroll_btn {
