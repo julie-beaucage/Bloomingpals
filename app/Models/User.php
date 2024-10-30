@@ -122,7 +122,7 @@ class User extends Authenticatable implements MustVerifyEmail
         $affinityUser1 = ($pointsUser1 / $totalPointsUser1) * 100;
         $finalAffinity = ($personalityAffinity * 0.5 + ($affinityUser1 / 100) * 0.5) * 100;
         //Log::info("Final affinity calculated: $finalAffinity");
-        return round($finalAffinity, 2) . '%';
+        return round($finalAffinity, 2);
     }
     
     private function calculateInterestPoints($userInterests, $otherUserInterests) {

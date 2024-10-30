@@ -14,7 +14,7 @@ if (count($users) == 0) {
 
 foreach ($users as $user) {
     $userPersonality = $user->getPersonalityType(); 
-    $affinityPercentage = $currentUser->calculateAffinity($user->id, $currentUser->id);
+    $affinity = $currentUser->calculateAffinity($user->id, $currentUser->id);
     $image = $user->image_profil ? asset('storage/' . $user->image_profil) : asset('/images/simple_flower.png');
     $tags = "";
 
@@ -30,26 +30,21 @@ foreach ($users as $user) {
     if ($count > 2) {
         $tags .= '<span class="tag square_tag">+' . ($count - 2) . '</span>'; 
     }
-    
-
-    $affinity = round(Auth::user()->affinity($user_interests->pluck('id_interest')) * 100);
 
     echo <<< HTML
         <a class="card_long no_select hover_darker $userPersonality" href="profile/$user->id">
             <div class="banner {$userPersonality}">
-        <a class="card_long no_select hover_darker" href="$route">
-            <div class="banner">
                 <img src="$image" alt="Image de profile de $user->first_name $user->last_name">
             </div>
             <div class="content">
                 <div class="header">
-                    <div class="text_nowrap">
+                    <div class="text_nowrap name_cntr">
                         <span class="name">$user->first_name $user->last_name</span>
                     </div>
                     $tags
                 </div>
                 <div class="infos">
-                    <span>$affinityPercentage d'affinité avec vous</span>
+                    <span>$affinity d'affinité avec vous</span>
                 </div>
             </div>
         </a>

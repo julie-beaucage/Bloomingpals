@@ -168,9 +168,7 @@ class UsersController extends Controller
 
         if ($relation == 'GotBlocked') {
             return redirect()->back();
-        } else if ($relation == "Friend") {
-            return view('profile.profile', compact('user', 'relation'));
-        } else {
+        } else if ($relation != "Friend") {
             $relationRequest = Friendship_Request::GetUserRelationState(Auth::user()->id, $id);
             if ($relationRequest == "sent") {
                 $relation = "SendingInvitation";
