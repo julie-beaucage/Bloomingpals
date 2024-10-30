@@ -1,13 +1,19 @@
 @extends('master')
-
-@section('title', 'Test Results')
-
+@section('style')
+  <link rel="stylesheet" href="{{ asset('css/personality.css') }}">
+@endsection()
+@php
+    $userPersonality = Auth::user()->getPersonalityType();
+@endphp
 @section('content')
-    <h1>Your Personality Type</h1>
-    <p>Your personality type is: <strong>{{ $personality_type }}</strong></p>
+<div  class="personality result_test {{ $userPersonality }}">
+    <h1>Félicitation! Vous avez complété le test:</h1>
+    <p class="test2">Votre type de personnalité est : <strong>{{ $personality->type  }}</strong></p>
+    <p><strong>{{ $personality->name }}</strong></p>
 
-    <h2>Type Description</h2>
-    <p>{{ $type_description }}</p>
+    <h2>Description:</h2>
+    <p>{{ $personality->nameDescription }}</p>
 
-    <a href="{{ route('personality.test') }}">Retake the test</a>
+    <a href="{{ route('profile', ['id' => Auth::user()->id]) }}">Retour à votre profil</a>
+</div>
 @endsection

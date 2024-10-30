@@ -2,7 +2,7 @@
 /*!*****************************************!*\
   !*** ./resources/js/validationLogin.js ***!
   \*****************************************/
-/*function _readOnlyError(r) { throw new TypeError('"' + r + '" is read-only'); }
+function _readOnlyError(r) { throw new TypeError('"' + r + '" is read-only'); }
 document.addEventListener('DOMContentLoaded', function () {
   var form_de_login = document.getElementById('signupForm');
   var InputDateNaissance = document.getElementById('date_naissance');
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
       alert('Vous devez avoir au moins 15 ans pour vous inscrire.');
     }
   });
-});*/
+});
 function togglePasswordVisibility() {
   var passwordInput = document.getElementById('password');
   var toggleIcon = document.getElementById('togglePassword').querySelector('i');
