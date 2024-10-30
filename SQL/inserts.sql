@@ -2633,11 +2633,3 @@ INSERT INTO `canadacities` VALUES ('Rothesay','Rothesay','NB','New Brunswick','4
 INSERT INTO `canadacities` VALUES ('Ethelbert','Ethelbert','MB','Manitoba','51.5364','-100.4981',314,118.2,'America/Winnipeg',4,'R0L','1124793190');
 INSERT INTO `canadacities` VALUES ('Frelighsburg','Frelighsburg','QC','Quebec','45.0547772061142','-72.8416732377738',285,161.7,'America/Toronto',4,'J0J','1124000101');
 INSERT INTO `canadacities` VALUES ('Magnetawan','Magnetawan','ON','Ontario','45.6667','-79.6333',268,171.2,'America/Toronto',3,'P0A','1124537839');
-
-
-
-Insert INTO types_notifications (name) Values('Meetup Request');
-Insert INTO types_notifications (name) Values('Friendship Request');
-Insert INTO types_notifications (name) Values('Meetup Interest');
-Insert INTO types_notifications (name) Values('Friendship Accept');
-

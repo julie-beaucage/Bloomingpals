@@ -4,7 +4,6 @@
     "/js/validationLogin.js": "/js/validationLogin.js",
     "/js/resendEmail.js": "/js/resendEmail.js",
     "/js/validationTestPersonality.js": "/js/validationTestPersonality.js",
-    "/js/Notifications.js": "/js/Notifications.js",
     "/css/app.css": "/css/app.css",
     "/css/profile.css": "/css/profile.css",
     "/css/event.css": "/css/event.css",
@@ -14,7 +13,6 @@
     "/css/home.css": "/css/home.css",
     "/css/overlay-modal.css": "/css/overlay-modal.css",
     "/css/personality.css": "/css/personality.css",
-    "/css/notifications.css": "/css/notifications.css",
     "/css/interets.css": "/css/interets.css",
     "/css/search.css": "/css/search.css",
     "/css/cards.css": "/css/cards.css"

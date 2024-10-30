@@ -1,8 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Broadcast;
-use Illuminate\Notifications\Messages\BroadcastMessage;
-use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,8 +16,3 @@ use App\Models\User;
 Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
-
-Broadcast::channel('MeetupJoined.{id}', function () {
-    return 1 === 1;
-});
-

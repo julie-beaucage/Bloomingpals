@@ -36,9 +36,9 @@ return [
             'secret' => env('PUSHER_APP_SECRET'),
             'app_id' => env('PUSHER_APP_ID'),
             'options' => [
-                'cluster' => 'us2',
-                'useTLS' => true
-              ],
+                'cluster' => env('PUSHER_APP_CLUSTER'),
+                'useTLS' => true,
+            ],
         ],
 
         'ably' => [
@@ -60,6 +60,5 @@ return [
         ],
 
     ],
-
 
 ];
