@@ -17,8 +17,8 @@
                         <div class="containerAnswers">
                             <input type="radio" id="option-{{ $option->id }}" name="answers[{{ $question->id }}]"
                                 value="{{ $option->id }}" @if (isset($answers[$question->id]) && $answers[$question->id] == $option->id) checked @endif
-                                onchange="saveAnswer('{{ $question->id }}', '{{ $option->id }}')"> <!-- Appel de la fonction -->
-                            <label for="option-{{ $option->id }}">{{ $option->answer }} ({{ $option->type_answer }})</label>
+                                onchange="saveAnswer('{{ $question->id }}', '{{ $option->id }}')">
+                            <label for="option-{{ $option->id }}">{{ $option->answer }}</label>
                         </div>
                     @endforeach
                 </fieldset>

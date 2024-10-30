@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 var overlayCntr = document.getElementById('profile-overlay-cntr');
                 if (!overlayCntr) {
                     console.error("Élément 'profile-overlay-cntr' introuvable.");
-                    return; // Stop the function if overlayCntr is not found
+                    return; 
                 }
     
                 var overlays = html.getElementsByClassName('custom-overlay');
@@ -76,9 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     $(document).on("click", ".interet-tag", function () {
         const tagId = $(this).data('id');
-        console.log("Tag d'intérêt cliqué :", $(this).text()); 
         if ($(this).hasClass('interet-selected')) {
-            console.log("Il était déjà sélectionné. Désélectionné :", tagId);
         } else {
             console.log("Sélectionné :", tagId);
         }

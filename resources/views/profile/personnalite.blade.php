@@ -19,7 +19,7 @@
         <div class="containerPerso">
             <h2 class="test">Votre Personnalité</h2>
             <div class="personality-card {{ strtolower($personality->group_name) }}">
-                <p>Nom : <strong>{{ $personality->group_name }}</strong></p>
+                <p>Groupe de personnalité : <strong>{{ $personality->group_name }}</strong></p>
                 <p>Nom : <strong>{{ $personality->name }}</strong></p>
                 <p>Type : <strong>{{ $personality->type }}</strong></p>
                 <p>Description : {{ $personality->nameDescription }}</p>

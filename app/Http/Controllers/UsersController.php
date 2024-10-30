@@ -139,8 +139,6 @@ class UsersController extends Controller
     }
     public function profile($id)
     {
-        Log::info("Appel du contrôleur profile pour l'utilisateur avec ID: " . $id);
-
         $user = User::find($id);
 
         if (!$user) {
