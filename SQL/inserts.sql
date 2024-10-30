@@ -279,7 +279,7 @@ INSERT INTO answers (question_id, answer, type_answer) VALUES
 (15, 'Prendre du retard sur les nouvelles', 'I'), 
 (16, 'Le faire de la manière habituelle', 'S'), 
 (16, 'Le faire à votre manière', 'N'), 
-(17, '"Dire ce qu\ils pensent et penser ce qu\ils disent"', 'S'),
+(17, 'Dire ce qu\ils pensent et penser ce qu\ils disent', 'S'),
 (17, 'Exprimer les choses davantage par analogie', 'N'),
 (18, 'La cohérence de la pensée', 'T'), 
 (18, 'Des relations humaines harmonieuses', 'F'), 
