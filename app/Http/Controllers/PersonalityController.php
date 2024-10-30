@@ -31,7 +31,7 @@ class PersonalityController extends Controller
         return view('test_personality.questions_test', compact('questions'));
     }
     
-
+/*
     public function submitTest(Request $request)
     {
         if (empty($request->answers) || !is_array($request->answers)) {
@@ -56,7 +56,39 @@ class PersonalityController extends Controller
         }
     
         return view('test_personality.resultat_test', compact('personality'));
+    }*/
+    public function submitTest(Request $request)
+    {
+        if (empty($request->answers) || !is_array($request->answers)) {
+            $request->session()->flash('answers', $request->answers);
+            return redirect()->back()->with('error', 'Veuillez répondre à toutes les questions.');
+        }
+        $request->session()->put('answers', $request->answers);
+        $selectedAnswers = [];
+        foreach ($request->answers as $questionId => $answerId) {
+            $selectedAnswers[] = $answerId; 
+        }
+
+        $scores = $this->calculateScore($request->answers);
+        $personalityType = $this->calculatePersonalityType($scores);
+        $userId = auth()->id();
+
+        try {
+            DB::statement('CALL update_user_personality(?, ?)', [$userId, $personalityType]);
+        } catch (\Exception $e) {
+            Log::error('Erreur lors de l\'appel à la procédure stockée : ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Une erreur est survenue lors de la mise à jour de votre personnalité.');
+        }
+
+        $personality = Personality::where('type', $personalityType)->first();
+        if (!$personality) {
+            return redirect()->back()->with('error', 'Type de personnalité non trouvé.');
+        }
+                $request->session()->forget('answers');
+
+        return view('test_personality.resultat_test', compact('personality'));
     }
+
 
     private function calculateScore($answers)
     {
