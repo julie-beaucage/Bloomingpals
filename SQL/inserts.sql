@@ -5,6 +5,8 @@ CALL creerUsager ('user1@email.com', 'Desroches', 'Caroline', CURDATE(), '$2y$10
 CALL creerUsager ('user2@email.com', 'Hétu', 'Adrien', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'homme');
 CALL creerUsager ('user3@email.com', 'Delmar', 'Mainville', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'non-genre');
 
+UPDATE users SET email_verified_at = NOW() WHERE id = 1 OR id = 2;
+
 -- Meetups --
 INSERT INTO meetups(name, description, id_owner, adress, date, nb_participant, public) 
     VALUES("Nom de la rencontre", "Voici la description", 1, "1234 rue popcorn", DATE "2025-01-01", 100, 1);
@@ -174,9 +176,155 @@ INSERT INTO interests (name, id_category) VALUES ('Scrapbooking', 6);
 INSERT INTO interests (name, id_category) VALUES ('Couture', 6);
 INSERT INTO interests (name, id_category) VALUES ('Humour', 6);
 
+insert into groups_personalities (name) values 
+('analystes'),
+('diplomates'),
+('sentinelles'),
+('explorateurs');
+
+-- Insérer les types de personnalité dans la table personalities
+CALL insertTablePersonality(1, 'INTJ', 'Architecte', 'Penseurs imaginatifs et stratèges, avec un plan pour tout.');
+CALL insertTablePersonality(1, 'INTP', 'Logicien', 'Inventeurs innovateurs démontrant une soif inextinguible de connaissances.');
+CALL insertTablePersonality(1, 'ENTJ', 'Commandant', 'Leaders hardis, imaginatifs et dotés d’un fort caractère, qui trouvent toujours un moyen d’arriver à leurs fins, ou le créent.');
+CALL insertTablePersonality(1, 'ENTP', 'Innovateur', 'Penseurs astucieux et curieux incapables de résister à un défi intellectuel.');
+
+CALL insertTablePersonality(2, 'INFJ', 'Avocat', 'Idéalistes calmes et mystiques et pourtant très inspirants et infatigables.');
+CALL insertTablePersonality(2, 'INFP', 'Médiateur', 'Personnes poétiques, gentilles et altruistes qui sont toujours prêtes à soutenir une bonne cause.');
+CALL insertTablePersonality(2, 'ENFJ', 'Protagoniste', 'Leaders charismatiques et inspirants, capables de fasciner leur public.');
+CALL insertTablePersonality(2, 'ENFP', 'Inspirateur', 'Esprits libres enthousiastes, créatifs et sociables, qui arrivent toujours à trouver une raison de sourire.');
+
+CALL insertTablePersonality(3, 'ISTJ', 'Logisticien', 'Individus pragmatiques et intéressés par les faits, dont le sérieux ne saurait être mis en cause.');
+CALL insertTablePersonality(3, 'ISFJ', 'Défenseur', 'Protecteurs très dévoués et très chaleureux, toujours prêts à défendre ceux qu’ils aiment.');
+CALL insertTablePersonality(3, 'ESTJ', 'Directeur', 'Excellents gestionnaires, d’une efficacité inégalée quand il s’agit de gérer les choses, ou les gens.');
+CALL insertTablePersonality(3, 'ESFJ', 'Consul', 'Personnes extraordinairement attentionnées, sociables et populaires, toujours prêtes à aider les autres.');
+
+CALL insertTablePersonality(4, 'ISTP', 'Virtuose', 'Expérimentateurs hardis et pragmatiques, maîtres de toutes sortes d’outils.');
+CALL insertTablePersonality(4, 'ISFP', 'Aventurier', 'Artistes flexibles et charmants, toujours prêts à explorer et à essayer quelque chose de nouveau.');
+CALL insertTablePersonality(4, 'ESTP', 'Entrepreneur', 'Personnes astucieuses, énergiques et très perspicaces, qui aiment vraiment vivre à la pointe du progrès.');
+CALL insertTablePersonality(4, 'ESFP', 'Amuseur', 'Amuseurs spontanés, énergiques et enthousiastes ; avec eux, on ne s’ennuie jamais.');
+
+insert into types_personalities (type, description) VALUES
+('E', 'Extraverti'), 
+('I', 'Introverti'), 
+('S', 'Sensation'), 
+('N', 'Intuition'), 
+('T', 'Pensée'), 
+('F', 'Sentiment'), 
+('P', 'Perception'), 
+('J', 'Jugement');
+
+INSERT INTO questions (no, question) VALUES
+(1, 'À une fête, faites-vous : '),
+(2, 'Êtes-vous plus : '),
+(3, 'Est-il pire de : '),
+(4, 'Êtes-vous plus impressionné par : '),
+(5, 'Êtes-vous plus attiré par le : '),
+(6, 'Préférez-vous travailler : '),
+(7, 'Avez-vous tendance à choisir : ' ),
+(8, 'Lorsque vous sortez, avez-vous l/habitude de : ' ),
+(9, 'Êtes-vous plus attiré par : ' ),
+(10, 'Êtes-vous plus intéressé par : ' ),
+(11, 'En jugeant les autres, êtes-vous plus influencé par : '),
+(12, 'En approchant les autres, votre inclination est-elle plutôt : '),
+(13, 'Êtes-vous plus : '),
+(14, 'Cela vous dérange-t-il plus d\avoir des choses : '),
+(15, 'Dans vos groupes sociaux, faites-vous : '),
+(16, 'En faisant des choses ordinaires, êtes-vous plus susceptible de : '),
+(17, 'Les écrivains devraient : '),
+(18, 'Lequel vous attire le plus : '),
+(19, 'Êtes-vous plus à l\aise pour prendre : '),
+(20, 'Voulez-vous des choses : '),
+(21, 'Diriez-vous que vous êtes plus : '),
+(22, 'En téléphonant, faites-vous : '),
+(23, 'Des faits : '),
+(24, 'Sont des visionnaires : '),
+(25, 'Êtes-vous plus souvent : '),
+(26, 'Est-il pire d\être : '),
+(27, 'Devrait-on généralement laisser les événements se produire : '),
+(28, 'Vous sentez-vous mieux à propos de : '),
+(29, 'En société, faites-vous : '),
+(30, 'Le bon sens est : '),
+(31, 'Les enfants ne font souvent pas : '),
+(32, 'En prenant des décisions, vous sentez-vous plus à l\aise avec : '),
+(33, 'Êtes-vous plus : '),
+(34, 'Lequel est plus admirable : '),
+(35, 'Mettez-vous plus de valeur sur : ');
+
+INSERT INTO answers (question_id, answer, type_answer) VALUES
+(1, 'Interagir avec beaucoup de gens, y compris des inconnus', 'E'),
+(1, 'Interagir avec quelques personnes, connues de vous', 'I'),
+(2, 'Réaliste plutôt que spéculatif', 'S'),
+(2, 'Spéculatif plutôt que réaliste', 'N'),
+(3, 'Avoir votre "tête dans les nuages"', 'S'),
+(3, 'Être "dans une routine"', 'N'),
+(4, 'Principes', 'T'),
+(4, 'Émotions', 'F'),
+(5, 'Convaincant', 'T'),
+(5, 'Touchant', 'F'),
+(6, 'À des délais', 'J'),
+(6, 'Juste "quand cela vous chante"', 'P'),
+(7, 'Plutôt soigneusement', 'J'),
+(7, 'Quelque peu impulsivement', 'P'),
+(8,'Rester tard, avec une énergie croissante', 'E'),
+(8,'Partir tôt avec une énergie diminuée', 'I'),
+(9, 'Des gens sensés', 'S'),
+(9,'Des gens imaginatifs', 'N'),
+(10,'Ce qui est réel', 'S'),
+(10,'Ce qui est possible', 'N'),
+(11, 'Des lois plutôt que des circonstances', 'T'),
+(11,'Des circonstances plutôt que des lois', 'F'),
+(12,'Objectif', 'T'),
+(12, 'Personnel', 'F'),
+(13, 'Ponctuel', 'J'),
+(13, 'Décontracté', 'P'),
+(14,'Incomplet', 'J'),
+(14, 'Complété', 'P'),
+(15, 'Se tenir au courant des événements des autres', 'E'), 
+(15, 'Prendre du retard sur les nouvelles', 'I'), 
+(16, 'Le faire de la manière habituelle', 'S'), 
+(16, 'Le faire à votre manière', 'N'), 
+(17, 'Dire ce qu\ils pensent et penser ce qu\ils disent', 'S'),
+(17, 'Exprimer les choses davantage par analogie', 'N'),
+(18, 'La cohérence de la pensée', 'T'), 
+(18, 'Des relations humaines harmonieuses', 'F'), 
+(19, 'Des jugements logiques', 'T'), 
+(19, 'Des jugements de valeur', 'F'),
+(20, 'Stabilisé et décidé', 'J'), 
+(20, 'Non stabilisé et indécis', 'P'), 
+(21, 'Sérieux et déterminé', 'J'), 
+(21, 'Détendu', 'P'), 
+(22, 'Remettre rarement en question que tout sera dit', 'E'), 
+(22, 'Répéter ce que vous allez dire', 'I'), 
+(23, '"Parler pour eux-mêmes"', 'S'), 
+(23, 'Illustrer des principes', 'N'), 
+(24, 'quelque peu ennuyeux', 'S'), 
+(24, 'plutôt fascinant', 'N'), 
+(25, 'une personne posée', 'T'), 
+(25, 'une personne chaleureuse', 'F'), 
+(26, 'injuste', 'T'), 
+(26, 'impitoyable', 'F'), 
+(27, 'par une sélection et un choix soigneux', 'J'), 
+(27, 'au hasard et par chance', 'P'), 
+(28, 'ayant acheté', 'J'), 
+(28, 'ayant la possibilité d\acheter', 'P'), 
+(29, 'initier la conversation', 'E'), 
+(29, 'attendre d\être approché', 'I'), 
+(30, 'rarement discutable', 'S'), 
+(30, 'fréquemment discutable', 'N'), 
+(31, 'se rendre utile', 'S'), 
+(31, 'exercer suffisamment leur fantaisie', 'N'), 
+(32, 'des normes', 'T'), 
+(32, 'des sentiments', 'F'), 
+(33, 'ferme plutôt que doux', 'T'), 
+(33, 'doux plutôt que ferme', 'F'), 
+(34, 'la capacité d\organiser et d\être méthodique', 'J'), 
+(34, 'la capacité de s\adapter et de se plier à l\événement', 'P'), 
+(35, 'celui qui fournit des preuves', 'T'), 
+(35, 'celui qui fournit des sentiments', 'F');
+
 -- Users Interests --
 CALL add_user_interests (1, "24, 25, 51, 63, 89, 100, 122");
-CALL add_user_interests (3, "89");
+CALL add_user_interests (2, "89");
 
 -- Meetups Interests --
 INSERT INTO meetups_interests (id_interest, id_meetup) VALUES (100, 2);

@@ -15,7 +15,7 @@ class InterestsController extends Controller
 {
     public function interets($id)
     {
-
+        Log::info("1ttttttttttttttttttttttttttttttttttttts");
         $user = User::find($id);
         $categories = Category_Interest::all(); 
         $interets = Interest::all(); 
@@ -31,4 +31,5 @@ class InterestsController extends Controller
         DB::statement("CALL add_user_interests(?, ?)", [Auth::user()->id, $selectedInterets]);
         return redirect()->back()->with('success', 'Vos intérêts ont été mis à jour avec succès.');
     }
+
 }
