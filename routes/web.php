@@ -42,6 +42,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/{id}', [UsersController::class, 'profile'])->name('profile');
     Route::put('/profile/update/{id}', [UsersController::class, 'update'])->name('profile.update');
     Route::get('profile/amis/{id}', [UsersController::class, 'amis'])->name('profile.amis');
+    Route::get('profile/personnalite/{id}', [UsersController::class, 'personnalite'])->name('profile.personnalite');
+    Route::get('profile/events/{id}', [UsersController::class, 'events'])->name('profile.events');
+    Route::get('profile/rencontres/{id}', [UsersController::class, 'rencontres'])->name('profile.rencontres');
 
     //INTERET
     Route::get('interets/interets/{id}', [InterestsController::class, 'interets'])->name('interets.interets');
@@ -65,6 +68,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/meetup/{meetupId}', [MeetupController::class, 'MeetupPage'])->name('meetupPage');
     Route::get('/meetup/join/{meetupId}', [MeetupController::class, 'JoinMeetup'])->name('joinMeetup');
+    Route::get('/meetup/cancel/{meetupId}', [MeetupController::class, 'CancelJoiningMeetup'])->name('cancelJoiningMeetup');
     Route::get('/meetup/leave/{meetupId}', [MeetupController::class, 'LeaveMeetup'])->name('leaveMeetup');
 
     Route::get('/meetup/removeParticipant/{meetupId}/{userId}', [MeetupController::class, 'RemoveParticipant'])->name("removeParticipant");
@@ -85,4 +89,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/search/cities', [SearchController::class, 'cities'])->name('search.cities');
     Route::get('/search/interests', [SearchController::class, 'interests'])->name('search.interests');
     Route::get('/search/getInterests', [SearchController::class, 'getInterests'])->name('search.getInterests');
+
+    //utilisateurs
+    Route::get("user/friend/request/send/{id}", [UsersController::class, "SendFriendRequest"])->name("SendFriendRequest");
+    Route::get("user/friend/request/accept/{id}", [UsersController::class, "AcceptFriendRequest"])->name("AcceptFriendRequest");
+    Route::get("user/friend/request/refuse/{id}", [UsersController::class, "RefuseFriendRequest"])->name("RefuseFriendRequest");
+    Route::get("user/friend/request/cancel/{id}", [UsersController::class, "CancelFriendRequest"])->name("CancelFriendRequest");
+    Route::get("user/friend/remove/{id}", [UsersController::class, "RemoveFriend"])->name("RemoveFriend");
 });

@@ -2,6 +2,8 @@
 use App\Models\User_Interest; 
 use App\Models\Interest;
 use App\Models\Category_Interest;
+use illuminate\Support\Facades\Auth;
+use Mockery\Undefined;
 
 if (count($users)  == 0) {
     echo '';
@@ -23,13 +25,15 @@ foreach ($users as $user) {
     }
 
     if ($count > 2) {
-        $tags .= '<span class="tag square_tag">+' . $count - 2 . '</span>';
+        $tags .= '<span class="tag square_tag">+' . ($count - 2) . '</span>';
     }
 
     $affinity = round(Auth::user()->affinity($user_interests->pluck('id_interest')) * 100);
 
+    $route = route("profile", ["id" => $user->id]);
+
     echo <<< HTML
-        <a class="card_long no_select hover_darker" href="profile/$user->id">
+        <a class="card_long no_select hover_darker" href="$route">
             <div class="banner">
                 <img src="$image" alt="Image de profile de $user->first_name $user->last_name">
             </div>
