@@ -93,7 +93,7 @@
                 </a>
             </div>
         @elseif ($relation == "Refuse")
-            <div class="grey_button">Vous avez été refuser</div>
+            <div class="grey_button">Vous avez été refusé</div>
         @else
             <a href="{{ route("SendFriendRequest", ["id" => $user->id])}}">
                 <div class="blue_button">Ajouter en ami</div>
