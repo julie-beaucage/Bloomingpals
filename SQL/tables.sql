@@ -220,6 +220,16 @@ CREATE TABLE IF NOT EXISTS notifications(
 ENGINE = InnoDB;
 -- -----------------------------------------------------
 
+CREATE TABLE IF NOT EXISTS new_notifications(
+    id INT PRIMARY KEY auto_increment,
+    type INT NOT NULL,
+    id_user INT NOT NULL,
+    content Varchar(4096),
+    created_date datetime,
+    FOREIGN KEY (id_user) REFERENCES users(id)
+)
+ENGINE = InnoDB;
+
 -- relations --------------------------------------------
 CREATE TABLE IF NOT EXISTS relations(
     id_user1 INT NOT NULL,
