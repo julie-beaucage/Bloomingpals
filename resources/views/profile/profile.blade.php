@@ -26,7 +26,7 @@
 </div>
 
 <div id="profile_cntr" class="personality {{ $userPersonality }}">
-    <div id="info_cntr">
+    <div id="info_cntr"  class="personality {{ $userPersonality }}">
         <div class="profile-picture no_select">
             <img src="{{ $user->image_profil ? asset('storage/' . $user->image_profil) : asset('/images/simple_flower.png') }}"
                 alt="Photo de profil">
