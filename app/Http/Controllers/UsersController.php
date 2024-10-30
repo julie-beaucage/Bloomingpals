@@ -8,6 +8,8 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
 use App\Models\User;
+use App\Models\Event;
+use App\Models\Meetup;
 use App\Models\Relation;
 use App\Models\Friendship_Request;
 use Illuminate\Support\Facades\Storage;
@@ -281,4 +283,15 @@ class UsersController extends Controller
 
         return redirect()->back();
     }
+
+    public function events($id) {
+        $eventsData = Event::GetEventsFromUser($id);
+        return view("profile.events", ["eventsData" => $eventsData, "type" => "event"]);
+    }
+
+    public function rencontres($id) {
+        $MeetupsData = Meetup::GetMeetupsFromUser($id);
+        return view("profile.events", ["eventsData" => $MeetupsData, "type" => "rencontre"]);
+    }
+
 }

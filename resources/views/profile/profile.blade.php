@@ -123,16 +123,16 @@
                             Plus
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="moreDropdown">
-                            <li class="nav-item">
-                                <a class="nav-link tab-link no_wrap {{ request()->is('profile/personnalite') ? 'active' : '' }}"
-                                    href="{{ route('profile.personnalite', $user->id) }}"
-                                    data-target="profile/personnalite">Personnalité</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link tab-link no_wrap {{ request()->is('profile/personnalite') ? 'active' : '' }}"
-                                    href="{{ route('profile.personnalite', $user->id) }}"
-                                    data-target="profile/personnalite">Personnalité</a>
-                            </li>
+                          <li class="nav-item" title="Events">
+                              <a class="nav-link tab-link {{ request()->is('profile/events') ? 'active' : '' }}"
+                                  href="{{ route('profile.events', $user->id) }}"
+                                  data-target="profile/events">Événement</a>
+                          </li>
+                          <li class="nav-item" title="Rencontres">
+                              <a class="nav-link tab-link {{ request()->is('profile/rencontres') ? 'active' : '' }}"
+                                  href="{{ route('profile.rencontres', $user->id) }}"
+                                  data-target="profile/rencontres">Rencontres</a>
+                          </li>
                         </ul>
                     <li>
                 </ul>
