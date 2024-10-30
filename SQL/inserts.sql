@@ -30,6 +30,10 @@ INSERT INTO categories_interests (name) VALUES
 ('Social'),
 ('Art');
 
+-- report objects --
+
+insert into objects_types (name) values ("hacker"), ("abus verbale"), ("image inaproprié"), ("contenu raciste");
+
 -- Sport
 INSERT INTO interests (name, id_category) VALUES ('Bowling', 1);
 INSERT INTO interests (name, id_category) VALUES ('Tennis', 1);

@@ -32,6 +32,8 @@ DROP TABLE IF EXISTS questions;
 DROP TABLE IF EXISTS types_personalities;
 DROP TABLE IF EXISTS personalities;
 DROP TABLE IF EXISTS groups_personalities;
+DROP TABLE IF EXISTS reports_objects;
+
 -- types_personalities -----------------------------------
 CREATE TABLE IF NOT EXISTS groups_personalities (
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -279,7 +281,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS reports(
     id Int primary key auto_increment,
     id_user_send INT not null,
-    id_object INT,
+    object INT,
     id_type_object INT,
     FOREIGN KEY (id_user_send) REFERENCES users(id),
     FOREIGN KEY (id_type_object) REFERENCES objects_types(id)

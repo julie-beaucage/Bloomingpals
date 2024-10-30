@@ -8,10 +8,13 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
 use App\Models\User;
+use App\Models\Report;
 use App\Models\Relation;
+use App\Models\Object_Type;
 use App\Models\Friendship_Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
+use PhpParser\Node\Expr\Cast\Object_;
 
 class UsersController extends Controller
 {
@@ -120,26 +123,21 @@ class UsersController extends Controller
             return redirect()->route('/login')->with('error', 'Utilisateur non trouvé.');
         }
         $relation = Relation::GetRelationUsers(Auth::user()->id, $id);
+        $reportsReasons = Object_Type::all();
 
         if ($relation == 'GotBlocked') {
             return redirect()->back();
-        } else if ($relation == "Friend") {
-            return view('profile.profile', compact('user', 'relation'));
-        } else {
+        } else if ($relation != "Friend") {
             $relationRequest = Friendship_Request::GetUserRelationState(Auth::user()->id, $id);
             if ($relationRequest == "sent") {
                 $relation = "SendingInvitation";
-                return view('profile.profile', compact('user', 'relation'));
             } else if ($relationRequest == "receive") {
                 $relation = "Invited";
-                return view('profile.profile', compact('user', 'relation'));
             } else if ($relationRequest == "refuse") {
                 $relation = "Refuse";
-                return view('profile.profile', compact('user', 'relation'));
-            } else {
-                return view('profile.profile', compact('user', 'relation', 'relationRequest'));
             }
         }
+        return view('profile.profile', compact('user', 'relation', 'reportsReasons'));
     }
 
     public function update(Request $request)
@@ -238,5 +236,11 @@ class UsersController extends Controller
         }
 
         return redirect()->back();
+    }
+
+    public function ReportUser(Request $request) {
+        Report::AddReport($request["userId"], $request["objectId"], $request["objectTypeId"]);
+
+        return $this->profile($request["userId"]);
     }
 }

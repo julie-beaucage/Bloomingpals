@@ -59,6 +59,14 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log("Bouton Modifier cliqué.");
     $("#overlay").css("display", "block");
   });
+  $(document).on("click", "#openReport", function () {
+    console.log("Bouton signalé cliqué.");
+    $("#reportPanel").css("display", "block");
+  });
+  $(document).on("click", "#closeReport", function () {
+    console.log("Bouton signalé cliqué.");
+    $("#reportPanel").css("display", "none");
+  });
   $(document).on("click", ".closeOverlayBtn", function () {
     console.log("Fermeture de l'overlay.");
     $("#overlay").css("display", "none");

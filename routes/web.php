@@ -96,4 +96,5 @@ Route::middleware('auth')->group(function () {
     Route::get("user/friend/request/refuse/{id}", [UsersController::class, "RefuseFriendRequest"])->name("RefuseFriendRequest");
     Route::get("user/friend/request/cancel/{id}", [UsersController::class, "CancelFriendRequest"])->name("CancelFriendRequest");
     Route::get("user/friend/remove/{id}", [UsersController::class, "RemoveFriend"])->name("RemoveFriend");
+    Route::post("user/report", [UsersController::class, "ReportUser"])->name("ReportUser");
 });
