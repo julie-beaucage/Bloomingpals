@@ -30,8 +30,8 @@ DROP TABLE IF EXISTS `events`;
 DROP TABLE IF EXISTS types_notifications;
 DROP TABLE IF EXISTS affinities;
 DROP TABLE IF EXISTS types_personalities;
-DROP TABLE IF EXISTS groups_personalities;
 DROP TABLE IF EXISTS personalities;
+DROP TABLE IF EXISTS groups_personalities;
 
 -- types_personalities -----------------------------------
 
