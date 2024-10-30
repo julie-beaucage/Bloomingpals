@@ -128,7 +128,7 @@ class UsersController extends Controller
         } else if ($relation == "Friend") {
             return view('profile.profile', compact('user', 'relation'));
         } else {
-            $relationRequest = Friendship_Request::GetUserRelationState(Auth::user()->id, $id);
+            $relationRequest = Friendship_Request::GetUserRelationState($id, Auth::user()->id);
             if ($relationRequest == "sent") {
                 $relation = "SendingInvitation";
                 return view('profile.profile', compact('user', 'relation'));

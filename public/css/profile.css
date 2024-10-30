@@ -73,6 +73,25 @@ body {
     #profile_cntr{
         padding: 18em 0em 0em 0em;
     }
+
+    #info_cntr {
+        width: 100vw;
+    }
+}
+
+@media only screen and (min-width: calc(600px)) {
+    #info_cntr {
+        width: auto;
+    }
+}
+
+#info_cntr {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--background-50);
+    border-radius: 2em 2em 0 0;
+    flex-grow: 1;
 }
 
 #background_cntr {
@@ -92,16 +111,6 @@ body {
     width: 100%;
     height: 100vh;
     filter: blur(7px) brightness(0.7);
-}
-
-#info_cntr {
-    width: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: var(--personality-color-pale) !important; 
-    border-radius: 2em 2em 0 0;
-    flex-grow: 1;
 }
 
 .profile-picture {
@@ -152,15 +161,15 @@ body {
 
 .onglet_profile {
     padding: 1em;
-    background-color: white;;
+    background-color: #ffffff;
     box-shadow: 0 0.25em 0.375em rgba(0, 0, 0, 0.1); 
     overflow-y: auto;
     flex-grow: 1;
 }
 
 .btnProfile {
-    background-color: var(--personality-text-button) !important;
-    color:var(--personality-text-color-button);
+    background-color: var(--secondary-800);
+    color: white;
     padding: 0.625em 1.25em; 
     font-size: 1em; 
     border: none;
@@ -177,11 +186,14 @@ body {
     border-bottom: 0.0625em solid #801111; 
     padding-left: 1.875em; 
     align-items: center;
-    flex-wrap: nowrap !important;
+    flex-wrap: wrap !important;
 }
 
 .nav-tabs .nav-item {
-    display: inline-block;
+    display: inline-flex;
+    flex: 1 0 auto;
+    border-bottom: 1px black solid;
+    justify-content: center;
 }
 
 .nav-tabs .nav-link {
@@ -201,7 +213,6 @@ body {
 
 .nav-tabs .nav-link.active {
     color: #1877f2;
-    border-bottom: 0.1875em solid #1877f2; 
     font-weight: bold;
 }
 
@@ -274,42 +285,81 @@ body {
     display: flex;
     gap: 2em
 }
-/* TEST ONGLET CSS */  
-.containerPerso{
-    background-color: var(--personality-color) !important;
-    border-radius: 10px;
-    padding:5em;
 
+.events {
+    display: grid;
+    grid-template-columns: repeat( auto-fit, minmax(20em, 1fr) );
+    row-gap: 5em;
+    justify-content: left;
+    padding: 2em;
+    justify-content: center;
 }
-  .personality-card {
-    padding: 20px;
-    background-color: #00796b;
-    border-radius: 10px;
-    background-color: var(--personality-color);
-    color: var(--text-color);
-  }
-  
-  .personality-card.analystes {
-   --personality-color: #c3b0cd;
-    --text-color: #6c4d7b;
-  }
-  
-  .personality-card.diplomates {
-   --personality-color:  #d6ece3;
-    --text-color: #277d58;
-  }
-  
-  .personality-card.sentinelles {
-   --personality-color: #cce4ec;
-    --text-color: #347990;
-  }
-  
-  .personality-card.explorateurs{
-   --personality-color: #f4e27b;
-    --text-color: #e4ae3a;
-  }
-  
-  /*----------------*/
+
+.event {
+    width: calc(100% - 4em);
+    max-width: 20em;
+    margin-left: 2em;
+    margin-right: 2em;
+    border: 1px solid grey;
+    border-radius: 1em;
+    overflow: hidden;
+}
+
+.eventContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.eventInfoContainer {
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    margin-bottom: 0.5em;
+}
+.image {
+    width: 100%;
+    height: auto;
+    -o-object-fit: cover;
+    object-fit: cover;
+    -o-object-position: 50% 50%;
+    object-position: 50% 50%;
+}
+
+.title3 {
+    font-size: 2em;
+}
+
+.darkgreyText {
+    color: rgb(105, 105, 105);
+}
+
+.greyText {
+    color: rgb(180, 180, 180);
+}
+
+.event:hover {
+    filter: brightness(50%);
+    background-color: rgb(207, 207, 207);
+}
+
+.hr {
+    width: 100%;
+    border-width: 1px;
+    border-style: inset;
+    height: 0px;
+    border-color: rgba(0, 0, 0, 0.233);
+    margin-bottom: 0.2em;
+}
+
+.flexSplitH {
+    display: flex;
+    flex-direction: row;
+    gap: 2em;
+}
+
+a {
+    width: max-content;
+}
 
 
 

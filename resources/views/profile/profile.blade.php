@@ -2,7 +2,7 @@
 
 @section('style')
     <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/cards.css') }}">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 @endsection()
 @include('profile.edit-profile-modal', ['style' => 'display: none;'])
@@ -56,15 +56,15 @@
     <div class="containerOnglerMain">
         <div class="listOnglet">
             <ul class="nav nav-tabs justify-content-center">
-                <li class="nav-item" title="Intérêts">
-                    <a class="nav-link tab-link {{ request()->is('profile/informations') ? 'active' : '' }}"
-                        href="{{ route('profile.informations', $user->id) }}" data-target="profile/informations">Informations</a>
+                <li class="nav-item">
+                    <a class="nav-link tab-link {{ request()->is('interets/*/interets') || request()->is('profile/personnalite') || !request()->is('profile/*') ? 'active' : '' }}"
+                        href="{{ route('interets.interets', $user->id) }}" data-target="interets/interests">Intérêts</a>
                 </li>
-                <li class="nav-item" title="Amis">
+                <li class="nav-item">
                     <a class="nav-link tab-link {{ request()->is('profile/amis') ? 'active' : '' }}"
                         href="{{ route('profile.amis', $user->id) }}" data-target="profile/amis">Amis</a>
                 </li>
-                <li class="nav-item" title="Personalité">
+                <li class="nav-item">
                     <a class="nav-link tab-link {{ request()->is('profile/personnalite') ? 'active' : '' }}"
                         href="{{ route('profile.personnalite', $user->id) }}"
                         data-target="profile/personnalite">Personnalité</a>
