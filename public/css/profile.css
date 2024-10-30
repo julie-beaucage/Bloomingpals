@@ -73,16 +73,6 @@ body {
     #profile_cntr{
         padding: 18em 0em 0em 0em;
     }
-
-    #info_cntr {
-        width: 100vw;
-    }
-}
-
-@media only screen and (min-width: calc(600px)) {
-    #info_cntr {
-        width: auto;
-    }
 }
 
 #info_cntr {
