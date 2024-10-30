@@ -189,6 +189,23 @@ display: none;
 .nav-tabs .nav-link.active {
     border-bottom: 0.1875em solid var(--primary-400);
     font-weight: bold;
+    box-sizing: border-box;
+}
+
+.dropdown-menu {
+    border-radius: 1em !important;
+    padding: 0;
+    background-color: var(--background-50);
+    overflow: hidden;
+}
+
+.dropdown-menu .nav-item {
+    width: 100%;
+}
+
+.dropdown-menu .nav-link {
+    border-radius: 0 !important;
+    text-align: center;
 }
 
 .tab-content {
