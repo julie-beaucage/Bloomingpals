@@ -10,14 +10,13 @@ class Report_Object extends Model
 
     public $timestamps = false;
 
-    protected $fillable = ['id_user_send', 'id_user_receive', 'id_object', 'id_type_object'];
+    protected $fillable = ['description'];
     public static function AddReportAndGetId($object) {
         $report = [
-            "id_user_send" => $userSend,
-            "id_user_receive" => $userReceive,
-            "id_object" => $objectId,
-            "id_type_object" => $objectTypeId
+            "description" => $object
         ];
-        Report::Create($report);
+        $report = Report_Object::Create($report);
+
+        return $report->id;
     }
 }

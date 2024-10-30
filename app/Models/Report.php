@@ -13,12 +13,12 @@ class Report extends Model
 
     protected $fillable = ['id_user_send', 'id_user_receive', 'id_object', 'id_type_object'];
     public static function AddReport($userSend, $userReceive, $object, $objectTypeId) {
-        $id = Report_Object::AddReportAndGetId($object);
+        $objectId = Report_Object::AddReportAndGetId($object);
 
         $report = [
             "id_user_send" => $userSend,
             "id_user_receive" => $userReceive,
-            "id_object" => $object,
+            "id_object" => $objectId,
             "id_type_object" => $objectTypeId
         ];
         Report::Create($report);
