@@ -59,16 +59,6 @@ body {
     overflow-x: hidden;
     padding: 14em 2em 0em 2em;
     
-
-    #info_cntr {
-        width: 100vw;
-    }
-}
-
-@media only screen and (min-width: calc(600px)) {
-    #info_cntr {
-        width: auto;
-    }
 }
 
 #info_cntr {

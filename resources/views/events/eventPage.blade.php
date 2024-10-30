@@ -5,15 +5,15 @@
 @endsection()
 
 @php
-    use App\Models\TagEvent;
-    use App\Models\Tag;
+    use App\Models\Event_Category;
+    use App\Models\Interest;
 
     $tags = "";
-    $event_tags = TagEvent::where('id_evenement', $event->id)->get();
+    $event_tags = Event_Category::where('id_event', $event->id)->get();
 
     foreach ($event_tags as $event_tag) {
-        $tag = Tag::find($event_tag->id_tag);
-        $tags .= '<span class="tag">' . $tag->nom . '</span>';
+        $tag = Interest::find($event_tag->id_category);
+        $tags .= '<span class="tag">' . $tag->name . '</span>';
     }
 @endphp
 

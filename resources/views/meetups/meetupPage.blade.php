@@ -147,7 +147,7 @@
     foreach ($meetupTagsData as $tag) {
         $tagsHtml .= <<<HTML
             <div>
-                {$tag->nom}
+                {$tag->name}
             </div>
         HTML;
     }

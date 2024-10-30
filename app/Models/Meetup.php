@@ -3,7 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Tag_Meetup;
+use App\Models\Meetup_Interest;
+use App\Models\Interest;
 use App\Models\Meetup_User;
 
 class Meetup extends Model
@@ -19,8 +20,8 @@ class Meetup extends Model
      */
     public static function GetTags($id) {
         $tags = [];
-        foreach (Tag_Meetup::where("id_meetup", $id)->get() as $tag_rencontre) {
-            $tag = Tag::where("id", $tag_rencontre->id_tags)->get();
+        foreach (Meetup_Interest::where("id_meetup", $id)->get() as $tag_rencontre) {
+            $tag = Interest::where("id", $tag_rencontre->id_interest)->get()->first();
             array_push($tags, $tag);
         }
         return $tags;
@@ -41,15 +42,6 @@ class Meetup extends Model
             }
         }
         return $users;
-    }
-    /**
-     * Summary of GetEventsFromUser
-     * @param mixed $userId
-     * @return Meetup_User[]|\Illuminate\Database\Eloquent\Collection
-     */
-    public static function GetMeetupsFromUser($userId) {
-        $rencontresJoined = Meetup_User::where("id_user", $userId)->join("meetups", "meetups.id", "=", "meetups_users.id_meetup")->orderBy("meetups.date", 'DESC')->get();
-        return $rencontresJoined;
     }
     /**
      * /
