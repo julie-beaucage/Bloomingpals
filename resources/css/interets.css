@@ -84,11 +84,11 @@
     background-color: rgb(76, 76, 226);
 }
 
-.interet-selected.interet-culture {
+.interet-selected.interet-culturel {
     background-color: green;
 }
 
-.interet-selected.interet-musicale {
+.interet-selected.interet-musique {
     background-color: purple;
 }
 

@@ -29,15 +29,12 @@
                 alt="Photo de profil">
         </div>
 
-        <h1 id="profile_name">{{ $user->first_name }} {{ $user->last_name }}</h1>
+        <h1 id="profile_name">{{ $user->first_name }} {{ $user->last_name }}
+            <button class="icon-btn hover_darker" id="openProfileOverlay" title="Modifier profile">
+                <span class="material-symbols-rounded">edit</span>
+            </button>
+        </h1>
         @if (Auth::user()->id == $user->id)
-            <div class="button_profile">
-                <div class="text-end">
-                    <button class="buttonGlass" id="openProfileOverlay" title="Modifier profile">
-                        <span class="material-symbols-rounded" style="font-size: 24px; color: #333;">settings</span>
-                    </button>
-                </div>
-            </div>
 
             @if ($profileCompletionPercentage < 100)
                 <div class="alert alert-warning mt-3">
@@ -89,16 +86,16 @@
                 <div class="listOnglet">
                     <ul class="nav nav-tabs justify-content-center" id="main-tabs">
                         <li class="nav-item">
-                            <a class="nav-link tab-link {{ request()->is('interets/*/interets') || !request()->is('profile/*') ? 'active' : '' }}"
+                            <a class="nav-link tab-link no_wrap {{ request()->is('interets/*/interets') || !request()->is('profile/*') ? 'active' : '' }}"
                                 href="{{ route('interets.interets', $user->id) }}"
                                 data-target="interets/interests">Intérêts</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link tab-link {{ request()->is('profile/amis') ? 'active' : '' }}"
+                            <a class="nav-link tab-link no_wrap {{ request()->is('profile/amis') ? 'active' : '' }}"
                                 href="{{ route('profile.amis', $user->id) }}" data-target="profile/amis">Mes pals</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link tab-link {{ request()->is('profile/personnalite') ? 'active' : '' }}"
+                            <a class="nav-link tab-link no_wrap {{ request()->is('profile/personnalite') ? 'active' : '' }}"
                                 href="{{ route('profile.personnalite', $user->id) }}"
                                 data-target="profile/personnalite">Personnalité</a>
                         </li>
@@ -109,12 +106,12 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="moreDropdown">
                                 <li class="nav-item">
-                                    <a class="nav-link tab-link {{ request()->is('profile/personnalite') ? 'active' : '' }}"
+                                    <a class="nav-link tab-link no_wrap {{ request()->is('profile/personnalite') ? 'active' : '' }}"
                                         href="{{ route('profile.personnalite', $user->id) }}"
                                         data-target="profile/personnalite">Personnalité</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link tab-link {{ request()->is('profile/personnalite') ? 'active' : '' }}"
+                                    <a class="nav-link tab-link no_wrap {{ request()->is('profile/personnalite') ? 'active' : '' }}"
                                         href="{{ route('profile.personnalite', $user->id) }}"
                                         data-target="profile/personnalite">Personnalité</a>
                                 </li>
