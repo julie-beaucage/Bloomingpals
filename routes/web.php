@@ -97,6 +97,7 @@ Route::middleware('auth')->group(function () {
 
     // Event
     Route::get('/event/{id}', [EventController::class, 'event'])->name('event');
+    Route::get('/event/interests/{id}', [EventController::class, 'interests']);
 
     // Search
     Route::get('/search', [SearchController::class, 'search'])->name('search');

@@ -15,7 +15,7 @@ $(document).ready(function () {
 
 
         let htmlElement;
-        console.log(parsedData.type);
+        console.log(parsedData);
 
         let img_src = "";
         let profile_link = "";
@@ -24,45 +24,45 @@ $(document).ready(function () {
         let content = "";
         let image = "";
         let img_square= parsedData.type=='Meetup Interest'? "square":"";
-        img = window.location.origin;
+        img = window.location.origin+'/';
 
         switch (parsedData.type) {
 
             case 'Meetup Request':
-                image = parsedData.user_send.image_profil == null ? '/images/simple_flower.png' : 'storage/' + parsedData.user_send.image_profil;
+                image = parsedData.user_send.image_profil == null ? 'images/simple_flower.png' : 'storage/' + parsedData.user_send.image_profil;
 
-                img_src = img + image;
+                img_src = img +image;
                 profile_link = '/profile/' + parsedData.user_send.id;
                 header_text = parsedData.user_send.first_name + ' ' + parsedData.user_send.last_name;
-                linking = '/meetup/page/' + parsedData.meetup.id;
+                linking = '/meetup/' + parsedData.meetup.id;
                 content = parsedData.message + '  <strong> ' + truncatee(parsedData.meetup.name, 40) + '</strong>';
                 break;
             case 'Friendship Request':
-                image = parsedData.user_send.image_profil == null ? '/images/simple_flower.png' : 'storage/' + parsedData.user_send.image_profil;
+                image = parsedData.user_send.image_profil == null ? 'images/simple_flower.png' : 'storage/' + parsedData.user_send.image_profil;
 
-                img_src = img + image;
+                img_src = img +image;
                 profile_link = '/profile/' + parsedData.user_send.id;
                 header_text = truncatee(parsedData.user_send.first_name + ' ' + parsedData.user_send.last_name, 40);
-                linking = "/possible/de/voir/les/demandes/amis";
+                linking = '/profile/' + parsedData.user_receive+'?tab=profile%2Famis';
                 content = parsedData.message;
                 break;
 
             case 'Friendship Accept':
-                image = parsedData.user_send.image_profil == null ? '/images/simple_flower.png' : 'storage/' + parsedData.user_send.image_profil;
+                image = parsedData.user_send.image_profil == null ? 'images/simple_flower.png' : 'storage/' + parsedData.user_send.image_profil;
 
                 img_src =img + image;
                 profile_link = '/profile/' + parsedData.user_send.id;
                 header_text = truncatee(parsedData.user_send.first_name + ' ' + parsedData.user_send.last_name, 40);
-                linking = "/possible/de/voir/les/demandes/amis";
+                linking = '/profile/' + parsedData.user_receive+ '?tab=profile%2Famis';
                 content = parsedData.message;
                 break;
 
             case 'Meetup Interest':
                 image = parsedData.meetup.image == null ? 'images/meetup_default' + Math.floor((Math.random() * 3)+1) + '.png' : parsedData.meetup.image;
             
-                img_src = img+ '/'+ image;
+                img_src = img+  image;
                 header_text = parsedData.header;
-                linking = "/meetup/page/" + parsedData.meetup.id;
+                linking = "/meetup/" + parsedData.meetup.id;
                 profile_link=linking;
                 content = parsedData.message;
                 break;

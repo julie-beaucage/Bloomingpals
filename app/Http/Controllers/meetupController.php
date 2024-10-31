@@ -139,38 +139,36 @@ class MeetupController extends BaseController
         }
         Artisan::call('storage:link'); // update les symLinks
 
-        return redirect('/meetup');
+        return redirect('/home');
     }
     public function edit($id = null, Request $req)
     {
-        
+
         if ($id != null) {
-            
+
             $id_owner = Auth::user()->id;
             $meetup = Meetup::where('id', $id)->first();
             if ($id_owner != $meetup->id_owner) {
                 abort(403);
             }
-            if($req->image != 'delete'){
-                if ($req->file('image')->getError() != 0) {
-                    $path = '';
-                }else {
+            if ($req->image != 'delete' and $req->image != '') {
 
-                    $oldPath = str_replace('storage', 'public', $meetup->image);
-                    if (File::exists($oldPath)) {
-                        File::delete($oldPath);
-                    }
-                    $path = $req->file('image')->store('public/meetup/images');
-                    $path = str_replace('public/', '', 'storage/' . $path);
-                }
-            } 
-
-            if($req->image=='delete'){
                 $oldPath = str_replace('storage', 'public', $meetup->image);
                 if (File::exists($oldPath)) {
                     File::delete($oldPath);
                 }
-                $path=$req->image;
+                $path = $req->file('image')->store('public/meetup/images');
+                $path = str_replace('public/', '', 'storage/' . $path);
+            } else {
+                $path = '';
+            }
+
+            if ($req->image == 'delete') {
+                $oldPath = str_replace('storage', 'public', $meetup->image);
+                if (File::exists($oldPath)) {
+                    File::delete($oldPath);
+                }
+                $path = $req->image;
             }
 
             if (isset($id_owner)) {
@@ -188,17 +186,22 @@ class MeetupController extends BaseController
                     $req->public
                 ]);
 
-                $id_interests=explode(',',$req->interests);
+                Meetup_Interest::where('id_meetup', $id)->delete();
+                if ($req->interests != "") {
+                    $id_interests = explode(',', $req->interests);
 
-                Meetup_Interest::where('id_meetup',$id)->delete();
-                foreach($id_interests as $id_int){
-                    Meetup_Interest::insert(['id_interest'=>$id_int,
-                                            'id_meetup'=>$id]);
+                    foreach ($id_interests as $id_int) {
+                        Meetup_Interest::insert([
+                            'id_interest' => $id_int,
+                            'id_meetup' => $id
+                        ]);
+                    }
+                   
                 }
                 DB::commit();
             }
             Artisan::call('storage:link'); // update les symLinks
-            return redirect('/meetup');
+            return redirect('/home');
         }
         abort(404);
     }
@@ -231,14 +234,15 @@ class MeetupController extends BaseController
     {
         return ['storage\images\meetup_default1.png', 'storage\images\meetup_default2.png', 'storage\images\meetup_default3.png'];
     }
-    public function interests($id_meetup){
+    public function interests($id_meetup)
+    {
 
         return DB::table('interests')
-        ->join('meetups_interests', 'id', '=', 'meetups_interests.id_interest')
-        ->select('id', 'name', 'id_category')
-        ->where('id_meetup', $id_meetup)
-        ->get();
-     }
+            ->join('meetups_interests', 'id', '=', 'meetups_interests.id_interest')
+            ->select('id', 'name', 'id_category')
+            ->where('id_meetup', $id_meetup)
+            ->get();
+    }
     public function LeaveMeetup($meetupId)
     {
         $meetupData = Meetup::where("id", $meetupId)->get()[0];

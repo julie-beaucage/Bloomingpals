@@ -158,8 +158,9 @@
     function add_interest(tab) {
         interest_ids = [];
     }
+    console.log(MeetupId);
     if (MeetupId != "") {
-        fetch(window.location.origin + '/meetup/interests/' + MeetupId).then(response => {
+        fetch(url=window.location.href.indexOf('event') == -1 ? (window.location.origin + '/meetup/interests/' + MeetupId): (window.location.origin + '/event/interests/' + MeetupId)).then(response => {
             if (response.ok) {
                 return response.json();
             }

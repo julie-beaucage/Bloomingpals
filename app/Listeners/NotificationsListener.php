@@ -100,6 +100,7 @@ class NotificationsListener
             $data = $event->content;
 
             $user = getUser($event->user_receive,$data,'user_receive');
+            $data['user_receive']=$event->user_receive;
             if($event->user_send!= -1){
                 $data = getUser($event->user_send, $data,'user_send');
             }
