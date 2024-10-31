@@ -6,8 +6,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="padding:1em;">
-                <form method="POST" id="account-settings-form" action="/profile/updateAccount" class="no-gap">
-                    @csrf
+                <form  id="account-settings-form" class="no-gap">
                     <div class="flex-coll" style="margin-bottom:.5em;">
                         <div class="flex-roww" style="align-items:center;">
                             <h5 class="modal-title">Modifier votre email</h5>

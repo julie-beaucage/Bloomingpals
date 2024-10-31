@@ -88,7 +88,7 @@
     --personality-color: var(--neutral-400) !important;
     --personality-color-pale: var(--neutral-200) !important;
     --personality-text-color: var(--background-800) !important;
-    --personality-text-button: #var(--background-800) !important;
+    --personality-text-button: var(--background-950) !important;
     --personality-text-color-button: var(--background-100) !important;
 
     --success: #202922;
@@ -563,3 +563,4 @@ a {
     font-size: .85em;
     line-height:unset;
 }
+

@@ -23,7 +23,7 @@ $(document).ready(function () {
     var content = "";
     var image = "";
     var img_square = parsedData.type == 'Meetup Interest' ? "square" : "";
-    img = window.location.origin + '/';
+    img = window.location.origin;
     switch (parsedData.type) {
       case 'Meetup Request':
         image = parsedData.user_send.image_profil == null ? '/images/simple_flower.png' : 'storage/' + parsedData.user_send.image_profil;
@@ -51,7 +51,7 @@ $(document).ready(function () {
         break;
       case 'Meetup Interest':
         image = parsedData.meetup.image == null ? 'images/meetup_default' + Math.floor(Math.random() * 3 + 1) + '.png' : parsedData.meetup.image;
-        img_src = img + image;
+        img_src = img + '/' + image;
         header_text = parsedData.header;
         linking = "/meetup/page/" + parsedData.meetup.id;
         profile_link = linking;
@@ -125,6 +125,21 @@ $(document).ready(function () {
             id = $(this).attr('id');
             $(this).parent().append('<span class="material-symbols-rounded close_icon-page" id="' + id + '">close</span>');
             $(this).remove();
+          });
+          $(".close_icon-page").on('click', function () {
+            $.ajax({
+              type: "DELETE",
+              url: '/notifications/delete',
+              data: {
+                id: $(this).attr('id'),
+                _token: crsf
+              }
+            });
+            container = $(this).parent().parent().parent().parent();
+            container.addClass('border-red');
+            window.setTimeout(function () {
+              container.remove().parent();
+            }, 500);
           });
         }, 2 * 1000);
       }

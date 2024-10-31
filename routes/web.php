@@ -32,7 +32,7 @@ Route::get('/logout', [UsersController::class, 'logout'])->name('logout');
 //more profile cuz cors dont work
 Route::post('profile/checkPassword', [UsersController::class, 'checkPassword']);
 Route::post('/profile/checkEmail', [UsersController::class, 'isEmailTaken']);
-Route::post('profile/updateAccount', [UsersController::class, 'updateAccount']);
+Route::post('/profile/updateAccount', [UsersController::class, 'updateAccount']);
 
 Route::middleware('auth')->group(function () {
     
@@ -55,7 +55,8 @@ Route::middleware('auth')->group(function () {
     Route::post('profile/update/confidentiality/{id}', [UsersController::class, 'updateConfidentiality'])->name('profile.update.confidentiality');
     Route::post('profile/checkPassword', [UsersController::class, 'checkPassword'])->name('profile.checkPassword');
     Route::post('/profile/checkEmail', [UsersController::class, 'isEmailTaken']);
-    Route::post('profile/updateAccount', [UsersController::class, 'updateAccount']);
+    Route::post('/profile/updateAccount', [UsersController::class, 'updateAccount']);
+    
 
     //INTERET
     Route::get('interets/interets/{id}', [InterestsController::class, 'interets'])->name('interets.interets');

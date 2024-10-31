@@ -177,8 +177,8 @@
 
             selections.children().click(function () {
                 for (var index in interest_tab) {
-                    if(interest_tab[index].name == $(this).text()){
-                        interest_ids=interest_ids.filter((e) => e != interest_tab[index].id);
+                    if (interest_tab[index].name == $(this).text()) {
+                        interest_ids = interest_ids.filter((e) => e != interest_tab[index].id);
                         break;
                     }
                 }
@@ -482,12 +482,12 @@
             }
             if (errors == true) {
                 e.preventDefault();
-            }else{
-                let str="";
-                interest_ids.forEach(function(id) {str=str.concat(id,',');});
-                str=str.substring(0,str.length-1);
+            } else {
+                let str = "";
+                interest_ids.forEach(function (id) { str = str.concat(id, ','); });
+                str = str.substring(0, str.length - 1);
 
-                $(this).append($('<input>').attr('name','interests').attr('style','display:none;').val(str));
+                $(this).append($('<input>').attr('name', 'interests').attr('style', 'display:none;').val(str));
             }
 
             if ($('.img-preview').attr('src') == "") {
@@ -495,8 +495,8 @@
                 //e.preventDefault();
                 //document.querySelector('input[type=file]').value = "";
                 document.querySelector('input[type=file]').remove();
-                
-                $(this).append($('<input>').attr('name','image').attr('style','display:none;').val("delete"));
+
+                $(this).append($('<input>').attr('name', 'image').attr('style', 'display:none;').val("delete"));
             }
         });
 
@@ -545,8 +545,8 @@
 
                     if (filter_cntr.hasClass("search_selection")) {
                         elem.click(function () {
-                            if (url.searchParams.get(filter_cntr.data("param")) != null && url.searchParams.get(filter_cntr.data("param")).split(",").includes(data[i]["id"] + ""))
-                                return;
+                            // if (url.searchParams.get(filter_cntr.data("param")) != null && url.searchParams.get(filter_cntr.data("param")).split(",").includes(data[i]["id"] + ""))
+                            //     return;
 
                             let selections = filter_cntr.find(".selections");
                             let selection = $("<span>").attr("class", "selection no_select tag tag_rmv hover_darker").attr("style", "background-color: var(--category-" + data[i]["id_category"] + ")").text(data[i][filter_cntr.data("name")]);
@@ -555,19 +555,25 @@
                             let selections_list = (url.searchParams.has(filter_cntr.data("param"))) ? url.searchParams.get(filter_cntr.data("param")) : "";
                             selected_interest = (selections_list == "") ? data[i]["id"] : selections_list + "," + data[i]["id"];
                             //window.history.replaceState({}, "", url);
-                            let interest= new Object();
-                            interest.id=selected_interest; interest.name=data[i][filter_cntr.data("name")]; interest.id_category= data[i]['category'];
+                            let interest = new Object();
+                            interest.id = selected_interest; interest.name = data[i][filter_cntr.data("name")]; interest.id_category = data[i]['category'];
                             interest_tab.push(interest);
                             interest_ids.push(selected_interest);
 
 
                             selection.click(function () {
+                                for (var index in interest_tab) {
+                                    if (interest_tab[index].name == $(this).text()) {
+                                        interest_ids = interest_ids.filter((e) => e != interest_tab[index].id);
+                                        break;
+                                    }
+                                }
                                 selection.remove();
                                 let url = new URL(window.location.href);
                                 let selections_list = (url.searchParams.has(filter_cntr.data("param"))) ? url.searchParams.get(filter_cntr.data("param")) : "";
-                                url.searchParams.set(filter_cntr.data("param"), selections_list.split(",").filter(e => e != data[i]["id"]).join(","));
+                                //url.searchParams.set(filter_cntr.data("param"), selections_list.split(",").filter(e => e != data[i]["id"]).join(","));
 
-                                window.history.replaceState({}, "", url);
+                                //window.history.replaceState({}, "", url);
                             });
 
                             suggestions_cntr.empty();
@@ -578,9 +584,9 @@
                     else {
                         elem.click(function () {
                             filter_cntr.children('input').val(data[i][filter_cntr.data("name")]);
-                            url.searchParams.set(filter_cntr.data("param"), data[i][filter_cntr.data("name")].normalize("NFD").replace(/[\u0300-\u036f]/g, ""));
+                            //url.searchParams.set(filter_cntr.data("param"), data[i][filter_cntr.data("name")].normalize("NFD").replace(/[\u0300-\u036f]/g, ""));
 
-                            window.history.replaceState({}, "", url);
+                            //window.history.replaceState({}, "", url);
                             suggestions_cntr.empty();
                         });
                     }

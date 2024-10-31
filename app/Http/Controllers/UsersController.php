@@ -15,6 +15,8 @@ use App\Models\Friendship_Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use App\Models\User_Interest;
+use App\Events\NewNotif;
+use Symfony\Component\HttpKernel\Profiler\Profile;
 
 class UsersController extends Controller
 {
@@ -137,7 +139,7 @@ class UsersController extends Controller
         $request->session()->regenerateToken();
         return redirect('/login');
     }
-    public function profile($id)
+    public function profile($id,$modified =false)
     {
         $user = User::find($id);
 
@@ -179,7 +181,7 @@ class UsersController extends Controller
             }
         }
 
-        return view('profile.profile', compact('user', 'profileCompletionPercentage', 'emailVerified', 'interestsSelected', 'personalityTestDone', 'relation'));
+        return view('profile.profile', compact('user', 'profileCompletionPercentage', 'emailVerified', 'interestsSelected', 'personalityTestDone', 'relation','modified'));
     }
 
 
@@ -247,7 +249,7 @@ class UsersController extends Controller
             DB::table('users')->where('id', '=', $id)->update(['confidentiality' => $req->confidentiality, 'notification' => $req->notification]);
             DB::commit();
 
-            return redirect()->route('profile', ['id' => $id]);
+            return redirect('/profile/'.Auth::user()->id);
         }
     }
 
@@ -284,7 +286,7 @@ class UsersController extends Controller
             Auth::user()->sendEmailVerificationNotification();
         }
 
-        return redirect()->route('profile', ['id' => Auth::user()->id]);
+        return http_response_code(200);
     }
 
     public function amis($id)
@@ -303,6 +305,7 @@ class UsersController extends Controller
     {
         if (Auth::user()->id != $id) {
             Friendship_Request::AddFriendRequest(Auth::user()->id, $id);
+            event(new NewNotif($id,Auth::user()->id,'Friendship Request',[]));
         }
 
         return redirect()->back();
@@ -310,10 +313,10 @@ class UsersController extends Controller
 
     public function AcceptFriendRequest($id)
     {
-
         if (Auth::user()->id != $id) {
             Friendship_Request::AcceptFriendRequest($id, Auth::user()->id);
             Relation::AddFriend(Auth::user()->id, $id);
+            event(new NewNotif($id,Auth::user()->id,'Friendship Accept',[]));
         }
 
         return redirect()->back();

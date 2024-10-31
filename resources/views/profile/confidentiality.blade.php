@@ -37,7 +37,7 @@
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="confidentiality" id="public"
                                 value="public">
-                            <label class="form-check-label" for="public">
+                            <label class="form-check-label" style="margin-bottom:.5em;" for="public">
                                 Public
                             </label>
 

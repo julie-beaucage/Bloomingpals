@@ -11,6 +11,7 @@
 @endsection()
 @php
     $userPersonality = Auth::user()->getPersonalityType();
+
 @endphp
 
 @include('profile.settings-page')
@@ -19,6 +20,7 @@
 @include('profile.account-settings')
 
 @section('content')
+
 <div id="profile-overlay-cntr" class="overlay-cntr">
     @if ($user->id == Auth::user()->id)
         <x-email-verification-modal />
@@ -26,12 +28,14 @@
     @endif
 </div>
 
+
 <div id="background_cntr" class="no_select">
     <div id="background_color"></div>
     <img id="background_img"
         src="{{ $user->background_image ? asset('storage/' . $user->background_image) : asset('/images/R.jpg') }}"
         alt="Bannière du profile">
 </div>
+
 
 <div id="profile_cntr" class="personality {{ $userPersonality }}">
     <div id="info_cntr" class="personality {{ $userPersonality }}">
@@ -152,8 +156,25 @@
         <script src="{{ asset('/js/profileOnglet.js') }}"></script>
         <script src="{{ asset('/js/resendEmail.js') }}"></script>
         <script>
+            function Confirmm() {
+                var pop_up_box = "<div class='pop-up-overlay'>" +
+                    "<div class='pop-up'>" +
+                    "<div style='display:flex; justify-content: space-between; align-items:center; border-bottom: 1px solid black;'>" +
+                    '<div><strong> Profile</strong></div> <a onclick="removePop()" id="close-pop" style="cursor:pointer;"><span class="close_icon">close</span></a>' +
+                    '</div>' +
+                    '<div>Votre profile à été mis à jour</div>' +
+
+                    "</div>" +
+                    "</div>";
+
+                $('body').append(pop_up_box);
+            }
+
 
             const crsf = $('meta[name="csrf-token"]').attr('content');
+            function removePop() {
+                $('.pop-up-overlay').remove();
+            }
             function refreshFormFields() {
                 $("#password-enter").removeClass('is-invalid').val("");
                 $('#feedback-account').removeClass('invalid-feedback').text("Entrez votre mot de passe pour accéder à vos informations");
@@ -293,11 +314,17 @@
                         console.log("s");
                         account_settings_form = true;
                         $("#account-settings").modal('hide');
-                        this.submit();
+                        $.ajax({
+                            url: '/profile/updateAccount',
+                            type: "POST",
+                            data: {email:$('#email').val(),password:$('#password-account').val(), _token:crsf},
+                            success: function (res) {
+                                Confirmm();
+                            }
+                        });
                     }
 
                 });
-
 
                 document.addEventListener("DOMContentLoaded", function () {
                     $("#profile-content").on("DOMSubtreeModified", function () {
@@ -322,22 +349,22 @@
                     });
                 });
                 let arrows = document.querySelectorAll(".arrow");
-                    
-                    arrows.forEach((elem) => {
-                        elem.addEventListener("click", function (event) {
-                            console.log('click');
 
-                            arrow = event.target.parentNode.parentNode.lastElementChild;
-                            if (arrow.style.display == "none") {
-                                arrow.style.display = "block";
-                                event.target.innerHTML = "keyboard_arrow_down";
-                            }
-                            else {
-                                arrow.style.display = "none";
-                                event.target.innerHTML = "keyboard_arrow_right";
-                            }
-                        });
+                arrows.forEach((elem) => {
+                    elem.addEventListener("click", function (event) {
+                        console.log('click');
+
+                        arrow = event.target.parentNode.parentNode.lastElementChild;
+                        if (arrow.style.display == "none") {
+                            arrow.style.display = "block";
+                            event.target.innerHTML = "keyboard_arrow_down";
+                        }
+                        else {
+                            arrow.style.display = "none";
+                            event.target.innerHTML = "keyboard_arrow_right";
+                        }
                     });
+                });
             });
         </script>
 
