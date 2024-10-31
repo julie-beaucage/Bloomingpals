@@ -21,6 +21,7 @@ DROP TABLE IF EXISTS friendships_requests;
 DROP TABLE IF EXISTS meetups_requests;
 DROP TABLE IF EXISTS reports;
 DROP TABLE IF EXISTS notifications;
+DROP TABLE IF EXISTS new_notifications;
 DROP TABLE IF EXISTS meetups;
 DROP TABLE IF EXISTS objects_types;
 DROP TABLE IF EXISTS answers;
@@ -93,6 +94,9 @@ CREATE TABLE IF NOT EXISTS users (
     email_verified_at TIMESTAMP NULL DEFAULT NULL,
     updated_at TIMESTAMP NULL DEFAULT NULL,
     remember_token VARCHAR(100) NULL,
+     daily_notification datetime,
+    confidentiality enum('public','friends','prive') DEFAULT 'public',
+    notification tinyint DEFAULT 1,
     FOREIGN KEY (personality) REFERENCES personalities (id)
 ) ENGINE=InnoDB;
 
@@ -161,7 +165,7 @@ ENGINE = InnoDB;
 -- types_notifications -----------------------------------
 CREATE TABLE IF NOT EXISTS types_notifications(
     id INT PRIMARY KEY auto_increment,
-    name INT NOT NULL
+    name Varchar(50) NOT NULL
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
@@ -208,14 +212,24 @@ CREATE TABLE IF NOT EXISTS notifications(
     id INT PRIMARY KEY auto_increment,
     `type` INT NOT NULL,
     id_user INT NOT NULL,
-    id_content INT,
-    id_object_type INT,
-    content VARCHAR(1024),
-    FOREIGN KEY (id_user) REFERENCES users(id),
-    FOREIGN KEY (id_object_type) REFERENCES objects_types(id)
+    content Varchar(4096),
+    status ENUM ('read','unread') NOT NULL,
+    created_date datetime,
+    FOREIGN KEY (id_user) REFERENCES users(id)
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
+
+-- New Notifications
+CREATE TABLE IF NOT EXISTS new_notifications(
+    id INT PRIMARY KEY auto_increment,
+    `type` INT NOT NULL,
+    id_user INT NOT NULL,
+    content Varchar(4096),
+    created_date datetime,    
+    FOREIGN KEY (id_user) REFERENCES users(id)
+)
+ENGINE = InnoDB;
 
 -- relations --------------------------------------------
 CREATE TABLE IF NOT EXISTS relations(
