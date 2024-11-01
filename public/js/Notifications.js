@@ -126,6 +126,7 @@ $(document).ready(function () {
             $(this).parent().append('<span class="material-symbols-rounded close_icon-page" id="' + id + '">close</span>');
             $(this).remove();
           });
+          $(".close_icon-page").off();
           $(".close_icon-page").on('click', function () {
             $.ajax({
               type: "DELETE",
