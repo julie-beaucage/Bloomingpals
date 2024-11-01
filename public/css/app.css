@@ -408,7 +408,7 @@ body {
         font-weight: 600;
     }
     .hideNotification{
-        display: none !important;;
+        display: none !important;
     }
     .notification-badge{
         right:.1em !important;
