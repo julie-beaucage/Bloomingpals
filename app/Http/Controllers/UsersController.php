@@ -246,11 +246,9 @@ class UsersController extends Controller
     }
     public function updateConfidentiality(Request $req, $id)
     {
-
         if ($req->confidentiality != null and $id != null and $req->notification != null) {
             DB::table('users')->where('id', '=', $id)->update(['confidentiality' => $req->confidentiality, 'notification' => $req->notification]);
             DB::commit();
-
             return redirect('/profile/'.Auth::user()->id);
         }
     }
@@ -269,7 +267,6 @@ class UsersController extends Controller
     }
     public function updateAccount(Request $req)
     {
-
         if ($req->password == null) {
             $req->password = "";
         } else {
@@ -283,11 +280,9 @@ class UsersController extends Controller
             $req->password,
             $req->email
         ]);
-
         if ($req->email != "") {
             Auth::user()->sendEmailVerificationNotification();
         }
-
         return http_response_code(200);
     }
 
@@ -309,7 +304,6 @@ class UsersController extends Controller
             Friendship_Request::AddFriendRequest(Auth::user()->id, $id);
             event(new NewNotif($id,Auth::user()->id,'Friendship Request',[]));
         }
-
         return redirect()->back();
     }
 
@@ -320,7 +314,6 @@ class UsersController extends Controller
             Relation::AddFriend(Auth::user()->id, $id);
             event(new NewNotif($id,Auth::user()->id,'Friendship Accept',[]));
         }
-
         return redirect()->back();
     }
     public function RefuseFriendRequest($id)
@@ -328,36 +321,28 @@ class UsersController extends Controller
         if (Auth::user()->id != $id) {
             Friendship_Request::RefuseFriendRequest(Auth::user()->id, $id);
         }
-
         return redirect()->back();
     }
-
     public function CancelFriendRequest($id)
     {
         if (Auth::user()->id != $id) {
             Friendship_Request::CancelFriendRequest(Auth::user()->id, $id);
         }
-
         return redirect()->back();
     }
-
     public function RemoveFriend($id)
     {
         if (Auth::user()->id != $id) {
             Friendship_Request::RemoveFriendRequest(Auth::user()->id, $id);
             Relation::RemoveFriend(Auth::user()->id, $id);
         }
-
         return redirect()->back();
     }
-
-
     public function events($id)
     {
         $eventsData = Event::GetEventsFromUser($id);
         return view("profile.events", ["eventsData" => $eventsData, "type" => "event"]);
     }
-
     public function rencontres($id)
     {
         $MeetupsData = Meetup::GetMeetupsFromUser($id);
@@ -365,7 +350,6 @@ class UsersController extends Controller
     }
     public function ReportUser(Request $request) {
         Report::AddReport(Auth::user()->id, $request["userId"], $request["object"], $request["objectTypeId"]);
-
         return $this->profile($request["userId"]);
     }
 }
