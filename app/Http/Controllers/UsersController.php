@@ -8,6 +8,8 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
 use App\Models\User;
+use App\Models\Meetup;
+use App\Models\Event;
 use App\Models\Report;
 use App\Models\Relation;
 use App\Models\Object_Type;
