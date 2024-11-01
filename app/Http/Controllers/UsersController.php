@@ -351,13 +351,13 @@ class UsersController extends Controller
         }
         return redirect()->back();
     }
-    public function events($id)
-    {
+
+    public function events($id) {
         $eventsData = Event::GetEventsFromUser($id);
         return view("profile.events", ["eventsData" => $eventsData, "type" => "event"]);
     }
-    public function rencontres($id)
-    {
+
+    public function rencontres($id) {
         $MeetupsData = Meetup::GetMeetupsFromUser($id);
         return view("profile.events", ["eventsData" => $MeetupsData, "type" => "rencontre"]);
     }
