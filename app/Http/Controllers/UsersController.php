@@ -8,8 +8,8 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
 use App\Models\User;
-use App\Models\Event;
 use App\Models\Meetup;
+use App\Models\Event;
 use App\Models\Report;
 use App\Models\Object_Type;
 use App\Models\Relation;
@@ -196,7 +196,7 @@ class UsersController extends Controller
                 $relation = "Refuse";
             }
         }
-        return view('profile.profile', compact('user', 'profileCompletionPercentage', 'emailVerified', 'interestsSelected', 'personalityTestDone', 'relation', 'reportsReasons','modified', 'haveAccess'));
+        return view('profile.profile', compact('user', 'profileCompletionPercentage', 'emailVerified', 'interestsSelected', 'personalityTestDone', 'relation','modified', 'haveAccess'));
     }
 
 

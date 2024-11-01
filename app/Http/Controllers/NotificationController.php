@@ -122,7 +122,8 @@ class NotificationController extends Controller
         if ($req->id != null) {
             $id_user = Auth::user()->id;
             $notification = Notification::where('id', '=', $req->id)->first();
-            if (intval($req->id) != null and $notification->id_user == $id_user) {
+            
+            if ($req->id != null and $notification->id_user == $id_user) {
 
                 DB::statement("Call deleteNotification(?)", [
                     $req->id

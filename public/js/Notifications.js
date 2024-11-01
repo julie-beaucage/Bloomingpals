@@ -38,7 +38,7 @@ $(document).ready(function () {
         img_src = img + image;
         profile_link = '/profile/' + parsedData.user_send.id;
         header_text = truncatee(parsedData.user_send.first_name + ' ' + parsedData.user_send.last_name, 40);
-        linking = '/profile/' + parsedData.user_receive + '?tab=profile%2Famis';
+        linking = '/profile/' + parsedData.user_send.id;
         content = parsedData.message;
         break;
       case 'Friendship Accept':
@@ -46,7 +46,7 @@ $(document).ready(function () {
         img_src = img + image;
         profile_link = '/profile/' + parsedData.user_send.id;
         header_text = truncatee(parsedData.user_send.first_name + ' ' + parsedData.user_send.last_name, 40);
-        linking = '/profile/' + parsedData.user_receive + '?tab=profile%2Famis';
+        linking = '/profile/' + parsedData.user_send.id;
         content = parsedData.message;
         break;
       case 'Meetup Interest':
@@ -126,6 +126,7 @@ $(document).ready(function () {
             $(this).parent().append('<span class="material-symbols-rounded close_icon-page" id="' + id + '">close</span>');
             $(this).remove();
           });
+          $(".close_icon-page").off();
           $(".close_icon-page").on('click', function () {
             $.ajax({
               type: "DELETE",

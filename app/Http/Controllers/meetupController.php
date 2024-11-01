@@ -122,15 +122,24 @@ class MeetupController extends BaseController
                 $req->public
             ]);
 
+            
             if ($req->interests != "") {
                 $id_interests = explode(',', $req->interests);
                 $meetup = Meetup::where('image', $path)->where('date', date_create("$req->date" . " " . "$req->time"))
-                    ->where('name', $req->name)->where('adress', $req->adress)->where('id_owner', $id_owner)->first();
+                    ->where('name', $req->name)->where('adress', $req->adress)->where('id_owner', $id_owner)->get();
+                
+                    $id_meetup=0;
+                    foreach($meetup as $meet ){
+                        if($meet->id>$id_meetup){
+                            $id_meetup=$meet->id;
+                        }
+                    }
+                        
 
                 foreach ($id_interests as $id) {
                     Meetup_Interest::insert([
                         'id_interest' => $id,
-                        'id_meetup' => $meetup->id
+                        'id_meetup' => $id_meetup
                     ]);
                 }
                 DB::commit();
