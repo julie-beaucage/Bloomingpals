@@ -11,15 +11,23 @@
 @endsection()
 @php
     $userPersonality = Auth::user()->getPersonalityType();
+
 @endphp
 
+@include('profile.settings-page')
+@include('profile.confidentiality')
+@include('profile.account-settings-password')
+@include('profile.account-settings')
+
 @section('content')
+
 <div id="profile-overlay-cntr" class="overlay-cntr">
     @if ($user->id == Auth::user()->id)
         <x-email-verification-modal />
         @include('profile.edit-profile-modal', ['style' => 'display: none;'])
     @endif
 </div>
+
 
 <div id="background_cntr" class="no_select">
     <div id="background_color"></div>
@@ -28,8 +36,9 @@
         alt="Bannière du profile">
 </div>
 
+
 <div id="profile_cntr" class="personality {{ $userPersonality }}">
-    <div id="info_cntr"  class="personality {{ $userPersonality }}">
+    <div id="info_cntr" class="personality {{ $userPersonality }}">
         <div class="profile-picture no_select">
             <img src="{{ $user->image_profil ? asset('storage/' . $user->image_profil) : asset('/images/simple_flower.png') }}"
                 alt="Photo de profil">
@@ -37,8 +46,9 @@
 
         <h1 id="profile_name">{{ $user->first_name }} {{ $user->last_name }}
             @if ($user->id == Auth::user()->id)
-                <button class="icon-btn hover_darker" id="openProfileOverlay" title="Modifier profile">
-                    <span class="material-symbols-rounded">edit</span>
+                <button class="icon-btn hover_darker" id="openProfileOverlay" title="Modifier profile"
+                    data-bs-toggle="modal" data-bs-target="#settings">
+                    <span class="material-symbols-rounded">settings</span>
                 </button>
             @endif
         </h1>
@@ -123,16 +133,16 @@
                             Plus
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="moreDropdown">
-                          <li class="nav-item" title="Events">
-                              <a class="nav-link tab-link {{ request()->is('profile/events') ? 'active' : '' }}"
-                                  href="{{ route('profile.events', $user->id) }}"
-                                  data-target="profile/events">Événement</a>
-                          </li>
-                          <li class="nav-item" title="Rencontres">
-                              <a class="nav-link tab-link {{ request()->is('profile/rencontres') ? 'active' : '' }}"
-                                  href="{{ route('profile.rencontres', $user->id) }}"
-                                  data-target="profile/rencontres">Rencontres</a>
-                          </li>
+                            <li class="nav-item" title="Events">
+                                <a class="nav-link tab-link {{ request()->is('profile/events') ? 'active' : '' }}"
+                                    href="{{ route('profile.events', $user->id) }}"
+                                    data-target="profile/events">Événement</a>
+                            </li>
+                            <li class="nav-item" title="Rencontres">
+                                <a class="nav-link tab-link {{ request()->is('profile/rencontres') ? 'active' : '' }}"
+                                    href="{{ route('profile.rencontres', $user->id) }}"
+                                    data-target="profile/rencontres">Rencontres</a>
+                            </li>
                         </ul>
                     <li>
                 </ul>
@@ -146,6 +156,40 @@
         <script src="{{ asset('/js/profileOnglet.js') }}"></script>
         <script src="{{ asset('/js/resendEmail.js') }}"></script>
         <script>
+            function Confirmm() {
+                var pop_up_box = "<div class='pop-up-overlay'>" +
+                    "<div class='pop-up'>" +
+                    "<div style='display:flex; justify-content: space-between; align-items:center; border-bottom: 1px solid black;'>" +
+                    '<div><strong> Profile</strong></div> <a onclick="removePop()" id="close-pop" style="cursor:pointer;"><span class="close_icon">close</span></a>' +
+                    '</div>' +
+                    '<div>Votre profile à été mis à jour</div>' +
+
+                    "</div>" +
+                    "</div>";
+
+                $('body').append(pop_up_box);
+            }
+
+
+            const crsf = $('meta[name="csrf-token"]').attr('content');
+            function removePop() {
+                $('.pop-up-overlay').remove();
+            }
+            function refreshFormFields() {
+                $("#password-enter").removeClass('is-invalid').val("");
+                $('#feedback-account').removeClass('invalid-feedback').text("Entrez votre mot de passe pour accéder à vos informations");
+
+                // Reset the new password input
+                $("#password-account").removeClass('is-invalid').val("");
+                $('#feedback-new-password').removeClass('invalid-feedback').text("");
+
+                // Reset the confirm password input
+                $("#password-account2").removeClass('is-invalid').val("");
+                $('#feedback-new-password2').removeClass('invalid-feedback').val("");
+
+                $("#email").removeClass('is-invalid').val("");
+                $('#feedback-account-email').removeClass('invalid-feedback').text("");
+            }
             function showModal(modalId) {
                 console.log(document.body.innerHTML);
                 document.getElementById(modalId).style.display = 'flex';
@@ -205,26 +249,121 @@
                 }
             }
 
-            document.addEventListener("DOMContentLoaded", function () {
-                $("#profile-content").on("DOMSubtreeModified", function () {
-                    $(".close").each(function () {
-                        $(this).click(function () {
-                            const modalId = $(this).data("modal-id");
-                            closeModal(modalId);
+            $(document).ready(function () {
+                $("#account-settings-password-form").submit(function (event) {
+                    event.preventDefault();
+                    $.ajax({
+                        url: 'checkPassword',
+                        type: "POST",
+                        data: $("#account-settings-password-form").serialize(),
+                        success: function (data) {
+                            if (data == 1) {
+                                $("#account-settings-password").modal('hide');
+                                $("#account-settings").modal('show');
+                            }
+                            else {
+                                $("#password-enter").addClass('is-invalid').focus();
+                                $('#feedback-account').addClass('invalid-feedback').text(data);
+                            }
+                        }
+                    });
+
+                });
+                document.getElementById('account-settings-form').addEventListener('submit', async function (e) {
+                    let data = new FormData(e.target);
+                    e.preventDefault();
+
+                    let error = false;
+
+
+                    if (data.get('password') != data.get('password2')) {
+                        msg = "Les mots de passe sont différents";
+                        $("#password-account").addClass('is-invalid');
+                        $('#feedback-new-password').addClass('invalid-feedback').text(msg);
+
+                        $("#password-account2").addClass('is-invalid');
+                        $('#feedback-new-password2').addClass('invalid-feedback').text(msg);
+                        error = true;
+                    }
+                    if (data.get('email') !== '') {
+                        try {
+                            const result = await new Promise((resolve) => {
+                                $.ajax({
+                                    url: '/profile/checkEmail',
+                                    type: "POST",
+                                    data: { email: data.get('email'), _token: crsf },
+                                    success: function (res) {
+                                        resolve(res);
+                                    }
+                                });
+                            });
+
+                            // Check the result
+                            if (result == 1) {
+                                $("#email").addClass('is-invalid');
+                                $('#feedback-account-email').addClass('invalid-feedback').text("Email déjà utilisé");
+                                error = true;
+                            } else {
+                                $("#email").removeClass('is-invalid');
+                                $('#feedback-account-email').removeClassClass('invalid-feedback').text("");
+                            }
+
+                        } catch (er) { }
+                    }
+                    if (error == false) {
+                        console.log("s");
+                        account_settings_form = true;
+                        $("#account-settings").modal('hide');
+                        $.ajax({
+                            url: '/profile/updateAccount',
+                            type: "POST",
+                            data: {email:$('#email').val(),password:$('#password-account').val(), _token:crsf},
+                            success: function (res) {
+                                Confirmm();
+                            }
+                        });
+                    }
+
+                });
+
+                document.addEventListener("DOMContentLoaded", function () {
+                    $("#profile-content").on("DOMSubtreeModified", function () {
+                        $(".close").each(function () {
+                            $(this).click(function () {
+                                const modalId = $(this).data("modal-id");
+                                closeModal(modalId);
+                            });
                         });
                     });
-                });
 
-                $(document).on("click", "#openProfileOverlay", function () {
-                    showModal("overlayProfile");
-                });
+                    // $(document).on("click", "#openProfileOverlay", function () {
+                    //     showModal("overlayProfile");
+                    // });
 
-                $(document).on("click", "#openInterestOverlay", function () {
-                    @if (!$emailVerified)
-                        showModal('emailVerificationModal');
-                    @else
-                        showModal('overlayInterests');
-                    @endif
+                    $(document).on("click", "#openInterestOverlay", function () {
+                        @if (!$emailVerified)
+                            showModal('emailVerificationModal');
+                        @else
+                            showModal('overlayInterests');
+                        @endif
+                    });
+                });
+                let arrows = document.querySelectorAll(".arrow");
+
+                arrows.forEach((elem) => {
+                    elem.addEventListener("click", function (event) {
+                        console.log('click');
+
+                        arrow = event.target.parentNode.parentNode.lastElementChild;
+                        if (arrow.style.display == "none") {
+                            arrow.style.display = "block";
+                            event.target.innerHTML = "keyboard_arrow_down";
+                        }
+                        else {
+                            arrow.style.display = "none";
+                            event.target.innerHTML = "keyboard_arrow_right";
+                        }
+                    });
                 });
             });
         </script>

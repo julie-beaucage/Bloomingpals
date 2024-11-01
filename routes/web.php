@@ -9,6 +9,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\InterestsController;
 use App\Http\Controllers\CustomVerificationController;
 use App\Http\Controllers\PersonalityController;
+use App\Http\Controllers\NotificationController;
 
 
 
@@ -28,6 +29,11 @@ Route::post('/signIn', [UsersController::class, 'create'])->name('signin');
 Route::post('/login', [UsersController::class, 'login'])->name('login');
 Route::get('/logout', [UsersController::class, 'logout'])->name('logout');
 
+//more profile cuz cors dont work
+Route::post('profile/checkPassword', [UsersController::class, 'checkPassword']);
+Route::post('/profile/checkEmail', [UsersController::class, 'isEmailTaken']);
+Route::post('/profile/updateAccount', [UsersController::class, 'updateAccount']);
+
 Route::middleware('auth')->group(function () {
     
     // Home
@@ -46,6 +52,11 @@ Route::middleware('auth')->group(function () {
     Route::get('profile/events/{id}', [UsersController::class, 'events'])->name('profile.events');
     Route::get('profile/rencontres/{id}', [UsersController::class, 'rencontres'])->name('profile.rencontres');
     Route::post('/verification/resend', [UsersController::class, 'resend'])->name('verification.resend');
+    Route::post('profile/update/confidentiality/{id}', [UsersController::class, 'updateConfidentiality'])->name('profile.update.confidentiality');
+    Route::post('profile/checkPassword', [UsersController::class, 'checkPassword'])->name('profile.checkPassword');
+    Route::post('/profile/checkEmail', [UsersController::class, 'isEmailTaken']);
+    Route::post('/profile/updateAccount', [UsersController::class, 'updateAccount']);
+    
 
     //INTERET
     Route::get('interets/interets/{id}', [InterestsController::class, 'interets'])->name('interets.interets');
@@ -61,12 +72,15 @@ Route::middleware('auth')->group(function () {
     
 
     // Meetup
-    Route::get('/meetupForm', [MeetupController::class, 'Form']);
-    Route::get('/meetupForm/{id}', [MeetupController::class, 'Form'])->name('meetupForm');
     Route::post('/meetup/create', [MeetupController::class, 'create']);
+    Route::post('/meetup/create/{isEvent}', [MeetupController::class, 'create']);
     Route::post('/meetup/edit/{id}', [MeetupController::class, 'edit'])->where('id', '[0-9]+');
     Route::get('/meetup', [MeetupController::class, 'index'])->name('meetup');
     Route::get('/meetup/delete/{id}', [MeetupController::class, 'delete'])->where('id', '[0-9]+');
+    Route::get('/meetup/form', [MeetupController::class, 'form']);
+    Route::get('/meetup/form/{id}', [MeetupController::class, 'form']);
+    Route::get('/meetup/form/event/{id}', [MeetupController::class, 'formEvent']);
+    Route::get('/meetup/interests/{id}', [MeetupController::class, 'interests']);
 
 
     Route::get('/meetup/{meetupId}', [MeetupController::class, 'MeetupPage'])->name('meetupPage');
@@ -83,6 +97,7 @@ Route::middleware('auth')->group(function () {
 
     // Event
     Route::get('/event/{id}', [EventController::class, 'event'])->name('event');
+    Route::get('/event/interests/{id}', [EventController::class, 'interests']);
 
     // Search
     Route::get('/search', [SearchController::class, 'search'])->name('search');
@@ -99,4 +114,12 @@ Route::middleware('auth')->group(function () {
     Route::get("user/friend/request/refuse/{id}", [UsersController::class, "RefuseFriendRequest"])->name("RefuseFriendRequest");
     Route::get("user/friend/request/cancel/{id}", [UsersController::class, "CancelFriendRequest"])->name("CancelFriendRequest");
     Route::get("user/friend/remove/{id}", [UsersController::class, "RemoveFriend"])->name("RemoveFriend");
+
+    // Notification
+    Route::get('/getNewNotification', [NotificationController::class, 'getNotification']);
+    Route::get('/ReadNewNotification/{id}', [NotificationController::class, 'markAsRead']);
+    Route::get('/ReadAll', [NotificationController::class, 'readAll']);
+    Route::get('/notifications', [NotificationController::class,'index']);
+    Route::delete('/notifications/delete', [NotificationController::class,'delete']);
+    Route::get('/hasNotificationOn', [NotificationController::class, 'hasNotificationOn']);
 });
