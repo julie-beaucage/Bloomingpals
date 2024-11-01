@@ -15,28 +15,24 @@ class Friendship_Request extends Model
 
     /* you may need to check if the other user already sent a request*/
     public static function AddFriendRequest($user1, $user2) {
-        if (!Friendship_Request::SenderGotRefuse($user1, $user2)) {
-            if (Friendship_Request::SenderGotRefuse($user2, $user1)) {
-                $request = Friendship_Request::where("id_user_send", $user1)->where("id_user_receive", $user2);
-                $request->update([
-                    "state" => "Sent"
-                ]);
-            } else {
-                $user = Friendship_Request::where("id_user_send", $user1)->where("id_user_receive", $user2);
-                if ($user->count() == 0) {
-                    $request = [
-                        "id_user_send" => $user1,
-                        "id_user_receive" => $user2,
-                        "state" => 'Sent'
-                    ];
-                    Friendship_Request::Create($request);
-                }
+        if (!Friendship_Request::IsRefuse($user1, $user2)) {
+            if (Friendship_Request::IsRefuse($user2, $user1)) {
+                $request = Friendship_Request::where("id_user_send", $user2)->where("id_user_receive", $user1)->delete();
+            } 
+            $user = Friendship_Request::where("id_user_send", $user1)->where("id_user_receive", $user2);
+            if ($user->count() == 0) {
+                $request = [
+                    "id_user_send" => $user1,
+                    "id_user_receive" => $user2,
+                    "state" => 'Sent'
+                ];
+                Friendship_Request::Create($request);
             }
         }
     }
 
-    public static function SenderGotRefuse($user1, $user2) {
-        $receive = Friendship_Request::where("id_user_send", $user2)->where("id_user_receive", $user1);
+    public static function IsRefuse($user1, $user2) {
+        $receive = Friendship_Request::where("id_user_send", $user1)->where("id_user_receive", $user2);
         if ($receive->count() > 0) {
             if ($receive->get()->first()->state == "Refused") {
                 return true;
