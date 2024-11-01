@@ -191,7 +191,7 @@ class UsersController extends Controller
                 $relation = "Refuse";
             }
         }
-        return view('profile.profile', compact('user', 'profileCompletionPercentage', 'emailVerified', 'interestsSelected', 'personalityTestDone', 'relation', 'reportsReasons','modified', 'haveAccess'));
+        return view('profile.profile', compact('user', 'profileCompletionPercentage', 'emailVerified', 'interestsSelected', 'personalityTestDone', 'relation','modified', 'haveAccess'));
     }
 
 
