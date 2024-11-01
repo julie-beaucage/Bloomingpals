@@ -43,7 +43,7 @@ $(document).ready(function () {
                 img_src = img +image;
                 profile_link = '/profile/' + parsedData.user_send.id;
                 header_text = truncatee(parsedData.user_send.first_name + ' ' + parsedData.user_send.last_name, 40);
-                linking = '/profile/' + parsedData.user_receive+'?tab=profile%2Famis';
+                linking = '/profile/' + parsedData.user_send.id;
                 content = parsedData.message;
                 break;
 
@@ -53,7 +53,7 @@ $(document).ready(function () {
                 img_src =img + image;
                 profile_link = '/profile/' + parsedData.user_send.id;
                 header_text = truncatee(parsedData.user_send.first_name + ' ' + parsedData.user_send.last_name, 40);
-                linking = '/profile/' + parsedData.user_receive+ '?tab=profile%2Famis';
+                linking = '/profile/' + parsedData.user_send.id;
                 content = parsedData.message;
                 break;
 

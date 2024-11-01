@@ -314,6 +314,17 @@ label {
     gap: 1em;
 }
 
+.btn-meetup{
+    border: none;
+    border-radius: 0.25em;
+    padding: 0.5em 1em;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    width: -moz-fit-content;
+    text-align: center;
+    color: white;
+}
 
 
 
@@ -334,5 +345,6 @@ label {
         flex:3;
     }
 }
+
 
 
