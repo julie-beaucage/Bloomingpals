@@ -10,8 +10,6 @@ use Illuminate\Database\QueryException;
 use App\Models\User;
 use App\Models\Meetup;
 use App\Models\Event;
-use App\Models\Report;
-use App\Models\Object_Type;
 use App\Models\Relation;
 use App\Models\Friendship_Request;
 use Illuminate\Support\Facades\Storage;
@@ -360,10 +358,6 @@ class UsersController extends Controller
     public function rencontres($id) {
         $MeetupsData = Meetup::GetMeetupsFromUser($id);
         return view("profile.events", ["eventsData" => $MeetupsData, "type" => "rencontre"]);
-    }
-    public function ReportUser(Request $request) {
-        Report::AddReport(Auth::user()->id, $request["userId"], $request["object"], $request["objectTypeId"]);
-        return $this->profile($request["userId"]);
     }
 
 }
