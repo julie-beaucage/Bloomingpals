@@ -70,6 +70,7 @@ form {
     display: flex;
     flex-direction: column;
     gap: 1.5em;
+    margin: 0;
 }
 
 .text-input {

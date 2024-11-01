@@ -129,13 +129,15 @@ class NotificationsListener
 
             //  add notification to database;
             $content = json_encode($data);
-            $event->type = Type_Notification::where('name', $event->type)->first()->id;
+            $event->type = Type_Notification::where('name', $event->type)->first();
 
-            DB::statement("Call addNewNotification(?,?,?)", [
-                $event->user_receive,
-                $event->type,
-                $content
-            ]);
+            if ($event->type != null) {
+                DB::statement("Call addNewNotification(?,?,?)", [
+                    $event->user_receive,
+                    $event->type->id,
+                    $content
+                ]);
+            }
 
         }
 
