@@ -169,8 +169,6 @@
 
                 $('body').append(pop_up_box);
             }
-
-
             const crsf = $('meta[name="csrf-token"]').attr('content');
             function removePop() {
                 $('.pop-up-overlay').remove();
@@ -191,7 +189,6 @@
                 $('#feedback-account-email').removeClass('invalid-feedback').text("");
             }
             function showModal(modalId) {
-                console.log(document.body.innerHTML);
                 document.getElementById(modalId).style.display = 'flex';
             }
 
@@ -205,6 +202,13 @@
                 @else
                     localStorage.removeItem('personalityAnswers');
                     window.location.href = "{{ route('personality.test') }}";
+                @endif
+            }
+            function handlePersonalityInteretClick() {
+                @if (!$emailVerified)
+                    showModal('emailVerificationModal');
+                @else
+                    showModal('overlayInterests');
                 @endif
             }
 
@@ -275,16 +279,13 @@
 
                     let error = false;
 
-
                     if (data.get('password') != data.get('password2')) {
-                        msg = "Les mots de passe sont différents";
-                        $("#password-account").addClass('is-invalid');
-                        $('#feedback-new-password').addClass('invalid-feedback').text(msg);
-
-                        $("#password-account2").addClass('is-invalid');
-                        $('#feedback-new-password2').addClass('invalid-feedback').text(msg);
+                        const msg = "Les mots de passe sont différents";
+                        $("#password-account, #password-account2").addClass('is-invalid');
+                        $('#feedback-new-password, #feedback-new-password2').addClass('invalid-feedback').text(msg);
                         error = true;
                     }
+
                     if (data.get('email') !== '') {
                         try {
                             const result = await new Promise((resolve) => {
@@ -298,76 +299,50 @@
                                 });
                             });
 
-                            // Check the result
+                            // Vérifier le résultat
                             if (result == 1) {
                                 $("#email").addClass('is-invalid');
                                 $('#feedback-account-email').addClass('invalid-feedback').text("Email déjà utilisé");
                                 error = true;
                             } else {
                                 $("#email").removeClass('is-invalid');
-                                $('#feedback-account-email').removeClassClass('invalid-feedback').text("");
+                                $('#feedback-account-email').removeClass('invalid-feedback').text("");
                             }
-
                         } catch (er) { }
                     }
-                    if (error == false) {
-                        console.log("s");
-                        account_settings_form = true;
+
+                    if (!error) {
                         $("#account-settings").modal('hide');
                         $.ajax({
                             url: '/profile/updateAccount',
                             type: "POST",
-                            data: {email:$('#email').val(),password:$('#password-account').val(), _token:crsf},
+                            data: { email: $('#email').val(), password: $('#password-account').val(), _token: crsf },
                             success: function (res) {
                                 Confirmm();
                             }
                         });
                     }
-
                 });
 
-                document.addEventListener("DOMContentLoaded", function () {
-                    $("#profile-content").on("DOMSubtreeModified", function () {
-                        $(".close").each(function () {
-                            $(this).click(function () {
-                                const modalId = $(this).data("modal-id");
-                                closeModal(modalId);
-                            });
+                $("#profile-content").on("DOMSubtreeModified", function () {
+                    $(".close").each(function () {
+                        $(this).click(function () {
+                            const modalId = $(this).data("modal-id");
+                            closeModal(modalId);
                         });
                     });
-
-                    // $(document).on("click", "#openProfileOverlay", function () {
-                    //     showModal("overlayProfile");
-                    // });
-
-                    $(document).on("click", "#openInterestOverlay", function () {
-                        @if (!$emailVerified)
-                            showModal('emailVerificationModal');
-                        @else
-                            showModal('overlayInterests');
-                        @endif
-                    });
                 });
-                let arrows = document.querySelectorAll(".arrow");
 
+                let arrows = document.querySelectorAll(".arrow");
                 arrows.forEach((elem) => {
                     elem.addEventListener("click", function (event) {
-                        console.log('click');
-
-                        arrow = event.target.parentNode.parentNode.lastElementChild;
-                        if (arrow.style.display == "none") {
-                            arrow.style.display = "block";
-                            event.target.innerHTML = "keyboard_arrow_down";
-                        }
-                        else {
-                            arrow.style.display = "none";
-                            event.target.innerHTML = "keyboard_arrow_right";
-                        }
+                        const arrow = event.target.parentNode.parentNode.lastElementChild;
+                        arrow.style.display = (arrow.style.display == "none") ? "block" : "none";
+                        event.target.innerHTML = (arrow.style.display == "block") ? "keyboard_arrow_down" : "keyboard_arrow_right";
                     });
                 });
             });
         </script>
-
         <script>
             $(document).ready(function () {
                 var img = document.getElementById("background_img");
