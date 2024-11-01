@@ -8,9 +8,9 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
 use App\Models\User;
-use App\Models\Event;
-use App\Models\Meetup;
+use App\Models\Report;
 use App\Models\Relation;
+use App\Models\Object_Type;
 use App\Models\Friendship_Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
@@ -141,6 +141,8 @@ class UsersController extends Controller
     }
     public function profile($id,$modified =false)
     {
+        Log::info("Appel du contrôleur profile pour l'utilisateur avec ID: " . $id);
+
         $user = User::find($id);
 
         if (!$user) {
@@ -167,6 +169,7 @@ class UsersController extends Controller
 
 
         $relation = Relation::GetRelationUsers(Auth::user()->id, $id);
+        $reportsReasons = Object_Type::all();
 
         if ($relation == 'GotBlocked') {
             return redirect()->back();
@@ -180,8 +183,7 @@ class UsersController extends Controller
                 $relation = "Refuse";
             }
         }
-
-        return view('profile.profile', compact('user', 'profileCompletionPercentage', 'emailVerified', 'interestsSelected', 'personalityTestDone', 'relation','modified'));
+        return view('profile.profile', compact('user', 'profileCompletionPercentage', 'emailVerified', 'interestsSelected', 'personalityTestDone', 'relation', 'reportsReasons','modified'));
     }
 
 
@@ -244,11 +246,9 @@ class UsersController extends Controller
     }
     public function updateConfidentiality(Request $req, $id)
     {
-
         if ($req->confidentiality != null and $id != null and $req->notification != null) {
             DB::table('users')->where('id', '=', $id)->update(['confidentiality' => $req->confidentiality, 'notification' => $req->notification]);
             DB::commit();
-
             return redirect('/profile/'.Auth::user()->id);
         }
     }
@@ -267,7 +267,6 @@ class UsersController extends Controller
     }
     public function updateAccount(Request $req)
     {
-
         if ($req->password == null) {
             $req->password = "";
         } else {
@@ -281,11 +280,9 @@ class UsersController extends Controller
             $req->password,
             $req->email
         ]);
-
         if ($req->email != "") {
             Auth::user()->sendEmailVerificationNotification();
         }
-
         return http_response_code(200);
     }
 
@@ -307,58 +304,52 @@ class UsersController extends Controller
             Friendship_Request::AddFriendRequest(Auth::user()->id, $id);
             event(new NewNotif($id,Auth::user()->id,'Friendship Request',[]));
         }
-
         return redirect()->back();
     }
 
     public function AcceptFriendRequest($id)
     {
         if (Auth::user()->id != $id) {
-            Friendship_Request::AcceptFriendRequest($id, Auth::user()->id);
+            Friendship_Request::AcceptFriendRequest(Auth::user()->id, $id);
             Relation::AddFriend(Auth::user()->id, $id);
             event(new NewNotif($id,Auth::user()->id,'Friendship Accept',[]));
         }
-
         return redirect()->back();
     }
     public function RefuseFriendRequest($id)
     {
         if (Auth::user()->id != $id) {
-            Friendship_Request::RefuseFriendRequest($id, Auth::user()->id);
+            Friendship_Request::RefuseFriendRequest(Auth::user()->id, $id);
         }
-
         return redirect()->back();
     }
-
     public function CancelFriendRequest($id)
     {
         if (Auth::user()->id != $id) {
             Friendship_Request::CancelFriendRequest(Auth::user()->id, $id);
         }
-
         return redirect()->back();
     }
-
     public function RemoveFriend($id)
     {
         if (Auth::user()->id != $id) {
             Friendship_Request::RemoveFriendRequest(Auth::user()->id, $id);
             Relation::RemoveFriend(Auth::user()->id, $id);
         }
-
         return redirect()->back();
     }
-
     public function events($id)
     {
         $eventsData = Event::GetEventsFromUser($id);
         return view("profile.events", ["eventsData" => $eventsData, "type" => "event"]);
     }
-
     public function rencontres($id)
     {
         $MeetupsData = Meetup::GetMeetupsFromUser($id);
         return view("profile.events", ["eventsData" => $MeetupsData, "type" => "rencontre"]);
     }
-
+    public function ReportUser(Request $request) {
+        Report::AddReport(Auth::user()->id, $request["userId"], $request["object"], $request["objectTypeId"]);
+        return $this->profile($request["userId"]);
+    }
 }
