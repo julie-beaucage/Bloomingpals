@@ -11,7 +11,6 @@
 @endsection()
 @php
     $userPersonality = Auth::user()->getPersonalityType();
-
 @endphp
 
 @include('profile.settings-page')
@@ -53,7 +52,6 @@
             @endif
         </h1>
         @if (Auth::user()->id == $user->id)
-
             @if ($profileCompletionPercentage < 100)
                 <div class="alert alert-warning mt-3">
                     <h5>Vérification du profil :</h5>
@@ -111,43 +109,52 @@
         @endif
 
         <div class="containerOnglerMain">
-            <div class="listOnglet">
-                <ul class="nav nav-tabs justify-content-center" id="main-tabs">
-                    <li class="nav-item">
-                        <a class="nav-link tab-link no_wrap {{ request()->is('interets/*/interets') || !request()->is('profile/*') ? 'active' : '' }}"
-                            href="{{ route('interets.interets', $user->id) }}"
-                            data-target="interets/interests">Intérêts</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link tab-link no_wrap {{ request()->is('profile/amis') ? 'active' : '' }}"
-                            href="{{ route('profile.amis', $user->id) }}" data-target="profile/amis">Mes pals</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link tab-link no_wrap {{ request()->is('profile/personnalite') ? 'active' : '' }}"
-                            href="{{ route('profile.personnalite', $user->id) }}"
-                            data-target="profile/personnalite">Personnalité</a>
-                    </li>
-                    <li class="nav-item dropdown" id="more-dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="moreDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Plus
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="moreDropdown">
-                            <li class="nav-item" title="Events">
-                                <a class="nav-link tab-link {{ request()->is('profile/events') ? 'active' : '' }}"
-                                    href="{{ route('profile.events', $user->id) }}"
-                                    data-target="profile/events">Événement</a>
-                            </li>
-                            <li class="nav-item" title="Rencontres">
-                                <a class="nav-link tab-link {{ request()->is('profile/rencontres') ? 'active' : '' }}"
-                                    href="{{ route('profile.rencontres', $user->id) }}"
-                                    data-target="profile/rencontres">Rencontres</a>
-                            </li>
-                        </ul>
-                    <li>
-                </ul>
+
+            @if ($haveAccess)
+                <div class="listOnglet">
+                    <ul class="nav nav-tabs justify-content-center" id="main-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link tab-link no_wrap {{ request()->is('interets/*/interets') || !request()->is('profile/*') ? 'active' : '' }}"
+                                href="{{ route('interets.interets', $user->id) }}"
+                                data-target="interets/interests">Intérêts</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link tab-link no_wrap {{ request()->is('profile/amis') ? 'active' : '' }}"
+                                href="{{ route('profile.amis', $user->id) }}" data-target="profile/amis">Mes pals</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link tab-link no_wrap {{ request()->is('profile/personnalite') ? 'active' : '' }}"
+                                href="{{ route('profile.personnalite', $user->id) }}"
+                                data-target="profile/personnalite">Personnalité</a>
+                        </li>
+                        <li class="nav-item dropdown" id="more-dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="moreDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Plus
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="moreDropdown">
+                                <li class="nav-item" title="Events">
+                                    <a class="nav-link tab-link {{ request()->is('profile/events') ? 'active' : '' }}"
+                                        href="{{ route('profile.events', $user->id) }}"
+                                        data-target="profile/events">Événement</a>
+                                </li>
+                                <li class="nav-item" title="Rencontres">
+                                    <a class="nav-link tab-link {{ request()->is('profile/rencontres') ? 'active' : '' }}"
+                                        href="{{ route('profile.rencontres', $user->id) }}"
+                                        data-target="profile/rencontres">Rencontres</a>
+                                </li>
+                            </ul>
+                        <li>
+                    </ul>
+                </div>
+            @endif
+            <div id="profile-content" class="onglet_profile">
+                @if (!$haveAccess)
+                    <div class="private-message">
+                        <span>Ce profile est privé.</span>
+                    </div>
+                @endif
             </div>
-            <div id="profile-content" class="onglet_profile"></div>
         </div>
         @endsection()
 
