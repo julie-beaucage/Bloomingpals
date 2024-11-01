@@ -141,6 +141,8 @@ class UsersController extends Controller
     }
     public function profile($id,$modified =false)
     {
+        Log::info("Appel du contrôleur profile pour l'utilisateur avec ID: " . $id);
+
         $user = User::find($id);
 
         if (!$user) {
@@ -166,6 +168,7 @@ class UsersController extends Controller
         $profileCompletionPercentage = round($profileCompletionPercentage);
 
         $relation = Relation::GetRelationUsers(Auth::user()->id, $id);
+        $reportsReasons = Object_Type::all();
 
         $haveAccess = false;
 
@@ -318,7 +321,7 @@ class UsersController extends Controller
     public function AcceptFriendRequest($id)
     {
         if (Auth::user()->id != $id) {
-            Friendship_Request::AcceptFriendRequest($id, Auth::user()->id);
+            Friendship_Request::AcceptFriendRequest(Auth::user()->id, $id);
             Relation::AddFriend(Auth::user()->id, $id);
             event(new NewNotif($id,Auth::user()->id,'Friendship Accept',[]));
         }
@@ -327,7 +330,7 @@ class UsersController extends Controller
     public function RefuseFriendRequest($id)
     {
         if (Auth::user()->id != $id) {
-            Friendship_Request::RefuseFriendRequest($id, Auth::user()->id);
+            Friendship_Request::RefuseFriendRequest(Auth::user()->id, $id);
         }
         return redirect()->back();
     }
