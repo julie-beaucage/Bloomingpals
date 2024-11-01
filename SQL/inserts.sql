@@ -32,6 +32,12 @@ INSERT INTO categories_interests (name) VALUES
 ('Social'),
 ('Art');
 
+-- Notifications types
+Insert INTO types_notifications (name) Values('Meetup Request');
+Insert INTO types_notifications (name) Values('Friendship Request');
+Insert INTO types_notifications (name) Values('Meetup Interest');
+Insert INTO types_notifications (name) Values('Friendship Accept');
+
 -- Sport
 INSERT INTO interests (name, id_category) VALUES ('Bowling', 1);
 INSERT INTO interests (name, id_category) VALUES ('Tennis', 1);

@@ -15,6 +15,8 @@ use App\Models\Friendship_Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use App\Models\User_Interest;
+use App\Events\NewNotif;
+use Symfony\Component\HttpKernel\Profiler\Profile;
 
 class UsersController extends Controller
 {
@@ -105,6 +107,10 @@ class UsersController extends Controller
         if (auth()->attempt($data)) {
             $request->session()->regenerate();
             $id = auth()->user()->id;
+            $notifController = new NotificationController();
+            $notifController->sendAllToNoficationTable($id);
+            $notifController->sendDailyNotification();
+
             return redirect('/profile/' . $id)->with('message', 'Bienvenue sur BloomingPals, ' . auth()->user()->prenom);
         }
         return back()->withErrors(['email' => 'Le courriel et le mot de passe ne correspondent pas'])->onlyInput('email');
@@ -114,10 +120,10 @@ class UsersController extends Controller
     public function resend(Request $request)
     {
         $user = Auth::user();
-         Log::info("resend fonction");
+        Log::info("resend fonction");
 
         if ($user) {
-         Log::info("renvoie de courriel fait ");
+            Log::info("renvoie de courriel fait ");
 
             $user->sendEmailVerificationNotification();
             return redirect()->back()->with('message', 'Un lien de vérification a été renvoyé à votre adresse email.');
@@ -126,10 +132,6 @@ class UsersController extends Controller
         return redirect()->back()->with('error', 'Utilisateur non authentifié.');
     }
 
-
-
-
-
     public function logout(Request $request)
     {
         Auth::logout();
@@ -137,7 +139,7 @@ class UsersController extends Controller
         $request->session()->regenerateToken();
         return redirect('/login');
     }
-    public function profile($id)
+    public function profile($id,$modified =false)
     {
         $user = User::find($id);
 
@@ -163,8 +165,19 @@ class UsersController extends Controller
         $profileCompletionPercentage = ($profileCompletion / 3) * 100;
         $profileCompletionPercentage = round($profileCompletionPercentage);
 
-        
         $relation = Relation::GetRelationUsers(Auth::user()->id, $id);
+
+        $haveAccess = false;
+
+        if ($user->confidentiality == "prive" && $user->id == Auth::user()->id) {
+            $haveAccess = true;
+        } else if ($user->confidentiality == "friends" && ($relation == "Friend" || $user->id == Auth::user()->id)) {
+            $haveAccess = true;
+        } else if ($user->confidentiality == "public") {
+            $haveAccess = true;
+        }
+
+
 
         if ($relation == 'GotBlocked') {
             return redirect()->back();
@@ -178,8 +191,7 @@ class UsersController extends Controller
                 $relation = "Refuse";
             }
         }
-
-        return view('profile.profile', compact('user', 'profileCompletionPercentage', 'emailVerified', 'interestsSelected', 'personalityTestDone', 'relation'));
+        return view('profile.profile', compact('user', 'profileCompletionPercentage', 'emailVerified', 'interestsSelected', 'personalityTestDone', 'relation', 'reportsReasons','modified', 'haveAccess'));
     }
 
 
@@ -229,56 +241,109 @@ class UsersController extends Controller
         }
     }
 
+    public function checkPassword(Request $req)
+    {
+        $data = array(
+            "email" => Auth::user()->email,
+            "password" => $req['password']
+        );
+        if (auth()->attempt($data)) {
+            return 1;
+        }
+        return 'Le mot de passe ne correspond pas';
+    }
+    public function updateConfidentiality(Request $req, $id)
+    {
+        if ($req->confidentiality != null and $id != null and $req->notification != null) {
+            DB::table('users')->where('id', '=', $id)->update(['confidentiality' => $req->confidentiality, 'notification' => $req->notification]);
+            DB::commit();
+            return redirect('/profile/'.Auth::user()->id);
+        }
+    }
+
+    public function isEmailTaken(Request $req)
+    {
+        if (Auth::user()->id != null and $req->email != null) {
+            $emailTaken = User::where('email', '=', $req->email)->first();
+
+            if ($emailTaken != null) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+    }
+    public function updateAccount(Request $req)
+    {
+        if ($req->password == null) {
+            $req->password = "";
+        } else {
+            $req->password = bcrypt($req->password);
+        }
+        if ($req->email == null) {
+            $req->email = "";
+        }
+        DB::statement("CALL updateAccount(?, ?, ?)", [
+            Auth::user()->id,
+            $req->password,
+            $req->email
+        ]);
+        if ($req->email != "") {
+            Auth::user()->sendEmailVerificationNotification();
+        }
+        return http_response_code(200);
+    }
+
     public function amis($id)
     {
         $user = User::find($id);
         $users = Relation::GetFriends($id);
-        return view('profile.amis', compact('user', 'users'));    
+        return view('profile.amis', compact('user', 'users'));
     }
 
-    public function personnalite($id) {
+    public function personnalite($id)
+    {
         return view('profile.personnalite', ['user' => User::findOrFail($id)]);
     }
 
-    public function SendFriendRequest($id) {
+    public function SendFriendRequest($id)
+    {
         if (Auth::user()->id != $id) {
             Friendship_Request::AddFriendRequest(Auth::user()->id, $id);
+            event(new NewNotif($id,Auth::user()->id,'Friendship Request',[]));
         }
-
         return redirect()->back();
     }
 
-    public function AcceptFriendRequest($id) {
-
+    public function AcceptFriendRequest($id)
+    {
         if (Auth::user()->id != $id) {
             Friendship_Request::AcceptFriendRequest($id, Auth::user()->id);
             Relation::AddFriend(Auth::user()->id, $id);
+            event(new NewNotif($id,Auth::user()->id,'Friendship Accept',[]));
         }
-
         return redirect()->back();
     }
-    public function RefuseFriendRequest($id) {
+    public function RefuseFriendRequest($id)
+    {
         if (Auth::user()->id != $id) {
             Friendship_Request::RefuseFriendRequest($id, Auth::user()->id);
         }
-
         return redirect()->back();
     }
-
-    public function CancelFriendRequest($id) {
+    public function CancelFriendRequest($id)
+    {
         if (Auth::user()->id != $id) {
             Friendship_Request::CancelFriendRequest(Auth::user()->id, $id);
         }
-
         return redirect()->back();
     }
-
-    public function RemoveFriend($id) {
+    public function RemoveFriend($id)
+    {
         if (Auth::user()->id != $id) {
             Friendship_Request::RemoveFriendRequest(Auth::user()->id, $id);
             Relation::RemoveFriend(Auth::user()->id, $id);
         }
-
         return redirect()->back();
     }
 
