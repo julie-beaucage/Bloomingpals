@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
-
+use App\Events\NewNotif;
 class Meetup_Request extends Model
 {
     protected $table= 'meetups_requests';
@@ -70,6 +70,8 @@ class Meetup_Request extends Model
             $demandeRecontre->id_meetup = $meetupId;
             $demandeRecontre->state = 'Sent';
             $demandeRecontre->save();
+            $meetup =Meetup::where('id',$meetupId)->first();
+            event(new NewNotif($meetup->id_owner,$userId,'Meetup Request',[]));
         }
     }
 
