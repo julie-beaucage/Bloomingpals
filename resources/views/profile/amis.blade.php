@@ -6,7 +6,7 @@ use illuminate\Support\Facades\Auth;
 use Mockery\Undefined;
 
 if (count($users)  == 0) {
-    echo '';
+    echo "Vous n'avez pas d'amis";
     return;
 }
 
