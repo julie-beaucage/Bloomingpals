@@ -167,9 +167,20 @@ class UsersController extends Controller
         $profileCompletionPercentage = ($profileCompletion / 3) * 100;
         $profileCompletionPercentage = round($profileCompletionPercentage);
 
-
         $relation = Relation::GetRelationUsers(Auth::user()->id, $id);
         $reportsReasons = Object_Type::all();
+
+        $haveAccess = false;
+
+        if ($user->confidentiality == "prive" && $user->id == Auth::user()->id) {
+            $haveAccess = true;
+        } else if ($user->confidentiality == "friends" && ($relation == "Friend" || $user->id == Auth::user()->id)) {
+            $haveAccess = true;
+        } else if ($user->confidentiality == "public") {
+            $haveAccess = true;
+        }
+
+
 
         if ($relation == 'GotBlocked') {
             return redirect()->back();
@@ -183,7 +194,7 @@ class UsersController extends Controller
                 $relation = "Refuse";
             }
         }
-        return view('profile.profile', compact('user', 'profileCompletionPercentage', 'emailVerified', 'interestsSelected', 'personalityTestDone', 'relation', 'reportsReasons','modified'));
+        return view('profile.profile', compact('user', 'profileCompletionPercentage', 'emailVerified', 'interestsSelected', 'personalityTestDone', 'relation', 'reportsReasons','modified', 'haveAccess'));
     }
 
 

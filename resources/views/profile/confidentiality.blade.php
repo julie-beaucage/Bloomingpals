@@ -54,7 +54,7 @@
                         <div class="form-check" style="margin-bottom:.5em;">
                             <input class="form-check-input" type="radio" name="confidentiality" id="friends"
                                 value="friends">
-                            <label class="form-check-label" for="public">
+                            <label class="form-check-label" for="friends">
                                 Amis
                             </label>
                         </div>
