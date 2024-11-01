@@ -10,9 +10,7 @@ use Illuminate\Database\QueryException;
 use App\Models\User;
 use App\Models\Meetup;
 use App\Models\Event;
-use App\Models\Report;
 use App\Models\Relation;
-use App\Models\Object_Type;
 use App\Models\Friendship_Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
@@ -143,8 +141,6 @@ class UsersController extends Controller
     }
     public function profile($id,$modified =false)
     {
-        Log::info("Appel du contrôleur profile pour l'utilisateur avec ID: " . $id);
-
         $user = User::find($id);
 
         if (!$user) {
@@ -169,9 +165,19 @@ class UsersController extends Controller
         $profileCompletionPercentage = ($profileCompletion / 3) * 100;
         $profileCompletionPercentage = round($profileCompletionPercentage);
 
-
         $relation = Relation::GetRelationUsers(Auth::user()->id, $id);
-        $reportsReasons = Object_Type::all();
+
+        $haveAccess = false;
+
+        if ($user->confidentiality == "prive" && $user->id == Auth::user()->id) {
+            $haveAccess = true;
+        } else if ($user->confidentiality == "friends" && ($relation == "Friend" || $user->id == Auth::user()->id)) {
+            $haveAccess = true;
+        } else if ($user->confidentiality == "public") {
+            $haveAccess = true;
+        }
+
+
 
         if ($relation == 'GotBlocked') {
             return redirect()->back();
@@ -185,7 +191,7 @@ class UsersController extends Controller
                 $relation = "Refuse";
             }
         }
-        return view('profile.profile', compact('user', 'profileCompletionPercentage', 'emailVerified', 'interestsSelected', 'personalityTestDone', 'relation', 'reportsReasons','modified'));
+        return view('profile.profile', compact('user', 'profileCompletionPercentage', 'emailVerified', 'interestsSelected', 'personalityTestDone', 'relation', 'reportsReasons','modified', 'haveAccess'));
     }
 
 
@@ -312,7 +318,7 @@ class UsersController extends Controller
     public function AcceptFriendRequest($id)
     {
         if (Auth::user()->id != $id) {
-            Friendship_Request::AcceptFriendRequest(Auth::user()->id, $id);
+            Friendship_Request::AcceptFriendRequest($id, Auth::user()->id);
             Relation::AddFriend(Auth::user()->id, $id);
             event(new NewNotif($id,Auth::user()->id,'Friendship Accept',[]));
         }
@@ -321,7 +327,7 @@ class UsersController extends Controller
     public function RefuseFriendRequest($id)
     {
         if (Auth::user()->id != $id) {
-            Friendship_Request::RefuseFriendRequest(Auth::user()->id, $id);
+            Friendship_Request::RefuseFriendRequest($id, Auth::user()->id);
         }
         return redirect()->back();
     }
@@ -340,18 +346,15 @@ class UsersController extends Controller
         }
         return redirect()->back();
     }
-    public function events($id)
-    {
+
+    public function events($id) {
         $eventsData = Event::GetEventsFromUser($id);
         return view("profile.events", ["eventsData" => $eventsData, "type" => "event"]);
     }
-    public function rencontres($id)
-    {
+
+    public function rencontres($id) {
         $MeetupsData = Meetup::GetMeetupsFromUser($id);
         return view("profile.events", ["eventsData" => $MeetupsData, "type" => "rencontre"]);
     }
-    public function ReportUser(Request $request) {
-        Report::AddReport(Auth::user()->id, $request["userId"], $request["object"], $request["objectTypeId"]);
-        return $this->profile($request["userId"]);
-    }
+
 }
