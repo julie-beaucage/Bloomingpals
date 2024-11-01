@@ -133,11 +133,11 @@
     <i class="feedback is-wrong" id="imageFeedback"></i>
     <div class="form-flex-col spaced" style="margin: 3em 0 .5em 0; ">
         <div class="form-flex-col flex-600">
-            <button class="btn-primary green expand center" id="submit" type="submit">Enregistrer</button>
-            <button class="btn-primary gray expand center" onclick='window.location.replace("/home");'>Retour</button>
+            <button class="btn-meetup green expand center" id="submit" type="submit">Enregistrer</button>
+            <button class="btn-meetup gray expand center" onclick='window.location.replace("/home");'>Retour</button>
         </div>
         @if($action != "/meetup/create")
-            <div class="btn-primary red expand center" onclick="Confirm('/meetup/delete/{{$data['id']}}')">Effacer le Meetup
+            <div class="btn-meetup red expand center" onclick="Confirm('/meetup/delete/{{$data['id']}}')">Effacer le Meetup
             </div>
         @endif
 

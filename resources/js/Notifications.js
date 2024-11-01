@@ -23,15 +23,15 @@ $(document).ready(function () {
         let linking = "";
         let content = "";
         let image = "";
-        let img_square= parsedData.type=='Meetup Interest'? "square":"";
-        img = window.location.origin+'/';
+        let img_square = parsedData.type == 'Meetup Interest' ? "square" : "";
+        img = window.location.origin + '/';
 
         switch (parsedData.type) {
 
             case 'Meetup Request':
                 image = parsedData.user_send.image_profil == null ? 'images/simple_flower.png' : 'storage/' + parsedData.user_send.image_profil;
 
-                img_src = img +image;
+                img_src = img + image;
                 profile_link = '/profile/' + parsedData.user_send.id;
                 header_text = parsedData.user_send.first_name + ' ' + parsedData.user_send.last_name;
                 linking = '/meetup/' + parsedData.meetup.id;
@@ -40,30 +40,30 @@ $(document).ready(function () {
             case 'Friendship Request':
                 image = parsedData.user_send.image_profil == null ? 'images/simple_flower.png' : 'storage/' + parsedData.user_send.image_profil;
 
-                img_src = img +image;
+                img_src = img + image;
                 profile_link = '/profile/' + parsedData.user_send.id;
                 header_text = truncatee(parsedData.user_send.first_name + ' ' + parsedData.user_send.last_name, 40);
-                linking = '/profile/' + parsedData.user_receive+'?tab=profile%2Famis';
+                linking = '/profile/' + parsedData.user_send.id;
                 content = parsedData.message;
                 break;
 
             case 'Friendship Accept':
                 image = parsedData.user_send.image_profil == null ? 'images/simple_flower.png' : 'storage/' + parsedData.user_send.image_profil;
 
-                img_src =img + image;
+                img_src = img + image;
                 profile_link = '/profile/' + parsedData.user_send.id;
                 header_text = truncatee(parsedData.user_send.first_name + ' ' + parsedData.user_send.last_name, 40);
-                linking = '/profile/' + parsedData.user_receive+ '?tab=profile%2Famis';
+                linking = '/profile/' + parsedData.user_send.id;
                 content = parsedData.message;
                 break;
 
             case 'Meetup Interest':
-                image = parsedData.meetup.image == null ? 'images/meetup_default' + Math.floor((Math.random() * 3)+1) + '.png' : parsedData.meetup.image;
-            
-                img_src = img+  image;
+                image = parsedData.meetup.image == null ? 'images/meetup_default' + Math.floor((Math.random() * 3) + 1) + '.png' : parsedData.meetup.image;
+
+                img_src = img + image;
                 header_text = parsedData.header;
                 linking = "/meetup/" + parsedData.meetup.id;
-                profile_link=linking;
+                profile_link = linking;
                 content = parsedData.message;
                 break;
         }
@@ -71,7 +71,7 @@ $(document).ready(function () {
 
 
         htmlElement = '<div class="notification-container" id="' + parsedData.id_notification + '" linking="' + linking + '">' +
-            '<div class="center-content"><a id="profile-notif" href="' + profile_link + '""><img class="profile-picture-notif '+img_square+'" id="notification-profile-picture" src="' +
+            '<div class="center-content"><a id="profile-notif" href="' + profile_link + '""><img class="profile-picture-notif ' + img_square + '" id="notification-profile-picture" src="' +
             img_src + '"></a></div>' +
             '<div class="notification-content" id="' + parsedData.type + '">' +
             '<div class="header-and-icon">' +
@@ -144,32 +144,33 @@ $(document).ready(function () {
                         type: "GET",
                         url: '/ReadAll',
                     });
-                    notif_read=true;
+                    notif_read = true;
                     $('.notification-badge').each(function () {
                         console.log($(this));
                         $(this).hide();
                     });
 
-                    $('.notif-icon').each(function(){
-                        id=$(this).attr('id');
-                        $(this).parent().append('<span class="material-symbols-rounded close_icon-page" id="'+id+'">close</span>');
+                    $('.notif-icon').each(function () {
+                        id = $(this).attr('id');
+                        $(this).parent().append('<span class="material-symbols-rounded close_icon-page" id="' + id + '">close</span>');
                         $(this).remove();
 
                     });
-                     $(".close_icon-page").on('click', function () {
-        $.ajax({
-            type: "DELETE",
-            url: '/notifications/delete',
-            data:{id: $(this).attr('id'),_token:crsf}
-        });
-        container = $(this).parent().parent().parent().parent();
-        container.addClass('border-red');
+                    $(".close_icon-page").off();
+                    $(".close_icon-page").on('click', function () {
+                        $.ajax({
+                            type: "DELETE",
+                            url: '/notifications/delete',
+                            data: { id: $(this).attr('id'), _token: crsf }
+                        });
+                        container = $(this).parent().parent().parent().parent();
+                        container.addClass('border-red');
 
-        window.setTimeout(function () {
-            container.remove().parent();
-        }, 500);
+                        window.setTimeout(function () {
+                            container.remove().parent();
+                        }, 500);
 
-    });
+                    });
 
                 }, 2 * 1000);
             }
@@ -187,7 +188,7 @@ $(document).ready(function () {
         $.ajax({
             type: "DELETE",
             url: '/notifications/delete',
-            data:{id: $(this).attr('id'),_token:crsf}
+            data: { id: $(this).attr('id'), _token: crsf }
         });
         container = $(this).parent().parent().parent().parent();
         container.addClass('border-red');
