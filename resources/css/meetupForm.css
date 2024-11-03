@@ -1,100 +1,63 @@
-a:hover i,
-a,
-i {
-  text-decoration: none !important;
-  color:var(--text) !important;
-}
-
-.meetup-container {
-    
-    width: 80%;
-    margin-top: 5em;
-    height: -moz-fit-content;
-    height: fit-content;
-}
-
-.meetup-form-container {
-    border: 0.1em solid var(--border);
-    border-radius: 0.8em;
-    padding: 1em;
-    background-color: var(--white);
-    box-sizing: border-box;
-    overflow-y:auto;
-}
-.float-rightt{
-    float:right;
-}
-@media only screen and (max-width: 670px) {
-    .float-rightt {
-        float: none;
-        }
-
-}
-
-.underline {
-    border-bottom: 2px solid var(--pink);
-    padding-bottom: 0.3em;
-}
-
-label {
-    color: #606770;
-    text-align: left;
-    display: block;
-}
-
-input,
-textarea,
-select {
-    background-color: #f7edf7 !important;
-}
-
-.img-preview{
-    width: 100%;
-    max-height: 20em;
-    -o-object-fit: cover;
-       object-fit: cover; -o-object-position: 50% 50%; object-position: 50% 50%;
+.img-preview {
+    width: -moz-fit-content;
+    width: fit-content;
+    max-height: 15em;
+    -o-object-position: 50% 50%;
+    object-position: 50% 50%;
 }
 
 /* drop down css */
 
-.city-dropdown:hover {
-    background-color: #e3dae3 !important;
-}
 
 .city-dropdown-content {
     display: block;
     position: absolute;
-    background-color: #f7edf7;
+    background-color: white;
     overflow: auto;
-    width:calc(100% - 10px);
+    width: 100%;
     border: 1px solid var(--neutral-400);
     z-index: 1;
     max-height: 15em;
     border-radius: 0.5em;
     box-sizing: border-box;
     overflow-x: hidden;
-    
-}
-.city-dropdown-content option:hover {
-    background-color: #e3dae3;
+    top: 3.8em;
+
 }
 
+.city-dropdown-content::-webkit-scrollbar-thumb {
+    background-color: #bfbfbf;
+    border: 4px solid transparent;
+    border-radius: 8px;
+    background-clip: padding-box;
+    height: 2.5em;
+}
+.city-dropdown-content::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+.city-dropdown-content::-webkit-scrollbar {
+    width: .9rem;
+    overflow: overlay;
+}
+
+.city-dropdown-content option:hover {
+    background-color: var(--secondary-300);
+}
 .city-dropdown-content option {
     color: #495057;
     display: block;
     padding: 12px 16px;
 }
-.show{
-    display: block;
+
+.selected {
+    background-color: var(--secondary-100);
 }
-.selected{
-    background-color: var(--background);
-}
-.selected:hover{
-    background-color: var(--background) !important;
-}
+
+
 .city-dropdown-content option:active {
-    background-color:var(--background);
+    background-color: var(--background);
 }
 
 input[type="file"]::file-selector-button {
@@ -102,63 +65,285 @@ input[type="file"]::file-selector-button {
     padding: 0 0.5em;
     cursor: pointer;
     height: 1.94em;
-    background-color:  #f7edf7 !important;
+    background-color: #f7edf7 !important;
     margin-right: 1em;
     border: 1px solid #ced4da;
-    
-    }
 
-  input[type="file"]{
+}
+
+input[type="file"] {
     background-color: var(--background) !important;
-    content:"GRR";
+    content: "GRR";
 
-  }
-.btn-pink{
+}
+
+.btn-pink {
     background-color: var(--pink);
     color: white !important;
 }
 
 
- /* le file uploader */
+/* le file uploader */
 
-.fileUploader-container{
-    border: 0.08em solid var(--border);
-    border-radius: .8em;
-    display: flex;
-    flex-direction: column;
-    width:100%;
- }
-
- .fileUploader-header{
-    display: inline-flex;
-    padding:.5em;
-    border-bottom: 0.08em solid var(--border);
+.fileUploader{
+    border:dashed 2px var(--neutral-600);
+    background-color: var(--neutral-150);
     height: -moz-fit-content;
     height: fit-content;
-    box-sizing: border-box;
- }
- .fileUploader-header-btn{
+    min-height: 7em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.active{
+    border:solid 4px var(--secondary-300);
+}
+.active-image{
+    border:none;
+}
+
+.is-wrong-border {
+    border-color:var(--error) !important;
+}
+
+.is-wrong {
+    color: var(--error) !important;
+}
+
+.feedback {
+    display: block;
+   font-size: .9em;
+   margin-left: .5em;
+}
+
+
+.pop-up-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.50);
+    z-index: 999999;
+
+}
+
+.pop-up {
+
+    display: flex;
+    flex-direction: column;
+    top: .5em;
+    padding: .5em;
+    width: 20em;
+    background-color: white;
+    border-radius: .5em;
+    margin: auto;
+    row-gap: 1em;
+    margin-top: 20%;
+
+}
+
+.close_icon {
+    font-family: 'Material Symbols Rounded';
+    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    font-size: 1.5em !important;
+}
+.image-close{
+    display: flex;
+    align-items: center;
+}
+
+.form-meetup {
+    display: flex;
+    flex-direction: column;
+    margin: 2em 1em 2em 1em;
+    width: 90%;
+    max-width: 900px;
+    justify-content: center;
+}
+
+
+
+.form-meetup>.form-section {
+    display: flex;
+    flex-direction: column;
+    padding: .5em;
+    background-color: var(--neutral-150);
+    border-radius: 5px;
+    gap: 1em;
+
+}
+
+.form-header {
+    font-size: 1.5em;
+    font-weight: 700;
+    border-bottom: solid 2px var(--neutral-900);
+    text-align: center;
+}
+
+input,
+textarea {
+    border: 2px solid var(--neutral-600);
+    border-radius: 4px;
+    height: 1.5em;
+    max-width: calc(100% - .5em);
+    max-height: 10em;
+    font-size: 1em;
+}
+
+.radio-flex {
     width: -moz-fit-content;
     width: fit-content;
-    background-color: var(--background) !important;
-    padding:.2em 0.5em;
-    border: 1px solid #999;
-    border-radius: 3px;
-    font-weight: 700;
-    font-size: 10pt;
-    text-wrap: wrap;
- }
- /*.fileUploader-header-btn::before {
-    content: 'Choisir une image';
-    display: inline-block;
-    background: linear-gradient(top, #f9f9f9, #e3e3e3);
-    border: 1px solid #999;
-    border-radius: 3px;
-    padding: 5px 8px;
-    outline: none;
-    white-space: nowrap;
+    align-items: center;
+}
+
+input[type="radio"] {
+    width: 1em;
+    height: 1em;
+    margin-top: -1px;
+    vertical-align: middle;
+    accent-color:  #32ab14;
+    
+}
+input:focus,textarea:focus{
+    outline: 0;
+    border-color: black;
+}
+textarea {
+    min-height: 3em;
+}
+
+
+.form-title {
+    margin: 1em 0 .5em 0;
+    font-size: 1.2em;
+    font-weight: 500;
+    text-align: start;
+    width: -moz-max-content;
+    width: max-content;
+    border-bottom: 2px solid var(--secondary-500);
+}
+
+label {
+    margin-bottom: .3em;
+    text-align: start;
+
+}
+
+.form-flex-col {
+    display: flex;
+    flex-direction: row;
+    flex: 2;
+    gap: 1em;
+}
+.spaced{
+    justify-content:space-between;
+}
+
+
+.form-flex-row {
+    display: flex;
+    flex-direction: column;
+    flex: 2;
+}
+
+.green{
+    background-color: var(--secondary-500);
+}
+.gray{
+    background-color: var(--neutral-600);
+}
+.red{
+    background-color: var(--error);
+}
+
+.suggestions {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.suggestions .suggestion:first-child {
+    border-radius: 0.75em 0.75em 0 0;
+}
+
+.suggestions .suggestion:last-child {
+    border-radius: 0 0 0.75em 0.75em;
+}
+
+.suggestions .suggestion:only-child {
+    border-radius: 0.75em;
+}
+
+.suggestion + .suggestion {
+    border-top: 1px solid var(--neutral-200);
+}
+
+.suggestion {
+    padding: 0.5em 1em;
+    background-color: var(--white);
+}
+
+.suggestion:hover {
     cursor: pointer;
-    text-shadow: 1px 1px #fff;
-    font-weight: 700;
-    font-size: 10pt;
-  } */
+}
+
+.suggestions {
+    display: none;
+}
+  
+.suggestions:has(.suggestion) {
+    display: flex;
+}
+
+.selections {
+    display: none;
+}
+
+.selections:has(.selection) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5em;
+}
+.filter_cntr {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.btn-meetup{
+    border: none;
+    border-radius: 0.25em;
+    padding: 0.5em 1em;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    width: -moz-fit-content;
+    text-align: center;
+    color: white;
+}
+
+
+
+@media only screen and (max-width: 600px) {
+    .form-flex-col {
+        flex-direction: column;
+    }
+    .form-meetup{
+        margin: 1em .2em 1em .2em;
+    }
+    .flex-600{
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+        justify-content: center;
+    }
+    .expand{
+        flex:3;
+    }
+}
+
+

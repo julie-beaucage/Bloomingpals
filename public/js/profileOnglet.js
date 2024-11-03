@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
       var overlayCntr = document.getElementById('profile-overlay-cntr');
       if (!overlayCntr) {
         console.error("Élément 'profile-overlay-cntr' introuvable.");
-        return; // Stop the function if overlayCntr is not found
+        return;
       }
       var overlays = html.getElementsByClassName('custom-overlay');
       for (var i = 0; i < overlays.length; i++) {
@@ -73,10 +73,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
   $(document).on("click", ".interet-tag", function () {
     var tagId = $(this).data('id');
-    console.log("Tag d'intérêt cliqué :", $(this).text());
-    if ($(this).hasClass('interet-selected')) {
-      console.log("Il était déjà sélectionné. Désélectionné :", tagId);
-    } else {
+    if ($(this).hasClass('interet-selected')) {} else {
       console.log("Sélectionné :", tagId);
     }
     $(this).toggleClass('interet-selected');

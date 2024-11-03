@@ -12,7 +12,6 @@ function handleSubmit(event) {
         if (response.ok) {
             document.getElementById('originalMessage').style.display = 'none';
             document.getElementById('successMessage').style.display = 'block';
-            console.log("Email de vérification renvoyé avec succès.");
         } else {
             console.error("Échec de l'envoi de l'email de vérification.");
         }
