@@ -21,6 +21,12 @@
                     'url' => route('search')
                 ],
                 [
+                    'id' => 'pals',  
+                    'title' => 'Pals', 
+                    'icon' => 'group', 
+                    'url' => route('searchUsers') 
+                ],
+                [
                     'id' => 'notification',
                     'title' => 'Notifications',
                     'icon' => 'notifications',

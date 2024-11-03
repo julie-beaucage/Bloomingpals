@@ -51,7 +51,6 @@ class User extends Authenticatable implements MustVerifyEmail
         if ($personality) {
             return $personality->personality_name;
         } else {
-            Log::warning('No personality found for user ID ' . $this->id);
             return 'default-class'; 
         }
     }
@@ -90,7 +89,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function calculateAffinity($otherUserId, $idUser) {
         $userPersonality = $this->getUserPersonality($idUser);
-        
         $otherUserPersonality = $this->getUserPersonality($otherUserId);
     
         $personalityAffinity = 0;

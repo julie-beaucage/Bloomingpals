@@ -19,23 +19,18 @@
 @include('profile.account-settings')
 
 @section('content')
-
 <div id="profile-overlay-cntr" class="overlay-cntr">
     @if ($user->id == Auth::user()->id)
         <x-email-verification-modal />
         @include('profile.edit-profile-modal', ['style' => 'display: none;'])
     @endif
 </div>
-
-
 <div id="background_cntr" class="no_select">
     <div id="background_color"></div>
     <img id="background_img"
         src="{{ $user->background_image ? asset('storage/' . $user->background_image) : asset('/images/R.jpg') }}"
         alt="Bannière du profile">
 </div>
-
-
 <div id="profile_cntr" class="personality {{ $userPersonality }}">
     <div id="info_cntr" class="personality {{ $userPersonality }}">
         <div class="profile-picture no_select">
