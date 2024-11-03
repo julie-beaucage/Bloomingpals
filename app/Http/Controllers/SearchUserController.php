@@ -18,17 +18,42 @@ class SearchUserController extends Controller
     {
         if ($request->ajax()) {
             $searchTerm = $request->get('search', '');
+            Log::info("Search initiated with term: {$searchTerm}");
+
+            $users = User::where('first_name', 'like', '%' . $searchTerm . '%')->get();
+            Log::info("Users retrieved: " . $users->count());
+
+            if ($request->has('group_personality')) {
+                $selectedGroup = $request->get('group_personality');
+                Log::info("SELECTEDGROUP:: : {$selectedGroup}");
+
+                $users = $users->filter(function ($user) use ($selectedGroup) {
+                    $group= $user->getPersonalityType();
+                    Log::info("GROUPE FRO THE USER {$group}");
+                    $tes=$group === $selectedGroup;
+                    Log::info("bool:::: {$tes}");
+                    return $group === $selectedGroup;
+                });
+            }
+            Log::info("Users retrieved finale: " . $users->count());
+
+            return view('partial_views.user_cards', ['users' => $users])->render();
+        }
+            $users = User::all();
+        return view('pals.pals', ['users' => $users]);
+    }
+    public function pals_index3(Request $request)
+    {
+        if ($request->ajax()) {
+            $searchTerm = $request->get('search', '');
             $users = User::where('first_name', 'like', '%' . $searchTerm . '%')->get();
             return view('partial_views.user_cards', ['users' => $users])->render();
         }
+        
         $users = User::all();
         return view('pals.pals', ['users' => $users]);
     }
-  /*  public function pals_index()
-    {
-        $users = User::all();
-        return view('pals.pals',['users' => $users]);
-    }*/
+
   public function searchUsers2(Request $request)
     {
         $request->validate([
