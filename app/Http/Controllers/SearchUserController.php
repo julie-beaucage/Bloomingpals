@@ -14,7 +14,46 @@ use Illuminate\Support\Facades\Log;
 
 class SearchUserController extends Controller
 {
+
     public function pals_index(Request $request)
+    {
+        if ($request->ajax()) {
+            $searchTerm = $request->get('search', '');
+            $users = User::where('first_name', 'like', '%' . $searchTerm . '%')->get();
+
+            $selectedGroups = $request->input('group_personality', []);
+            Log::info("Search initiated with term:", $selectedGroups);
+
+            $typePersonality = $request->input('type_personality', []);
+            Log::info("Search initiated with term personalit :", $typePersonality);
+
+            if (!empty($selectedGroups)) {
+                $users = $users->filter(function ($user) use ($selectedGroups) {
+                    $group = $user->getPersonalityGroup();
+                    return in_array($group, $selectedGroups);
+                });
+                 Log::info("Users filtered by group: " . $users->count());
+            } 
+            if (!empty($typePersonality)) {
+                    $users = $users->filter(function ($user) use ($typePersonality) {
+                    $type = $user->getPersonalityType();
+                    return in_array($type, $typePersonality);
+                });
+                 Log::info("Users filtered by type: " . $users->count());
+            }
+
+            // Log final count of users
+             Log::info("Final users retrieved: " . $users->count());
+
+            return view('partial_views.user_cards', ['users' => $users])->render();
+        }
+
+        // Si la requête n'est pas AJAX
+        $users = User::all();
+        return view('pals.pals', ['users' => $users]);
+    }
+
+    public function pals_index33(Request $request)
     {
         if ($request->ajax()) {
             $searchTerm = $request->get('search', '');

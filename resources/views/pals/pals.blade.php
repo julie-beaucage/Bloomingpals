@@ -48,13 +48,13 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     const checkboxes = document.querySelectorAll('.personality-checkbox');
     checkboxes.forEach(checkbox => {
+       // console.log(`Checkbox ${checkbox.value}: checked=${checkbox.checked}`);
         checkbox.addEventListener('click', function (event) {
             event.stopPropagation(); 
+            console.log(`Checkbox ${this.value} clicked: checked=${this.checked}`);
         });
     });
-
-    $('.personality-checkbox').prop('checked', true);
-    updateSelectedPersonalities();
+    //$('.personality-checkbox').prop('checked', true);*/
 
     document.getElementById('close_filter_btn').addEventListener('click', function () {
         document.getElementById('relative_cntr').classList.add('hidden');
@@ -95,25 +95,22 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         $('.selection_cell').on('click', function () {
-            $(this).toggleClass('selected');
-            let personalityGroup = $(this).data('id');
-
-            if ($(this).hasClass('selected')) {
-                selectedGroups.push(personalityGroup);
-            } else {
-                selectedGroups = selectedGroups.filter(group => group !== personalityGroup);
-            }
-
-            searchUsers($('#search_field').val(), selectedGroups,selectedPersonalities);
-        });
+        $(this).toggleClass('selected');
+        let personalityGroup = $(this).data('id');
+        $('.personality-checkbox').prop('checked', true);
+        updateSelectedGroups();
+        searchUsers($('#search_field').val(), selectedGroups, selectedPersonalities);
+    });
 
         $('.personality-checkbox').on('change', function () {
+        updateSelectedGroups();
         let personalityType = $(this).val();
-
+        console.log('Selected Personalitgfgdgies:', personalityType);
         if ($(this).is(':checked')) {
             selectedPersonalities.push(personalityType);
             console.log('Checked:', personalityType); 
         } else {
+            console.log("not CHEKK??");
             selectedPersonalities = selectedPersonalities.filter(type => type !== personalityType);
         }
         console.log('Selected Groups:', selectedGroups);
@@ -121,7 +118,19 @@ document.addEventListener('DOMContentLoaded', function () {
         updateSelectedFilters();
         searchUsers($('#search_field').val(), selectedGroups, selectedPersonalities);
     });
+    function updateSelectedGroups() {
+        selectedGroups = []; 
 
+        $('.selection_cell.selected').each(function () {
+            let groupId = $(this).data('id');
+            let checkboxes = $(this).find('.personality-checkbox');
+            let checkedCount = checkboxes.filter(':checked').length;
+
+            if (checkedCount === checkboxes.length) {
+                selectedGroups.push(groupId);
+            }
+        });
+    }
     function updateSelectedFilters() {
     $('#selected_groups').empty(); 
     $('#selected_personalities').empty();

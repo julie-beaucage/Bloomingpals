@@ -112,17 +112,13 @@ class User extends Authenticatable implements MustVerifyEmail
             } elseif ($userPersonality->group_name === $otherUserPersonality->group_name) {
                 $personalityAffinity  = 0.5; 
             }
-        } else {
-            Log::warning("One of the users does not have a personality.");
-        }
-
+        } 
         $userInterests = User_Interest::getInteretsParUtilisateur($idUser);
         $otherUserInterests = User_Interest::getInteretsParUtilisateur($otherUserId);
     
         $pointsUser1 = $this->calculateInterestPoints($userInterests, $otherUserInterests);
         $totalPointsUser1 = 2 * count($userInterests);
         if ($totalPointsUser1 == 0) {
-            Log::warning("User 1 has no interests.");
             return 0;
         }
         $affinityUser1 = ($pointsUser1 / $totalPointsUser1) * 100;
