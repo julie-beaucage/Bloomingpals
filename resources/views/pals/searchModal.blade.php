@@ -7,33 +7,41 @@
             </div>
             <div class="content">
                 <div class="filter_cntr selection_grid" data-param="group-personality">
-                    <div class="selection_cell no_select hover_darker" style="background-color: var(--category-1)"
-                        data-id="analystes">
-                        Analyste
-                        <span class="material-symbols-rounded">
-                            psychology
-                        </span>
+                    <div class="selection_cell no_select hover_darker analystes" style="background-color: var(--personality-text-color)" data-id="analystes">
+                        <span class="group-title">Analyste <span class="material-symbols-rounded">psychology</span></span>
+                        <div class="checkbox-container analystes" style="display: none;">
+                          <label><input type="checkbox" value="INTJ" class="personality-checkbox"> INTJ - Architecte</label><br>
+                          <label><input type="checkbox" value="INTP" class="personality-checkbox"> INTP - Logicien</label><br>
+                          <label><input type="checkbox" value="ENTJ" class="personality-checkbox"> ENTJ - Commandant</label><br>
+                          <label><input type="checkbox" value="ENTP" class="personality-checkbox"> ENTP - Innovateur</label>
+                        </div>
                     </div>
-                    <div class="selection_cell no_select hover_darker" style="background-color: var(--category-5)"
-                        data-id="diplomates">
-                        Diplomate
-                        <span class="material-symbols-rounded">
-                            handshake
-                        </span>
+                    <div class="selection_cell no_select hover_darker diplomates" style="background-color: var(--personality-text-color)" data-id="diplomates">
+                        <span class="group-title">Diplomate <span class="material-symbols-rounded">handshake</span></span>
+                        <div class="checkbox-container diplomates" style="display: none;">
+                         <label><input type="checkbox" value="INFJ" class="personality-checkbox"> INFJ - Avocat</label><br>
+                         <label><input type="checkbox" value="INFP" class="personality-checkbox"> INFP - Médiateur</label><br>
+                         <label><input type="checkbox" value="ENFJ" class="personality-checkbox"> ENFJ - Protagon</label><br>
+                         <label><input type="checkbox" value="ENFP" class="personality-checkbox"> ENFP - Inspirateur</label>
+                       </div>
                     </div>
-                    <div class="selection_cell no_select hover_darker" style="background-color: var(--category-3)"
-                        data-id="sentinelles">
-                        Sentinelle
-                        <span class="material-symbols-rounded">
-                            health_and_safety
-                        </span>
+                    <div class="selection_cell no_select hover_darker sentinelles" style="background-color: var(--personality-text-color)" data-id="sentinelles">
+                        <span class="group-title">Sentinelle <span class="material-symbols-rounded">health_and_safety</span></span>
+                        <div class="checkbox-container sentinelles" style="display: none;">
+                          <label><input type="checkbox" value="ISTJ" class="personality-checkbox"> ISTJ - Logisticien</label><br>
+                          <label><input type="checkbox" value="ISFJ" class="personality-checkbox"> ISFJ - Défenseur</label><br>
+                          <label><input type="checkbox" value="ESTJ" class="personality-checkbox"> ESTJ - Directeur</label><br>
+                          <label><input type="checkbox" value="ESFJ" class="personality-checkbox"> ESFJ - Animateur</label>
+                       </div>
                     </div>
-                    <div class="selection_cell no_select hover_darker" style="background-color: var(--category-4)"
-                        data-id="explorateurs">
-                        Explorateur
-                        <span class="material-symbols-rounded">
-                            explore
-                        </span>
+                    <div class="selection_cell no_select hover_darker explorateurs" style="background-color: var(--personality-text-color)" data-id="explorateurs">
+                        <span class="group-title">Explorateur <span class="material-symbols-rounded">explore</span></span>
+                        <div class="checkbox-container explorateurs" style="display: none;">
+                          <label><input type="checkbox" value="ISFP" class="personality-checkbox"> ISFP - Aventurier</label><br>
+                          <label><input type="checkbox" value="ESFP" class="personality-checkbox"> ESFP - Animateur</label><br>
+                          <label><input type="checkbox" value="ESTP" class="personality-checkbox"> ESTP - Entrepreneur</label><br>
+                          <label><input type="checkbox" value="ENTP" class="personality-checkbox"> ENTP - Innovateur</label>
+                       </div>
                     </div>
                 </div>
             </div>

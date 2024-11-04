@@ -13,7 +13,8 @@ if (count($users) == 0) {
 }
 $userDataList = [];
 foreach ($users as $user) {
-    $userPersonality = $user->getPersonalityType(); 
+    $userPersonality = $user->getPersonalityGroup(); 
+    $userPersonalityType = $user->getPersonalityType();
     $affinity = $currentUser->calculateAffinity($user->id, $currentUser->id);
     $image = $user->image_profil ? asset('storage/' . $user->image_profil) : asset('/images/simple_flower.png');
     $tags = "";
@@ -47,7 +48,8 @@ foreach ($users as $user) {
                     $tags
                 </div>
                 <div class="infos">
-                <span>$affinity% d'affinité avec vous</span>
+                    <span>$affinity% d'affinité avec vous</span>
+                    <p>$userPersonalityType</p>
                 </div>
             </div>
         </a>
@@ -62,7 +64,7 @@ usort($userDataList, function ($a, $b) use ($currentUser) {
 
 foreach ($userDataList as $userData) {
     if ($userData['user']->id === $currentUser->id) {
-        echo '<div style="margin-bottom: 1px; font-weight: bold;"> Vous</div>'; // Afficher (Vous) au-dessus
+        echo '<div style="margin-bottom: 1px; font-weight: bold;"> Vous</div>'; 
         echo $userData['html'];
     } else {
         echo $userData['html'];

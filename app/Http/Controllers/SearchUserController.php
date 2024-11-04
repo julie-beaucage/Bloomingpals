@@ -18,103 +18,81 @@ class SearchUserController extends Controller
     {
         if ($request->ajax()) {
             $searchTerm = $request->get('search', '');
-            Log::info("Search initiated with term: {$searchTerm}");
-
             $users = User::where('first_name', 'like', '%' . $searchTerm . '%')->get();
-            Log::info("Users retrieved: " . $users->count());
 
-            if ($request->has('group_personality')) {
-                $selectedGroup = $request->get('group_personality');
-                Log::info("SELECTEDGROUP:: : {$selectedGroup}");
-
-                $users = $users->filter(function ($user) use ($selectedGroup) {
-                    $group= $user->getPersonalityType();
-                    Log::info("GROUPE FRO THE USER {$group}");
-                    $tes=$group === $selectedGroup;
-                    Log::info("bool:::: {$tes}");
-                    return $group === $selectedGroup;
+            $selectedGroups = $request->input('group_personality', []);
+            $typePersonality = $request->input('type_personality', []);
+            if (!empty($selectedGroups)) {
+                $users = $users->filter(function ($user) use ($selectedGroups) {
+                    $group = $user->getPersonalityGroup();
+                    return in_array($group, $selectedGroups);
                 });
+                // Log::info("Users filtered by group: " . $users->count());
             }
-            Log::info("Users retrieved finale: " . $users->count());
+            if (!empty($typePersonality)) {
+                $users = $users->filter(function ($user) use ($typePersonality) {
+                    $type = $user->getPersonalityType();
+                    return in_array($type, $typePersonality);
+                });
+                // Log::info("Users filtered by type: " . $users->count());
+            }
+
+            // Log final count of users
+            // Log::info("Final users retrieved: " . $users->count());
 
             return view('partial_views.user_cards', ['users' => $users])->render();
         }
-            $users = User::all();
+
+        // Si la requête n'est pas AJAX
+        $users = User::all();
         return view('pals.pals', ['users' => $users]);
     }
     public function pals_index3(Request $request)
     {
         if ($request->ajax()) {
             $searchTerm = $request->get('search', '');
+            //Log::info("Search initiated with term: {$searchTerm}");
             $users = User::where('first_name', 'like', '%' . $searchTerm . '%')->get();
+            // Log::info("Users retrieved: " . $users->count());
+            $typePersonality = $request->input('type_personality');
+
+            if ($request->has('group_personality')) {
+                $selectedGroups = $request->get('group_personality');
+                //Log::info("SELECTEDGROUP: " . json_encode($selectedGroups)); // Convertir le tableau en JSON
+                $users = $users->filter(function ($user) use ($selectedGroups) {
+                    $group = $user->getPersonalityGroup();
+                    //Log::info("GROUPE FRO THE USER {$group}");
+                    $isInGroup = in_array($group, $selectedGroups);
+                    return $isInGroup;
+                });            Log::info("Users add groupe " . $users->count());
+
+            }
+            if ($request->has('type_personality')) {
+                $typePersonality = $request->get('type_personality');
+                //Log::info("SELECTEDGROUP: " . json_encode($selectedGroups)); // Convertir le tableau en JSON
+                $users = $users->filter(function ($user) use ($typePersonality) {
+                    $type = $user->getPersonalityType();
+                    $haveType = in_array($type, $typePersonality);
+                    return $haveType;
+                });            Log::info("Users add perosp: " . $users->count());
+
+            }
+            Log::info("Users retrieved finale: " . $users->count());
+
             return view('partial_views.user_cards', ['users' => $users])->render();
         }
-        
         $users = User::all();
         return view('pals.pals', ['users' => $users]);
-    }
-
-  public function searchUsers2(Request $request)
-    {
-        $request->validate([
-            'search' => 'nullable|string|max:255',
-        ]);
-        $currentUser = auth()->user();
-        $query = $request->input('search');
-        $users = User::query()
-            ->when($query, function ($queryBuilder) use ($query) {
-                return $queryBuilder->where(function ($subQuery) use ($query) {
-                    $subQuery->where('first_name', 'like', '%' . $query . '%')
-                             ->orWhere('last_name', 'like', '%' . $query . '%')
-                             ->orWhereHas('interests', function ($interestQuery) use ($query) {
-                                 $interestQuery->where('name', 'like', '%' . $query . '%');
-                             });
-                });
-            })
-            ->where('id', '!=', $currentUser->id) // Exclure l'utilisateur actuel des résultats
-            ->get();
-        return view('partial_views.user_cards', compact('users', 'currentUser'));
-    }
-
-    public function searchUser3(Request $request)
-    {
-
-        $query = $request->get('query', '');
-        $users = User::query();
-    
-        if ($query) {
-            $users = $this->filterName($users, $query);
-        }
-
-        /*$query = $request->has('query') ? $request->get('query') : "";
-        $users = ($query == null) ? User::all() : User::where(DB::raw("CONCAT(`first_name`, ' ', `last_name`)"), 'LIKE', '%' . $query . '%')->get();
-        
-        $page = $request->has('page') ? $request->get('page') : 1;
-        $users = $users->forPage($page, 20);
-        
-        return view('partial_views.user_cards', ['users' => $users]);*/
-
-        return view('partial_views.user_cards', ['users' => $users->get()]);
     }
     private function filterName($queryBuilder, $query)
     {
         return $queryBuilder->where(DB::raw("CONCAT(`first_name`, ' ', `last_name`)"), 'LIKE', '%' . $query . '%');
     }
 
-    // Méthode pour filtrer par groupe de personnalité
     private function filterByPersonalityGroup($queryBuilder, $personalityGroup)
     {
         return $queryBuilder->where('personality_group', $personalityGroup);
     }
 
-    /* public function users(Request $request)
-     {
-         $query = $request->has('query') ? $request->get('query') : "";
-         $users = ($query == null) ? User::all() : User::where(DB::raw("CONCAT(`first_name`, ' ', `last_name`)"), 'LIKE', '%' . $query . '%')->get();
-         
-         $page = $request->has('page') ? $request->get('page') : 1;
-         $users = $users->forPage($page, 20);
-         
-         return view('partial_views.user_cards', ['users' => $users]);
-     }*/
+
 }
