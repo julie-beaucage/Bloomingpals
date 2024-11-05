@@ -1,13 +1,12 @@
-@extends('master')
+@extends("master");
 
 @section('style')
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="{{ asset('css/profile.css') }}">
-<link rel="stylesheet" href="{{ asset('css/cards.css') }}">
-<link rel="stylesheet" href="{{ asset('css/overlay-modal.css') }}">
-<link rel="stylesheet" href="{{ asset('css/interets.css') }}">
-<link rel="stylesheet" href="{{ asset('css/personality.css') }}">
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/cards.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/overlay-modal.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/interets.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/personality.css') }}">
 @endsection()
 @php
     $userPersonality = Auth::user()->getPersonalityType();
@@ -43,7 +42,7 @@
                 alt="Photo de profil">
         </div>
 
-        <h1 id="profile_name">{{ $user->first_name }} {{ $user->last_name }}</h1>
+        <h1 id="profile_name">{{ $user->first_name }} {{ $user->last_name }}
             @if ($user->id == Auth::user()->id)
                 <button class="icon-btn hover_darker" id="openProfileOverlay" title="Modifier profile"
                     data-bs-toggle="modal" data-bs-target="#settings">
@@ -63,43 +62,53 @@
                             {{ $profileCompletionPercentage}}% complété
                         </div>
                     </div>
+                    <div class="profile-checklist mt-3">
+                        <ul>
+                            <li>Courriel validé:
+                                {!! $emailVerified ? '<span class="material-symbols-rounded" style="color: green;">check_circle</span>' : '<span class="material-symbols-rounded" style="color: red;">cancel</span>' !!}
+                            </li>
+                            <li>Sélectionner des intérêts:
+                                {!! $interestsSelected ? '<span class="material-symbols-rounded" style="color: green;">check_circle</span>' : '<span class="material-symbols-rounded" style="color: red;">cancel</span>' !!}
+                            </li>
+
+                            <li>Faire le test de personnalité:
+                                {!! $personalityTestDone ? '<span class="material-symbols-rounded" style="color: green;">check_circle</span>' : '<span class="material-symbols-rounded" style="color: red;">cancel</span>' !!}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             @endif
         @else
             <div class="acceptContainer">
-            @if ($relation == "Friend")
-                <a href="{{ route("RemoveFriend", ["id" => $user->id])}}">
-                    <div class="red_button no_select">Enlever l'amitier</div>
-                </a>
-            @elseif ($relation == "Blocked")
-                <div class="red_button no_select">You are blocked</div>
-            @elseif ($relation == "SendingInvitation")
-                <div class="acceptContainer">
+                @if ($relation == "Friend")
+                    <a href="{{ route("RemoveFriend", ["id" => $user->id])}}">
+                        <div class="red_button no_select">Enlever l'amitier</div>
+                    </a>
+                @elseif ($relation == "Blocked")
+                    <div class="red_button no_select">You are blocked</div>
+                @elseif ($relation == "SendingInvitation")
                     <a href="{{ route("CancelFriendRequest", ["id" => $user->id])}}">
                         <div class="red_button">annuler la demande d'amitier</div>
                     </a>
-                </div>
-            @elseif ($relation == "Invited")
-                <div class="acceptContainer">
+                @elseif ($relation == "Invited")
                     <a href="{{ route("AcceptFriendRequest", ["id" => $user->id])}}">
                         <div class="green_button">Accepter</div>
                     </a>
                     <a href="{{ route("RefuseFriendRequest", ["id" => $user->id])}}">
                         <div class="red_button">Refuser</div>
                     </a>
-                </div>
-            @elseif ($relation == "Refuse")
-                <div class="grey_button">Vous avez été refuser</div>
-            @else
-                <a href="{{ route("SendFriendRequest", ["id" => $user->id])}}">
-                    <div class="blue_button">Ajouter en ami</div>
-                </a>
-            @endif
+                @elseif ($relation == "Refuse")
+                    <div class="grey_button">Vous avez été refusé</div>
+                @else
+                    <a href="{{ route("SendFriendRequest", ["id" => $user->id])}}">
+                        <div class="blue_button">Ajouter en ami</div>
+                    </a>
+                @endif
                 <button class="red_button" id="openReport">
                     Signalée
                 </button>
             </div>
         @endif
-
         <div class="containerOnglerMain">
 
             @if ($haveAccess)
@@ -147,10 +156,9 @@
                     </div>
                 @endif
             </div>
-            <div id="profile-content" class="onglet_profile"></div>
             @include ('reports/reportUser')
         </div>
-@endsection()
+        @endsection()
 
         @section('script')
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

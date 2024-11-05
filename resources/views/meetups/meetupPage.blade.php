@@ -144,12 +144,8 @@
     /*get tags data*/
     $tagsHtml = "";
 
-    foreach ($meetupTagsData as $tag) {
-        $tagsHtml .= <<<HTML
-            <div>
-                {$tag->name}
-            </div>
-        HTML;
+    foreach ($meetupTagsData as $interest) {
+        $tagsHtml .= '<span class="tag" style="background-color: var(--category-'. $interest->id_category .')">' . $interest->name . '</span>';
     }
 ?>
 

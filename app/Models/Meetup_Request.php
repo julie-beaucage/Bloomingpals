@@ -71,7 +71,7 @@ class Meetup_Request extends Model
             $demandeRecontre->state = 'Sent';
             $demandeRecontre->save();
             $meetup =Meetup::where('id',$meetupId)->first();
-            event(new NewNotif($meetup->id_owner,$userId,'Meetup Request',[]));
+            event(new NewNotif($meetup->id_owner,$userId,'Meetup Request',["id" => $meetupId]));
         }
     }
 
