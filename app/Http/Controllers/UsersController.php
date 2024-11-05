@@ -353,7 +353,11 @@ class UsersController extends Controller
     }
 
     public function ReportUser(Request $request) {
-        Report::AddReport(Auth::user()->id, $request["userId"], $request["object"], $request["objectTypeId"]);
+        $object = "";
+        if ($request["object"] != null) {
+            $object = $request["object"];
+        }
+        Report::AddReport(Auth::user()->id, $request["userId"], $object, $request["objectTypeId"]);
         return $this->profile($request["userId"]);
     }
     public function events($id) {
