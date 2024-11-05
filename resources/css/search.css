@@ -286,7 +286,7 @@
 
 /*-----------------USERS SEARCH----------------------*/
 .checkbox-container {
-    display: none; /* Cacher les cases à cocher par défaut */
+    display: none; 
 }
 .invisible-radio {
     display: none;
@@ -331,6 +331,32 @@
     height: auto;
     min-height: fit-content;
     display: block;
+}
+.checkbox-container{
+    padding:0.4em;
+
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.248);
+}
+.selection_cell  label{
+    font-size: 0.7em;
+}
+
+.selection_cell  legend{
+    font-size: 0.7em;
+}
+.containerRadioSelect{
+    border:solid rgba(255, 255, 255, 0.484) 2px;
+    border-radius: 6px;
+    padding:0.4em;
+}
+
+.ttt{
+    font-size: 0.7em;
+}
+
+.group-title{
+    font-size: 1.6em;
 }
 
 .containerPals .PersonalityCheckboxContainer {

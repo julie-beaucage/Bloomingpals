@@ -36,7 +36,6 @@
 <script>
     function toggleCheckboxes(radio) {
     const checkboxContainer = radio.closest('.selection_cell').querySelector('.checkbox-container');
-
     if (radio.value === 'selection') {
         checkboxContainer.style.display = 'block';
     } else {
@@ -59,28 +58,36 @@ $(document).ready(function () {
 
         selectedGroups.push(group); 
         cell.addClass('selected'); 
-        updateCellSelection(cell, group);
-
+        //updateCellSelection(cell, group);
         toggleCheckboxes(cell.find('input[type="radio"][value="tous"]')[0]);
-
 
         cell.on('click', function () {
             groupStates[group] = !groupStates[group]; 
             $(this).toggleClass('selected');
+            cell.find('input[type="radio"][value="tous"]').prop('checked', true).trigger('change');
+            toggleCheckboxes(cell.find('input[type="radio"][value="tous"]')[0]);
+            console.log("");
+            //cell.find('input[type="radio"]').show();
+            //cell.find('label').show(); 
+            cell.find('.containerRadioSelect').show();
             if (groupStates[group]) {
                 if (!selectedGroups.includes(group)) {
                     selectedGroups.push(group);
                 }
             } else {
-                cell.find('input[type="radio"]').hide();
-                cell.find('label').hide(); 
+                //cell.find('.checkbox-container').hide();
+                cell.find('.containerRadioSelect').hide();
+                //cell.find('input[type="radio"]').hide();
+                //cell.find('label').hide(); 
                 selectedGroups = selectedGroups.filter(g => g !== group);
+                //checkboxContainer.hide();
                 cell.find('input[type="checkbox"]').prop('checked', false).each(function() {
                     const personalityType = $(this).val();
                     selectedPersonalities = selectedPersonalities.filter(type => type !== personalityType);
+    
                 });
             }
-           updateCellSelection(cell, group);
+            //updateCellSelection(cell, group);
             updateSelectedInfo();
             handleSearch();
         });
@@ -99,7 +106,7 @@ $(document).ready(function () {
 
     function updateCellSelection(cell, group) {
         const checkboxContainer = cell.find('.checkbox-container');
-                if (groupStates[group]) {
+        if (groupStates[group]) {
             checkboxContainer.show();
         } else {
             checkboxContainer.hide();
@@ -161,11 +168,11 @@ $(document).ready(function () {
     $("#filter_btn").on('click', function () {
         $("#relative_cntr").removeClass("hidden");
         $("#content").addClass("no_overflow");
-        selectionCells.each(function () {
+       /* selectionCells.each(function () {
             const cell = $(this);
             const group = cell.data('id');
             updateCellSelection(cell, group);
-        });
+        });*/
     });
 
     $("#close_filter_btn").on('click', function () {

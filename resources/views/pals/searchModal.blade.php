@@ -2,14 +2,15 @@
     <div id="absolute_cntr">
         <div class="filters_cntr">
             <div class="header">
-                <span class="title">Filtres de recherche</span>
+                <span class="title">Trier par personnalité: </span>
                 <span id="close_filter_btn" class="material-symbols-rounded no_select pointer">close</span>
             </div>
             <div class="content">
                 <div class="filter_cntr selection_grid" data-param="group-personality">
                     <div class="selection_cell no_select hover_darker analystes" style="background-color: var(--personality-text-color)" data-id="analystes">
                         <span class="group-title">Analyste <span class="material-symbols-rounded">psychology</span></span>
-                        <div>
+                        <div class="containerRadioSelect">
+                          <span class="ttt">Type de personnalité :</span>
                           <label>
                              <input type="radio" name="selection_analystes" value="tous" onclick="toggleCheckboxes(this)"> Tous
                           </label>
@@ -23,10 +24,12 @@
                           <label><input type="checkbox" value="ENTJ" class="personality-checkbox"> ENTJ - Commandant</label><br>
                           <label><input type="checkbox" value="ENTP" class="personality-checkbox"> ENTP - Innovateur</label>
                         </div>
+                        </fieldset>
                     </div>
                     <div class="selection_cell no_select hover_darker diplomates" style="background-color: var(--personality-text-color)" data-id="diplomates">
                         <span class="group-title">Diplomate <span class="material-symbols-rounded">handshake</span></span>
-                        <div>
+                        <div class="containerRadioSelect">
+                          <span class="ttt">Type de personnalité :</span>
                           <label>
                              <input type="radio" name="selection_diplomates" value="tous" onclick="toggleCheckboxes(this)"> Tous
                           </label>
@@ -43,7 +46,8 @@
                     </div>
                     <div class="selection_cell no_select hover_darker sentinelles" style="background-color: var(--personality-text-color)" data-id="sentinelles">
                         <span class="group-title">Sentinelle <span class="material-symbols-rounded">health_and_safety</span></span>
-                        <div>
+                        <div class="containerRadioSelect">
+                          <span class="ttt">Type de personnalité :</span>
                           <label>
                              <input type="radio" name="selection_sentinelles" value="tous" onclick="toggleCheckboxes(this)"> Tous
                           </label>
@@ -62,7 +66,8 @@
 
                     <div class="selection_cell no_select hover_darker explorateurs" style="background-color: var(--personality-text-color)" data-id="explorateurs">
                         <span class="group-title">Explorateur <span class="material-symbols-rounded">explore</span></span>
-                        <div>
+                        <div class="containerRadioSelect">
+                           <span class="ttt">Type de personnalité :</span>
                           <label>
                              <input type="radio" name="selection_explorateurs" value="tous" onclick="toggleCheckboxes(this)"> Tous
                           </label>
