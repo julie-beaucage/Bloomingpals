@@ -14,8 +14,56 @@ use Illuminate\Support\Facades\Log;
 
 class SearchUserController extends Controller
 {
-
     public function pals_index(Request $request)
+    {
+        if ($request->ajax()) {
+            $searchTerm = $request->get('search', '');
+            $users = User::where('first_name', 'like', '%' . $searchTerm . '%')->get();
+
+            $selectedGroups = $request->input('group_personality', []);
+            Log::info("Search initiated with term:", $selectedGroups);
+
+            $typePersonality = $request->input('type_personality', []);
+            Log::info("Search initiated with term personalit :", $typePersonality);
+
+            // Créer une liste vide pour les utilisateurs à afficher
+            $userAfficher = collect();
+
+            // Ajouter les utilisateurs qui appartiennent aux groupes sélectionnés
+            if (!empty($selectedGroups)) {
+                $groupUsers = $users->filter(function ($user) use ($selectedGroups) {
+                    $group = $user->getPersonalityGroup();
+                    return in_array($group, $selectedGroups);
+                });
+                $userAfficher = $userAfficher->merge($groupUsers);
+                Log::info("Users filtered by group: " . $groupUsers->count());
+            }
+
+            // Ajouter les utilisateurs qui correspondent aux types de personnalité sélectionnés
+            if (!empty($typePersonality)) {
+                $typeUsers = $users->filter(function ($user) use ($typePersonality) {
+                    $type = $user->getPersonalityType();
+                    return in_array($type, $typePersonality);
+                });
+                $userAfficher = $userAfficher->merge($typeUsers);
+                Log::info("Users filtered by type: " . $typeUsers->count());
+            }
+
+            // Supprimer les doublons dans la liste des utilisateurs à afficher
+            $userAfficher = $userAfficher->unique('id');
+
+            // Log final du nombre d'utilisateurs filtrés
+            Log::info("Final users retrieved: " . $userAfficher->count());
+
+            return view('partial_views.user_cards', ['users' => $userAfficher])->render();
+        }
+
+        // Si la requête n'est pas AJAX
+        $users = User::all();
+        return view('pals.pals', ['users' => $users]);
+    }
+
+    public function pals_index21(Request $request)
     {
         if ($request->ajax()) {
             $searchTerm = $request->get('search', '');
