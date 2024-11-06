@@ -42,7 +42,7 @@ Route::post('/profile/checkEmail', [UsersController::class, 'isEmailTaken']);
 Route::post('/profile/updateAccount', [UsersController::class, 'updateAccount']);
 
 Route::middleware('adminAccess')->group(function () {
-    Route::get('/meetup/{meetupId}', [MeetupController::class, 'MeetupPage'])->name('meetupPage');
+    Route::get('/adminReports', [AdminController::class, "AdminReports"])->name("AdminReports");
 });
 
 Route::middleware('auth')->group(function () {
@@ -83,6 +83,7 @@ Route::middleware('auth')->group(function () {
     
 
     // Meetup
+    Route::get('/meetup/{meetupId}', [MeetupController::class, 'MeetupPage'])->name('meetupPage');
     Route::post('/meetup/create', [MeetupController::class, 'create']);
     Route::post('/meetup/create/{isEvent}', [MeetupController::class, 'create']);
     Route::post('/meetup/edit/{id}', [MeetupController::class, 'edit'])->where('id', '[0-9]+');

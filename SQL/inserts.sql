@@ -5,6 +5,13 @@ CALL creerUsager ('user1@email.com', 'Desroches', 'Caroline', CURDATE(), '$2y$10
 CALL creerUsager ('user2@email.com', 'Hétu', 'Adrien', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'homme');
 CALL creerUsager ('user3@email.com', 'Delmar', 'Mainville', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'non-genre');
 
+INSERT INTO users (email, last_name, first_name, birthdate, password, gender, is_admin)
+    VALUES ('admin1@email.com', 'admin1', 'Gagner', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'non-genre', 1);
+INSERT INTO users (email, last_name, first_name, birthdate, password, gender, is_admin)
+    VALUES ('admin2@email.com', 'admin2', 'Berville', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'non-genre', 1);
+INSERT INTO users (email, last_name, first_name, birthdate, password, gender, is_admin)
+    VALUES ('admin3@email.com', 'admin3', 'Tayona', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'non-genre', 1);
+
 UPDATE users SET email_verified_at = NOW() WHERE id = 1 OR id = 2;
 
 -- Meetups --
