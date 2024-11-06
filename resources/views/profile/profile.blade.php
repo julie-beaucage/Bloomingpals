@@ -10,7 +10,7 @@
 
 @endsection()
 @php
-    $userPersonality = Auth::user()->getPersonalityType();
+    $userPersonality = $user->getPersonalityType();
 @endphp
 
 @include('profile.settings-page')

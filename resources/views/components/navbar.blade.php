@@ -21,6 +21,12 @@
                     'url' => route('search')
                 ],
                 [
+                    'id' => 'messages',
+                    'title' => 'Messages',
+                    'icon' => 'forum',
+                    'url' => route('messages')
+                ],
+                [
                     'id' => 'notification',
                     'title' => 'Notifications',
                     'icon' => 'notifications',
@@ -68,30 +74,30 @@
                 }
 
                 if ($id === 'profile') {
-                    echo <<<HTML
-                                        <a class="$class" href="$url">
-                                            <div class="shrinked_title shrinked_only">
-                                                <span class="title">$title</span>
-                                            </div>
-                                            <span class="navbar_icon">
-                                                <img src="$icon" alt="Photo de profil" class="profile-image">
-                                                <span class="title">$title</span>
-                                            </span>
-                                        </a>
-                                    HTML;
+                    echo <<< HTML
+                        <a class="$class" href="$url">
+                            <div class="shrinked_title shrinked_only">
+                                <span class="title">$title</span>
+                            </div>
+                            <span class="navbar_icon">
+                                <img src="$icon" alt="Photo de profil" class="profile_image">
+                                <span class="title">$title</span>
+                            </span>
+                        </a>
+                    HTML;
                 } else {
-                    echo <<<HTML
-                                        <a class="$class $hideNotification $notifId" href="$url">
-                                        $unreadNotif
-                                            <div class="shrinked_title shrinked_only">
-                                                <span class="title">$title</span>
-                                            </div>
-                                            <span class="navbar_icon">
-                                                <span class="material-symbols-rounded icon_md">$icon</span>
-                                                <span class="title">$title</span>
-                                            </span>
-                                        </a>
-                                    HTML;
+                    echo <<< HTML
+                        <a class="$class $hideNotification $notifId" href="$url">
+                        $unreadNotif
+                            <div class="shrinked_title shrinked_only">
+                                <span class="title">$title</span>
+                            </div>
+                            <span class="navbar_icon">
+                                <span class="material-symbols-rounded icon_md">$icon</span>
+                                <span class="title">$title</span>
+                            </span>
+                        </a>
+                    HTML;
                 }
             }
         @endphp

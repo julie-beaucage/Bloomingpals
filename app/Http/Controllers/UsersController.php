@@ -168,7 +168,6 @@ class UsersController extends Controller
         $profileCompletionPercentage = round($profileCompletionPercentage);
 
         $relation = Relation::GetRelationUsers(Auth::user()->id, $id);
-        $reportsReasons = Object_Type::all();
 
         $haveAccess = false;
 

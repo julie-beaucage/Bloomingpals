@@ -239,7 +239,7 @@ body {
     padding: 1em 0 1em 0;
 }
 
-.profile-image {
+.profile_image {
     border-radius: 50%;
     object-fit: cover;
     background-color: var(--personality-color-pale);
@@ -269,7 +269,7 @@ body {
     padding: 0.25em;
 }
 
-.navbar_icon > .profile-image {
+.navbar_icon > .profile_image {
     border-width: 1px;
 }
 

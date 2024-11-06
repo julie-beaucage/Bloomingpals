@@ -7,6 +7,22 @@ CALL creerUsager ('user3@email.com', 'Delmar', 'Mainville', CURDATE(), '$2y$10$7
 
 UPDATE users SET email_verified_at = NOW() WHERE id = 1 OR id = 2;
 
+-- Chat --
+INSERT INTO chatRooms VALUES ();
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (1, 1);
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (1, 2);
+
+INSERT INTO chatRooms VALUES ();
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (2, 1);
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (2, 3);
+
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (1, 1, "Salut, ça va ?");
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (1, 2, "Oui toi ?");
+
+SELECT * FROM chatRooms;
+SELECT * FROM chatRooms_users;
+SELECT * FROM messages;
+
 -- Meetups --
 INSERT INTO meetups(name, description, id_owner, adress, date, nb_participant, public) 
     VALUES("Nom de la rencontre", "Voici la description", 1, "1234 rue popcorn", DATE "2025-01-01", 100, 1);

@@ -10,6 +10,7 @@ use App\Http\Controllers\InterestsController;
 use App\Http\Controllers\CustomVerificationController;
 use App\Http\Controllers\PersonalityController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\MessagesController;
 
 
 
@@ -110,6 +111,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/search/cities', [SearchController::class, 'cities'])->name('search.cities');
     Route::get('/search/interests', [SearchController::class, 'interests'])->name('search.interests');
     Route::get('/search/getInterests', [SearchController::class, 'getInterests'])->name('search.getInterests');
+
+    // Messages
+    Route::get('/messages', [MessagesController::class, 'index'])->name('messages');
+    Route::get('/chat/{id}', [MessagesController::class, 'chat'])->name('chat');
+    Route::post('/chata/{id}', [MessagesController::class, 'send'])->name('sendMessage');
 
     //utilisateurs
     Route::get("user/friend/request/send/{id}", [UsersController::class, "SendFriendRequest"])->name("SendFriendRequest");
