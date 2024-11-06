@@ -11,7 +11,12 @@ $(document).ready(function() {
                 $("#message_input").keypress(function(e) {
                     if(e.which == 13) {
                         const message = $(this).val();
-            
+                        
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
                         $.ajax({
                             url: '/chata/' + id,
                             type: 'POST',

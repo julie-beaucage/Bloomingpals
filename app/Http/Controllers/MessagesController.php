@@ -58,12 +58,10 @@ class MessagesController extends Controller
             return;
         }
 
-        dd(request('message'));
-
-        Message::query()->create([
-            'id_chatRoom' => $id,
-            'id_user' => auth()->user()->id,
-            'content' => request('message'),
-        ]);
+        $msg = new Message;
+        $msg->id_chatRoom = $id;
+        $msg->id_user = auth()->user()->id;
+        $msg->content = request('message');
+        $msg->save();
     }
 }
