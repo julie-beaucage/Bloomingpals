@@ -43,7 +43,7 @@
                 array_push($tabs, [
                     'id' => 'adminReports',
                     'title' => 'reports',
-                    'icon' => 'reports',
+                    'icon' => 'report',
                     'url' => route('AdminReports')
                 ]);
             }

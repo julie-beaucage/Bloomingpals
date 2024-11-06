@@ -15,4 +15,8 @@ class AdminController extends Controller
         $reports = Report::GetReportsWithObject();
         return view("admin.adminReports", compact('reports'));
     }
+
+    public function BanUser(Request $request) {
+        
+    }
 }
