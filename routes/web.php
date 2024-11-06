@@ -10,6 +10,7 @@ use App\Http\Controllers\InterestsController;
 use App\Http\Controllers\CustomVerificationController;
 use App\Http\Controllers\PersonalityController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\AdminController;
 
 
 
@@ -19,6 +20,9 @@ Route::get('/', function () {
     }
     return view('auth.login');
 });
+
+//deny access
+Route::get('/error/404', [AdminController::class, 'AccessDenied'])->name('AccessDenied');
 
 // Authentification
 Route::get('/email/verify/{id}/{hash}', [CustomVerificationController::class, 'verify'])->name('verification.verify');
@@ -36,6 +40,10 @@ Route::get('/logout', [UsersController::class, 'logout'])->name('logout');
 Route::post('profile/checkPassword', [UsersController::class, 'checkPassword']);
 Route::post('/profile/checkEmail', [UsersController::class, 'isEmailTaken']);
 Route::post('/profile/updateAccount', [UsersController::class, 'updateAccount']);
+
+Route::middleware('adminAccess')->group(function () {
+    Route::get('/meetup/{meetupId}', [MeetupController::class, 'MeetupPage'])->name('meetupPage');
+});
 
 Route::middleware('auth')->group(function () {
     
@@ -86,7 +94,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/meetup/interests/{id}', [MeetupController::class, 'interests']);
 
 
-    Route::get('/meetup/{meetupId}', [MeetupController::class, 'MeetupPage'])->name('meetupPage');
     Route::get('/meetup/join/{meetupId}', [MeetupController::class, 'JoinMeetup'])->name('joinMeetup');
     Route::get('/meetup/cancel/{meetupId}', [MeetupController::class, 'CancelJoiningMeetup'])->name('cancelJoiningMeetup');
     Route::get('/meetup/leave/{meetupId}', [MeetupController::class, 'LeaveMeetup'])->name('leaveMeetup');
