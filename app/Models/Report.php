@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Report_Object;
+use App\Models\User;
+use App\Models\Object_Type;
 
 class Report extends Model
 {
@@ -22,5 +24,20 @@ class Report extends Model
             "id_type_object" => $objectTypeId
         ];
         Report::Create($report);
+    }
+
+    public static function GetReportsWithObject() {
+        $reportsTab = [];
+        $reports = Report::all();
+        foreach ($reports as $report) {
+            $tab = [
+                "user_send" => User::Where("id", $report->id_user_send)->get()->first(),
+                "user_receive" => User::Where("id", $report->id_user_receive)->get()->first(),
+                "object" => Report_Object::GetReportObjectString($report->id_object),
+                "object_type" => Object_Type::where("id", $report->id_type_object)->get()->first()
+            ];
+            array_push($reportsTab, $tab);
+        }
+        return $reportsTab;
     }
 }

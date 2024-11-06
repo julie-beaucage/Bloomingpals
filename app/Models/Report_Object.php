@@ -19,4 +19,8 @@ class Report_Object extends Model
 
         return $report->id;
     }
+
+    public static function GetReportObjectString($reportId) {
+        return Report_Object::where("id", $reportId)->get()->first()->description;
+    }
 }
