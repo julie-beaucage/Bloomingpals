@@ -13,16 +13,12 @@
         <div id="search_header">
             <div id="inputs_cntr">
                 <input type="text" id="search_field" class="no_select" placeholder="Rechercher des amis">
+                <button id="clear_btn" class="clear-btn" type="button" onclick="clearSearch()">×</button>
                 <button id="filter_btn" class="hover_darker no_select" type="button">
                     <span class="material-symbols-rounded">filter_vintage</span>
                 </button>
             </div>
-            <div id="selected_filters" class="selected-filters">
-                <strong>Sélections :</strong>
-                <span id="selected_groups"></span>
-                <span id="selected_personalities"></span>
-            </div>
-            <p id="selected-info"></p>
+            <div id="selected-info"></div>
         </div>
         <div id="result" class="cards_list">
             @include('partial_views.user_cards')
@@ -34,6 +30,17 @@
 @section('script')
 
 <script>
+    document.getElementById('search_field').addEventListener('input', function () {
+    document.getElementById('clear_btn').style.display = this.value ? 'inline' : 'none';
+});
+
+function clearSearch() {
+    const searchField = document.getElementById('search_field');
+    searchField.value = '';
+    searchField.focus();
+    document.getElementById('clear_btn').style.display = 'none';
+}
+
     function toggleCheckboxes(radio) {
     const checkboxContainer = radio.closest('.selection_cell').querySelector('.checkbox-container');
     if (radio.value === 'selection') {
@@ -62,11 +69,13 @@ $(document).ready(function () {
         toggleCheckboxes(cell.find('input[type="radio"][value="tous"]')[0]);
 
         cell.on('click', function () {
+            if ($(event.target).closest('.checkbox-container, .containerRadioSelect').length > 0) {
+                return;
+            }
             groupStates[group] = !groupStates[group]; 
             $(this).toggleClass('selected');
             cell.find('input[type="radio"][value="tous"]').prop('checked', true).trigger('change');
             toggleCheckboxes(cell.find('input[type="radio"][value="tous"]')[0]);
-            console.log("");
             //cell.find('input[type="radio"]').show();
             //cell.find('label').show(); 
             cell.find('.containerRadioSelect').show();
@@ -141,10 +150,16 @@ $(document).ready(function () {
         searchUsers(query, personalityGroups, selectedPersonalities);
     }
     function updateSelectedInfo() {
-        $('#selected-info').html(`
+      const groupsHtml = selectedGroups.map(group => `<div class="tag_recherche">${group}</div>`).join('');
+      const personalitiesHtml = selectedPersonalities.map(personality => `<div class="tag_recherche">${personality}</div>`).join('');
+      $('#selected-info').html(`
+         <div class="selected-personality">${groupsHtml} ${personalitiesHtml}</div>
+      `);
+
+       /* $('#selected-info').html(`
             Groupes sélectionnés : ${selectedGroups.join(', ')}<br>
             Personnalités sélectionnées : ${selectedPersonalities.join(', ')}
-        `);
+        `);*/
     }
     function getSelectedGroups() {
         return selectedGroups.filter(group => 
