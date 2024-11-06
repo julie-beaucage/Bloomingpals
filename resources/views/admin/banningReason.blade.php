@@ -1,7 +1,7 @@
-<form action="banUser" id="banUserForm">
+<form action="/ban/user" id="banUserForm">
     <div class="whitebg" style="padding: 3em; border-radius: 2em">
-        <input type="hidden" name="id">
-        <div>Veux-tu vraiment bannir <span id="userName"></span>?</div>
+        <input type="hidden" name="id" id="userId">
+        <div>Voulez-vous vraiment bannir <span id="userName"></span>?</div>
 
         <h4>Raison:</h4>
         <textarea required maxlength="1000" name="reason" cols="50" rows="10"></textarea><br>

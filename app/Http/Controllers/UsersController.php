@@ -102,10 +102,14 @@ class UsersController extends Controller
 
     public function login(Request $request)
     {
+        
         $data = array(
             "email" => $request['email'],
             "password" => $request['password']
         );
+        if (User::IsBanWithEmail($request['email'])) {
+            return back()->withErrors(['email' => 'Cet utilisateur a été bannie'])->onlyInput('email');
+        }
         if (auth()->attempt($data)) {
             $request->session()->regenerate();
             $id = auth()->user()->id;

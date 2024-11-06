@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Report;
+use App\Models\User;
+
 
 class AdminController extends Controller
 {
@@ -17,6 +19,8 @@ class AdminController extends Controller
     }
 
     public function BanUser(Request $request) {
-        
+
+        $user = User::BanUser($request["id"]);
+        return redirect()->back();
     }
 }

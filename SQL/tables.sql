@@ -97,6 +97,7 @@ CREATE TABLE IF NOT EXISTS users (
     personality INT DEFAULT NULL,
     image_profil VARCHAR(2048),
     background_image VARCHAR(2048), 
+    is_ban BOOLEAN DEFAULT FALSE,
     gender ENUM('homme', 'femme', 'non-genre') NOT NULL,
     password CHAR(128) NOT NULL,
     email_verified_at TIMESTAMP NULL DEFAULT NULL,

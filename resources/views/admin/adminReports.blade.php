@@ -26,9 +26,8 @@
         $image = $report['user_receive']->image_profil ? asset('storage/' . $report->image_profil) : asset('/images/simple_flower.png');
         $route = route("profile", ["id" => $report['user_receive']->id]);
 
-
-        $routeUserThatReported = route("banUser", ["id" => $report["user_send"], "reason" => ""]);
-        $routeUserReported = route("banUser", ["id" => $report["user_receive"], "reason" => ""]);
+        $userSendName = $report['user_send']->first_name." ".$report['user_send']->last_name;
+        $userReceiveName = $report['user_receive']->first_name." ".$report['user_receive']->last_name;
 
         $html .= <<<HTML
             <div class="whitebg maxWidth">
@@ -46,7 +45,8 @@
                                 </div>
                             </div>
                         </a>
-                        <button class="red_button banButton" value="user">
+                        <button class="red_button banButton" value="$userSendName">
+                            <input type="hidden" class="userId" value="{$report['user_send']->id}">
                             Bannir
                         </button><br>
                         <div>
@@ -74,7 +74,8 @@
                                 </div>
                             </div>
                         </a>
-                        <button class="red_button banButton" value="user">
+                        <button class="red_button banButton" value="$userReceiveName">
+                            <input type="hidden" class="userId" value="{$report['user_receive']->id}">
                             Bannir
                         </button>
                     </div>
@@ -95,6 +96,8 @@
             $(".banButton").on("click", function() {
                 console.log("Bouton signalé cliqué.");
                 $("#banUserForm").css("display", "block");
+                $("#userName").html($(this).val());
+                $("#userId").val($(this).children(".userId").val());
             });
         });
     </script>
