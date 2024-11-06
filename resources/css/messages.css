@@ -42,10 +42,14 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    height: 100%;
     gap: 1em;
     padding: 1em;
     max-width: 800px;
     margin: auto auto 0 auto;
+    overflow: hidden;
+    box-sizing: border-box;
+    justify-content: end;
 }
 
 .search_field {
@@ -95,6 +99,7 @@
 
 .convo_img {
     height: 100%;
+    flex-shrink: 0;
 }
 
 .convo_name {
@@ -105,33 +110,71 @@
 .convo_last {
     font-size: 1em;
     color: var(--neutral-600);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow:hidden;
+    width: 16em;
+}
+
+#chat_input_cntr {
+    margin: 0 0.5em;
 }
 
 #chat_messages_cntr {
     display: flex;
     flex-direction: column;
-    gap: 1em;
+    gap: 0.5em;
     overflow-y: auto;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+    padding: 0 0.5em;
+}
+
+#chat_messages_cntr::-webkit-scrollbar {
+    width: 12px;
+}
+
+#chat_messages_cntr::-webkit-scrollbar-track {
+    background-color: var(--neutral-200);
+    border-radius: 1em;
+}
+
+#chat_messages_cntr::-webkit-scrollbar-thumb {
+    background-color: var(--neutral-400);
+    border-radius: 1em;
+}
+
+#chat_messages_cntr::-webkit-scrollbar-thumb:hover {
+    background-color: var(--neutral-500);
+    border-radius: 1em;
+}
+
+#chat_messages_cntr::-webkit-scrollbar-thumb:active {
+    background-color: var(--neutral-600);
+    border-radius: 1em;
 }
 
 .message {
     display: flex;
     flex-direction: column;
     width: fit-content;
+    max-width: 80%;
+    gap: 0.25em;
 }
 
 .message_content {
     background-color: var(--white);
-    border-radius: 0.75em;
-    padding: 1em;
+    border-radius: 1em;
+    padding: 0.75em 1em;
     width: fit-content;
 }
 
 .message.received {
     align-self: flex-start;
     align-items: flex-start;
+}
+
+.message.received .message_content {
+    border-radius: 0.25em 1em 1em 1em;
+    margin-left: 1rem;
 }
 
 .message.sent {
@@ -147,4 +190,28 @@
 .message_date {
     font-size: 0.75em;
     color: var(--neutral-600);
+    margin-bottom: 0.5rem;
+}
+
+.message.received .message_date {
+    margin-left: 1.25rem;
+}
+
+.message.sent .message_date {
+    margin-right: 0.25rem;
+}
+
+.profile_image {
+    width: 2em;
+    height: 2em;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.message_user {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.25em;
+    color: var(--neutral-800)
 }

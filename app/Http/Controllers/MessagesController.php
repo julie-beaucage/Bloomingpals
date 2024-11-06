@@ -9,7 +9,7 @@ use App\Models\User;
 class MessagesController extends Controller
 {
 
-    public function index()
+    public function index($id = null)
     {
         $userChatRooms = ChatRoom::query()->join('chatRooms_users', 'chatRooms.id', '=', 'chatRooms_users.id_chatRoom')
         ->where('chatRooms_users.id_user', '=', auth()->user()->id)
@@ -35,7 +35,9 @@ class MessagesController extends Controller
             ];
         }
 
-        return view('messages.menu', compact('chatRooms'));
+        $chat = $this->chat($id);
+
+        return view('messages.menu', compact('chatRooms', 'chat'));
     }
 
     public function chat($id)

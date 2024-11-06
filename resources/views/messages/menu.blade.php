@@ -20,7 +20,7 @@
                         $personality = $chatRoom['last_user']->getPersonalityType();
                     @endphp
 
-                    <div class="convo_card hover_darker no_select" data-id="{{ $chatRoom['id'] }}">
+                    <div id="convo-{{ $chatRoom['id'] }}" class="convo_card hover_darker no_select" data-id="{{ $chatRoom['id'] }}">
                         <div class="convo_img">
                             <img src="{{ $image }}" alt="Photo de profil" class="profile_image {{$personality}}">
                         </div>
@@ -34,7 +34,7 @@
                 @endforeach
             </div>
         </div>
-        <div id="chat_cntr" ><!-- Chat View --></div>
+        <div id="chat_cntr" >{!! $chat !!}</div>
     </div>
 @endsection()
 

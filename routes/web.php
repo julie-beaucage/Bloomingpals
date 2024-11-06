@@ -113,7 +113,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/search/getInterests', [SearchController::class, 'getInterests'])->name('search.getInterests');
 
     // Messages
-    Route::get('/messages', [MessagesController::class, 'index'])->name('messages');
+    Route::get('/messages/{id?}', [MessagesController::class, 'index'])->name('messages');
     Route::get('/chat/{id}', [MessagesController::class, 'chat'])->name('chat');
     Route::post('/chata/{id}', [MessagesController::class, 'send'])->name('sendMessage');
 
