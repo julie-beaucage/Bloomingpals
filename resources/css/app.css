@@ -87,8 +87,9 @@
 
     --personality-color: var(--neutral-400) !important;
     --personality-color-pale: var(--neutral-200) !important;
+    --personality-color-pale-more: var(--white) !important;
     --personality-text-color: var(--background-800) !important;
-    --personality-text-button: var(--background-950) !important;
+    --personality-text-button: var(--neutral-800) !important;
     --personality-text-color-button: var(--background-100) !important;
 
     --success: #202922;
@@ -105,32 +106,36 @@
 .analystes {
     --personality-color: #c3b0cd !important;
     --personality-color-pale: #decee7 !important;
+    --personality-color-pale-more: #f4e9fa !important;
     --personality-text-color: #6c4d7b !important;
-    --personality-text-button: #620756 !important;
+    --personality-text-button: #a65d9c !important;
     --personality-text-color-button: #ffffff !important;
 }
 
 .diplomates {
     --personality-color: #b1f2d7 !important;
-    --personality-color-pale: #aec8b9 !important;
+    --personality-color-pale: #eafaf1 !important;
+    --personality-color-pale-more: #e6f7e9 !important;
     --personality-text-color: #277d58 !important;
-    --personality-text-button: #53b96c !important;
+    --personality-text-button: #5cdc7c !important;
     --personality-text-color-button: #ffffff !important;
 }
 
 .sentinelles {
     --personality-color: #a7d6e6 !important;
     --personality-color-pale: #cce4ec !important;
+    --personality-color-pale-more: #e9f5f9 !important;
     --personality-text-color: #347990 !important;
-    --personality-text-button: #3b76dc !important;
+    --personality-text-button: #75a4f5 !important;
     --personality-text-color-button: #ffffff !important;
 }
 
 .explorateurs {
     --personality-color: #f4e27b !important;
     --personality-color-pale: #eee4a7 !important;
+    --personality-color-pale-more: #f5f0d1 !important;
     --personality-text-color: #e4ae3a !important;
-    --personality-text-button: #d4b02b !important;
+    --personality-text-button: #e4c246 !important;
     --personality-text-color-button: #ffffff !important;
 }
 
@@ -395,6 +400,7 @@ body {
         display: none;
     }
     .header-nav{
+        z-index: 2001;
         width: 100%;
         padding:0 .2em 0 .2em;
         display: flex !important;

@@ -161,4 +161,40 @@ class SearchController extends Controller
     {
         return response()->json(Interest::all());
     } 
+    
+    public function pals_index(Request $request)
+    {
+        if ($request->ajax()) {
+            $searchTerm = $request->get('search', '');
+            $users = User::where('first_name', 'like', '%' . $searchTerm . '%')->get();
+            $selectedGroups = $request->input('group_personality', []);
+            $typePersonality = $request->input('type_personality', []);
+            $userAfficher = collect();
+
+            if (!empty($selectedGroups)) {
+                $groupUsers = $users->filter(function ($user) use ($selectedGroups) {
+                    $group = $user->getPersonalityGroup();
+                    return in_array($group, $selectedGroups);
+                });
+                $userAfficher = $userAfficher->merge($groupUsers);
+            }
+
+            if (!empty($typePersonality)) {
+                $typeUsers = $users->filter(function ($user) use ($typePersonality) {
+                    $type = $user->getPersonalityType();
+                    return in_array($type, $typePersonality);
+               
+                });
+                $userAfficher = $userAfficher->merge($typeUsers);            
+             }
+            $userAfficher = $userAfficher->unique('id');
+            
+            if ($request->allFilters) {
+                $userAfficher = User::all();
+            } 
+            return view('partial_views.user_cards', ['users' => $userAfficher])->render();   
+        }
+        $users = User::all();
+        return view('pals.pals', ['users' => $users]);
+    }
 }

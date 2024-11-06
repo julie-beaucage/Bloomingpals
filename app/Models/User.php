@@ -50,7 +50,7 @@ class User extends Authenticatable implements MustVerifyEmail
         if ($personality_type) {
             return $personality_type->personality_type;
         } else {
-            return 'default-class'; 
+            return 'Indéterminé'; 
         }
     }
     public function getPersonalityGroup()

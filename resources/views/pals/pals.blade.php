@@ -8,11 +8,11 @@
 @section('content')
 <div class="containerPals">
     @include('pals/searchModal')
-    <h2>Les Pals </h2>
     <div id="search_cntr">
+      <h2>Les Pals </h2>
         <div id="search_header">
             <div id="inputs_cntr">
-                <input type="text" id="search_field" class="no_select" placeholder="Rechercher des amis">
+                <input type="text" id="search_field" class="no_select" placeholder="Rechercher des pals">
                 <button id="clear_btn" class="clear-btn" type="button" onclick="clearSearch()">×</button>
                 <button id="filter_btn" class="hover_darker no_select" type="button">
                     <span class="material-symbols-rounded">filter_vintage</span>
@@ -50,11 +50,34 @@ function clearSearch() {
     }
 }
 
+
 $(document).ready(function () {
     const selectionCells = $('.selection_cell[data-id]');
     let groupStates = {}; 
     let selectedGroups = []; 
     let selectedPersonalities = []; 
+    let allFilters = false;
+
+    $("#reset_btn").on('click', function () {
+        allFilters = true;
+        const selectionCells = $('.selection_cell[data-id]');
+        selectedGroups = []; 
+        selectedPersonalities = []; 
+        selectionCells.each(function () {
+          const cell = $(this);
+          const group = cell.data('id');
+          groupStates[group] = true;
+          selectedGroups.push(group); 
+          cell.addClass('selected'); 
+          cell.find('.containerRadioSelect').show();
+          cell.find('input[type="radio"][value="tous"]').prop('checked', true);
+          cell.find('.checkbox-container').hide(); 
+          cell.find('input[type="checkbox"]').prop('checked', false); 
+        });
+        updateSelectedInfo();
+        fetchUsers(allFilters);
+        allFilters = false;
+    });
 
     selectionCells.each(function () {
         const cell = $(this);
@@ -65,7 +88,6 @@ $(document).ready(function () {
 
         selectedGroups.push(group); 
         cell.addClass('selected'); 
-        //updateCellSelection(cell, group);
         toggleCheckboxes(cell.find('input[type="radio"][value="tous"]')[0]);
 
         cell.on('click', function () {
@@ -76,27 +98,20 @@ $(document).ready(function () {
             $(this).toggleClass('selected');
             cell.find('input[type="radio"][value="tous"]').prop('checked', true).trigger('change');
             toggleCheckboxes(cell.find('input[type="radio"][value="tous"]')[0]);
-            //cell.find('input[type="radio"]').show();
-            //cell.find('label').show(); 
             cell.find('.containerRadioSelect').show();
             if (groupStates[group]) {
                 if (!selectedGroups.includes(group)) {
                     selectedGroups.push(group);
                 }
             } else {
-                //cell.find('.checkbox-container').hide();
                 cell.find('.containerRadioSelect').hide();
-                //cell.find('input[type="radio"]').hide();
-                //cell.find('label').hide(); 
                 selectedGroups = selectedGroups.filter(g => g !== group);
-                //checkboxContainer.hide();
                 cell.find('input[type="checkbox"]').prop('checked', false).each(function() {
                     const personalityType = $(this).val();
                     selectedPersonalities = selectedPersonalities.filter(type => type !== personalityType);
     
                 });
             }
-            //updateCellSelection(cell, group);
             updateSelectedInfo();
             handleSearch();
         });
@@ -149,17 +164,18 @@ $(document).ready(function () {
         updateSelectedInfo();
         searchUsers(query, personalityGroups, selectedPersonalities);
     }
+
     function updateSelectedInfo() {
       const groupsHtml = selectedGroups.map(group => `<div class="tag_recherche">${group}</div>`).join('');
       const personalitiesHtml = selectedPersonalities.map(personality => `<div class="tag_recherche">${personality}</div>`).join('');
       $('#selected-info').html(`
          <div class="selected-personality">${groupsHtml} ${personalitiesHtml}</div>
       `);
-
-       /* $('#selected-info').html(`
-            Groupes sélectionnés : ${selectedGroups.join(', ')}<br>
-            Personnalités sélectionnées : ${selectedPersonalities.join(', ')}
-        `);*/
+      if(allFilters){
+        $('#selected-info').html(`
+         <div class="tag_recherche">Tous</div>
+      `);
+      }
     }
     function getSelectedGroups() {
         return selectedGroups.filter(group => 
@@ -174,7 +190,6 @@ $(document).ready(function () {
         const url = new URL(window.location.href);
         url.searchParams.set("query", query);
         window.history.replaceState({}, "", url);
-
         timeout = setTimeout(function () {
             handleSearch();
         }, 350);
@@ -183,11 +198,6 @@ $(document).ready(function () {
     $("#filter_btn").on('click', function () {
         $("#relative_cntr").removeClass("hidden");
         $("#content").addClass("no_overflow");
-       /* selectionCells.each(function () {
-            const cell = $(this);
-            const group = cell.data('id');
-            updateCellSelection(cell, group);
-        });*/
     });
 
     $("#close_filter_btn").on('click', function () {
@@ -196,6 +206,12 @@ $(document).ready(function () {
         searchUsers($('#search_field').val(), selectedGroups, selectedPersonalities);
     });
 
+    $("#close_filter_btn_just").on('click', function () {
+        $("#relative_cntr").addClass("hidden");
+        $("#content").removeClass("no_overflow");
+    });
+
+
     function searchUsers(query, personalityGroups, personalityTypes) {
         $.ajax({
             url: "{{ route('searchUsers') }}",
@@ -203,8 +219,7 @@ $(document).ready(function () {
             data: {
                 search: query,
                 group_personality: personalityGroups.length > 0 ? personalityGroups : [],
-                type_personality: personalityTypes.length > 0 ? personalityTypes : []
-            },
+                type_personality: personalityTypes.length > 0 ? personalityTypes : []            },
             success: function (data) {
                 if (!data || data === "") {
                     $("#result").html('<div id="result_msg"><span>Aucun résultat</span></div>');
@@ -217,6 +232,18 @@ $(document).ready(function () {
             }
         });
     }
+    function fetchUsers(allFilters) {
+    $.ajax({
+        url: "{{ route('searchUsers') }}",  
+        method: 'GET',
+        data: {
+            allFilters: allFilters,
+        },
+        success: function(data) {
+            $('#result').html(data);
+        }
+    });
+}
 });
 </script>
 @endsection

@@ -49,7 +49,7 @@ foreach ($users as $user) {
                 </div>
                 <div class="infos">
                     <span>$affinity% d'affinité avec vous</span>
-                    <p>$userPersonalityType</p>
+                    <div class="tag_perso {$userPersonality}">$userPersonalityType</div>
                 </div>
             </div>
         </a>
@@ -64,7 +64,8 @@ usort($userDataList, function ($a, $b) use ($currentUser) {
 
 foreach ($userDataList as $userData) {
     if ($userData['user']->id === $currentUser->id) {
-        echo '<div style="margin-bottom: 1px; font-weight: bold;"> Vous</div>'; 
+        echo'<hr>';
+        echo '<div style="margin-left:5%; font-weight: bold; color:var(--neutral-800);"> Votre profil : </div>'; 
         echo $userData['html'];
     } else {
         echo $userData['html'];

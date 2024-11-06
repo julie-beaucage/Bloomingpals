@@ -20,9 +20,7 @@ class SearchUserController extends Controller
             $searchTerm = $request->get('search', '');
             $users = User::where('first_name', 'like', '%' . $searchTerm . '%')->get();
             $selectedGroups = $request->input('group_personality', []);
-            //Log::info("Search initiated with term:", $selectedGroups);
             $typePersonality = $request->input('type_personality', []);
-            //Log::info("Search initiated with term personalit :", $typePersonality);
             $userAfficher = collect();
 
             if (!empty($selectedGroups)) {
@@ -31,35 +29,25 @@ class SearchUserController extends Controller
                     return in_array($group, $selectedGroups);
                 });
                 $userAfficher = $userAfficher->merge($groupUsers);
-                //Log::info("Users filtered by group: " . $groupUsers->count());
             }
 
             if (!empty($typePersonality)) {
                 $typeUsers = $users->filter(function ($user) use ($typePersonality) {
                     $type = $user->getPersonalityType();
                     return in_array($type, $typePersonality);
+               
                 });
-                $userAfficher = $userAfficher->merge($typeUsers);
-                //Log::info("Users filtered by type: " . $typeUsers->count());
-            }
+                $userAfficher = $userAfficher->merge($typeUsers);            
+             }
             $userAfficher = $userAfficher->unique('id');
-            //Log::info("Final users retrieved: " . $userAfficher->count());
-
-            return view('partial_views.user_cards', ['users' => $userAfficher])->render();
+            
+            if ($request->allFilters) {
+                $userAfficher = User::all();
+            } 
+            return view('partial_views.user_cards', ['users' => $userAfficher])->render();   
         }
         $users = User::all();
         return view('pals.pals', ['users' => $users]);
     }
-
-    private function filterName($queryBuilder, $query)
-    {
-        return $queryBuilder->where(DB::raw("CONCAT(`first_name`, ' ', `last_name`)"), 'LIKE', '%' . $query . '%');
-    }
-
-    private function filterByPersonalityGroup($queryBuilder, $personalityGroup)
-    {
-        return $queryBuilder->where('personality_group', $personalityGroup);
-    }
-
 
 }

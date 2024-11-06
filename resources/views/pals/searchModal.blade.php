@@ -2,15 +2,18 @@
     <div id="absolute_cntr">
         <div class="filters_cntr">
             <div class="header">
+                <span class="material-symbols-rounded no_select pointer">page_info</span>
                 <span class="title">Trier par personnalité: </span>
-                <span id="close_filter_btn" class="material-symbols-rounded no_select pointer">close</span>
+                <span id="close_filter_btn_just" class="material-symbols-rounded no_select pointer">close</span>
+            </div>
+            <div class="container_reset_btn">
             </div>
             <div class="content">
                 <div class="filter_cntr selection_grid" data-param="group-personality">
                     <div class="selection_cell no_select hover_darker analystes" style="background-color: var(--personality-text-color)" data-id="analystes">
                         <span class="group-title">Analyste <span class="material-symbols-rounded">psychology</span></span>
                         <div class="containerRadioSelect">
-                          <span class="ttt">Type de personnalité :</span>
+                          <span class="type_span">Type de personnalité :</span>
                           <label>
                              <input type="radio" name="selection_analystes" value="tous" onclick="toggleCheckboxes(this)"> Tous
                           </label>
@@ -29,7 +32,7 @@
                     <div class="selection_cell no_select hover_darker diplomates" style="background-color: var(--personality-text-color)" data-id="diplomates">
                         <span class="group-title">Diplomate <span class="material-symbols-rounded">handshake</span></span>
                         <div class="containerRadioSelect">
-                          <span class="ttt">Type de personnalité :</span>
+                          <span class="type_span">Type de personnalité :</span>
                           <label>
                              <input type="radio" name="selection_diplomates" value="tous" onclick="toggleCheckboxes(this)"> Tous
                           </label>
@@ -47,7 +50,7 @@
                     <div class="selection_cell no_select hover_darker sentinelles" style="background-color: var(--personality-text-color)" data-id="sentinelles">
                         <span class="group-title">Sentinelle <span class="material-symbols-rounded">health_and_safety</span></span>
                         <div class="containerRadioSelect">
-                          <span class="ttt">Type de personnalité :</span>
+                          <span class="type_span">Type de personnalité :</span>
                           <label>
                              <input type="radio" name="selection_sentinelles" value="tous" onclick="toggleCheckboxes(this)"> Tous
                           </label>
@@ -62,12 +65,10 @@
                           <label><input type="checkbox" value="ESFJ" class="personality-checkbox"> ESFJ - Animateur</label>
                         </div>
                     </div>
-
-
                     <div class="selection_cell no_select hover_darker explorateurs" style="background-color: var(--personality-text-color)" data-id="explorateurs">
                         <span class="group-title">Explorateur <span class="material-symbols-rounded">explore</span></span>
                         <div class="containerRadioSelect">
-                           <span class="ttt">Type de personnalité :</span>
+                           <span class="type_span">Type de personnalité :</span>
                           <label>
                              <input type="radio" name="selection_explorateurs" value="tous" onclick="toggleCheckboxes(this)"> Tous
                           </label>
@@ -83,6 +84,14 @@
                        </div>
                     </div>
                 </div>
+            </div>
+            <div class="container_reset_btn">
+                   <span id="reset_btn" class ="btn-reset no_select pointer button">Tout réinitialiser 
+                      <span class="material-symbols-rounded no_select pointer"> restart_alt </span>
+                    </span>
+                    <span id="close_filter_btn" class ="btn-reset no_select pointer button">Trouver
+                      <span class="material-symbols-rounded no_select pointer"> search </span>
+                    </span>
             </div>
         </div>
     </div>

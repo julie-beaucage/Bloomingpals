@@ -107,13 +107,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/search/getInterests', [SearchController::class, 'getInterests'])->name('search.getInterests');
 
     //Pals + seach pals_index
-    //Route::get('/search', [SearchUserController::class, 'search'])->name('search');
-    Route::get('/pals', [SearchUserController::class, 'pals_index'])->name('searchUsers');
-    Route::get('/search-users', [SearchUserController::class, 'searchUsers'])->name('searchUsers2');
+    Route::get('/pals', [SearchController::class, 'pals_index'])->name('searchUsers');
 
-    //Route::get('/search/users', [SearchUserController::class, 'users'])->name('search.users');
 
-    
     //utilisateurs
     Route::get("user/friend/request/send/{id}", [UsersController::class, "SendFriendRequest"])->name("SendFriendRequest");
     Route::get("user/friend/request/accept/{id}", [UsersController::class, "AcceptFriendRequest"])->name("AcceptFriendRequest");
