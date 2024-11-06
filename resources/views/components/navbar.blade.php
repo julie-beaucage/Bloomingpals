@@ -21,6 +21,12 @@
                     'url' => route('search')
                 ],
                 [
+                    'id' => 'pals',  
+                    'title' => 'Pals', 
+                    'icon' => 'group', 
+                    'url' => route('searchUsers') 
+                ],
+                [
                     'id' => 'notification',
                     'title' => 'Notifications',
                     'icon' => 'notifications',
@@ -48,7 +54,7 @@
 
                 $class = 'navbar_item no_select';
                 $class = $id == Route::current()->uri() ? $class . ' active' : $class;
-                $class .= ' ' . Auth::user()->getPersonalityType();
+                $class .= ' ' . Auth::user()->getPersonalityGroup();
 
                 $hideNotification = '';
                 if ($id == 'notification') {
