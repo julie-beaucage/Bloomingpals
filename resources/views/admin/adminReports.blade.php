@@ -61,6 +61,48 @@
                 </div>
             </a>
         HTML;
+
+        $image = $report['user_receive']->image_profil ? asset('storage/' . $report->image_profil) : asset('/images/simple_flower.png');
+        $tags = "";
+
+        $user_interests = User_Interest::where('id_user', $report['user_receive']->id)->get();
+        $count = "";
+        if ($count != "Undefined") {
+            $count = count($user_interests);
+        } else {
+            $count = 0;
+        }
+        
+        for ($i = 0; $i < $count && $i < 2; $i++) {
+            $interest = Interest::find($user_interests[$i]->id_interest);
+            if ($interest == null) continue;
+            
+            $tags .= '<span class="tag" style="background-color: var(--category-'. $interest->id_category .')">' . $interest->name . '</span>';
+        }
+
+        if ($count > 2) {
+            $tags .= '<span class="tag square_tag">+' . ($count - 2) . '</span>';
+        }
+
+        $route = route("profile", ["id" => $report['user_receive']->id]);
+
+        $html .= <<<HTML
+            <a class="card_long no_select hover_darker" href="$route">
+                <div class="banner">
+                    <img src="$image" alt="Image de profile de {$report['user_receive']->first_name} {$report['user_receive']->last_name}">
+                </div>
+                <div class="content">
+                    <div class="header">
+                        <div class="text_nowrap name_cntr">
+                            <span class="name">{$report['user_receive']->first_name} {$report['user_receive']->last_name}</span>
+                        </div>
+                        <div class="tags_cntr">
+                            {$tags}
+                        </div>
+                    </div>
+                </div>
+            </a><br><br>
+        HTML;
     }
 
     echo $html;

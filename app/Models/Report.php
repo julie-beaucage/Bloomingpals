@@ -17,13 +17,15 @@ class Report extends Model
     public static function AddReport($userSend, $userReceive, $object, $objectTypeId) {
         $objectId = Report_Object::AddReportAndGetId($object);
 
-        $report = [
-            "id_user_send" => $userSend,
-            "id_user_receive" => $userReceive,
-            "id_object" => $objectId,
-            "id_type_object" => $objectTypeId
-        ];
-        Report::Create($report);
+        if (Report::where('id_user_send', $userSend)->where("id_user_receive", $userReceive)->count() == 0) {
+            $report = [
+                "id_user_send" => $userSend,
+                "id_user_receive" => $userReceive,
+                "id_object" => $objectId,
+                "id_type_object" => $objectTypeId
+            ];
+            Report::Create($report);
+        }
     }
 
     public static function GetReportsWithObject() {
