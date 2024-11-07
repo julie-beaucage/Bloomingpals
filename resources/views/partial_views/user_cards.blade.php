@@ -11,9 +11,10 @@ if (count($users) == 0) {
     echo '';
     return;
 }
-
+$userDataList = [];
 foreach ($users as $user) {
-    $userPersonality = $user->getPersonalityType(); 
+    $userPersonality = $user->getPersonalityGroup(); 
+    $userPersonalityType = $user->getPersonalityType();
     $affinity = $currentUser->calculateAffinity($user->id, $currentUser->id);
     $image = $user->image_profil ? asset('storage/' . $user->image_profil) : asset('/images/simple_flower.png');
     $tags = "";
@@ -31,7 +32,10 @@ foreach ($users as $user) {
         $tags .= '<span class="tag square_tag">+' . ($count - 2) . '</span>'; 
     }
 
-    echo <<< HTML
+    $userDataList[] = [
+        'user' => $user,
+        'affinity' => $affinity,
+        'html' => <<< HTML
         <a class="card_long no_select hover_darker $userPersonality" href="profile/$user->id">
         <div class="banner {$userPersonality}">
                 <img src="$image" alt="Image de profile de $user->first_name $user->last_name">
@@ -44,9 +48,26 @@ foreach ($users as $user) {
                     $tags
                 </div>
                 <div class="infos">
-                <span>$affinity% d'affinité avec vous</span>
+                    <span>$affinity% d'affinité avec vous</span>
+                    <div class="tag_perso {$userPersonality}">$userPersonalityType</div>
                 </div>
             </div>
         </a>
-    HTML;
+    HTML . ($user->id === $currentUser->id ? '<hr>' : '')
+    ];
+}
+usort($userDataList, function ($a, $b) use ($currentUser) {
+    if ($a['user']->id === $currentUser->id) return -1; 
+    if ($b['user']->id === $currentUser->id) return 1;  
+    return $b['affinity'] <=> $a['affinity']; 
+});
+
+foreach ($userDataList as $userData) {
+    if ($userData['user']->id === $currentUser->id) {
+        echo'<hr>';
+        echo '<div style="margin-left:5%; font-weight: bold; color:var(--neutral-800);"> Votre profil : </div>'; 
+        echo $userData['html'];
+    } else {
+        echo $userData['html'];
+    }
 }
