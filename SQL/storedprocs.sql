@@ -239,6 +239,7 @@ BEGIN
 		Insert INTO meetups (name, `description`, id_owner, adress, city, `date`, nb_participant, image, public) 
 		VALUES ( _nom, _description, _id_organisateur, _adresse, _ville, _date,_nb_participant,	_image, _public);
 	COMMIT;
+     select LAST_INSERT_ID();
 	
 END;
 // DELIMITER ; 
@@ -344,6 +345,28 @@ DELIMITER //
 Create Procedure deleteNotification(_id INT)
 BEGIN
 	DELETE FROM notifications WHERE id=_id;
+	
+END;
+// DELIMITER ;
+
+-- Feed
+Drop procedure if exists fillFeed;
+DELIMITER //
+Create procedure fillFeed(_id Int)
+BEGIN 
+	DECLARE increment  INT unsigned DEFAULT 1;
+    
+    INSERT INTO actions (id_user,type,message,content) values(_id,2, concat('message ',increment),json_object('user',3));
+		set increment = increment+1;
+    
+    while increment<=100 DO
+		INSERT INTO actions (id_user,type,message,content) values(_id,1, concat('message ',increment),json_object('user',2,'meetup',1));
+        set increment = increment+1;
+        INSERT INTO actions (id_user,type,message,content) values(_id,1, concat('message ',increment),json_object('user',3,'meetup',4));
+		set increment = increment+1;
+	end while;
+    INSERT INTO actions (id_user,type,message,content) values(_id,2, concat('message ',increment),json_object('user',3));
+		set increment = increment+1;
 	
 END;
 // DELIMITER ;

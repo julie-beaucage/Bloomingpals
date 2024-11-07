@@ -38,6 +38,13 @@ Insert INTO types_notifications (name) Values('Friendship Request');
 Insert INTO types_notifications (name) Values('Meetup Interest');
 Insert INTO types_notifications (name) Values('Friendship Accept');
 
+-- Type Feed
+INSERT INTO types_actions(name) VALUES('Meetup Search');
+INSERT INTO types_actions (name) VALUES('Meetup Join');
+
+-- Feed
+CALL fillFeed(2);
+
 -- Sport
 INSERT INTO interests (name, id_category) VALUES ('Bowling', 1);
 INSERT INTO interests (name, id_category) VALUES ('Tennis', 1);
