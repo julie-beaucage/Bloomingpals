@@ -37,6 +37,8 @@ Route::post('profile/checkPassword', [UsersController::class, 'checkPassword']);
 Route::post('/profile/checkEmail', [UsersController::class, 'isEmailTaken']);
 Route::post('/profile/updateAccount', [UsersController::class, 'updateAccount']);
 
+
+
 Route::middleware('auth')->group(function () {
     
     // Home
@@ -90,9 +92,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/meetup/join/{meetupId}', [MeetupController::class, 'JoinMeetup'])->name('joinMeetup');
     Route::get('/meetup/cancel/{meetupId}', [MeetupController::class, 'CancelJoiningMeetup'])->name('cancelJoiningMeetup');
     Route::get('/meetup/leave/{meetupId}', [MeetupController::class, 'LeaveMeetup'])->name('leaveMeetup');
-
     Route::get('/meetup/removeParticipant/{meetupId}/{userId}', [MeetupController::class, 'RemoveParticipant'])->name("removeParticipant");
-
     Route::get('/meetup/requests/{meetupId}', [MeetupController::class, 'MeetupRequests'])->name('meetupRequests');
     Route::get('/meetup/requests/accept/{meetupId}/{userId}', [MeetupController::class, 'AcceptRequest'])->name('acceptRequest');
     Route::get('/meetup/requests/deny/{meetupId}/{userId}', [MeetupController::class, 'DenyRequest'])->name('denyRequest');
@@ -125,4 +125,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/notifications', [NotificationController::class,'index']);
     Route::delete('/notifications/delete', [NotificationController::class,'delete']);
     Route::get('/hasNotificationOn', [NotificationController::class, 'hasNotificationOn']);
+
+    // Feed
+    Route::get('/feed', function(){
+        return View::make('feed.feed');
+    })->name('feed');
+
+    Route::namespace('feed')->prefix('feed')->group( function () {
+        Route::get('/fetchFeed/{page}', [HomeController::class, 'fetchFeed']);
+        Route::post('/fetchData', [HomeController::class, 'fetchData']);
+    });
+
+    
 });

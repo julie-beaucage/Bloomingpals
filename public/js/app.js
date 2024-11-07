@@ -11,6 +11,19 @@
 
 /***/ }),
 
+/***/ "./resources/css/event.css":
+/*!*********************************!*\
+  !*** ./resources/css/event.css ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
 /***/ "./resources/css/search.css":
 /*!**********************************!*\
   !*** ./resources/css/search.css ***!
@@ -115,6 +128,32 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/css/feed.css":
+/*!********************************!*\
+  !*** ./resources/css/feed.css ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./resources/scss/loading.scss":
+/*!*************************************!*\
+  !*** ./resources/scss/loading.scss ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
 /***/ "./resources/css/app.css":
 /*!*******************************!*\
   !*** ./resources/css/app.css ***!
@@ -158,19 +197,6 @@ __webpack_require__.r(__webpack_exports__);
 /*!**********************************!*\
   !*** ./resources/css/meetup.css ***!
   \**********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-// extracted by mini-css-extract-plugin
-
-
-/***/ }),
-
-/***/ "./resources/css/event.css":
-/*!*********************************!*\
-  !*** ./resources/css/event.css ***!
-  \*********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -269,16 +295,18 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 			"/js/app": 0,
 /******/ 			"css/app": 0,
 /******/ 			"css/profile": 0,
-/******/ 			"css/event": 0,
 /******/ 			"css/meetup": 0,
 /******/ 			"css/meetupForm": 0,
 /******/ 			"css/login": 0,
+/******/ 			"css/loading": 0,
+/******/ 			"css/feed": 0,
 /******/ 			"css/notifications": 0,
 /******/ 			"css/home": 0,
 /******/ 			"css/overlay-modal": 0,
 /******/ 			"css/personality": 0,
 /******/ 			"css/interets": 0,
 /******/ 			"css/search": 0,
+/******/ 			"css/event": 0,
 /******/ 			"css/cards": 0
 /******/ 		};
 /******/ 		
@@ -329,20 +357,22 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	__webpack_require__.O(undefined, ["css/app","css/profile","css/event","css/meetup","css/meetupForm","css/login","css/notifications","css/home","css/overlay-modal","css/personality","css/interets","css/search","css/cards"], () => (__webpack_require__("./resources/js/app.js")))
-/******/ 	__webpack_require__.O(undefined, ["css/app","css/profile","css/event","css/meetup","css/meetupForm","css/login","css/notifications","css/home","css/overlay-modal","css/personality","css/interets","css/search","css/cards"], () => (__webpack_require__("./resources/css/app.css")))
-/******/ 	__webpack_require__.O(undefined, ["css/app","css/profile","css/event","css/meetup","css/meetupForm","css/login","css/notifications","css/home","css/overlay-modal","css/personality","css/interets","css/search","css/cards"], () => (__webpack_require__("./resources/css/login.css")))
-/******/ 	__webpack_require__.O(undefined, ["css/app","css/profile","css/event","css/meetup","css/meetupForm","css/login","css/notifications","css/home","css/overlay-modal","css/personality","css/interets","css/search","css/cards"], () => (__webpack_require__("./resources/css/meetupForm.css")))
-/******/ 	__webpack_require__.O(undefined, ["css/app","css/profile","css/event","css/meetup","css/meetupForm","css/login","css/notifications","css/home","css/overlay-modal","css/personality","css/interets","css/search","css/cards"], () => (__webpack_require__("./resources/css/meetup.css")))
-/******/ 	__webpack_require__.O(undefined, ["css/app","css/profile","css/event","css/meetup","css/meetupForm","css/login","css/notifications","css/home","css/overlay-modal","css/personality","css/interets","css/search","css/cards"], () => (__webpack_require__("./resources/css/event.css")))
-/******/ 	__webpack_require__.O(undefined, ["css/app","css/profile","css/event","css/meetup","css/meetupForm","css/login","css/notifications","css/home","css/overlay-modal","css/personality","css/interets","css/search","css/cards"], () => (__webpack_require__("./resources/css/search.css")))
-/******/ 	__webpack_require__.O(undefined, ["css/app","css/profile","css/event","css/meetup","css/meetupForm","css/login","css/notifications","css/home","css/overlay-modal","css/personality","css/interets","css/search","css/cards"], () => (__webpack_require__("./resources/css/profile.css")))
-/******/ 	__webpack_require__.O(undefined, ["css/app","css/profile","css/event","css/meetup","css/meetupForm","css/login","css/notifications","css/home","css/overlay-modal","css/personality","css/interets","css/search","css/cards"], () => (__webpack_require__("./resources/css/interets.css")))
-/******/ 	__webpack_require__.O(undefined, ["css/app","css/profile","css/event","css/meetup","css/meetupForm","css/login","css/notifications","css/home","css/overlay-modal","css/personality","css/interets","css/search","css/cards"], () => (__webpack_require__("./resources/css/cards.css")))
-/******/ 	__webpack_require__.O(undefined, ["css/app","css/profile","css/event","css/meetup","css/meetupForm","css/login","css/notifications","css/home","css/overlay-modal","css/personality","css/interets","css/search","css/cards"], () => (__webpack_require__("./resources/css/personality.css")))
-/******/ 	__webpack_require__.O(undefined, ["css/app","css/profile","css/event","css/meetup","css/meetupForm","css/login","css/notifications","css/home","css/overlay-modal","css/personality","css/interets","css/search","css/cards"], () => (__webpack_require__("./resources/css/overlay-modal.css")))
-/******/ 	__webpack_require__.O(undefined, ["css/app","css/profile","css/event","css/meetup","css/meetupForm","css/login","css/notifications","css/home","css/overlay-modal","css/personality","css/interets","css/search","css/cards"], () => (__webpack_require__("./resources/css/home.css")))
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/app","css/profile","css/event","css/meetup","css/meetupForm","css/login","css/notifications","css/home","css/overlay-modal","css/personality","css/interets","css/search","css/cards"], () => (__webpack_require__("./resources/css/notifications.css")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/profile","css/meetup","css/meetupForm","css/login","css/loading","css/feed","css/notifications","css/home","css/overlay-modal","css/personality","css/interets","css/search","css/event","css/cards"], () => (__webpack_require__("./resources/js/app.js")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/profile","css/meetup","css/meetupForm","css/login","css/loading","css/feed","css/notifications","css/home","css/overlay-modal","css/personality","css/interets","css/search","css/event","css/cards"], () => (__webpack_require__("./resources/scss/loading.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/profile","css/meetup","css/meetupForm","css/login","css/loading","css/feed","css/notifications","css/home","css/overlay-modal","css/personality","css/interets","css/search","css/event","css/cards"], () => (__webpack_require__("./resources/css/app.css")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/profile","css/meetup","css/meetupForm","css/login","css/loading","css/feed","css/notifications","css/home","css/overlay-modal","css/personality","css/interets","css/search","css/event","css/cards"], () => (__webpack_require__("./resources/css/login.css")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/profile","css/meetup","css/meetupForm","css/login","css/loading","css/feed","css/notifications","css/home","css/overlay-modal","css/personality","css/interets","css/search","css/event","css/cards"], () => (__webpack_require__("./resources/css/meetupForm.css")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/profile","css/meetup","css/meetupForm","css/login","css/loading","css/feed","css/notifications","css/home","css/overlay-modal","css/personality","css/interets","css/search","css/event","css/cards"], () => (__webpack_require__("./resources/css/meetup.css")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/profile","css/meetup","css/meetupForm","css/login","css/loading","css/feed","css/notifications","css/home","css/overlay-modal","css/personality","css/interets","css/search","css/event","css/cards"], () => (__webpack_require__("./resources/css/event.css")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/profile","css/meetup","css/meetupForm","css/login","css/loading","css/feed","css/notifications","css/home","css/overlay-modal","css/personality","css/interets","css/search","css/event","css/cards"], () => (__webpack_require__("./resources/css/search.css")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/profile","css/meetup","css/meetupForm","css/login","css/loading","css/feed","css/notifications","css/home","css/overlay-modal","css/personality","css/interets","css/search","css/event","css/cards"], () => (__webpack_require__("./resources/css/profile.css")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/profile","css/meetup","css/meetupForm","css/login","css/loading","css/feed","css/notifications","css/home","css/overlay-modal","css/personality","css/interets","css/search","css/event","css/cards"], () => (__webpack_require__("./resources/css/interets.css")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/profile","css/meetup","css/meetupForm","css/login","css/loading","css/feed","css/notifications","css/home","css/overlay-modal","css/personality","css/interets","css/search","css/event","css/cards"], () => (__webpack_require__("./resources/css/cards.css")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/profile","css/meetup","css/meetupForm","css/login","css/loading","css/feed","css/notifications","css/home","css/overlay-modal","css/personality","css/interets","css/search","css/event","css/cards"], () => (__webpack_require__("./resources/css/personality.css")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/profile","css/meetup","css/meetupForm","css/login","css/loading","css/feed","css/notifications","css/home","css/overlay-modal","css/personality","css/interets","css/search","css/event","css/cards"], () => (__webpack_require__("./resources/css/overlay-modal.css")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/profile","css/meetup","css/meetupForm","css/login","css/loading","css/feed","css/notifications","css/home","css/overlay-modal","css/personality","css/interets","css/search","css/event","css/cards"], () => (__webpack_require__("./resources/css/home.css")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/profile","css/meetup","css/meetupForm","css/login","css/loading","css/feed","css/notifications","css/home","css/overlay-modal","css/personality","css/interets","css/search","css/event","css/cards"], () => (__webpack_require__("./resources/css/notifications.css")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/app","css/profile","css/meetup","css/meetupForm","css/login","css/loading","css/feed","css/notifications","css/home","css/overlay-modal","css/personality","css/interets","css/search","css/event","css/cards"], () => (__webpack_require__("./resources/css/feed.css")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()
