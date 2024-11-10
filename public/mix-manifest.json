@@ -7,15 +7,17 @@
     "/js/Notifications.js": "/js/Notifications.js",
     "/css/app.css": "/css/app.css",
     "/css/profile.css": "/css/profile.css",
-    "/css/event.css": "/css/event.css",
     "/css/meetup.css": "/css/meetup.css",
     "/css/meetupForm.css": "/css/meetupForm.css",
     "/css/login.css": "/css/login.css",
+    "/css/loading.css": "/css/loading.css",
+    "/css/feed.css": "/css/feed.css",
     "/css/notifications.css": "/css/notifications.css",
     "/css/home.css": "/css/home.css",
     "/css/overlay-modal.css": "/css/overlay-modal.css",
     "/css/personality.css": "/css/personality.css",
     "/css/interets.css": "/css/interets.css",
     "/css/search.css": "/css/search.css",
+    "/css/event.css": "/css/event.css",
     "/css/cards.css": "/css/cards.css"
 }

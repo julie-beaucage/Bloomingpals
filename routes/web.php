@@ -38,6 +38,8 @@ Route::post('profile/checkPassword', [UsersController::class, 'checkPassword']);
 Route::post('/profile/checkEmail', [UsersController::class, 'isEmailTaken']);
 Route::post('/profile/updateAccount', [UsersController::class, 'updateAccount']);
 
+
+
 Route::middleware('auth')->group(function () {
     
     // Home
@@ -124,4 +126,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/notifications', [NotificationController::class,'index']);
     Route::delete('/notifications/delete', [NotificationController::class,'delete']);
     Route::get('/hasNotificationOn', [NotificationController::class, 'hasNotificationOn']);
+
+    // Feed
+    Route::get('/feed', function(){
+        return View::make('feed.feed');
+    })->name('feed');
+
+    Route::namespace('feed')->prefix('feed')->group( function () {
+        Route::get('/fetchFeed/{page}', [HomeController::class, 'fetchFeed']);
+        Route::post('/fetchData', [HomeController::class, 'fetchData']);
+    });
+
+    
 });

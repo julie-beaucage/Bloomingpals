@@ -33,6 +33,12 @@
                     'url' => "#"
                 ],
                 [
+                    'id' => 'feed',
+                    'title' => "Fil d'actualité",
+                    'icon' => 'explore',
+                    'url' => route('feed')
+                ],
+                [
                     'id' => 'profile',
                     'title' => 'Profil',
                     'icon' => Auth::user()->image_profil ? asset('storage/' . Auth::user()->image_profil) : asset('/images/simple_flower.png'),
