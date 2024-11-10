@@ -426,6 +426,120 @@ body {
         font-size: .8em;
     }
 }
+/* -------------------- Header --------------------*/
+.logo{
+    width: 1.5em;
+    height: 1.5em;
+}
+.header-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #fff; 
+}
+
+.navbar_notification .title.no_select {
+    font-weight: bold;
+    user-select: none; 
+}
+
+.navbar_notification.pointer {
+    position: relative;
+    cursor: pointer;
+}
+
+.notification-container {
+    position: absolute;
+    top: -5px;
+    right: -10px;
+}
+
+.notification-badge {
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 0.3em 0.6em;
+    font-size: 14px;
+}
+
+.notif-count {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.navbar_notification .material-symbols-rounded{
+    font-size: 24px;
+    color: #333;
+    padding-right:0.4em;
+}
+.material-symbols-rounded#menu-icon {
+    font-size: 24px;
+    cursor: pointer;
+}
+
+#dropdown-menu {
+    display: none; 
+    position: absolute;
+    right: 10px;
+    top: 50px;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 1000; /* Assure que le menu s'affiche au-dessus des autres éléments */
+}
+
+.dropdown-item {
+    display: block;
+    padding: 8px 12px;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.dropdown-item:hover {
+    background-color: #f4f4f4;
+}
+
+
+#dropdown-menu.show {
+    display: block;
+}
+
+.navbar_notification {
+    position: relative;
+}
+
+.icon_md {
+    font-size: 24px;
+}
+
+.notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: red;
+    color: white;
+    padding: 3px 6px;
+    border-radius: 50%;
+    font-size: 12px;
+}
+
+.menu-icon {
+    font-size: 30px;
+    cursor: pointer;
+    margin-left: 20px;
+}
+
+
+@media (max-width: 768px) {
+    .menu-icon {
+        font-size: 28px;
+    }
+}
+
 
 /*-------------------- General styles --------------------*/
 .no_select {

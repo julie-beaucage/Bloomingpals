@@ -10,11 +10,9 @@
     @yield("style", "")
 </head>
 @php use \App\Http\Controllers\NotificationController;
-$notifications=NotificationController::index();
+   $notifications=NotificationController::index();
 @endphp
-
 <body>
-
     <div id="main">
     <x-header />
         @if (isset($view))
@@ -22,18 +20,13 @@ $notifications=NotificationController::index();
         @else
             <x-navbar />
         @endif
-        
-
         <div id="content">
-            
             <x-notifications :notifications="$notifications" />
             @yield("content", "")
             <x-footer />
         </div>
     </div>
-
     @include("bundles.scriptsBundle")
     @yield("script", "")
 </body>
-
 </html>
