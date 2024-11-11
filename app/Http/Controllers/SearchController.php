@@ -6,7 +6,6 @@ use App\Models\City;
 use App\Models\Meetup;
 use App\Models\Interest;
 use App\Models\Meetup_Interest;
-use App\Models\Event_Interest;
 use App\Models\Event_Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -128,10 +127,10 @@ class SearchController extends Controller
 
         $user = User::find(auth()->user()->id);
         $events = $events->sort(function($a, $b) use ($user) {
-            $interests_ids_a = Event_Interest::select('id_interest')->where('id_event', '=', $a->id)->get();
+            $interests_ids_a = Event_Category::select('id_interest')->where('id_event', '=', $a->id)->get();
             $affinity_a = $user->affinity($interests_ids_a) + rand(0, 30) / 100;
 
-            $interests_ids_b = Event_Interest::select('id_interest')->where('id_event', '=', $b->id)->get();
+            $interests_ids_b = Event_Category::select('id_interest')->where('id_event', '=', $b->id)->get();
             $affinity_b = $user->affinity($interests_ids_b) + rand(0, 30) / 100;
 
             $diff = $affinity_b - $affinity_a;
