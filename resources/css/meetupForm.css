@@ -344,5 +344,7 @@ label {
         flex:3;
     }
 }
-
+.active-image{
+    border:none;
+}
 

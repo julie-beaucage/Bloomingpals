@@ -90,7 +90,6 @@ class UsersController extends Controller
 
             return back()->withErrors(['error' => $e->getMessage()]);
         }
-
     }
 
     public function loginForm()
@@ -177,8 +176,6 @@ class UsersController extends Controller
         } else if ($user->confidentiality == "public") {
             $haveAccess = true;
         }
-
-
 
         if ($relation == 'GotBlocked') {
             return redirect()->back();
@@ -356,6 +353,68 @@ class UsersController extends Controller
     public function rencontres($id) {
         $MeetupsData = Meetup::GetMeetupsFromUser($id);
         return view("profile.events", ["eventsData" => $MeetupsData, "type" => "rencontre"]);
+    }
+    public function FriendSuggestion(){
+        if(Auth::user()->id != null){
+            $userInterest=User_Interest::select('id_interest')->where('id_user',Auth::user()->id)->get();
+            $similarUsers=User_Interest::select('id_user')->whereIn('id_interest',$userInterest)->where('id_user','!=',Auth::user()->id)->get();
+            $similarUsesInterestsCount=[];
+            
+                foreach($similarUsers as $user){
+                    $isAlreadyIn=false;
+                    $isAlreadyIn=array_key_exists($user->id_user,$similarUsesInterestsCount);
+                       
+                    if($isAlreadyIn == false){
+                        $similarUsesInterestsCount[$user->id_user]=1;
+                    }else{
+                        $similarUsesInterestsCount[$user->id_user]+=1;
+                    }
+                }
+                $cloneArray= $similarUsesInterestsCount;
+                // get users with 3 or more similar interests
+                array_filter($cloneArray,function($var){return $var>=3;});
+                if(count($cloneArray)>5){$similarUsesInterestsCount = $cloneArray;}
+
+            $index=0;
+            $similarUsers=[];
+            // get only Id of users 
+            foreach($similarUsesInterestsCount as $key=>$value){
+                $similarUsers[$index]=$key;
+                $index++;
+            }
+            $friendList=Relation::GetFriends(Auth::user()->id);
+            $friendsOffFriends=[];
+            $index=0;
+            foreach($friendList as $friend){
+                $friends=Relation::GetFriends($friend->id);
+                foreach($friends as $friend2){
+                    if(!(in_array($friend2->id,$friendsOffFriends))){
+                        $friendsOffFriends[$index]=$friend2->id;
+                    }
+                }
+            }
+
+            
+            $index=count($similarUsers);
+            foreach($friendsOffFriends as $friend){
+                if(!(in_array($friend->id,$similarUsers))){
+                    $similarUsers[$index]=$friend->id;
+                    $index++;
+                }
+            }
+            shuffle($similarUsers);
+            $index=0;
+            $SuggestedUsers=[];
+            
+            foreach($similarUsers as $user){
+                $SuggestedUsers[$index]=$user;
+                $index++;
+                if($index >= 5){
+                    break;
+                }
+            }
+            return $SuggestedUsers;
+        }
     }
 
 }
