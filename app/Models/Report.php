@@ -42,4 +42,7 @@ class Report extends Model
         }
         return $reportsTab;
     }
+    public static function RemoveReport($userSendId, $userReceiveId) {
+        Report::where("id_user_send", $userSendId)->where("id_user_receive", $userReceiveId)->delete();
+    }
 }

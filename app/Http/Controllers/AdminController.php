@@ -23,4 +23,9 @@ class AdminController extends Controller
         $user = User::BanUser($request["id"]);
         return redirect()->back();
     }
+
+    public function CloseReport($user_send, $user_receive) {
+        Report::RemoveReport($user_send, $user_receive);
+        return redirect()->back();
+    }
 }

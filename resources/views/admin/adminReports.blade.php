@@ -21,19 +21,21 @@
 
 
         $image = $report['user_send']->image_profil ? asset('storage/' . $report->image_profil) : asset('/images/simple_flower.png');
-        $route = route("profile", ["id" => $report['user_send']->id]);
+        $routeSend = route("profile", ["id" => $report['user_send']->id]);
 
         $image = $report['user_receive']->image_profil ? asset('storage/' . $report->image_profil) : asset('/images/simple_flower.png');
-        $route = route("profile", ["id" => $report['user_receive']->id]);
+        $routeReceive = route("profile", ["id" => $report['user_receive']->id]);
 
         $userSendName = $report['user_send']->first_name." ".$report['user_send']->last_name;
         $userReceiveName = $report['user_receive']->first_name." ".$report['user_receive']->last_name;
+
+        $routeClosing = route("closeReport", ["user_send" => $report['user_send'], "user_receive" => $report["user_receive"]]);
 
         $html .= <<<HTML
             <div class="whitebg maxWidth">
                 <div class="flexRow maxWidth">
                     <div class="userCard maxWidth">
-                        <a class="card_long no_select hover_darker" href="$route">
+                        <a class="card_long no_select hover_darker" href="$routeSend">
                             <div class="banner">
                                 <img src="$image" alt="Image de profile de {$report['user_send']->first_name} {$report['user_send']->last_name}">
                             </div>
@@ -53,7 +55,11 @@
                             <h5>objet:</h5>
                             {$report["object_type"]->name}<br><br>
                             <h5>Raison:</h5>
-                            {$report['object']}
+                            {$report['object']}<br><br>
+
+                            <a class="grey_button" href="$routeClosing">
+                                Fermer le Signalement
+                            </a><br><br>
                         </div>
                     </div>
                     <div class="flexRow center">
@@ -62,7 +68,7 @@
                         </div>
                     </div>
                     <div class="userCard maxWidth">
-                        <a class="userCard card_long no_select hover_darker" href="$route">
+                        <a class="userCard card_long no_select hover_darker" href="$routeReceive">
                             <div class="banner">
                                 <img src="$image" alt="Image de profile de {$report['user_receive']->first_name} {$report['user_receive']->last_name}">
                             </div>

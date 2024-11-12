@@ -44,6 +44,7 @@ Route::post('/profile/updateAccount', [UsersController::class, 'updateAccount'])
 Route::middleware('adminAccess')->group(function () {
     Route::get('/adminReports', [AdminController::class, "AdminReports"])->name("AdminReports");
     Route::get('/ban/user', [AdminController::class, "BanUser"])->name("banUser");
+    Route::get('/report/close/{user_send}/{user_receive}', [AdminController::class, "CloseReport"])->name("closeReport");
 });
 
 Route::middleware('auth')->group(function () {
