@@ -159,6 +159,19 @@
             backdrop-filter: blur(20px);
 }
 
+.searchBarre{
+    width: 100%;
+    padding: 0.5em 1em;
+    border-radius: 0.75em;
+    background-color: var(--white);
+    border: 1px solid var(--neutral-200);
+    font-size: 1em;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif !important;
+    cursor: text;
+    margin-bottom: 0.5em;
+}
+
 .interet-btn-annuler {
     background-color: #9ea8b3;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
