@@ -3,7 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Tag_Meetup;
+use App\Models\Meetup_Interest;
+use App\Models\Interest;
 
 class Meetup extends Model
 {
@@ -18,8 +19,9 @@ class Meetup extends Model
      */
     public static function GetTags($id) {
         $tags = [];
-        foreach (Tag_Meetup::where("id_meetup", $id)->get() as $tag_rencontre) {
-            $tag = Tag::where("id", $tag_rencontre->id_tags)->get();
+        $meetupIterests = Meetup_Interest::where("id_meetup", $id)->get();
+        foreach ($meetupIterests as $tag_rencontre) {
+            $tag = Interest::where("id", $tag_rencontre->id_interest)->get()->first();
             array_push($tags, $tag);
         }
         return $tags;
