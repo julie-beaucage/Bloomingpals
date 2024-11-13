@@ -112,13 +112,56 @@ class HomeController extends Controller
         return false;
     }
     public function fetchMeetups($page){
-        $offset=100;
+        $offset=30;
         if (Auth::user()->id != null) {
-           $meetups=Meetup::select('id')->orderBy('id','desc')->offset($offset * $page)->take($offset);
-           
+            $meetupsSorted = [];
+            $meetups = Meetup::select('id')->orderBy('id', 'desc')->offset($offset * $page)->take($offset)->get();
+            $userInterests = User_Interest::select('id_interest')->where('id_user', Auth::user()->id)->get();
 
-           
+
+            $meetupsByInterest = DB::table('meetups')->join('meetups_interests', 'id', '=', 'id_meetup')
+                ->select('id')->whereIn('id_interest', $userInterests)
+                ->whereIn('id', $meetups)->orderBy('id', 'desc')->get();
+
+            //enlever les doublons
             
+            $index = count($meetupsSorted);
+            foreach ($meetupsByInterest as $meetup) {
+                if (!(in_array($meetup->id, $meetupsSorted))) {
+                    $meetupsSorted[$index] = $meetup->id;
+                    $index++;
+                }
+            }
+            $result=Meetup::whereIn('id',$meetupsSorted)->get();
+            return $result;
+        }
+        return false;
+    }
+    public function fetchEvents($page){
+        $offset=30;
+        if (Auth::user()->id != null) {
+            $eventsSorted = [];
+            $events = Event::select('id')->orderBy('id', 'desc')->offset($offset * $page)->take($offset)->get();
+            $userInterests = User_Interest::select('id_interest')->where('id_user', Auth::user()->id)->get();
+
+
+            $eventsByInterest = DB::table('events')->join('events_interests', 'id', '=', 'id_event')
+                ->select('id')->whereIn('id_interest', $userInterests)
+                ->whereIn('id', $events)->orderBy('id', 'desc')->get();
+
+            //enlever les doublons
+            
+            $index = count($eventsSorted);
+            foreach ($eventsByInterest as $event) {
+                if (!(in_array($event->id, $eventsSorted))) {
+                    $eventsSorted[$index] = $event->id;
+                    $index++;
+                }
+            }
+            
+            $result=Event::whereIn('id',$eventsSorted)->get();
+            return $result;
+
         }
         return false;
     }

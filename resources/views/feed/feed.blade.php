@@ -62,9 +62,14 @@
 
 @section('script')
 <script>
-    let pageIndex = 0;
+    let pageFeed = 0;
+    let pageMeetup = 0;
+    let pageEvent = 0;
     const container = '#feed_container';
     const friend = '#feed_friend';
+    let meetups = [];
+    let events = [];
+    let content = [];
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -83,22 +88,44 @@
 
     async function fetchContent() {
         loading(friend);
-        let data= await promise_fetchContent();
+        let data = await promise_fetchContent();
         console.log(data);
-        if(data.length>0){
-            setTimeout(function(){
+        if (data.length > 0) {
+            setTimeout(function () {
                 handleContent(data);
                 pageIndex += 1;
                 isLoading = true;
-            }, 1* 1000);
-        }else{
+            }, 1 * 1000);
+        } else {
             removeLoading(friend);
         }
     }
     function promise_fetchContent() {
         return new Promise(resolve => {
             $.ajax({
-                url: 'feed/fetchFeed/' + pageIndex,
+                url: 'feed/fetchFeed/' + pageFeed,
+                method: 'GET',
+                success: function (data) {
+                    resolve(data)
+                }
+            });
+        })
+    }
+    function promise_fetchMeetups() {
+        return new Promise(resolve => {
+            $.ajax({
+                url: 'feed/fetchMeetups/' + pageMeetup,
+                method: 'GET',
+                success: function (data) {
+                    resolve(data)
+                }
+            });
+        })
+    }
+    function promise_fetchEvents() {
+        return new Promise(resolve => {
+            $.ajax({
+                url: 'feed/fetchEvents/' + pageEvent,
                 method: 'GET',
                 success: function (data) {
                     resolve(data)
@@ -154,28 +181,89 @@
                 userIds[i] = (JSON.parse(content[i].content).user);
             }
             getData(userIds, meetupIds, content);
-        }else{
+        } else {
             return false
         }
     }
+    async function getContent() {
+        let content = [];
+        let _actions = await promise_fetchContent();
+        pageFeed++;
+        content = content.concat(_actions);
+
+
+        while (meetups.length < 5) {
+            _meetups = await promise_fetchMeetups();
+            if (_meetups.length == 0) {
+                break;
+            }
+            meetups = meetups.concat(_meetups);
+            pageMeetup++;
+        }
+
+        while (events.length < 5) {
+            let _events = await promise_fetchEvents();
+            if (_events.length == 0) {
+                break;
+            }
+            events = events.concat(_events);
+            pageEvent++;
+        }
+
+        meetups.every(function (element, index) {
+            if (index == 4) {
+                return false
+            }
+            content.push(element);
+            return true;
+        });
+        meetups = meetups.splice(4);
+
+        events.every(function (element, index) {
+
+            if (index == 5) {
+                return false;
+            }
+            content.push(element);
+            return true;
+        });
+        events = events.splice(4);
+
+        for (var i = content.length - 1; i >= 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var temp = content[i];
+            content[i] = content[j];
+            content[j] = temp;
+        }
+        return content;
+
+    }
     let isLoading = true;
-    $(document).ready(function () {
+    $(document).ready(async function () {
 
         $('#content').scroll(function () {
             if ($('#content').scrollTop() + $('#content').height() - $(friend).height() > 0 && isLoading == true) {
                 isLoading = false;
-                if(fetchContent()==false){
-                    removeLoading(friend);
-                    $('#content').off();
-                }
+                // if (fetchContent() == false) {
+                //     removeLoading(friend);
+                //     $('#content').off();
+                // }
 
             }
             console.log($('#content').scrollTop() + $('#content').height() - $(friend).height());
             // console.log($('#content').scrollTop()+$('#content').height());
         });
-        fetchContent();
+        //fetchContent();
+        let time=new Date().getTime();
+        for (let i = 0; i < 10; i++) {
+            res=await getContent();
+            console.log(res);
+        }
+        console.log(new Date().getTime()-time);
+
 
 
     });
+    const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay))
 </script>
 @endsection()

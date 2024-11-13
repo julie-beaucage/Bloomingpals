@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use App\Models\User;
+use App\Models\Event;
 use App\Models\Meetup_Interest;
 
 use Route;
@@ -49,76 +50,72 @@ class MeetupController extends BaseController
 
     public function Form($id = null, $isEvent = null)
     {
-        $page=0;
-        $offset=100;
-        if (Auth::user()->id != null) {
-           $meetups=Meetup::select('id')->orderBy('id','desc')->offset($offset * $page)->take($offset)->get();
-           $userInterests=User_Interest::select('id_interest')->where('id_user',Auth::user()->id)->get();
-           
+            $eventsSorted = [];
+            $events = Event::select('id')->orderBy('id', 'desc')->offset(30 * 0)->take(500)->get();
+            $userInterests = User_Interest::select('id_interest')->where('id_user', Auth::user()->id)->get();
 
-           $meetups2=DB::table('meetups')->join('meetups_interests', 'id', '=', 'id_meetup')
-           ->select('id')->whereIn('id_interest',$userInterests)
-           ->whereIn('id', $meetups)->orderBy('id','desc')->get();
 
-           $temp_tab=[];
-           $indexToDelete=[];
-           $index=0;
-           foreach($meetups2 as $key=>$meetup){
-            dd($meetup->id);
-            if(in_array($meetup->id,$temp_tab)){
-                
-            }
-           }
+            $eventsByInterest = DB::table('events')->join('events_interests', 'id', '=', 'id_event')
+                ->select('id')->whereIn('id_interest', $userInterests)
+                ->whereIn('id', $events)->orderBy('id', 'desc')->get();
 
-           dd($meetups2);
-           
-
-           
+            //enlever les doublons
             
+            $index = count($eventsSorted);
+            foreach ($eventsByInterest as $event) {
+                if (!(in_array($event->id, $eventsSorted))) {
+                    $eventsSorted[$index] = $event->id;
+                    $index++;
+                }
+            }
+
+            $result=Event::whereIn('id',$eventsSorted)->get();
+            
+            dd($result);
+
+        if (Auth::user()->id != null) {
+            if ($isEvent == true) {
+                $data = DB::table('events')
+                    ->select('*')
+                    ->where('id', $id)
+                    ->first();
+                if ($data == null) {
+                    abort(404);
+                }
+
+                $data = json_decode(json_encode($data), true);
+                $date = $data['date'];
+                $date = explode(' ', $date);
+                $data['date'] = $date[0];
+                $data['time'] = $date[1];
+                $data['nb_participant'] = '';
+                $data['empty'] = true;
+                // $data['description'] = ;
+                $data['isEvent'] = $id;
+            } else if ($id != null) {
+                $data = Meetup::where('id', '=', $id)->first();
+
+                if ($data == null) {
+                    abort(404);
+                }
+                if (Auth::user()->id != $data->id_owner) {
+                    abort(403);
+                }
+                $date = $data->date;
+                $date = explode(' ', $date);
+                $data->date = $date[0];
+                $data->time = $date[1];
+                $data['empty'] = false;
+                $data['isEvent'] = false;
+            } else {
+                $data = new Meetup();
+                $data['empty'] = true;
+                $data['isEvent'] = false;
+            }
+            $listCities = $this->getCities();
+
+            return view('meetups.form', compact('data', 'listCities'));
         }
-
-
-        if ($isEvent == true) {
-            $data = DB::table('events')
-                ->select('*')
-                ->where('id', $id)
-                ->first();
-            if ($data == null) {
-                abort(404);
-            }
-
-            $data = json_decode(json_encode($data), true);
-            $date = $data['date'];
-            $date = explode(' ', $date);
-            $data['date'] = $date[0];
-            $data['time'] = $date[1];
-            $data['nb_participant'] = '';
-            $data['empty'] = true;
-            // $data['description'] = ;
-            $data['isEvent'] = $id;
-        } else if ($id != null) {
-            $data = Meetup::where('id', '=', $id)->first();
-
-            if ($data == null) {
-                abort(404);
-            }
-            if (Auth::user()->id != $data->id_owner) {
-                abort(403);
-            }
-            $date = $data->date;
-            $date = explode(' ', $date);
-            $data->date = $date[0];
-            $data->time = $date[1];
-            $data['empty'] = false;
-            $data['isEvent'] = false;
-        } else {
-            $data = new Meetup();
-            $data['empty'] = true;
-            $data['isEvent'] = false;
-        }
-        $listCities = $this->getCities();
-
-        return view('meetups.form', compact('data', 'listCities'));
     }
 
     public function create(Request $req, $isEvent = null)
@@ -151,20 +148,20 @@ class MeetupController extends BaseController
                 $req->public
             ]);
 
-            
+
             if ($req->interests != "") {
                 $id_interests = explode(',', $req->interests);
                 $meetup = Meetup::where('image', $path)->where('date', date_create("$req->date" . " " . "$req->time"))
                     ->where('name', $req->name)->where('adress', $req->adress)->where('id_owner', $id_owner)->get();
-                
-                    $id_meetup=0;
-                    foreach($meetup as $meet ){
-                        if($meet->id>$id_meetup){
-                            $id_meetup=$meet->id;
-                        }
+
+                $id_meetup = 0;
+                foreach ($meetup as $meet) {
+                    if ($meet->id > $id_meetup) {
+                        $id_meetup = $meet->id;
                     }
-                        
-                
+                }
+
+
                 foreach ($id_interests as $id) {
                     Meetup_Interest::insert([
                         'id_interest' => $id,
@@ -172,13 +169,13 @@ class MeetupController extends BaseController
                     ]);
                 }
                 // create Action for feed
-                
-                $obj=array('meetup'=> $id_meetup);
+
+                $obj = array('meetup' => $id_meetup);
                 DB::statement("Call addAction(?,?,?,?)", [
                     $id_owner,
                     'Meetup Create',
                     'viens de créer un nouveau Meetup : ',
-                    json_encode($obj)                
+                    json_encode($obj)
                 ]);
 
                 DB::commit();
@@ -244,7 +241,7 @@ class MeetupController extends BaseController
                             'id_meetup' => $id
                         ]);
                     }
-                   
+
                 }
                 DB::commit();
             }

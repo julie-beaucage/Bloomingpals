@@ -134,7 +134,9 @@ Route::middleware('auth')->group(function () {
 
     Route::namespace('feed')->prefix('feed')->group( function () {
         Route::get('/fetchFeed/{page}', [HomeController::class, 'fetchFeed']);
-        Route::post('/fetchData', [HomeController::class, 'fetchData']);
+        Route::get('/fetchData', [HomeController::class, 'fetchData']);
+        Route::get('/fetchMeetups/{page}', [HomeController::class, 'fetchMeetups']);
+        Route::get('/fetchEvents/{page}', [HomeController::class, 'fetchEvents']);
     });
 
     
