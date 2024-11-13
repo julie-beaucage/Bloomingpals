@@ -24,7 +24,7 @@
                 </div>
             </div>
             <div class="feed-content">
-                <p>Ceci est un exemple de post. Vous pouvez simuler ici un texte de post ou tout autre contenu.</p>
+                <p>John c'est joint à l'évènement de Kiki Durocher </p>
                 <img src="https://via.placeholder.com/600x400" alt="Post image" class="feed-image">
             </div>
             <div class="feed-actions">
@@ -50,7 +50,7 @@
                 </div>
             </div>
             <div class="feed-content">
-                <p>Un autre exemple de publication. Il peut s'agir d'un texte, d'une vidéo ou d'une image.</p>
+                <p>Jane a créé un nouveau MeetUp! Toutes les usagers qui aiment Taylor Swift sont invités</p>
                 <img src="https://via.placeholder.com/600x400" alt="Post image" class="feed-image">
             </div>
             <div class="feed-actions">
@@ -76,7 +76,7 @@
                 </div>
             </div>
             <div class="feed-content">
-                <p>Encore un exemple, cette fois-ci avec un texte plus long pour simuler un fil d'actualités actif.</p>
+                <p>Mike à complété le test de Personnalité! Il est INTP et rejoints les Analystes!</p>
                 <img src="https://via.placeholder.com/600x400" alt="Post image" class="feed-image">
             </div>
             <div class="feed-actions">

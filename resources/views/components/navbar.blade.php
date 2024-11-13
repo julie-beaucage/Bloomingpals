@@ -21,10 +21,10 @@
                     'url' => route('search')
                 ],
                 [
-                    'id' => 'pals',  
-                    'title' => 'Pals', 
-                    'icon' => 'group', 
-                    'url' => route('searchUsers') 
+                    'id' => 'pals',
+                    'title' => 'Pals',
+                    'icon' => 'group',
+                    'url' => route('searchUsers')
                 ],
                 [
                     'id' => 'notification',
@@ -61,7 +61,6 @@
                 $class = 'navbar_item no_select';
                 $class = $id == Route::current()->uri() ? $class . ' active' : $class;
                 $class .= ' ' . Auth::user()->getPersonalityGroup();
-
                 $hideNotification = '';
                 if ($id == 'notification') {
                     $hideNotification = 'hideNotification';
@@ -69,7 +68,6 @@
                     if ($notif_count != 0) {
                         $unreadNotif = '<div class="notification-badge-container"><span class="notification-badge"><span class="notif-count">' . $notif_count . '</span></span></div>';
                     }
-
                 } else {
                     $hideNotification = '';
                     $unreadNotif = '';
@@ -79,31 +77,47 @@
                     $notifId = 'navbar_notification';
                 }
 
+                $hideLogout = '';
+                if ($id == 'logout') {
+                    $hideLogout = 'hideNotification';
+                }
                 if ($id === 'profile') {
                     echo <<<HTML
-                                        <a class="$class" href="$url">
-                                            <div class="shrinked_title shrinked_only">
-                                                <span class="title">$title</span>
-                                            </div>
-                                            <span class="navbar_icon">
-                                                <img src="$icon" alt="Photo de profil" class="profile-image">
-                                                <span class="title">$title</span>
-                                            </span>
-                                        </a>
-                                    HTML;
+                        <a class="$class" href="$url">
+                            <div class="shrinked_title shrinked_only">
+                                <span class="title">$title</span>
+                            </div>
+                            <span class="navbar_icon">
+                                <img src="$icon" alt="Photo de profil" class="profile-image">
+                                <span class="title">$title</span>
+                            </span>
+                        </a>
+                    HTML;
+                } elseif ($id == 'notification') {
+                    echo <<<HTML
+                        <a class="$class $hideNotification $notifId" href="$url">
+                             $unreadNotif
+                            <div class="shrinked_title shrinked_only">
+                               <span class="title">$title</span>
+                            </div>
+                            <span class="navbar_icon">
+                              <span class="material-symbols-rounded icon_md">$icon</span>
+                              <span class="title">$title</span>
+                            </span>
+                        </a>
+                    HTML;
                 } else {
                     echo <<<HTML
-                                        <a class="$class $hideNotification $notifId" href="$url">
-                                        $unreadNotif
-                                            <div class="shrinked_title shrinked_only">
-                                                <span class="title">$title</span>
-                                            </div>
-                                            <span class="navbar_icon">
-                                                <span class="material-symbols-rounded icon_md">$icon</span>
-                                                <span class="title">$title</span>
-                                            </span>
-                                        </a>
-                                    HTML;
+                        <a class="$class $hideLogout" href="$url">
+                            <div class="shrinked_title shrinked_only">
+                                <span class="title">$title</span>
+                            </div>
+                            <span class="navbar_icon">
+                                <span class="material-symbols-rounded icon_md">$icon</span>
+                                <span class="title">$title</span>
+                            </span>
+                        </a>
+                    HTML;
                 }
             }
         @endphp
