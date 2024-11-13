@@ -185,7 +185,7 @@ class UsersController extends Controller
         }
 
 
-
+        
         if ($relation == 'GotBlocked') {
             return redirect()->back();
         } else if ($relation != "Friend") {
