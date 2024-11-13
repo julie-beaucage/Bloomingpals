@@ -51,6 +51,14 @@
                     'url' => route('logout')
                 ]
             ];
+            if (Auth::user()->is_admin) {
+                array_push($tabs, [
+                    'id' => 'adminReports',
+                    'title' => 'reports',
+                    'icon' => 'report',
+                    'url' => route('AdminReports')
+                ]);
+            }
 
             foreach ($tabs as $tab) {
                 $id = $tab['id'];

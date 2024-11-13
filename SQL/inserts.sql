@@ -26,6 +26,13 @@ CALL creerUsager ('user22@email.com', 'Blanchard', 'Martin', CURDATE(), '$2y$10$
 CALL creerUsager ('user23@email.com', 'Lachance', 'Anaïs', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'femme');
 CALL creerUsager ('user24@email.com', 'Gauthier', 'Nicolas', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'homme');
 
+INSERT INTO users (email, last_name, first_name, birthdate, password, gender, is_admin)
+    VALUES ('admin1@email.com', 'admin1', 'Gagner', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'non-genre', 1);
+INSERT INTO users (email, last_name, first_name, birthdate, password, gender, is_admin)
+    VALUES ('admin2@email.com', 'admin2', 'Berville', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'non-genre', 1);
+INSERT INTO users (email, last_name, first_name, birthdate, password, gender, is_admin)
+    VALUES ('admin3@email.com', 'admin3', 'Tayona', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'non-genre', 1);
+
 UPDATE users SET email_verified_at = NOW() WHERE id = 1 OR id = 2;
 
 -- Meetups --
@@ -52,6 +59,9 @@ INSERT INTO categories_interests (name) VALUES
 ('Nerd'),
 ('Social'),
 ('Art');
+
+-- report objects --
+insert into objects_types (name) values ("hacker"), ("abus verbale"), ("image inaproprié"), ("contenu raciste");
 
 -- Notifications types
 Insert INTO types_notifications (name) Values('Meetup Request');

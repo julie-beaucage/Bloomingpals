@@ -11,6 +11,7 @@ use App\Http\Controllers\CustomVerificationController;
 use App\Http\Controllers\PersonalityController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\SearchUserController;
+use App\Http\Controllers\AdminController;
 
 
 
@@ -20,6 +21,9 @@ Route::get('/', function () {
     }
     return view('auth.login');
 });
+
+//deny access
+Route::get('/error/404', [AdminController::class, 'AccessDenied'])->name('AccessDenied');
 
 // Authentification
 Route::get('/email/verify/{id}/{hash}', [CustomVerificationController::class, 'verify'])->name('verification.verify');
@@ -38,7 +42,11 @@ Route::post('profile/checkPassword', [UsersController::class, 'checkPassword']);
 Route::post('/profile/checkEmail', [UsersController::class, 'isEmailTaken']);
 Route::post('/profile/updateAccount', [UsersController::class, 'updateAccount']);
 
-
+Route::middleware('adminAccess')->group(function () {
+    Route::get('/adminReports', [AdminController::class, "AdminReports"])->name("AdminReports");
+    Route::get('/ban/user', [AdminController::class, "BanUser"])->name("banUser");
+    Route::get('/report/close/{user_send}/{user_receive}', [AdminController::class, "CloseReport"])->name("closeReport");
+});
 
 Route::middleware('auth')->group(function () {
     
@@ -77,16 +85,18 @@ Route::middleware('auth')->group(function () {
     
 
     // Meetup
+    Route::get('/meetup/{meetupId}', [MeetupController::class, 'MeetupPage'])->name('meetupPage');
     Route::post('/meetup/create', [MeetupController::class, 'create']);
     Route::post('/meetup/create/{isEvent}', [MeetupController::class, 'create']);
     Route::post('/meetup/edit/{id}', [MeetupController::class, 'edit'])->where('id', '[0-9]+');
     Route::get('/meetup', [MeetupController::class, 'index'])->name('meetup');
     Route::get('/meetup/delete/{id}', [MeetupController::class, 'delete'])->where('id', '[0-9]+');
     Route::get('/meetup/form', [MeetupController::class, 'form']);
-    Route::get('/meetup/form/{id}', [MeetupController::class, 'form']);
+    Route::get('/meetup/form/{id}', [MeetupController::class, 'form'])->name("meetupForm");
     Route::get('/meetup/form/event/{id}', [MeetupController::class, 'formEvent']);
     Route::get('/meetup/interests/{id}', [MeetupController::class, 'interests']);
-    Route::get('/meetup/{meetupId}', [MeetupController::class, 'MeetupPage'])->name('meetupPage');
+
+
     Route::get('/meetup/join/{meetupId}', [MeetupController::class, 'JoinMeetup'])->name('joinMeetup');
     Route::get('/meetup/cancel/{meetupId}', [MeetupController::class, 'CancelJoiningMeetup'])->name('cancelJoiningMeetup');
     Route::get('/meetup/leave/{meetupId}', [MeetupController::class, 'LeaveMeetup'])->name('leaveMeetup');
@@ -118,6 +128,7 @@ Route::middleware('auth')->group(function () {
     Route::get("user/friend/request/refuse/{id}", [UsersController::class, "RefuseFriendRequest"])->name("RefuseFriendRequest");
     Route::get("user/friend/request/cancel/{id}", [UsersController::class, "CancelFriendRequest"])->name("CancelFriendRequest");
     Route::get("user/friend/remove/{id}", [UsersController::class, "RemoveFriend"])->name("RemoveFriend");
+    Route::post("user/report", [UsersController::class, "ReportUser"])->name("ReportUser");
 
     // Notification
     Route::get('/getNewNotification', [NotificationController::class, 'getNotification']);
