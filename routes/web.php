@@ -13,13 +13,24 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\SearchUserController;
 
 
-
-Route::get('/', function () {
+/*Route::get('/', function () {
     if (auth()->check()) {
         return redirect()->route('home');
     }
     return view('auth.login');
+});*/
+
+Route::get('/', function () {
+    return redirect()->route('home');
 });
+Route::get('/home', [HomeController::class, 'home'])->name('home');
+Route::get('/home/showcase', [HomeController::class, 'showcase'])->name('showcase');
+Route::get('/home/user_meetups', [HomeController::class, 'user_meetups'])->name('user_meetups');
+Route::get('/home/top_events', [HomeController::class, 'top_events'])->name('top_events');
+Route::get('/home/recent_meetups', [HomeController::class, 'recent_meetups'])->name('recent_meetups');
+Route::get('/home/upcoming_events', [HomeController::class, 'upcoming_events'])->name('upcoming_events');
+
+
 
 // Authentification
 Route::get('/email/verify/{id}/{hash}', [CustomVerificationController::class, 'verify'])->name('verification.verify');
@@ -42,14 +53,6 @@ Route::post('/profile/updateAccount', [UsersController::class, 'updateAccount'])
 
 Route::middleware('auth')->group(function () {
     
-    // Home
-    Route::get('/home', [HomeController::class, 'home'])->name('home');
-    Route::get('/home/showcase', [HomeController::class, 'showcase'])->name('showcase');
-    Route::get('/home/user_meetups', [HomeController::class, 'user_meetups'])->name('user_meetups');
-    Route::get('/home/top_events', [HomeController::class, 'top_events'])->name('top_events');
-    Route::get('/home/recent_meetups', [HomeController::class, 'recent_meetups'])->name('recent_meetups');
-    Route::get('/home/upcoming_events', [HomeController::class, 'upcoming_events'])->name('upcoming_events');
-
     // Profile
     Route::get('/profile/{id}', [UsersController::class, 'profile'])->name('profile');
     Route::put('/profile/update/{id}', [UsersController::class, 'update'])->name('profile.update');

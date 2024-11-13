@@ -110,6 +110,8 @@ class UsersController extends Controller
             $notifController = new NotificationController();
             $notifController->sendAllToNoficationTable($id);
             $notifController->sendDailyNotification();
+            
+            //return view('profile.profile');
 
             return redirect('/profile/' . $id)->with('message', 'Bienvenue sur BloomingPals, ' . auth()->user()->prenom);
         }
@@ -137,12 +139,10 @@ class UsersController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/login');
+        return redirect('/home');
     }
     public function profile($id,$modified =false)
     {
-        Log::info("Appel du contrôleur profile pour l'utilisateur avec ID: " . $id);
-
         $user = User::find($id);
 
         if (!$user) {
@@ -177,8 +177,6 @@ class UsersController extends Controller
         } else if ($user->confidentiality == "public") {
             $haveAccess = true;
         }
-
-
 
         if ($relation == 'GotBlocked') {
             return redirect()->back();
