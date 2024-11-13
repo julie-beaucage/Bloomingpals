@@ -89,7 +89,7 @@
     --personality-color-pale: var(--neutral-200) !important;
     --personality-text-color: var(--background-800) !important;
     --personality-text-button: var(--background-950) !important;
-    --personality-text-color-button: var(--background-100) !important;
+    --personality-text-color-button: var(--white) !important;
 
     --success: #202922;
     --error: #dc3545;
@@ -526,6 +526,11 @@ a {
     -webkit-user-select: none;
        -moz-user-select: none;
             user-select: none;
+}
+
+.color_tag {
+    background-color: var(--personality-color) !important;
+    color: var(--personality-text-color-button) !important;
 }
 
 .square_tag {

@@ -59,9 +59,12 @@ class MessagesController extends Controller
 
             $isQuery = false;
             if ($query != null && $query != "") {
+                $query = strtolower($query);
+
                 foreach ($other_users as $user) {
-                    if (strpos($user->full_name, $query) === true)
+                    if (strpos(strtolower($user->full_name), $query) !== false || strpos(strtolower($chatRoom->name), $query) !== false) {
                         $isQuery = true;
+                    }
                 }
             }
             else {
@@ -137,16 +140,19 @@ class MessagesController extends Controller
         if ($query == "") return response()->json([]);
 
         $users = User::query()->where(DB::raw("CONCAT(`first_name`, ' ', `last_name`)"), 'LIKE', $query . '%')->get();
+        $users = $users->map(function ($user) {
+            $user->personality = $user->getPersonalityType();
+            return $user;
+        });
         return response()->json($users->where('id', '!=', auth()->user()->id));
     }
 
     public function newChat(Request $request) {
         if (isset($request->ids)) {
-
             if (count($request->ids) < 1) {
                 return response()->json(null);
             }
-
+            
             $ids = $request->ids;
             $ids[] = (string)auth()->user()->id;
             
@@ -154,7 +160,8 @@ class MessagesController extends Controller
             
             $chatRoom = $chatRoom->filter(function ($value, $key) use ($ids) {
                 foreach ($ids as $id) {
-                    if (strpos($value->users, $id) === false) {
+                    $users = explode(',', $value->users);
+                    if (!in_array($id, $users)) {
                         return false;
                     }
                 }
@@ -167,6 +174,7 @@ class MessagesController extends Controller
             $chatRoom = new ChatRoom;
             $chatRoom->name = null;
             $chatRoom->save();
+
 
             $chatRoomUser = new ChatRoom_User;
             $chatRoomUser->id_chatRoom = $chatRoom->id;

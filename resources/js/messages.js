@@ -35,7 +35,6 @@ function updateMenu()
         type: 'GET',
         success: function(data) {
             $('#convos_cntr').html(data);
-            console.log(data);
         }
     });
 }
@@ -63,6 +62,13 @@ function updateChat(id) {
                 $('#chat_messages_cntr').scrollTop($('#chat_messages_cntr')[0].scrollHeight);
 
                 etag = newEtag;
+            }
+            else {
+                if (etag == 0 && $('#chat_messages_cntr').children().length == 0) {
+                    $('#chat_messages_cntr').append(
+                        $("<div>").attr("class", "no_message").text("Démarrez la conversation !")
+                    );
+                }
             }
         }
     });
@@ -148,16 +154,18 @@ $(document).ready(async function() {
         }
     });
 
-    $("#close_popup_btn").click(function() { 
-        $("#relative_cntr").addClass("hidden");
-        $("#content").removeClass("no_overflow");
-    });
-
-    $("#search_convo").keypress(function(e) {
+    $("#search_convo").keyup(function(e) {
+        const query = $(this).val();
         if (e.which == 13) {
             updateMenu();
-            $("#search_convo").val("");
         }
+
+        if (query == "")
+            return;
+        
+        throttle(function() {
+            updateMenu();
+        }, 350)();
     });
 
     $(".search_suggestion").each(async function() {
@@ -187,7 +195,9 @@ $(document).ready(async function() {
 
                 for (let i = 0; i < suggestions.length; i++) {
 
-                    let elem = $("<span>").attr("class", "suggestion hover_darker no_select").text(`${suggestions[i]['first_name']} ${suggestions[i]['last_name']}`);
+                    let elem = $("<span>").attr("class", "suggestion hover_darker no_select");
+                    elem.append($("<img>").attr("src", suggestions[i]['profile_picture'] ? suggestions[i]['profile_picture'] : "/images/simple_flower.png").addClass(`profile_image ${suggestions[i]["personality"]}`));
+                    elem.append($("<span>").text(`${suggestions[i]['first_name']} ${suggestions[i]['last_name']}`));
                     suggestions_cntr.append(elem);
     
                     elem.click(function() {
@@ -195,7 +205,7 @@ $(document).ready(async function() {
                             return;
     
                         let selections = filter_cntr.find(".selections");
-                        let selection = $("<span>").attr("class", "selection no_select tag tag_rmv hover_darker pointer").text(`${suggestions[i]['first_name']} ${suggestions[i]['last_name']}`);
+                        let selection = $("<span>").attr("class", `selection no_select tag color_tag tag_rmv hover_darker pointer ${suggestions[i]["personality"]}`).text(`${suggestions[i]['first_name']} ${suggestions[i]['last_name']}`);
                         selections.append(selection);
                         selections_list.push(suggestions[i]["id"]);
                         
@@ -212,6 +222,17 @@ $(document).ready(async function() {
             }, 200);
         });
 
+        $("#close_popup_btn").click(function() { 
+            $("#relative_cntr").addClass("hidden");
+            $("#content").removeClass("no_overflow");
+    
+            suggestions = [];
+            selections_list = [];
+            $(".search_suggestion input").val("");
+            $("#users_selections").empty();
+            $("#users_suggestions").empty();
+        });
+
         $("#newchat_btn").click(function() {
             if (selections_list.length == 0)
                 return;
@@ -224,15 +245,17 @@ $(document).ready(async function() {
                     "_token": $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(data) {
+                    console.log(data);
                     if (parseInt(data) != NaN) {
-                        console.log(data);
+                        updateMenu();
                         changeChat(data);
                         $("#relative_cntr").addClass("hidden");
                         $("#content").removeClass("no_overflow");
-                        let suggestions = [];
-                        let selections_list = [];
+                        suggestions = [];
+                        selections_list = [];
                         $(".search_suggestion input").val("");
                         $("#users_selections").empty();
+                        $("#users_suggestions").empty();
                     }
                 }
             });

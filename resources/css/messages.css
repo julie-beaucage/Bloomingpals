@@ -114,6 +114,10 @@
 .convo_name {
     font-size: 1.25em;
     font-weight: 500;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow:hidden;
+    width: 12.8em;
 }
 
 .convo_last {
@@ -378,4 +382,16 @@
 
 #newchat_btn {
     align-self: flex-end;
+}
+
+.suggestion {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.no_message {
+    align-self: center;
+    color: var(--neutral-800);
 }

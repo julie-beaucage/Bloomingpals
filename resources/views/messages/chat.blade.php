@@ -14,20 +14,34 @@
 
         if ($now->diff($date)->days > 0) {
             $date_string = $date->format('d-m-Y');
-        } else {
-            $date_string = $date->format('H:i');
-        }
 
-        if ($index < count($messages) - 1) {
-            $nextDate = new DateTime($messages[$index + 1]->created_at);
-            
-            if ($nextDate->diff($date)->i < 2) {
-                $date_string = "";
+            if ($index < count($messages) - 1) {
+                $nextDate = new DateTime($messages[$index + 1]->created_at);
+                
+                if ($nextDate->diff($date)->d < 1) {
+                    $date_string = "";
+                }
             }
-        }
+            else {
+                if ($now->diff($date)->d < 1) {
+                    $date_string = "";
+                }
+            }
+        } 
         else {
-            if ($now->diff($date)->i < 2) {
-                $date_string = "";
+            $date_string = $date->format('H:i');
+
+            if ($index < count($messages) - 1) {
+                $nextDate = new DateTime($messages[$index + 1]->created_at);
+                
+                if ($nextDate->diff($date)->i < 2) {
+                    $date_string = "";
+                }
+            }
+            else {
+                if ($now->diff($date)->i < 2) {
+                    $date_string = "";
+                }
             }
         }
 
