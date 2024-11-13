@@ -7,27 +7,47 @@
     display:  flex; 
     flex-direction:  row; 
     width:  auto; 
-    height:  auto; 
+    height:  fit-content !important; 
     margin:  auto auto; 
     border-radius:  4px; 
     box-shadow:  0px 2px 6px -1px rgba(0,0,0,.12);
+    min-height: fit-content;
 }
 
-.img_login_left{
-    height:  auto; 
-    min-height:  100%; 
-    position:  relative; 
-    background-color: rgb(173, 221, 205);
+#loginOverlay .container-custom-modal {
+    overflow-y: auto !important;
+    overflow-x: hide !important;
 }
+.img_login_left {
+    position: sticky;
+    top: 0;
+    align-self: flex-start;
+    width: 40%;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: rgba(222, 233, 230, 0.6);
+
+}
+
+/*.img_login_left{
+    height:  1em; 
+    min-height:  100%; 
+    position: sticky;
+    top:0;
+    background-color: rgba(222, 233, 230, 0.6);
+  
+}*/
 .headerContainer {
     margin-bottom: 20px;
 }
 
 
 .image_login img {
+    padding-top: 15%;
     width: 120px;
     height: auto;
     margin-bottom: 10px;
+
 }
 
 .formContainerLogin {
@@ -43,6 +63,7 @@
     align-items:  flex-start; 
     padding-bottom:  20px; 
     width:  300px; 
+    min-height: fit-content;
 }
 
 input[type="text"], input[type="password"], input[type="email"], input[type="date"],select {
@@ -102,6 +123,7 @@ header h2 {
 .formButton button:hover {
     background-color: var(--primary-300);
 }
+
 
 @media only screen and (max-width: 1075px) {
     .formContainerLogin {

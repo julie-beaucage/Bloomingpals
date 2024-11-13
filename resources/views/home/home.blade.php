@@ -11,9 +11,7 @@
 
 @php
     $sections = [
-        "Recommendations" => "/search/meetups",
         "Évenements populaires" => "/home/top_events",
-        "Rencontres récentes" => "/home/recent_meetups",
         "Évenements à venir" => "/home/upcoming_events",
     ];
 @endphp
@@ -91,6 +89,7 @@
 @endsection()
 
 @section('script')
+
 <script>
     function openOverlay() {
         document.getElementById("loginOverlay").style.display = "flex";
@@ -111,6 +110,17 @@
 
 </script>
 <script>
+function showSignUp() {
+    document.getElementById("loginForm").style.display = "none";
+    document.getElementById("signUpForm").style.display = "block";
+}
+
+function showLogin() {
+    document.getElementById("signUpForm").style.display = "none";
+    document.getElementById("loginForm").style.display = "block";
+}
+</script>
+<script>
     $(document).ready(function () {
         let currentIndex = 0;
         const totalCards = $(".carousel-card").length;
@@ -123,14 +133,6 @@
         }
 
         setInterval(moveCarousel, 3000);
-
-        $.ajax({
-            url: "search/events" /*"/home/showcase"*/,
-            type: "GET",
-            success: function (response) {
-                $("#showcase").html(response);
-            }
-        });
 
         @foreach($sections as $section => $url)
             $.ajax({
