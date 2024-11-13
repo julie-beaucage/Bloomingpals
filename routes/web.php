@@ -10,7 +10,6 @@ use App\Http\Controllers\InterestsController;
 use App\Http\Controllers\CustomVerificationController;
 use App\Http\Controllers\PersonalityController;
 use App\Http\Controllers\NotificationController;
-use App\Http\Controllers\SearchUserController;
 use App\Http\Controllers\AdminController;
 
 
