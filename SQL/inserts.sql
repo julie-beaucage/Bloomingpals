@@ -1,44 +1,5 @@
 USE BloomingPals;
 
--- Users --
-CALL creerUsager ('user1@email.com', 'Desroches', 'Caroline', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'femme');
-CALL creerUsager ('user2@email.com', 'Hétu', 'Adrien', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'homme');
-CALL creerUsager ('user3@email.com', 'Delmar', 'Mainville', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'non-genre');
-
-UPDATE users SET email_verified_at = NOW() WHERE id = 1 OR id = 2;
-
--- Chat --
-INSERT INTO chatRooms VALUES ();
-INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (1, 1);
-INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (1, 2);
-
-INSERT INTO chatRooms VALUES ();
-INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (2, 1);
-INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (2, 3);
-
-INSERT INTO messages (id_chatRoom, id_user, content) VALUES (1, 1, "Salut, ça va ?");
-INSERT INTO messages (id_chatRoom, id_user, content) VALUES (1, 2, "Oui toi ?");
-
-SELECT * FROM chatRooms;
-SELECT * FROM chatRooms_users;
-SELECT * FROM messages;
-
--- Meetups --
-INSERT INTO meetups(name, description, id_owner, adress, date, nb_participant, public) 
-    VALUES("Nom de la rencontre", "Voici la description", 1, "1234 rue popcorn", DATE "2025-01-01", 100, 1);
-    
-INSERT INTO meetups(name, description, id_owner, adress, date, nb_participant, public) 
-    VALUES("Sortie au bar", "Voici la description", 2, "1234 rue popcorn", DATE "2025-07-11", 100, 1);
-    INSERT INTO meetups (name, description, id_owner, adress, date, nb_participant, public) 
-    VALUES("Badminton", "Ravis de vous revoir gang :)", 1, "1234 rue popcorn", DATE "2025-01-01", 100, 1);
-    INSERT INTO meetups(name, description, id_owner, adress, date, nb_participant, public) 
-    VALUES("Basket", "Oublier pas vos bouteilles d'eaus guys", 3, "1234 rue popcorn", DATE "2025-01-01", 100, 1);
-    INSERT INTO meetups(name, description, id_owner, adress, date, nb_participant, public) 
-    VALUES("Randonné", "Nous allons monté le Mont-Tremblant", 1, "1234 rue popcorn", DATE "2025-01-01", 100, 1);
-
-
-INSERT INTO meetups_requests (id_user, id_meetup) VALUES (2, 1);
-
 -- Interets --
 INSERT INTO categories_interests (name) VALUES 
 ('Sport'),
@@ -339,6 +300,230 @@ INSERT INTO answers (question_id, answer, type_answer) VALUES
 (34, 'la capacité de s\adapter et de se plier à l\événement', 'P'), 
 (35, 'celui qui fournit des preuves', 'T'), 
 (35, 'celui qui fournit des sentiments', 'F');
+
+-- Users --
+INSERT INTO users (email, last_name, first_name, birthdate, password, gender, personality, email_verified_at) VALUES
+('user1@email.com', 'Smith', 'John', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'homme', 1, CURDATE()),
+('user2@email.com', 'Johnson', 'Emily', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'femme', 2, CURDATE()),
+('user3@email.com', 'Williams', 'Michael', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'homme', 3, CURDATE()),
+('user4@email.com', 'Brown', 'Jessica', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'femme', 4, CURDATE()),
+('user5@email.com', 'Jones', 'David', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'homme', 5, CURDATE()),
+('user6@email.com', 'Garcia', 'Sophia', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'femme', 6, CURDATE()),
+('user7@email.com', 'Martinez', 'Daniel', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'homme', 7, CURDATE()),
+('user8@email.com', 'Rodriguez', 'Olivia', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'femme', 8, CURDATE()),
+('user9@email.com', 'Lee', 'James', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'homme', 9, CURDATE()),
+('user10@email.com', 'Harris', 'Mia', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'femme', 10, CURDATE()),
+('user11@email.com', 'Clark', 'Benjamin', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'homme', 11, CURDATE()),
+('user12@email.com', 'Lewis', 'Ava', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'femme', 12, CURDATE()),
+('user13@email.com', 'Walker', 'Lucas', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'homme', 13, CURDATE()),
+('user14@email.com', 'Hall', 'Ella', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'femme', 14, CURDATE()),
+('user15@email.com', 'Allen', 'Alexander', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'homme', 15, CURDATE()),
+('user16@email.com', 'Young', 'Charlotte', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'femme', 16, CURDATE()),
+('user17@email.com', 'King', 'Henry', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'homme', 1, CURDATE()),
+('user18@email.com', 'Wright', 'Amelia', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'femme', 2, CURDATE()),
+('user19@email.com', 'Scott', 'Jack', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'homme', 3, CURDATE()),
+('user20@email.com', 'Torres', 'Grace', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'femme', 4, CURDATE());
+
+-- Meetups --
+INSERT INTO meetups(name, description, id_owner, adress, date, nb_participant, public) 
+    VALUES("Nom de la rencontre", "Voici la description", 1, "1234 rue popcorn", DATE "2025-01-01", 100, 1);
+    
+INSERT INTO meetups(name, description, id_owner, adress, date, nb_participant, public) 
+    VALUES("Sortie au bar", "Voici la description", 2, "1234 rue popcorn", DATE "2025-07-11", 100, 1);
+    INSERT INTO meetups (name, description, id_owner, adress, date, nb_participant, public) 
+    VALUES("Badminton", "Ravis de vous revoir gang :)", 1, "1234 rue popcorn", DATE "2025-01-01", 100, 1);
+    INSERT INTO meetups(name, description, id_owner, adress, date, nb_participant, public) 
+    VALUES("Basket", "Oublier pas vos bouteilles d'eaus guys", 3, "1234 rue popcorn", DATE "2025-01-01", 100, 1);
+    INSERT INTO meetups(name, description, id_owner, adress, date, nb_participant, public) 
+    VALUES("Randonné", "Nous allons monté le Mont-Tremblant", 1, "1234 rue popcorn", DATE "2025-01-01", 100, 1);
+
+
+INSERT INTO meetups_requests (id_user, id_meetup) VALUES (2, 1);
+
+-- Chat --
+INSERT INTO chatRooms VALUES ();
+INSERT INTO chatRooms VALUES ();
+INSERT INTO chatRooms VALUES ();
+INSERT INTO chatRooms VALUES ();
+INSERT INTO chatRooms VALUES ();
+INSERT INTO chatRooms VALUES ();
+INSERT INTO chatRooms VALUES ();
+INSERT INTO chatRooms VALUES ();
+INSERT INTO chatRooms VALUES ();
+INSERT INTO chatRooms VALUES ();
+INSERT INTO chatRooms VALUES ();
+INSERT INTO chatRooms VALUES ();
+INSERT INTO chatRooms VALUES ();
+INSERT INTO chatRooms VALUES ();
+INSERT INTO chatRooms VALUES ();
+
+-- Adding users to private chat rooms
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (1, 1);
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (1, 2);
+
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (2, 3);
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (2, 4);
+
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (3, 5);
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (3, 6);
+
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (4, 7);
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (4, 8);
+
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (5, 9);
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (5, 10);
+
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (6, 11);
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (6, 12);
+
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (7, 13);
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (7, 14);
+
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (8, 15);
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (8, 16);
+
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (9, 17);
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (9, 18);
+
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (10, 19);
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (10, 20);
+
+-- Adding users to group chat rooms
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (11, 1);
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (11, 3);
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (11, 5);
+
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (12, 2);
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (12, 4);
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (12, 6);
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (12, 8);
+
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (13, 7);
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (13, 9);
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (13, 11);
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (13, 13);
+
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (14, 10);
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (14, 12);
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (14, 14);
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (14, 16);
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (14, 18);
+
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (15, 17);
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (15, 19);
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (15, 20);
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (15, 1);
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (15, 3);
+INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES (15, 5);
+
+-- Private chat room 1
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (1, 1, 'Salut John !');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (1, 2, 'Bonjour Emily ! Comment ça va ?');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (1, 1, 'Je vais bien, merci. Et toi ?');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (1, 2, 'Ça va bien, juste un peu occupé avec le travail.');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (1, 1, 'Je comprends. As-tu des plans pour le week-end ?');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (1, 2, 'Pas encore. Peut-être une randonnée.');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (1, 1, 'Ça a l''air sympa ! Fais-moi savoir si tu veux de la compagnie.');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (1, 2, 'Je le ferai !');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (1, 1, 'Super !');
+
+-- Private chat room 2
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (2, 3, 'Salut Michael, comment ça va ?');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (2, 4, 'Salut Jessica ! Je vais bien, je travaille sur un nouveau projet.');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (2, 3, 'C''est génial ! Besoin d''aide ?');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (2, 4, 'Oui, ce serait super. On se retrouve plus tard ?');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (2, 3, 'D''accord, je t''enverrai un message.');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (2, 4, 'Parfait, à bientôt !');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (2, 3, 'Bye !');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (2, 4, 'Bye !');
+
+-- Private chat room 3
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (3, 5, 'Bonjour Daniel !');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (3, 6, 'Salut Olivia !');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (3, 5, 'Que fais-tu ?');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (3, 6, 'Je lis un livre.');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (3, 5, 'Génial ! Quel livre ?');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (3, 6, 'Un roman policier.');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (3, 5, 'Ça a l''air intrigant.');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (3, 6, 'Oui, c''est très bon.');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (3, 5, 'Bonne lecture !');
+
+-- Private chat room 4
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (4, 7, 'Salut David, comment ça va ?');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (4, 8, 'Salut Sophia, ça va bien, et toi ?');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (4, 7, 'Ça va, merci. Quoi de neuf ?');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (4, 8, 'Rien de spécial, juste du boulot.');
+
+-- Private chat room 5
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (5, 9, 'Salut Benjamin !');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (5, 10, 'Salut Mia !');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (5, 9, 'Quoi de neuf ?');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (5, 10, 'Pas grand-chose, et toi ?');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (5, 9, 'Rien de nouveau. As-tu vu le dernier film Marvel ?');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (5, 10, 'Pas encore. Ça a l''air bien ?');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (5, 9, 'Oui, c''était génial !');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (5, 10, 'Super, j''irai le voir.');
+
+-- Group chat room 11
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (11, 1, 'Salut l''équipe, êtes-vous prêts pour la réunion ?');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (11, 3, 'Oui, je suis prêt.');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (11, 5, 'Moi aussi.');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (11, 1, 'Super ! Essayons de commencer à 10 heures précises.');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (11, 3, 'Ça marche. Je serai là.');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (11, 5, 'Moi aussi.');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (11, 1, 'Génial. À tout à l''heure.');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (11, 3, 'À plus tard.');
+
+-- Group chat room 12
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (12, 2, 'Salut tout le monde ! À quelle heure on se retrouve ?');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (12, 4, 'Je pense à 14 heures.');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (12, 6, 'Oui, ça me convient.');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (12, 8, 'Parfait. À tout à l''heure.');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (12, 2, 'Génial !');
+
+-- Group chat room 13
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (13, 7, 'Salut l''équipe ! Prêt pour le nouveau projet ?');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (13, 9, 'Absolument !');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (13, 11, 'Hâte de commencer.');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (13, 13, 'Allons-y !');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (13, 7, 'Est-ce que tout le monde a les documents nécessaires ?');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (13, 9, 'Oui, je les ai.');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (13, 11, 'Moi aussi.');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (13, 13, 'Parfait, on peut commencer.');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (13, 7, 'Super !');
+
+-- Group chat room 14
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (14, 16, 'Je vais bien aussi.');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (14, 18, 'Des plans pour le week-end ?');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (14, 10, 'Peut-être une sortie en famille.');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (14, 12, 'Ça a l''air sympa.');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (14, 14, 'Oui, et toi ?');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (14, 16, 'Je vais probablement aller au cinéma.');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (14, 18, 'Oh, quel film ?');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (14, 10, 'Je ne suis pas encore sûr, peut-être un film d''action.');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (14, 12, 'Super, amuse-toi bien !');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (14, 14, 'Merci, toi aussi !');
+
+-- Group chat room 15
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (15, 17, 'Salut à tous, prêts pour la nouvelle semaine ?');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (15, 19, 'Oui, j''ai hâte de commencer !');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (15, 20, 'Pareil ici.');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (15, 1, 'J''ai quelques idées à partager.');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (15, 3, 'Super, je suis impatient d''entendre ça.');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (15, 5, 'Moi aussi.');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (15, 17, 'D''accord, je commencerai la réunion.');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (15, 19, 'Parfait.');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (15, 20, 'Allons-y.');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (15, 1, 'D''abord, parlons des objectifs de cette semaine.');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (15, 3, 'Bonne idée.');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (15, 5, 'J''ai déjà quelques objectifs en tête.');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (15, 17, 'Partageons-les et voyons comment on peut les atteindre.');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (15, 19, 'D''accord.');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (15, 20, 'Je pense que nous devrions nous concentrer sur le projet X.');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (15, 1, 'Excellente suggestion.');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (15, 3, 'Oui, cela semble être une priorité.');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (15, 5, 'Je suis d''accord.');
+INSERT INTO messages (id_chatRoom, id_user, content) VALUES (15, 17, 'Très bien, commençons alors !');
 
 -- Users Interests --
 CALL add_user_interests (1, "24, 25, 51, 63, 89, 100, 122");

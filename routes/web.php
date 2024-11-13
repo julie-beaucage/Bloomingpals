@@ -114,8 +114,12 @@ Route::middleware('auth')->group(function () {
 
     // Messages
     Route::get('/messages/{id?}', [MessagesController::class, 'index'])->name('messages');
-    Route::get('/chat/{id}', [MessagesController::class, 'chat'])->name('chat');
-    Route::post('/chata/{id}', [MessagesController::class, 'send'])->name('sendMessage');
+    Route::get('/searchUsers/{query?}', [MessagesController::class, 'searchUsers'])->name('searchUsers');
+    Route::get('/chat/{id}/{page}', [MessagesController::class, 'chat'])->name('chat');
+    Route::get('/menu/{query?}', [MessagesController::class, 'menu'])->name('menu');
+    Route::post('/sendchat/{id}', [MessagesController::class, 'send'])->name('sendMessage');
+    Route::post('/newChat', [MessagesController::class, 'newChat'])->name('sendMessage');
+    Route::get('/update/{id}/{etag}', [MessagesController::class, 'update'])->name('checkUpdate');
 
     //utilisateurs
     Route::get("user/friend/request/send/{id}", [UsersController::class, "SendFriendRequest"])->name("SendFriendRequest");

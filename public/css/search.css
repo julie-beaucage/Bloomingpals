@@ -134,7 +134,7 @@
 
 @media only screen and (max-width: 600px) {
     #absolute_cntr {
-        height: calc(100vh - 5em);
+        height: calc(100vh - 8em);
         align-items: end;
     }
 

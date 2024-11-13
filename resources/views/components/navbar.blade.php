@@ -1,11 +1,11 @@
 @if (Auth::check())
     <nav id="navbar">
-        <span class="title no_select">BloomingPals
+        <a class="title no_select" href="/home">BloomingPals
             <img src="{{ asset('/images/logo.png') }}" alt="Logo" class="logo">
-        </span>
-        <span class="shrinked_title no_select shrinked_only">
+        </a>
+        <a class="shrinked_title no_select shrinked_only" href="/home">
             <img src="{{ asset('/images/logo.png') }}" alt="Logo" class="logo">
-        </span>
+        </a>
         @php
             $tabs = [
                 [
@@ -80,7 +80,7 @@
                                 <span class="title">$title</span>
                             </div>
                             <span class="navbar_icon">
-                                <img src="$icon" alt="Photo de profil" class="profile_image">
+                                <img src="$icon" alt="" class="profile_image">
                                 <span class="title">$title</span>
                             </span>
                         </a>

@@ -18,6 +18,11 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $table = 'users';
     protected $primaryKey = 'id';
 
+    public function getFullNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
     public function hasVerifiedEmail()
     {
         return !is_null($this->email_verified_at);
