@@ -6,6 +6,7 @@ use App\Models\City;
 use App\Models\Meetup;
 use App\Models\Interest;
 use App\Models\Meetup_Interest;
+use App\Models\Event_Interest;
 use App\Models\Event_Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -127,10 +128,10 @@ class SearchController extends Controller
 
         $user = User::find(auth()->user()->id);
         $events = $events->sort(function($a, $b) use ($user) {
-            $interests_ids_a = Event_Category::select('id_category')->where('id_event', '=', $a->id)->get();
+            $interests_ids_a = Event_Interest::select('id_interest')->where('id_event', '=', $a->id)->get();
             $affinity_a = $user->affinity($interests_ids_a) + rand(0, 30) / 100;
 
-            $interests_ids_b = Event_Category::select('id_category')->where('id_event', '=', $b->id)->get();
+            $interests_ids_b = Event_Interest::select('id_interest')->where('id_event', '=', $b->id)->get();
             $affinity_b = $user->affinity($interests_ids_b) + rand(0, 30) / 100;
 
             $diff = $affinity_b - $affinity_a;
@@ -160,4 +161,40 @@ class SearchController extends Controller
     {
         return response()->json(Interest::all());
     } 
+    
+    public function pals_index(Request $request)
+    {
+        if ($request->ajax()) {
+            $searchTerm = $request->get('search', '');
+            $users = User::where('first_name', 'like', '%' . $searchTerm . '%')->get();
+            $selectedGroups = $request->input('group_personality', []);
+            $typePersonality = $request->input('type_personality', []);
+            $userAfficher = collect();
+
+            if (!empty($selectedGroups)) {
+                $groupUsers = $users->filter(function ($user) use ($selectedGroups) {
+                    $group = $user->getPersonalityGroup();
+                    return in_array($group, $selectedGroups);
+                });
+                $userAfficher = $userAfficher->merge($groupUsers);
+            }
+
+            if (!empty($typePersonality)) {
+                $typeUsers = $users->filter(function ($user) use ($typePersonality) {
+                    $type = $user->getPersonalityType();
+                    return in_array($type, $typePersonality);
+               
+                });
+                $userAfficher = $userAfficher->merge($typeUsers);            
+             }
+            $userAfficher = $userAfficher->unique('id');
+            
+            if ($request->allFilters) {
+                $userAfficher = User::all();
+            } 
+            return view('partial_views.user_cards', ['users' => $userAfficher])->render();   
+        }
+        $users = User::all();
+        return view('pals.pals', ['users' => $users]);
+    }
 }
