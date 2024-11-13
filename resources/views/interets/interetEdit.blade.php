@@ -7,6 +7,7 @@
             </button>
         </div>
         <div class="body">
+            <input type="text" class="searchBarre" id="searchInterests" placeholder="Rechercher un intérêt...">
             <form action="{{ route('interets.update_Interets', Auth::user()->id) }}" method="POST" id="interetForm">
                 @csrf
                 @method('PUT')

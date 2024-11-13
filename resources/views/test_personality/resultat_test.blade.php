@@ -3,7 +3,7 @@
   <link rel="stylesheet" href="{{ asset('css/personality.css') }}">
 @endsection()
 @php
-    $userPersonality = Auth::user()->getPersonalityType();
+    $userPersonality = Auth::user()->getPersonalityGroup();
 @endphp
 @section('content')
 <div  class="personality result_test {{ $userPersonality }}">

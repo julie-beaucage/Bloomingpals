@@ -1,7 +1,6 @@
 
 <body>
     <link rel="stylesheet" href="{{ asset('css/interets.css') }}">
-
     @include ('interets/interetEdit')
     <div class="containerInteretOnglet">
         @if ($user->id == Auth::user()->id)
@@ -40,4 +39,5 @@
             </div>
         @endforeach
     </div>
+
 </body>

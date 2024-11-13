@@ -10,6 +10,7 @@ use App\Http\Controllers\InterestsController;
 use App\Http\Controllers\CustomVerificationController;
 use App\Http\Controllers\PersonalityController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\SearchUserController;
 
 
 
@@ -37,6 +38,8 @@ Route::post('profile/checkPassword', [UsersController::class, 'checkPassword']);
 Route::post('/profile/checkEmail', [UsersController::class, 'isEmailTaken']);
 Route::post('/profile/updateAccount', [UsersController::class, 'updateAccount']);
 
+
+
 Route::middleware('auth')->group(function () {
     
     // Home
@@ -63,7 +66,6 @@ Route::middleware('auth')->group(function () {
 
     //INTERET
     Route::get('interets/interets/{id}', [InterestsController::class, 'interets'])->name('interets.interets');
-    //Route::put('/interets/update_Interets', [InterestsController::class, 'update_Interets'])->name('interets.update_Interets');
     Route::put('/interets/update_Interets/{id}', [InterestsController::class, 'update_Interets'])->name('interets.update_Interets');
 
     
@@ -84,19 +86,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/meetup/form/{id}', [MeetupController::class, 'form']);
     Route::get('/meetup/form/event/{id}', [MeetupController::class, 'formEvent']);
     Route::get('/meetup/interests/{id}', [MeetupController::class, 'interests']);
-
-
     Route::get('/meetup/{meetupId}', [MeetupController::class, 'MeetupPage'])->name('meetupPage');
     Route::get('/meetup/join/{meetupId}', [MeetupController::class, 'JoinMeetup'])->name('joinMeetup');
     Route::get('/meetup/cancel/{meetupId}', [MeetupController::class, 'CancelJoiningMeetup'])->name('cancelJoiningMeetup');
     Route::get('/meetup/leave/{meetupId}', [MeetupController::class, 'LeaveMeetup'])->name('leaveMeetup');
-
     Route::get('/meetup/removeParticipant/{meetupId}/{userId}', [MeetupController::class, 'RemoveParticipant'])->name("removeParticipant");
-
     Route::get('/meetup/requests/{meetupId}', [MeetupController::class, 'MeetupRequests'])->name('meetupRequests');
     Route::get('/meetup/requests/accept/{meetupId}/{userId}', [MeetupController::class, 'AcceptRequest'])->name('acceptRequest');
     Route::get('/meetup/requests/deny/{meetupId}/{userId}', [MeetupController::class, 'DenyRequest'])->name('denyRequest');
-
 
     // Event
     Route::get('/event/{id}', [EventController::class, 'event'])->name('event');
@@ -110,6 +107,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/search/cities', [SearchController::class, 'cities'])->name('search.cities');
     Route::get('/search/interests', [SearchController::class, 'interests'])->name('search.interests');
     Route::get('/search/getInterests', [SearchController::class, 'getInterests'])->name('search.getInterests');
+
+    //Pals + seach pals_index
+    Route::get('/pals', [SearchController::class, 'pals_index'])->name('searchUsers');
+
 
     //utilisateurs
     Route::get("user/friend/request/send/{id}", [UsersController::class, "SendFriendRequest"])->name("SendFriendRequest");
@@ -125,4 +126,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/notifications', [NotificationController::class,'index']);
     Route::delete('/notifications/delete', [NotificationController::class,'delete']);
     Route::get('/hasNotificationOn', [NotificationController::class, 'hasNotificationOn']);
+
+    // Feed
+    Route::get('/feed', function(){
+        return View::make('feed.feed');
+    })->name('feed');
+
+    Route::namespace('feed')->prefix('feed')->group( function () {
+        Route::get('/fetchFeed/{page}', [HomeController::class, 'fetchFeed']);
+        Route::post('/fetchData', [HomeController::class, 'fetchData']);
+    });
+
+    
 });

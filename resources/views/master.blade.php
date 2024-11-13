@@ -14,15 +14,18 @@ $notifications=NotificationController::index();
 @endphp
 
 <body>
+
     <div id="main">
+    <x-header />
         @if (isset($view))
             <x-navbar active="$view" />
         @else
             <x-navbar />
         @endif
+        
 
         <div id="content">
-            <x-header />
+            
             <x-notifications :notifications="$notifications" />
             @yield("content", "")
             <x-footer />
