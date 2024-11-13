@@ -69,7 +69,7 @@ class HomeController extends Controller
             $feed = DB::table('actions')
                 ->join('types_actions', 'type', '=', 'types_actions.id')
                 ->select('actions.id', 'message', 'name', 'content')
-                ->whereIn('id_user', $listfriendsId)->orderBy('id','desc')->offset(self::AMOUNT * $page)->take(30)
+                ->whereIn('id_user', $listfriendsId)->orderBy('id','desc')->offset(self::AMOUNT * $page)->take(self::AMOUNT)
                 ->get();
             return $feed;
         }
@@ -109,5 +109,17 @@ class HomeController extends Controller
             return array($userList,$meetupList);
             
         }
+        return false;
+    }
+    public function fetchMeetups($page){
+        $offset=100;
+        if (Auth::user()->id != null) {
+           $meetups=Meetup::select('id')->orderBy('id','desc')->offset($offset * $page)->take($offset);
+           
+
+           
+            
+        }
+        return false;
     }
 }

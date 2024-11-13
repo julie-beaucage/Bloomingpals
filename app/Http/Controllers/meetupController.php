@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\City;
 use App\Models\Meetup;
+use App\Models\User_Interest;
 use illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -48,6 +49,34 @@ class MeetupController extends BaseController
 
     public function Form($id = null, $isEvent = null)
     {
+        $page=0;
+        $offset=100;
+        if (Auth::user()->id != null) {
+           $meetups=Meetup::select('id')->orderBy('id','desc')->offset($offset * $page)->take($offset)->get();
+           $userInterests=User_Interest::select('id_interest')->where('id_user',Auth::user()->id)->get();
+           
+
+           $meetups2=DB::table('meetups')->join('meetups_interests', 'id', '=', 'id_meetup')
+           ->select('id')->whereIn('id_interest',$userInterests)
+           ->whereIn('id', $meetups)->orderBy('id','desc')->get();
+
+           $temp_tab=[];
+           $indexToDelete=[];
+           $index=0;
+           foreach($meetups2 as $key=>$meetup){
+            dd($meetup->id);
+            if(in_array($meetup->id,$temp_tab)){
+                
+            }
+           }
+
+           dd($meetups2);
+           
+
+           
+            
+        }
+
 
         if ($isEvent == true) {
             $data = DB::table('events')
@@ -135,18 +164,28 @@ class MeetupController extends BaseController
                         }
                     }
                         
-
+                
                 foreach ($id_interests as $id) {
                     Meetup_Interest::insert([
                         'id_interest' => $id,
                         'id_meetup' => $id_meetup
                     ]);
                 }
+                // create Action for feed
+                
+                $obj=array('meetup'=> $id_meetup);
+                DB::statement("Call addAction(?,?,?,?)", [
+                    $id_owner,
+                    'Meetup Create',
+                    'viens de créer un nouveau Meetup : ',
+                    json_encode($obj)                
+                ]);
+
                 DB::commit();
             }
 
         }
-        Artisan::call('storage:link'); // update les symLinks
+        //Artisan::call('storage:link'); // update les symLinks
 
         return redirect('/home');
     }
@@ -209,7 +248,7 @@ class MeetupController extends BaseController
                 }
                 DB::commit();
             }
-            Artisan::call('storage:link'); // update les symLinks
+            //Artisan::call('storage:link'); // update les symLinks
             return redirect('/home');
         }
         abort(404);
@@ -350,6 +389,8 @@ class MeetupController extends BaseController
 
         Meetup_User::AddParticipant($userId, $meetupId);
         Meetup_Request::AcceptMeetupRequest($userId, $meetupId);
+
+
 
         return $this->MeetupRequests($meetupId);
     }
