@@ -176,6 +176,7 @@ class UsersController extends Controller
         $relation = Relation::GetRelationUsers(Auth::user()->id, $id);
         $haveAccess = false;
 
+        $reportsReasons = Object_Type::all();
         if ($user->confidentiality == "prive" && $user->id == Auth::user()->id) {
             $haveAccess = true;
         } else if ($user->confidentiality == "friends" && ($relation == "Friend" || $user->id == Auth::user()->id)) {
