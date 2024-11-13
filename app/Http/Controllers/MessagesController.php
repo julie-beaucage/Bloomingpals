@@ -57,13 +57,20 @@ class MessagesController extends Controller
             $other_users = User::query()->join('chatRooms_users', 'users.id', '=', 'chatRooms_users.id_user')->where('id_chatRoom', '=', $chatRoom->id)->where('id_user', '!=', auth()->user()->id)->get();
             $lastUser = ($lastMessage == null) ? $other_users->first() : User::query()->where('id', '=', $lastMessage->id_user)->first();
 
-            // foreach ($other_users as $user) {
-            //     if ($query != null && $query != "" && strpos($user->full_name, $query) === false) {
-            //         $other_users = $other_users->filter(function ($value, $key) use ($user) {
-            //             return $value->id != $user->id;
-            //         });
-            //     }
-            // }
+            $isQuery = false;
+            if ($query != null && $query != "") {
+                foreach ($other_users as $user) {
+                    if (strpos($user->full_name, $query) === true)
+                        $isQuery = true;
+                }
+            }
+            else {
+                $isQuery = true;
+            }
+
+            if ($isQuery == false) {
+                continue;
+            }
 
             if ($chatRoom->name == null) {
                 $chatRoom->name = implode(', ', $other_users->pluck('full_name')->toArray());

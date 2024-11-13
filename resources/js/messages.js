@@ -35,6 +35,7 @@ function updateMenu()
         type: 'GET',
         success: function(data) {
             $('#convos_cntr').html(data);
+            console.log(data);
         }
     });
 }
@@ -150,6 +151,13 @@ $(document).ready(async function() {
     $("#close_popup_btn").click(function() { 
         $("#relative_cntr").addClass("hidden");
         $("#content").removeClass("no_overflow");
+    });
+
+    $("#search_convo").keypress(function(e) {
+        if (e.which == 13) {
+            updateMenu();
+            $("#search_convo").val("");
+        }
     });
 
     $(".search_suggestion").each(async function() {
