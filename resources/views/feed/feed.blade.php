@@ -155,13 +155,13 @@
         //console.log(list_users);
         $.ajax({
             url: 'feed/fetchData',
-            method: 'POST',
+            method: 'GET',
             data: { users: list_users, meetups: list_meetups },
             success: function (data) {
-                // console.log(data[0]);
-                // console.log('------');
-                // console.log(data[1]);
-                appendContent(data[0], data[1], feed);
+                console.log(data[0]);
+                console.log('------');
+                console.log(data[1]);
+               // appendContent(data[0], data[1], feed);
             }
         });
 
@@ -190,6 +190,10 @@
         let _actions = await promise_fetchContent();
         pageFeed++;
         content = content.concat(_actions);
+
+        handleContent(content);
+
+
 
 
         while (meetups.length < 5) {

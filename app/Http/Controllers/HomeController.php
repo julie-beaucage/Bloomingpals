@@ -57,62 +57,64 @@ class HomeController extends Controller
     {
         if (Auth::user()->id != null) {
 
-            $amis=Relation::GetFriends(Auth::user()->id);
-           
-            $listfriendsId=[];
-            $index=0;
-            foreach($amis as $friend){
-                $listfriendsId[$index]=$friend->id;
-                $index++;
-            }
-            
+            // $amis=Relation::GetFriends(Auth::user()->id);
+
+            // $listfriendsId=[];
+            // $index=0;
+            // foreach($amis as $friend){
+            //     $listfriendsId[$index]=$friend->id;
+            //     $index++;
+            // }
+
+            // $feed = DB::table('actions')
+            //     ->join('types_actions', 'type', '=', 'types_actions.id')
+            //     ->select('actions.id', 'message', 'name', 'content')
+            //     ->whereIn('id_user', $listfriendsId)->orderBy('id','desc')->offset(self::AMOUNT * $page)->take(self::AMOUNT)
+            //     ->get();
+
             $feed = DB::table('actions')
                 ->join('types_actions', 'type', '=', 'types_actions.id')
                 ->select('actions.id', 'message', 'name', 'content')
-                ->whereIn('id_user', $listfriendsId)->orderBy('id','desc')->offset(self::AMOUNT * $page)->take(self::AMOUNT)
+                ->offset(self::AMOUNT * $page)->take(self::AMOUNT)
                 ->get();
+
             return $feed;
         }
     }
 
     public function fetchData(Request $req)
     {
-        $users=$req->users;
-        $meetups=$req->meetups;
-       
         if (Auth::user()->id != null) {
-            $usersFromDb=User::select('id','first_name','last_name','image_profil')->whereIn('id',$users)->get();
-            $meetupsfromDb=Meetup::select('id','name','adress','city','image')->whereIn('id',$meetups)->get();
-            $userList=[];
-            $meetupList=[];
-            $index=0;
 
-            
-            foreach($users as $user){
-                foreach($usersFromDb as $user2){
-                    if($user2->id == $user){
-                        $userList[$index]=$user2;
-                    }
-                }
-                $index++;
-            }
-            $index=0;
-            foreach($meetups as $key=>$meetup){
-
-                foreach($meetupsfromDb as $meetup2){
-                    if($meetup2->id == $meetup){
-                        $meetupList[$key]=$meetup2;
-                    }
+            $users = [];
+            $index = 0;
+            foreach ($req->users as $user) {
+                if (!(in_array($user, $users))) {
+                    $users[$index] = $user;
+                    $index++;
                 }
             }
 
-            return array($userList,$meetupList);
-            
+            $meetups = [];
+            $index = 0;
+            foreach ($req->meetups as $meetup) {
+                if (!(in_array($meetup, $meetups))) {
+                    $meetups[$index] = $meetup;
+                    $index++;
+                }
+            }
+            $usersFromDb = User::select('id', 'first_name', 'last_name', 'image_profil')->whereIn('id', $users)->get();
+            $meetupsfromDb = Meetup::select('id', 'name', 'adress', 'city', 'image')->whereIn('id', $meetups)->get();
+
+
+            return array($usersFromDb, $meetupsfromDb);
+
         }
         return false;
     }
-    public function fetchMeetups($page){
-        $offset=30;
+    public function fetchMeetups($page)
+    {
+        $offset = 30;
         if (Auth::user()->id != null) {
             $meetupsSorted = [];
             $meetups = Meetup::select('id')->orderBy('id', 'desc')->offset($offset * $page)->take($offset)->get();
@@ -124,7 +126,7 @@ class HomeController extends Controller
                 ->whereIn('id', $meetups)->orderBy('id', 'desc')->get();
 
             //enlever les doublons
-            
+
             $index = count($meetupsSorted);
             foreach ($meetupsByInterest as $meetup) {
                 if (!(in_array($meetup->id, $meetupsSorted))) {
@@ -132,13 +134,14 @@ class HomeController extends Controller
                     $index++;
                 }
             }
-            $result=Meetup::whereIn('id',$meetupsSorted)->get();
+            $result = Meetup::whereIn('id', $meetupsSorted)->get();
             return $result;
         }
         return false;
     }
-    public function fetchEvents($page){
-        $offset=30;
+    public function fetchEvents($page)
+    {
+        $offset = 30;
         if (Auth::user()->id != null) {
             $eventsSorted = [];
             $events = Event::select('id')->orderBy('id', 'desc')->offset($offset * $page)->take($offset)->get();
@@ -150,7 +153,7 @@ class HomeController extends Controller
                 ->whereIn('id', $events)->orderBy('id', 'desc')->get();
 
             //enlever les doublons
-            
+
             $index = count($eventsSorted);
             foreach ($eventsByInterest as $event) {
                 if (!(in_array($event->id, $eventsSorted))) {
@@ -158,8 +161,8 @@ class HomeController extends Controller
                     $index++;
                 }
             }
-            
-            $result=Event::whereIn('id',$eventsSorted)->get();
+
+            $result = Event::whereIn('id', $eventsSorted)->get();
             return $result;
 
         }
