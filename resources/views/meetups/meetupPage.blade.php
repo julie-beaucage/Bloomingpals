@@ -94,31 +94,29 @@
             $imageParticipantHtml = "";
             $participantRoute = route("profile", ["id" => $participantData->id]);
 
-            if (isset($participantData->image_profil)) {
-                $imageParticipantHtml = <<<HTML
-                    <a href="$participantRoute">
-                        <div class="profile_icon no_select" style="background-image: url({$participantData->image_profil})">
-                                    
-                        </div>
-                    </a>
-                HTML;
-            } else {
-                $imageParticipantHtml = <<<HTML
-                    <a href="$participantRoute">
-                        <div class="profile_icon no_select" style="background-image: url(https://img.freepik.com/photos-gratuite/beaute-abstraite-automne-dans-motif-veines-feuilles-multicolores-genere-par-ia_188544-9871.jpg)">
+            $participantImage = $participantData->image_profil ? asset('storage/' . $participantData->image_profil) : asset('/images/simple_flower.png');
+
+            $imageParticipantHtml = <<<HTML
+                <a href="$participantRoute">
+                    <div class="profile_icon no_select" style="background-image: url($participantImage)">
                                 
-                        </div>
-                    </a>
-                HTML;
-            }
-            $participantHtml .= <<<HTML
-                <div class="organisator_profile">
-                    $imageParticipantHtml
-                    <div class="username_container">
-                        <div>{$participantData->first_name} {$participantData->last_name}</div>
-                        <div class="grey_text"><!--afinité a faire--></div>
                     </div>
-                </div>
+                </a>
+            HTML;
+            $affinity = $participantData->id == $currentUser->id ? "votre compte" : $currentUser->calculateAffinity($participantData->id, $currentUser->id);
+
+
+            $participantRoute = route("profile", ["id" => $participantData->id]);
+            $participantHtml .= <<<HTML
+                <a href="$participantRoute">
+                    <div class="organisator_profile">
+                        $imageParticipantHtml
+                        <div class="username_container">
+                            <div>{$participantData->first_name} {$participantData->last_name}</div>
+                            <div class="grey_text">$affinity% d'affinité avec vous</div>
+                        </div>
+                    </div>
+                </a>
             HTML;
         }
     }
@@ -131,6 +129,8 @@
         </div>
     HTML;
 
+    $affinityOrganisator = $organisatorData->id == $currentUser->id ? "votre compte" : $currentUser->calculateAffinity($organisatorData->id, $currentUser->id)."% d'affinité avec vous";
+
 
     $imageMeetup = $meetupData->image ? asset('storage/' . $meetupData->image) : asset('/images/R.jpg');
     /*Get image data*/
@@ -139,6 +139,8 @@
 
         </div>
     HTML;
+
+    $organisatorRoute = route("profile", ["id" => $organisatorData->id]);
 
 
     /*get tags data*/
@@ -153,7 +155,7 @@
 @extends("master")
 
 @section("style")
-    <link rel="stylesheet" href="{{ asset('css/page/meetup.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/meetup.css') }}">
 @endsection()
 
 @section("content")
@@ -178,13 +180,15 @@
                 
                 <!--organisator profile section-->
                 <div class="joining_Conainter">
-                    <div class="organisator_profile">
-                        $imageUtilisateurHtml
-                        <div class="username_container">
-                            <div class="title5">{$organisatorData->first_name} {$organisatorData->last_name}</div>
-                            <div class="grey_text"><!--afinité a faire--></div>
+                    <a href="$organisatorRoute">
+                        <div class="organisator_profile">
+                            $imageUtilisateurHtml
+                            <div class="username_container">
+                                <div class="title5">{$organisatorData->first_name} {$organisatorData->last_name}</div>
+                                <div class="grey_text">$affinityOrganisator</div>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                     <div>
                         $actionButtonHtml
                     </div>
@@ -198,7 +202,7 @@
                 </div>
                 <div>
                     <div class="dark_grey_text no_select">Adresse</div>
-                    <div class="grey_text">{$meetupData->adresse}</div>
+                    <div class="grey_text">{$meetupData->adress}</div>
                 </div>
                 <div>
                     <div class="dark_grey_text no_select">Heure</div>
