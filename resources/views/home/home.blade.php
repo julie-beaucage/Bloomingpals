@@ -46,6 +46,7 @@
         </div>
     </div>
     @include ('auth/login')
+
     @guest
         <div>
             <a class="rejoindre_btn" id="openLoginInOverlay" title="Rejoindre BloomingPals">
@@ -109,6 +110,8 @@
     });
 
 </script>
+<script src="{{asset('/js/validationLogin.js')}}"></script>
+
 <script>
 function showSignUp() {
     document.getElementById("loginForm").style.display = "none";
