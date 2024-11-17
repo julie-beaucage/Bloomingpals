@@ -21,20 +21,53 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-function togglePasswordVisibility() {
-    const passwordInput = document.getElementById('password');
+/*function togglePasswordVisibility() {
+    const passwordInput = document.getElementById('passwordSign');
     const toggleIcon = document.getElementById('togglePassword').querySelector('i');
     const type = passwordInput.type === 'password' ? 'text' : 'password';
     passwordInput.type = type;
     toggleIcon.classList.toggle('fa-eye', type === 'password');
     toggleIcon.classList.toggle('fa-eye-slash', type === 'text');
-}
+}*/
+function togglePasswordVisibility() {
+    const passwordInput = document.getElementById('passwordSign'); 
+    const toggleIcon = document.getElementById('icone'); 
 
-function togglePasswordConfirmationVisibility() {
+    if (passwordInput && toggleIcon) {
+        const isPasswordVisible = passwordInput.type === 'text';
+        toggleIcon.textContent = isPasswordVisible ? 'visibility' : 'visibility_off';
+        passwordInput.type = isPasswordVisible ? 'password' : 'text';
+    }
+}
+/*function togglePasswordConfirmationVisibility() {
     const passwordConfirmationInput = document.getElementById('password_confirmation');
     const toggleIcon = document.getElementById('togglePasswordConfirmation').querySelector('i');
     const type = passwordConfirmationInput.type === 'password' ? 'text' : 'password';
     passwordConfirmationInput.type = type;
     toggleIcon.classList.toggle('fa-eye', type === 'password');
     toggleIcon.classList.toggle('fa-eye-slash', type === 'text');
+}*/
+function togglePasswordConfirmationVisibility() {
+    const passwordInput = document.getElementById('password_confirmation'); 
+    const toggleIcon = document.getElementById('icone_confirm'); 
+
+    if (passwordInput && toggleIcon) {
+        const isPasswordVisible = passwordInput.type === 'text';
+        toggleIcon.textContent = isPasswordVisible ? 'visibility' : 'visibility_off';
+        passwordInput.type = isPasswordVisible ? 'password' : 'text';
+    }
 }
+
+function togglePasswordVisibilityLogin() {
+    const passwordInput = document.getElementById('passwordLogin'); 
+    const toggleIcon = document.getElementById('icone_login'); 
+
+    if (passwordInput && toggleIcon) {
+        const isPasswordVisible = passwordInput.type === 'text';
+        toggleIcon.textContent = isPasswordVisible ? 'visibility' : 'visibility_off';
+        passwordInput.type = isPasswordVisible ? 'password' : 'text';
+    }
+}
+window.togglePasswordVisibility = togglePasswordVisibility;
+window.togglePasswordConfirmationVisibility = togglePasswordConfirmationVisibility;
+window.togglePasswordVisibilityLogin = togglePasswordVisibilityLogin;

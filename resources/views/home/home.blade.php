@@ -17,10 +17,15 @@
 @endphp
 
 @section("content")
+@if(session('error'))
+    <div class="flash-error">
+        <p>{{ session('error') }}</p>
+    </div>
+@endif
 <div id="home_cntr">
     <div class="main-carousel">
         <div class="carousel-wrapper" id="carousel-wrapper">
-            <div class="carousel-card card-1">
+            <div class="carousel-card card-1" id="test">
                 <div class="carousel-text">
                     <h2>Blooming Pals: Une expérience magique pour créer de nouveaux lieux</h2>
                 </div>
@@ -30,7 +35,7 @@
             </div>
             <div class="carousel-card card-2">
                 <div class="carousel-text">
-                    <h2>Faites des liens avec des gens semblables à vous</h2>
+                    <p>Faites des liens avec des gens semblables à vous</p>
                 </div>
             </div>
             <div class="carousel-card card-3">
@@ -45,7 +50,27 @@
             </div>
         </div>
     </div>
-    @include ('auth/login')
+    <!-- Formulaire de connexion et d'inscription en MODAL CSS SANS BOOTRAPS -->
+    <div class="custom-overlay" id="loginOverlay" style="display: none;">
+        <div class="container-custom-modal">
+            <div class="header">
+                <span class="title no_wrap"></span>
+                <button class="close" onclick="closeOverlay()">
+                    <span class="material-symbols-rounded" style="font-size: 24px; color: black;">close</span>
+                </button>
+            </div>
+            <div class="pageContainerLogin">
+                <div class="img_login_left">
+                    <div class="image_login">
+                        <img src="{{ asset('images/logoBloom.png') }}" alt="logo" class="imgLogo" />
+                    </div>
+                    <h1>BloomingPals</h1>
+                    <p>Une expérience d'amitié nouvelle et captivante !</p>
+                </div>
+                @include('auth/login')
+                @include('auth/signIn')           </div>
+        </div>
+    </div>
 
     @guest
         <div>
@@ -90,7 +115,17 @@
 @endsection()
 
 @section('script')
+<script>
 
+    window.onload = () => {
+        const wrapper = document.querySelector('.carousel-wrapper');
+        const cards = document.querySelectorAll('.carousel-card');
+        cards.forEach(card => {
+            wrapper.appendChild(card.cloneNode(true)); // Cloner et ajouter la carte au wrapper
+        });
+    };
+
+</script>
 <script>
     function openOverlay() {
         document.getElementById("loginOverlay").style.display = "flex";
@@ -109,20 +144,17 @@
         }
     });
 
-</script>
-<script src="{{asset('/js/validationLogin.js')}}"></script>
+    function showSignUp() {
+        document.getElementById("loginForm").style.display = "none";
+        document.getElementById("signUpForm").style.display = "block";
+    }
 
-<script>
-function showSignUp() {
-    document.getElementById("loginForm").style.display = "none";
-    document.getElementById("signUpForm").style.display = "block";
-}
-
-function showLogin() {
-    document.getElementById("signUpForm").style.display = "none";
-    document.getElementById("loginForm").style.display = "block";
-}
+    function showLogin() {
+        document.getElementById("signUpForm").style.display = "none";
+        document.getElementById("loginForm").style.display = "block";
+    }
 </script>
+
 <script>
     $(document).ready(function () {
         let currentIndex = 0;
@@ -216,4 +248,6 @@ function showLogin() {
         });
     });
 </script>
+<script src="{{asset('/js/validationLogin.js')}}"></script>
+
 @endsection()

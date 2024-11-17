@@ -88,51 +88,60 @@
 }
 
 /* CSSS POUR LE TEST DE PRSONALITÉ */
+.eee{
+    width: 100%;
+}
 .test_container {
     height: 100%;
     width: 100%;
-    margin: 0;
-    align-items: center;
-	place-items: center; 
     flex-direction: column;
     display: flex;
     place-items: center;
-    font-family: sans-serif;
     font-size: 1rem;
-    background-image: linear-gradient(
-        to bottom right,
-        #b3b6bf,
-        #99d2ba,
-        #8bc1e2,
-        #fbcfd0,
-        #f4d03f
-    );
+    max-width: 800px;
+    margin: 2rem auto;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: var(--font-family);
+    background-color: var(--white);
+    color: var(--text-dark);
+    padding: 0;
+}
+.test_container h3 {
+    text-align: center;
+    color: var(--primary-400);
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
 }
 
-.test_container fieldset {
-    width: 80%;
-    min-height: fit-content;
+#personality-test-form{
+    width: 100%;
+}
+
+.questionContainer {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: rgba(120, 179, 120, 0.578);
+    border: 1px solid var(--background-300);
+    border-radius: 20px;
     margin: 3% auto;
     padding: 4%;
-    border-radius: 20px;
-    background-color: rgba(255, 255, 255, 0.1);
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-    display: inline-block;
-    border: none;
-    box-sizing: border-box; 
-	margin-left: 10%;
+    color: var(--background-800);
+    height: 10em;
+    width: 40em;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.test_container legend {
-    font-size: 1rem;
-    font-weight: bold;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(2px);
-    border-radius: 20px;
-    padding: 10px 20px;
+.test_container div {
     margin-bottom: 10px;
-    color: white;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+.questionContainer legend {
+    font-weight: bold;
+    color: var(--background-800);
+    font-size: 1.2rem;
+    border:solid black 2px;
+    background-color: var(--white);
+    padding:0.2em;
 }
 
 .containerAnswers {
@@ -140,15 +149,30 @@
     align-items: center; 
     justify-content: flex-start; 
     margin: 3px;
+    gap: 0.5rem;
+    padding: 0.5rem;
 }
 
 .containerAnswers input {
     margin-right: 10px; 
+    transform: scale(1.2);
 }
 
 .containerAnswers label {
     margin: 0; 
-    display: inline; 
+    display: inline;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.3s ease, color 0.3s ease; 
+    word-wrap: break-word;
+    line-height: 1.5;
+    flex: 1;
+}
+.containerAnswers:hover label {
+    transform: scale(1.1); 
+    color: var(--primary-400); 
+    margin-left: 2em;
+    font-weight: bold;
 }
 
 #error-message {
@@ -160,12 +184,13 @@
 }
 
 fieldset.error {
-    background-color: rgba(255, 0, 0, 0.421); 
+    background-color: rgba(190, 101, 101, 0.603); 
 }
 
 .test_container fieldset.selected-question { 
-    background-color: #77e6ad4a; 
+    background-color: #c6e9d78e; 
     transition: background-color 0.3s;
+    color:rgb(172, 161, 161);
 }
 
 .test_container input[type="radio"] {
@@ -173,7 +198,7 @@ fieldset.error {
     -webkit-appearance: none;
     width: 20px;
     height: 20px;
-    border: 1px solid #fff;
+    border: 1px solid var(--background-800);
     border-radius: 50%;
     margin-right: 10px;
     background-color: transparent;
@@ -185,7 +210,7 @@ fieldset.error {
     display: block;
     width: 12px;
     height: 12px;
-    background-color: #ca8489;
+    background-color: var(--primary-400);
     border-radius: 50%;
     position: absolute;
     top: 50%;
@@ -194,67 +219,40 @@ fieldset.error {
     animation: appear 0.8s;
 }
 
-.test_container label {
-    font-weight: bold;
-    color: #fff;
-}
-
-.test_container div {
-    margin-bottom: 10px;
-}
 
 .test_container .pagination {
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
+    margin-left:1em;
+    margin-right:1em;
 }
 
 .prev, .next{
     font-size: 1rem;
     font-weight: bold;
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--primary-400);
     backdrop-filter: blur(2px);
     border-radius: 20px;
     padding: 10px 20px;
-    color: rgb(92, 185, 129);
+    color: var(--white);
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 .sendTest{
 	margin-left:50%;
 	font-size: 1rem;
     font-weight: bold;
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--primary-400);
     backdrop-filter: blur(2px);
     border-radius: 20px;
+    border:none;
     padding: 10px 20px;
-    color: rgb(92, 185, 129);
+    color: var(--white);
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
 .prev:hover, .next:hover, .sendTest:hover {
-    background-color: #e9a5e4;
-}
-
-@keyframes appear {
-    0% {
-        transform: translate(-50%, -50%) scale(0);
-        background-color: #fff;
-    }
-    45% {
-        transform: translate(-50%, -50%) scale(1.6);
-        background-color: #64aedf;
-    }
-    50% {
-        transform: translate(-50%, -50%) scale(1.7);
-        background-color: #ad97b3;
-    }
-    55% {
-        transform: translate(-50%, -50%) scale(1.6);
-    }
-    100% {
-        transform: translate(-50%, -50%) scale(1);
-        background-color: #ca8489;
-    }
+    background-color: rgb(92, 185, 129);
 }
 
 /* CSSS POUR LE RESULAT DE PRSONALITÉ */
@@ -321,41 +319,54 @@ fieldset.error {
 
 
 
-@media (max-width: 768px) {
+@media (max-width: 788px) {
+    .test_container{
+        margin:0;
+    }
+    .questionContainer {
+        height: 10em;
+        width: 80em;
+    }
     .test_container {
         font-size: 1.4rem; 
+        height: 100%;
+        width: 100%;
     }
-    
     .test_container fieldset {
         padding: 10px; 
 		height: fit-content;   
 		width: 85%;
 	}
-
-    .test_container label {
-        font-size: 1rem; 
+}
+@media (max-width: 600px) {
+    .questionContainer {
+        height: 20em;
+        width: 80em;
+        background-color: rgb(153, 163, 184);
     }
-    
-    .test_container legend {
-        font-size: 1rem; 
+    #personality-test-form{
+        height: 100%;
     }
 }
-
-@media (max-width: 480px) {
-    .test_container {
-        font-size: 1rem; 
+@media (max-width: 500px) {
+    .questionContainer {
+        height: 25em;
+        width: 80em;
     }
-
-    .test_container fieldset {
-		width: 90%;
-		margin-left: 5%;
+    #personality-test-form{
+        height: 100%;
     }
-
-    .test_container label {
-        font-size: 0.9rem; 
+    .questionContainer legend {
+        font-weight: bold;
+        color: var(--background-800);
+        font-size: 1.2rem;
     }
-    
-    .test_container legend {
-        font-size: 1rem; 
+    .containerAnswers label {
+        margin: 0; 
+        font-size: 0.8em;
+    }
+    .containerAnswers:hover label {
+        margin-left: 1em;
+
     }
 }
