@@ -30,7 +30,9 @@ Route::get('/home/top_events', [HomeController::class, 'top_events'])->name('top
 Route::get('/home/recent_meetups', [HomeController::class, 'recent_meetups'])->name('recent_meetups');
 Route::get('/home/upcoming_events', [HomeController::class, 'upcoming_events'])->name('upcoming_events');
 
-
+Route::get('/about', function () {
+    return view('about'); 
+})->name('about');
 
 // Authentification
 Route::get('/email/verify/{id}/{hash}', [CustomVerificationController::class, 'verify'])->name('verification.verify');
