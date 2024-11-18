@@ -2,6 +2,8 @@
 @section('style')
  <link rel="stylesheet" href="{{ asset('css/personality.css') }}">
  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+ <link rel="stylesheet" type="text/css" href="{{ asset('css/login.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('css/overlay-modal.css') }}">
 @endsection
 
 @section("content")
@@ -496,6 +498,32 @@
         </div>
     </div>   
 </div>
+    <!-- Formulaire de connexion et d'inscription en MODAL CSS SANS BOOTRAPS -->
+    <div class="custom-overlay" id="loginOverlay" style="display: none;">
+        <div class="container-custom-modal">
+            <div class="header">
+                <span id="title-empty" class="title no_wrap"></span>
+                <button id="icone_back" class="back" onclick="showLogin()" style="border: none; background: none; display: none;">
+                  <span class="material-symbols-rounded" style="font-size: 24px; color: black;">chevron_left</span>
+                </button>
+                <button class="close" onclick="closeOverlay()">
+                    <span class="material-symbols-rounded" style="font-size: 24px; color: black;">close</span>
+                </button>
+            </div>
+            <div class="pageContainerLogin">
+                <div class="img_login_left">
+                    <div class="image_login">
+                        <img src="{{ asset('images/logoBloom.png') }}" alt="logo" class="imgLogo" />
+                    </div>
+                    <h1>BloomingPals</h1>
+                    <p>Une expérience d'amitié nouvelle et captivante !</p>
+                </div>
+                @include('auth/login')
+                @include('auth/signIn')           
+            </div>
+        </div>    
+        <div class="flash-error" style="display: none; color: red;"></div>
+    </div>
 @endsection
 @section('script')
 <script>
