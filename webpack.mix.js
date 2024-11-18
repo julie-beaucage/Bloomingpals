@@ -20,6 +20,7 @@ mix.js('resources/js/Notifications.js', 'public/js');
 mix.postCss('resources/css/app.css', 'public/css', []);
 mix.postCss('resources/css/login.css', 'public/css', []);
 mix.postCss('resources/css/meetupForm.css', 'public/css', []);
+mix.postCss('resources/css/meetupRequests.css', 'public/css', []);
 mix.postCss('resources/css/meetup.css', 'public/css', []);
 mix.postCss('resources/css/event.css', 'public/css', []);
 mix.postCss('resources/css/search.css', 'public/css', []);
@@ -31,6 +32,7 @@ mix.postCss('resources/css/overlay-modal.css', 'public/css', []);
 mix.postCss('resources/css/home.css', 'public/css', []);
 mix.postCss('resources/css/notifications.css', 'public/css', []);
 mix.postCss('resources/css/feed.css', 'public/css', []);
+mix.postCss('resources/css/reports.css', 'public/css', []);
 mix.sass('resources/scss/loading.scss', 'public/css', []);
 
 // For development
