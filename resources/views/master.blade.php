@@ -21,7 +21,11 @@
             <x-navbar />
         @endif
         <div id="content">
-            <x-notifications :notifications="$notifications" />
+           @if (!Auth::check())
+              <x-navbar-guest />
+            @else
+              <x-notifications :notifications="$notifications" />
+            @endif
             @yield("content", "")
             <x-footer />
         </div>

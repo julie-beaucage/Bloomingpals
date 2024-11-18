@@ -1,4 +1,4 @@
-{{-- resources/views/about.blade.php --}}
+
 @extends('master')
 @section('title', 'À propos')
 @section("content")

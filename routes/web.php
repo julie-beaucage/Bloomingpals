@@ -12,14 +12,6 @@ use App\Http\Controllers\PersonalityController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\SearchUserController;
 
-
-/*Route::get('/', function () {
-    if (auth()->check()) {
-        return redirect()->route('home');
-    }
-    return view('auth.login');
-});*/
-
 Route::get('/', function () {
     return redirect()->route('home');
 });
@@ -34,14 +26,18 @@ Route::get('/about', function () {
     return view('about'); 
 })->name('about');
 
+Route::get('/personality-info', function () {
+    return view('test_personality.info-personality'); 
+})->name('personality-info');
+
 // Authentification
 Route::get('/email/verify/{id}/{hash}', [CustomVerificationController::class, 'verify'])->name('verification.verify');
 Route::get('/email/verify', function () {
     return view('auth.verify');
 })->middleware('auth')->name('verification.notice');
 
-Route::get('/signIn', [UsersController::class, 'registerForm'])->middleware('guest');
-Route::get('/login', [UsersController::class, 'loginForm'])->middleware('guest');
+Route::get('/signIn', [UsersController::class, 'registerForm'])->middleware('guest')->name('register.form');
+Route::get('/login', [UsersController::class, 'loginForm'])->middleware('guest')->name('login.form');
 Route::post('/signIn', [UsersController::class, 'create'])->name('signin');
 Route::post('/login', [UsersController::class, 'login'])->name('login');
 Route::get('/logout', [UsersController::class, 'logout'])->name('logout');

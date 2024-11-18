@@ -8,6 +8,7 @@
                 <input type="text" class="inputSignup" id="emailLogin" placeholder="Adresse courriel" name="email" autocomplete="email"
                     value="{{ old('email') }}" required />
             </div>
+
         </div>
         <div class="inputContainer">
             <div class="entryarea entryarealogin">

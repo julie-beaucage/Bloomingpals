@@ -36,6 +36,9 @@
             <div class="carousel-card card-2">
                 <div class="carousel-text">
                     <p>Faites des liens avec des gens semblables à vous</p>
+                    <a href="{{ route('personality-info') }}" class="navbar-item-guest">
+                <span class="material-symbols-rounded icon_md">quiz</span>Test de personnalité
+            </a>
                 </div>
             </div>
             <div class="carousel-card card-3">
@@ -68,8 +71,11 @@
                     <p>Une expérience d'amitié nouvelle et captivante !</p>
                 </div>
                 @include('auth/login')
-                @include('auth/signIn')           </div>
-        </div>
+                @include('auth/signIn')           
+            </div>
+        </div>    
+        <div class="flash-error" style="display: none; color: red;"></div>
+
     </div>
 
     @guest
@@ -121,7 +127,7 @@
         const wrapper = document.querySelector('.carousel-wrapper');
         const cards = document.querySelectorAll('.carousel-card');
         cards.forEach(card => {
-            wrapper.appendChild(card.cloneNode(true)); // Cloner et ajouter la carte au wrapper
+            wrapper.appendChild(card.cloneNode(true)); 
         });
     };
 
@@ -131,12 +137,17 @@
         document.getElementById("loginOverlay").style.display = "flex";
     }
 
-    function closeOverlay() {
-        document.getElementById("loginOverlay").style.display = "none";
-    }
     function closeModal(modalId) {
         document.getElementById(modalId).style.display = 'none';
     }
+    function closeOverlay() {
+        console.log("test");
+     const errorMessage = document.querySelector('.flash-error');
+     if (errorMessage) {
+        return; 
+    }
+    document.getElementById("loginOverlay").style.display = "none";
+}
     document.addEventListener("DOMContentLoaded", function () {
         const joinButton = document.querySelector(".rejoindre_btn");
         if (joinButton) {
@@ -153,6 +164,45 @@
         document.getElementById("signUpForm").style.display = "none";
         document.getElementById("loginForm").style.display = "block";
     }
+   /* document.addEventListener("DOMContentLoaded", function () {
+    const joinButton = document.querySelector(".rejoindre_btn");
+    const loginModal = document.getElementById("loginOverlay");
+    const closeModalBtn = document.getElementById("closeModal");
+    const txtError = document.getElementById("errorId");
+    const loginForm = document.getElementById("loginForm");
+
+    if (joinButton) {
+        joinButton.addEventListener("click", openOverlay);
+    }
+
+    if (closeModalBtn) {
+        closeModalBtn.addEventListener("click", function () {
+            closeModal("loginOverlay");
+        });
+    }
+
+    /*if (loginModal) {
+        loginModal.addEventListener("click", function (event) {
+            if (event.target === loginModal) {
+                closeOverlay();
+            }
+        });
+    }*/
+    //openOverlay();
+    /*const hasErrors = @json($errors->any());
+    console.log(hasErrors);
+    if (hasErrors) {
+        openOverlay();
+        const txtError = document.querySelector('.flash-error');
+        if (txtError) {
+            let errorMessage = @json($errors->first('email', 'Une erreur s\'est produite.'));
+            txtError.textContent = errorMessage;
+            txtError.style.display = "block";
+        }
+    }
+});*/
+
+
 </script>
 
 <script>
