@@ -7,12 +7,9 @@
             <a href="{{ route('home') }}" class="navbar-item-guest">
                 <!--<span class="material-symbols-rounded icon_md">home</span>-->Accueil
             </a>
-            <a href="{{ route('login.form') }}" class="navbar-item-guest">
-                <!--<span class="material-symbols-rounded icon_md">quiz</span>--->Connexion
-            </a>
-            <a href="{{ route('register.form') }}" class="navbar-item-guest">
-                <!--<span class="material-symbols-rounded icon_md">person_add</span>-->S'inscrire
-            </a>
+            
+            <a href="#" id="loginBtn" class="nav-link">Connexion</a>
+            <a href="#" id="signUpBtn" class="nav-link">S'inscrire</a>
         </div>
     </navbar-guest>
 @endif

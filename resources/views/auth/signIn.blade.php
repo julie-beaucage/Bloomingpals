@@ -2,9 +2,6 @@
 <div class="formContainerLogin" id="signUpForm" style="display: none;">
     <header>
         <span class="title no_wrap"></span>
-        <button class="back" onclick="showLogin()" style="border: none; background: none;">
-            <span class="material-symbols-rounded" style="font-size: 24px; color: black;">chevron_left</span>
-        </button>
         <h2>Créer un compte</h2>
         <hr>
     </header>
@@ -91,7 +88,8 @@
         <div class="formButton">
             <button type="submit" id="submitBtnSign" class="btn">Créer le compte</button>
         </div>
-        <p>Vous avez déjà un compte? <a href="javascript:void(0);" class="link"
-        onclick="showLogin()">Se connecter</a></p>
+        <p>Vous avez déjà un compte? 
+            <a href="javascript:void(0);" class="link" onclick="showLogin()">Se connecter</a>
+        </p>
     </form>
 </div>

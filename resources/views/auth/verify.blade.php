@@ -5,7 +5,7 @@
     <div class="container">
         <h1>Compte créé avec succès !</h1>
         <p>Un courriel de confirmation vous sera envoyé sous peu. Veuillez vérifier votre boîte de réception.</p>
-        <a href="{{ route('home') }}" class="btn btn-primary">Retourner à la page de connexion</a>
+        <a style="color:blue;"href="{{ route('home') }}" class="btn btn-primary">Retourner à la page de connexion</a>
     </div>
     @if ($errors->any())
         <div class="alert alert-danger">

@@ -57,7 +57,10 @@
     <div class="custom-overlay" id="loginOverlay" style="display: none;">
         <div class="container-custom-modal">
             <div class="header">
-                <span class="title no_wrap"></span>
+                <span id="title-empty" class="title no_wrap"></span>
+                <button id="icone_back" class="back" onclick="showLogin()" style="border: none; background: none; display: none;">
+                  <span class="material-symbols-rounded" style="font-size: 24px; color: black;">chevron_left</span>
+                </button>
                 <button class="close" onclick="closeOverlay()">
                     <span class="material-symbols-rounded" style="font-size: 24px; color: black;">close</span>
                 </button>
@@ -75,7 +78,6 @@
             </div>
         </div>    
         <div class="flash-error" style="display: none; color: red;"></div>
-
     </div>
 
     @guest
@@ -122,6 +124,15 @@
 
 @section('script')
 <script>
+    window.onload = () => {
+        @if(session('error'))
+            console.log("test");
+            document.getElementById("loginOverlay").style.display = "flex";
+        @endif
+    };
+</script>
+
+<script>
 
     window.onload = () => {
         const wrapper = document.querySelector('.carousel-wrapper');
@@ -137,17 +148,10 @@
         document.getElementById("loginOverlay").style.display = "flex";
     }
 
-    function closeModal(modalId) {
-        document.getElementById(modalId).style.display = 'none';
-    }
     function closeOverlay() {
-        console.log("test");
-     const errorMessage = document.querySelector('.flash-error');
-     if (errorMessage) {
-        return; 
+        document.getElementById("loginOverlay").style.display = "none";
+
     }
-    document.getElementById("loginOverlay").style.display = "none";
-}
     document.addEventListener("DOMContentLoaded", function () {
         const joinButton = document.querySelector(".rejoindre_btn");
         if (joinButton) {
@@ -158,52 +162,33 @@
     function showSignUp() {
         document.getElementById("loginForm").style.display = "none";
         document.getElementById("signUpForm").style.display = "block";
+        document.getElementById("icone_back").style.display = "block";
+        document.getElementById("title-empty").style.display = "none";
     }
 
     function showLogin() {
         document.getElementById("signUpForm").style.display = "none";
         document.getElementById("loginForm").style.display = "block";
+        document.getElementById("icone_back").style.display = "none";
+        document.getElementById("title-empty").style.display = "block";
     }
-   /* document.addEventListener("DOMContentLoaded", function () {
-    const joinButton = document.querySelector(".rejoindre_btn");
-    const loginModal = document.getElementById("loginOverlay");
-    const closeModalBtn = document.getElementById("closeModal");
-    const txtError = document.getElementById("errorId");
-    const loginForm = document.getElementById("loginForm");
-
-    if (joinButton) {
-        joinButton.addEventListener("click", openOverlay);
-    }
-
-    if (closeModalBtn) {
-        closeModalBtn.addEventListener("click", function () {
-            closeModal("loginOverlay");
-        });
-    }
-
-    /*if (loginModal) {
-        loginModal.addEventListener("click", function (event) {
-            if (event.target === loginModal) {
-                closeOverlay();
-            }
-        });
-    }*/
-    //openOverlay();
-    /*const hasErrors = @json($errors->any());
-    console.log(hasErrors);
-    if (hasErrors) {
-        openOverlay();
-        const txtError = document.querySelector('.flash-error');
-        if (txtError) {
-            let errorMessage = @json($errors->first('email', 'Une erreur s\'est produite.'));
-            txtError.textContent = errorMessage;
-            txtError.style.display = "block";
-        }
-    }
-});*/
-
 
 </script>
+<script>
+    window.onload = () => {
+        var errorMessage = "{{ session('error') }}";
+        var showModal = "{{ session('showModal') }}";
+        console.log(errorMessage);
+       if (errorMessage) {
+            document.getElementById("loginOverlay").style.display = "flex"; 
+        }
+        if(showModal){
+            document.getElementById("loginOverlay").style.display = "flex"; 
+            showSignUp();
+        }
+    };
+</script>
+
 
 <script>
     $(document).ready(function () {
