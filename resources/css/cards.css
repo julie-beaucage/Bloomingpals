@@ -93,50 +93,66 @@
     border: 2px solid var(--personality-color);
 }
 /*-----------------MINI PARTIE POUR LES USERS CARDS */
-.tag_perso{
+/* ----------------- MINI PARTIE POUR LES USERS CARDS ----------------- */
+
+.tag_perso {
     background-color: var(--personality-text-button) !important;
-    color:white;
+    color: white;
     border-radius: 0.6em;
-    padding:0.4em;
+    padding: 0.4em;
 }
-.containerPals .tag{
+
+.containerPals .tag {
     font-size: 0.7em;
 }
 
-.containerPals .card_long{
+.containerPals .card_long {
     background-color: var(--personality-color-pale-more) !important;
-
 }
-.containerPals .infos{
-    color:var(--neutral-800) !important;
+
+.containerPals .infos {
+    color: var(--neutral-800) !important;
     font-size: 0.8em !important;
-    
-}
-.containerPals .cards_list{
-    gap:1em;
-}
-.profile_link .name {
-    text-decoration: none; /* Pas de soulignement par défaut */
 }
 
-.profile_link:hover .name {
-    text-decoration: underline; /* Souligner le nom au survol */
+.containerPals .cards_list {
+    gap: 1em;
 }
 
-.profile_link:hover .banner img {
-    opacity: 0.8; /* Effet de survol sur l'image */
+.containerPals .profile_link .name {
+    text-decoration: none;
+}
+
+.containerPals .profile_link:hover .name {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.containerPals .profile_link:hover .banner img {
+    opacity: 0.8;
+    cursor: pointer;
 }
 
 .profile_link:hover {
-    background-color: rgba(0, 0, 0, 0.1); /* Effet de survol sur l'ensemble de la card */
+    background-color: rgba(0, 0, 0, 0.1);
+    cursor: pointer;
 }
+
 .card_long .banner-container {
     display: flex;
-    align-items: center;  /* Aligne l'image et le texte au centre verticalement */
-    justify-content: start; /* Garde les éléments alignés à gauche */
+    align-items: center;
+    justify-content: start;
     margin-bottom: 0.75em;
+    cursor: pointer;
 }
-.card_long .banner {
+
+.containerPals .card_long .banner:hover + .content .header .name_cntr .name,
+.containerPals .card_long .name_cntr:hover .name {
+    text-decoration: underline !important;
+    cursor: pointer;
+}
+
+.containerPals .card_long .banner {
     height: 4em;
     width: 4em;
     overflow: hidden;
@@ -148,26 +164,37 @@
     margin-right: 1em;
 }
 
-.card_long .banner img {
+.containerPals .card_long .banner img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 50%;  /* Pour une forme ronde */
+    border-radius: 50%;
 }
+
+.btn-container {
+    margin: 1em;
+}
+
+.content_user {
+    width: 100%;
+}
+
 .btn_friends {
+    min-width: fit-content;
     padding: 0.5em 1em;
+    width: 15em;
     font-size: 1em;
     font-weight: bold;
     border: 2px solid var(--primary-color);
-    border-radius: 3em;
-    background-color: var(--neutral-100);
-    color: var(--primary-color);
+    border-radius: 4px;
+    background-color: var(--primary-400);
+    color: var(--white);
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
 }
 
 .btn_friends:hover {
-    background-color: var(--primary-color);
+    background-color: var(--primary-200);
     color: var(--neutral-100);
     transform: scale(1.05);
 }
@@ -192,6 +219,119 @@
     background-color: var(--neutral-100);
     color: var(--secondary-color);
 }
+
+.acceptContainer {
+    display: flex;
+    gap: 2em;
+    font-size: 1em !important;
+}
+
+.buttonn {
+    text-decoration: none;
+    padding: 1em;
+    width: 5em;
+    min-width: fit-content;
+    border: 2px solid var(--primary-color);
+    border-radius: 4px;
+    background-color: var(--primary-400);
+    color: var(--white);
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+
+.buttonn:hover {
+    background-color: var(--primary-200);
+    color: var(--neutral-100);
+    transform: scale(1.05);
+}
+
+.btn_accept {
+    background-color: var(--primary-400);
+    color: var(--white);
+}
+
+.btn_refuse {
+    background-color: var(--neutral-500);
+    color: black;
+}
+
+.acceptContainer a {
+    text-decoration: none;
+}
+
+/* ----------------- Media Queries ----------------- */
+
+/* Version mobile (800px) */
+@media (max-width: 800px) {
+    .containerPals .card_long {
+        flex-direction: column;
+        align-items: center;
+        padding: 1em;
+    }
+
+    .containerPals .card_long .banner {
+        width: 5em;
+        height: 5em;
+        margin-right: 0;
+        margin-bottom: 1em;
+    }
+
+    .containerPals .card_long .content_user {
+        width: 100%;
+        text-align: center;
+    }
+
+    .btn_friends {
+        width: 100%;
+        font-size: 0.9em;
+    }
+
+    .btn-container {
+        text-align: center;
+    }
+}
+
+/* Version mobile (600px) */
+@media (max-width: 600px) {
+    .containerPals .card_long {
+        flex-direction: column;
+        padding: 1em;
+    }
+
+    .containerPals .card_long .banner {
+        width: 6em;
+        height: 6em;
+    }
+
+    .containerPals .card_long .content_user {
+        width: 100%;
+        text-align: center;
+    }
+
+    .btn_friends {
+        width: 100%;
+        font-size: 0.8em;
+    }
+
+    .acceptContainer {
+        flex-direction: column;
+        gap: 1em;
+    }
+
+    .buttonn {
+        width: 100%;
+    }
+
+    .card_long .infos {
+        font-size: 0.7em;
+    }
+
+    .containerPals .tag {
+        font-size: 0.6em;
+    }
+}
+
+
 
 /*--------------------------------------------------*/
 .banner img {
