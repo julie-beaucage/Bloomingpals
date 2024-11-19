@@ -95,22 +95,20 @@
             });
         });
     }
+
+    function searchById(array, id) {
+        var_user = false;
+        array.every(function (element) {
+            if (element.id == id) {
+                var_user = element;
+                return false;
+            }
+            return true;
+        });
+
+        return var_user;
+    }
     function appendContent(users, meetups, feed) {
-        //console.log(feed);
-
-        function searchById(array, id) {
-            var_user = false;
-            array.every(function (element) {
-                if (element.id == id) {
-                    var_user = element;
-                    return false;
-                }
-                return true;
-            });
-
-            return var_user;
-        }
-
         let action, meesage, user, image_content;
 
         for (let i = 0; i < feed.length; i++) {
@@ -118,12 +116,12 @@
                 user = searchById(users, (JSON.parse(feed[i].content)).user);
                 image = user.image_profil ? 'storage/' + user.image_profil : window.location.origin + '/images/simple_flower.png';
                 name = user.first_name + ' ' + user.last_name;
-                link="user/"+user.id;
+                link = "user/" + user.id;
                 if (feed[i].name.includes('Meetup')) {
                     meetup = searchById(meetups, (JSON.parse(feed[i].content)).meetup);
                     random = Math.floor(Math.random() * 3) + 1;
                     image_content = meetup.image ? meetup.image : "\\images\\meetup_default" + random + '.png';
-                    link="meetup/"+meetup.id;
+                    link = "meetup/" + meetup.id;
 
                     if (feed[i].name == 'Meetup Create') {
                         message = user.first_name + ' à créé(e) un nouveau Meetup: <strong>' + meetup.name + '</strong>. Rejoignez !';
@@ -132,7 +130,7 @@
                         message = user.first_name + ' à rejoin un nouveau Meetup: <strong>' + meetup.name + '.</strong>';
                     }
                 } else if (feed[i].name.includes('Event')) {
-                    link="event/"
+                    link = "event/"
                     if (feed[i].name == 'Event Join') {
                         message = user.first_name + ' à rejoin un nouveau Meetup: <strong>' + meetup.name + '.</strong>';
                     }
@@ -337,38 +335,78 @@
         console.log(content.length > 0);
         return content.length > 0;
     }
-    function fetchSuggestedUsers() {
+    async function fetchSuggestedUsers() {
         let html = '<div class="loading" style="position: relative;width: 100%; height:10em;"><svg class="spinner" viewBox="0 0 50 50" id="svgLoading">' +
             '<circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>'
             + '</svg></div>';
 
         let loading = $("#friends_suggestion").append(html);
-        $.ajax({
-            url: 'feed/userSuggestion',
-            method: 'GET',
-            success: async function (data) {
-                let ids=[];
-                data.forEach(user=>{
-                    console.log(user.id);
-                    ids.push(user.id);
-                });
+        let data = await new Promise(resolve => {
+            $.ajax({
+                url: 'feed/userSuggestion',
+                method: 'GET',
+                success: function (data) {
+                    resolve(data);
+                }
+            });
+        });
+        if (data.length > 1) {
+            let ids = [];
+            data.forEach(user => {
+                console.log(user.id);
+                ids.push(user.id);
+            });
 
-               let affinities= await new Promise(resolve => {
+            let affinities = await new Promise(resolve => {
+                $.ajax({
+                    url: 'feed/calculateAffinity',
+                    method: 'GET',
+                    data: { ids: ids },
+                    success: function (data) {
+                        resolve(data)
+                    }
+                });
+            });
+            let friends = await new Promise(resolve => {
+                $.ajax({
+                    url: 'feed/friends',
+                    method: 'GET',
+                    data: { id: -1 },
+                    success: function (data) {
+                        resolve(data)
+                    }
+                });
+            });
+
+            ($(loading).children()[0]).remove();
+
+            data.forEach(async function (user, index) {
+                let friendsOffFriends = await new Promise(resolve => {
                     $.ajax({
-                        url: 'feed/calculateAffinity',
+                        url: 'feed/friends',
                         method: 'GET',
-                        data: {:ids},
-                        success: function (data) {
-                            resolve(data)
-                        }
-                    });
-                });
+                        data: { id: user.id },
+                        success: function (_data) {
+                            let hasCommonFriend; let commonFriends = [];
+                            friends.forEach(elem => {
+                                hasCommonFriend = searchById(_data, elem.id);
+                                if (hasCommonFriend != false) {
+                                    commonFriends.push(user);
+                                }
+                            });
 
-                ($(loading).children()[0]).remove();
-                
-                data.forEach((user,index) => {
-                    image = user.image_profil ? 'storage/' + user.image_profil : window.location.origin + '/images/simple_flower.png';
-                    let html = `
+                            let htmlCommonFriends="";
+                            if (commonFriends.length > 0) {
+                                image = commonFriends[0].image_profil ? 'storage/' + commonFriends[0].image_profil : window.location.origin + '/images/simple_flower.png';
+                                htmlCommonFriends = `<img src="${image}">`;
+                            }
+                            let htmlCommon=htmlCommonFriends == ""? "": `<div>${htmlCommonFriends}</div> <div>${commonFriends.length} ami(e)s en commun</div>`;
+
+
+
+                            image = user.image_profil ? 'storage/' + user.image_profil : window.location.origin + '/images/simple_flower.png';
+
+                            let html = `
                         <a class="user pointer" href="profile/${user.id}">
                             <div class="user-banner">
                                 <img src="${image}">
@@ -376,23 +414,35 @@
                             <div class='text'><strong>
                             ${user.first_name} ${user.last_name}</strong>
                             </div>
-                            <div>
-                                ${affinities[index]}
+                            <div class="extra-info">
+                                <div style="text-align:center;">
+                                    ${affinities[index]}% d'affinité
+                                </div>
+                                <div class="common-user">
+                                    ${htmlCommon}
+                                </div>
                             </div>
+                           
 
                         </a>
                     `;
-                    $('#friends_suggestion').append(html);
+                            $('#friends_suggestion').append(html);
+                        }
+                    });
                 });
-            }
-        });
+
+            });
+        }else{
+            ($(loading).children()[0]).remove();
+        }
     }
+
     let isLoading = true;
     $(document).ready(async function () {
         loading(friend)
         fetchSuggestedUsers();
-        //fetchSuggestedUsers();
-        //fetchSuggestedUsers();
+       // fetchSuggestedUsers();
+       // fetchSuggestedUsers();
 
 
         $('#content').scroll(async function () {
@@ -402,8 +452,8 @@
                 if (await getContent() == false) {
                     removeLoading(friend);
                     $('#content').off();
-                }else{
-                    isLoading=true;
+                } else {
+                    isLoading = true;
                 }
 
             }

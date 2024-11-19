@@ -13,14 +13,14 @@
 }
 
 #content {
-    padding: 0 .5em 0 .5em;
+    padding: 0 0 0 .9em;
 }
 
 .feed-friend {
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: 1em;    
+    gap: 1em;
     border-radius: 10px;
     width: 100%;
 
@@ -29,25 +29,32 @@
     padding: 0px calc(3em - .9rem) 0px 3em;
     box-sizing: border-box;
 }
-.feed-friend > *{
+
+.feed-friend>* {
     box-sizing: border-box;
 }
-#loading{
+
+#loading {
     position: relative;
     width: 100%;
     height: 10em;
 }
+
 #content::-webkit-scrollbar-thumb {
     background-color: #bfbfbf;
     border: 4px solid transparent;
     border-radius: 8px;
     background-clip: padding-box;
+    min-height: 8em;
 }
 
 #content::-webkit-scrollbar {
     width: .9em;
+   
 }
-.feed-container{
+
+
+.feed-container {
     width: auto;
 }
 
@@ -141,11 +148,11 @@
 .feed-post {
     background-color: var(--white);
     border-radius: 8px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
     margin-bottom: 20px;
     padding: 15px;
     width: 100%;
-    
+
 }
 
 .feed-header {
@@ -169,20 +176,22 @@
     width: 100%;
     border-radius: 8px;
 }
-.banner{
+
+.banner {
     max-height: 30em;
-   overflow: hidden;
+    overflow: hidden;
     height: 40vh;
-    border-radius:1em;
+    border-radius: .2em;
 }
+
 .feed-img {
-    width:100%;
+    width: 100%;
     height: 100%;
     overflow: hidden;
     overflow: hidden;
     object-fit: cover;
     object-position: center;
-    
+
 }
 
 .feed-actions button {
@@ -199,7 +208,7 @@
 }
 
 .feed-container {
-    
+
     justify-content: space-between;
     gap: 20px;
     max-width: 800px;
@@ -212,9 +221,9 @@
     border-radius: 8px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
     position: sticky;
-    top: 20px; 
-    height: calc(100vh - 40px); 
-    overflow-y: auto; 
+    top: 20px;
+    height: calc(100vh - 40px);
+    overflow-y: auto;
 }
 
 .suggestion {
@@ -275,27 +284,33 @@
 .emotion:hover {
     transform: scale(1.2);
 }
+
 @media only screen and (max-width: 400px) {
-    .feed-big{
+    .feed-big {
         flex-direction: column;
-        width:100%; 
-    }
-    .feed-small{
         width: 100%;
     }
-    .feed-friend{
+
+    .feed-small {
+        width: 100%;
+    }
+
+    .feed-friend {
         padding: 10px;
     }
-    .feed-container{
+
+    .feed-container {
         width: 95%;
     }
-    
+
 }
+
 @media only screen and (max-width: 800px) {
-    .feed-post{
+    .feed-post {
         height: 30%;
     }
-    .suggestions-sidebar{
+
+    .suggestions-sidebar {
         display: none;
     }
 
@@ -305,33 +320,40 @@
         top: 0;
         height: auto;
     }
-    .feed-big{
+
+    .feed-big {
         flex-direction: column;
-        width:80%; 
-    }
-    .feed-small{
         width: 80%;
     }
-    .feed-small img{
-        width:3em;
-        height:3em;
+
+    .feed-small {
+        width: 80%;
     }
-    .content{
+
+    .feed-small img {
+        width: 3em;
+        height: 3em;
+    }
+
+    .content {
         gap: 2em;
-        flex-direction:row;
+        flex-direction: row;
         font-size: 1em;
     }
 }
-.feed-img{
+
+.feed-img {
     -o-object-position: top;
-       object-position: top;
+    object-position: top;
 }
-.card > .card-banner {
+
+.card>.card-banner {
     height: 40vh;
     max-height: 30em;
     overflow: hidden;
     flex-shrink: 0;
 }
+
 .content {
     padding-top: 1em;
     display: flex;
@@ -348,13 +370,15 @@
     align-items: Top;
     gap: 0.5em;
 }
-.card{
+
+.card {
     width: 100%;
     padding: 15px;
     background-color: var(--white);
     border-radius: 8px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
+
 .adress {
     display: flex;
     font-size: 0.9em;
@@ -379,40 +403,47 @@ hr {
     color: var(--neutral-600);
     font-size: 0.9em;
 }
-.user-suggestion-container{
 
-    height: 15em;
+.user-suggestion-container {
+
+    height: 18em;
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
     overflow-x: auto;
     width: 100%;
     align-content: space-between;
-    gap:.5em;
+    gap: .5em;
     border-radius: 5px;
     margin: auto;
 }
-.user-banner{
+
+.user-banner {
     height: 10em;
 }
-.user-banner>img{
+
+.user-banner>img {
     width: 100%;
     height: 100%;
     overflow: hidden;
     object-fit: cover;
-    object-position: top;    
+    object-position: top;
+    border-radius: .2em;
 }
-.user{
-    width:10em !important;
+
+.user {
+    width: 12em !important;
     height: 100%;
     box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
     background-color: var(--white);
     border-radius: 5px;
 }
-.user .text{
+
+.user .text {
     padding: .2em;
     text-align: center;
 }
+
 .user-suggestion-container::-webkit-scrollbar-thumb {
     background-color: #bfbfbf;
     border: 3px solid transparent;
@@ -422,4 +453,26 @@ hr {
 
 .user-suggestion-container::-webkit-scrollbar {
     height: .9em;
+}
+
+.common-user img {
+    width: 1.9em;
+    height: 1.9em;
+}
+
+.common-user {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-wrap: nowrap;
+    line-height: 2em;
+    margin-top: .5em;
+    align-items: center;
+    gap:5px;
+}
+
+.extra-info {
+    padding: 0 5px 0 5px;
 }

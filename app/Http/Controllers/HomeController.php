@@ -30,11 +30,11 @@ class HomeController extends Controller
         return view('partial_views.event_cards', ['events' => $meetups]);
     }
 
-    public function user_meetups()
+   /* public function user_meetups()
     {
         $meetups = Event::all()->take(20);
         return view('partial_views.meetup_cards', ['events' => $meetups]);
-    }
+    }*/
 
     public function top_events()
     {
@@ -42,11 +42,11 @@ class HomeController extends Controller
         return view('partial_views.event_cards', ['events' => $events]);
     }
 
-    public function recent_meetups()
+   /* public function recent_meetups()
     {
         $meetups = Meetup::orderBy('id', 'desc')->take(20)->get();
         return view('partial_views.meetup_cards', ['meetups' => $meetups]);
-    }
+    }*/
 
     public function upcoming_events()
     {
@@ -234,15 +234,18 @@ class HomeController extends Controller
             foreach ($indexToDelete as $index) {
                 array_splice($similarUsers, $index, 1);
             }
+            if(count($similarUsers)<1 && count($friendListId)<1){
+                return false;
+            }
             // calculate how many common interests
+
             foreach ($similarUsers as $user) {
-                dd("aa");
-                $isAlreadyIn = array_key_exists($user->id_user, $similarUsesInterestsCount);
+                $isAlreadyIn = array_key_exists($user['id_user'], $similarUsesInterestsCount);
 
                 if ($isAlreadyIn == false) {
-                    $similarUsesInterestsCount[$user->id_user] = 1;
+                    $similarUsesInterestsCount[$user['id_user']] = 1;
                 } else {
-                    $similarUsesInterestsCount[$user->id_user] += 1;
+                    $similarUsesInterestsCount[$user['id_user']] += 1;
                 }
             }
             global $common_interest;
@@ -289,4 +292,27 @@ class HomeController extends Controller
             return User::select('id', 'first_name', 'last_name', 'image_profil')->whereIn('id', $SuggestedUsers)->get();
         }
     }
-}
+        public function calculateAffinity(Request $req){
+            $affinities=[];
+            $index=0; $idUser=Auth::user()->id;
+            $USER=new User();
+            foreach($req->ids as $id){
+                $affinities[$index]=$USER->calculateAffinity($id,$idUser);
+                $index++;
+            }
+            return $affinities;
+        }
+        public function friends(Request $req){
+            $RELATION=new Relation();
+            $id= $req->id==-1 ?Auth::user()->id: $req->id;
+            
+            $friends=$RELATION->GetFriends($id);
+            //enlever info dangereuse
+            foreach($friends as $friend){
+                $friend->password=null;
+            }
+            return $friends;
+        }
+    }
+  
+
