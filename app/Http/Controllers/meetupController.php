@@ -50,29 +50,6 @@ class MeetupController extends BaseController
 
     public function Form($id = null, $isEvent = null)
     {
-            $eventsSorted = [];
-            $events = Event::select('id')->orderBy('id', 'desc')->offset(30 * 0)->take(500)->get();
-            $userInterests = User_Interest::select('id_interest')->where('id_user', Auth::user()->id)->get();
-
-
-            $eventsByInterest = DB::table('events')->join('events_interests', 'id', '=', 'id_event')
-                ->select('id')->whereIn('id_interest', $userInterests)
-                ->whereIn('id', $events)->orderBy('id', 'desc')->get();
-
-            //enlever les doublons
-            
-            $index = count($eventsSorted);
-            foreach ($eventsByInterest as $event) {
-                if (!(in_array($event->id, $eventsSorted))) {
-                    $eventsSorted[$index] = $event->id;
-                    $index++;
-                }
-            }
-
-            $result=Event::whereIn('id',$eventsSorted)->get();
-            
-            dd($result);
-
         if (Auth::user()->id != null) {
             if ($isEvent == true) {
                 $data = DB::table('events')
