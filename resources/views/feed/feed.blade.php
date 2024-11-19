@@ -20,49 +20,6 @@
 </div>
 
 
-<!-- <a class="flex-col feed-small no_select">
-        <img src="{{asset('/images/simple_flower.png')}}" class="profile-image">
-        <div>Samantha viens de créer un nouveau Meetup et recherche des particpants</div>
-
-    </a>    
-    <a class="feed-big hover_darker no_select">
-        <div class="banner">
-            <img class="feed-img" src="{{asset('/images/meetup_default1.png')}}">
-        </div>
-        <div class="content">
-            <div class="users-icons flex-col">
-                <div class="img-overlay"><img src="{{asset('/images/simple_flower.png')}}" class="profile-image"></div>
-                <div class="img-overlay"><img src="{{asset('/images/simple_flower.png')}}" class="profile-image"></div>
-                <div class="img-overlay"><img src="{{asset('/images/simple_flower.png')}}" class="profile-image"></div>
-
-            </div>
-            <div class="feed-text">5 de tes amis vont a montreal</div>
-        </div>
-    </a>
-    
-    <a class="flex-col feed-small">
-        <img src="{{asset('/images/simple_flower.png')}}" class="profile-image">
-        <div>Samantha viens de créer un nouveau Meetup et recherche des particpants</div>
-
-    </a>
-    
-    <a class="feed-big hover_darker">
-        <div class="banner">
-            <img class="feed-img" src="{{asset('/images/meetup_default1.png')}}">
-        </div>
-        <div class="content">
-            <div class="users-icons flex-col">
-                <div class="img-overlay"><img src="{{asset('/images/simple_flower.png')}}" class="profile-image"></div>
-                <div class="img-overlay"><img src="{{asset('/images/simple_flower.png')}}" class="profile-image"></div>
-                <div class="img-overlay"><img src="{{asset('/images/simple_flower.png')}}" class="profile-image"></div>
-
-            </div>
-            <div class="feed-text">5 de tes amis vont a montreal</div>
-        </div>
-    </a> -->
-
-
-
 @endsection()
 
 @section('script')
@@ -268,20 +225,6 @@
                 $(friend).append(event);
             }
         }
-
-
-        // for (let i = 0; i < users.length; i++) {
-
-        //     image = users[i].image_profil;
-        //     image = image ? window.location.origin + image : window.location.origin + '/images/simple_flower.png';
-
-        //     feed_small = '<a class="flex-col feed-small no_select">' +
-        //         '<img src="' + image + '" class="profile-image">' +
-        //         '<div>' + feed[i].message + '</div></a>';
-        //     //console.log(feed_small);
-        //     $(friend).append(feed_small);
-        // }
-
         removeLoading(friend);
         //console.log(new Date().getTime() - time);
     }
@@ -399,15 +342,33 @@
             '<circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>'
             + '</svg></div>';
 
-        let loading=$("#friends_suggestion").append(html);
+        let loading = $("#friends_suggestion").append(html);
         $.ajax({
             url: 'feed/userSuggestion',
             method: 'GET',
-            success: function (data) {
-                ($(loading).children()[0]).remove();
+            success: async function (data) {
+                let ids=[];
                 data.forEach(user=>{
+                    console.log(user.id);
+                    ids.push(user.id);
+                });
+
+               let affinities= await new Promise(resolve => {
+                    $.ajax({
+                        url: 'feed/calculateAffinity',
+                        method: 'GET',
+                        data: {:ids},
+                        success: function (data) {
+                            resolve(data)
+                        }
+                    });
+                });
+
+                ($(loading).children()[0]).remove();
+                
+                data.forEach((user,index) => {
                     image = user.image_profil ? 'storage/' + user.image_profil : window.location.origin + '/images/simple_flower.png';
-                    let html=`
+                    let html = `
                         <a class="user pointer" href="profile/${user.id}">
                             <div class="user-banner">
                                 <img src="${image}">
@@ -415,13 +376,14 @@
                             <div class='text'><strong>
                             ${user.first_name} ${user.last_name}</strong>
                             </div>
+                            <div>
+                                ${affinities[index]}
+                            </div>
 
                         </a>
                     `;
                     $('#friends_suggestion').append(html);
-
                 });
-                console.log(data);
             }
         });
     }
