@@ -356,17 +356,29 @@ Create procedure fillFeed(_id Int)
 BEGIN 
 	DECLARE increment  INT unsigned DEFAULT 1;
     
-    INSERT INTO actions (id_user,type,message,content) values(_id,2, concat('message ',increment),json_object('user',3));
+    INSERT INTO actions (id_user,type,content) values(_id,2,json_object('user',3));
 		set increment = increment+1;
     
     while increment<=100 DO
-		INSERT INTO actions (id_user,type,message,content) values(_id,1, concat('message ',increment),json_object('user',2,'meetup',1));
+		INSERT INTO actions (id_user,type,content) values(_id,1,json_object('user',2,'meetup',1));
         set increment = increment+1;
-        INSERT INTO actions (id_user,type,message,content) values(_id,1, concat('message ',increment),json_object('user',3,'meetup',4));
+        INSERT INTO actions (id_user,type,content) values(_id,1,json_object('user',3,'meetup',4));
 		set increment = increment+1;
 	end while;
-    INSERT INTO actions (id_user,type,message,content) values(_id,2, concat('message ',increment),json_object('user',3));
+    INSERT INTO actions (id_user,type,content) values(_id,2,json_object('user',3));
 		set increment = increment+1;
 	
+END;
+// DELIMITER ;
+
+Drop procedure if exists addAction;
+DELIMITER //
+Create procedure addAction(_id_user INT, type varchar(40),_content JSON)
+BEGIN 
+	DECLARE type_id INT;
+    
+    Select id from types_actions where name = type into type_id;
+    
+    INSERT INTO actions (id_user,type,content) values(_id_user,type_id,_content);
 END;
 // DELIMITER ;
