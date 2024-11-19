@@ -1,11 +1,11 @@
 @if (Auth::check())
     <nav id="navbar">
-        <span class="title no_select">BloomingPals
+        <a class="title no_select" href="/home">BloomingPals
             <img src="{{ asset('/images/logo.png') }}" alt="Logo" class="logo">
-        </span>
-        <span class="shrinked_title no_select shrinked_only">
+        </a>
+        <a class="shrinked_title no_select shrinked_only" href="/home">
             <img src="{{ asset('/images/logo.png') }}" alt="Logo" class="logo">
-        </span>
+        </a>
         @php
             $tabs = [
                 [
@@ -19,6 +19,12 @@
                     'title' => 'Recherche',
                     'icon' => 'search',
                     'url' => route('search')
+                ],
+                [
+                    'id' => 'messages',
+                    'title' => 'Messages',
+                    'icon' => 'forum',
+                    'url' => route('messages')
                 ],
                 [
                     'id' => 'pals',

@@ -10,6 +10,7 @@ use App\Http\Controllers\InterestsController;
 use App\Http\Controllers\CustomVerificationController;
 use App\Http\Controllers\PersonalityController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\MessagesController;
 use App\Http\Controllers\SearchUserController;
 
 Route::get('/', function () {
@@ -108,6 +109,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/search/cities', [SearchController::class, 'cities'])->name('search.cities');
     Route::get('/search/interests', [SearchController::class, 'interests'])->name('search.interests');
     Route::get('/search/getInterests', [SearchController::class, 'getInterests'])->name('search.getInterests');
+
+    // Messages
+    Route::get('/messages/{id?}', [MessagesController::class, 'index'])->name('messages');
+    Route::get('/searchUsers/{query?}', [MessagesController::class, 'searchUsers'])->name('searchUsers');
+    Route::get('/chat/{id}/{page}', [MessagesController::class, 'chat'])->name('chat');
+    Route::get('/menu/{query?}', [MessagesController::class, 'menu'])->name('menu');
+    Route::post('/sendchat/{id}', [MessagesController::class, 'send'])->name('sendMessage');
+    Route::post('/newChat', [MessagesController::class, 'newChat'])->name('sendMessage');
+    Route::get('/update/{id}/{etag}', [MessagesController::class, 'update'])->name('checkUpdate');
+    Route::get('/info/{id}', [MessagesController::class, 'info'])->name('info');
+    Route::get('/chatMembers/{id}', [MessagesController::class, 'chatMembers'])->name('members');
 
     //Pals + seach pals_index
     Route::get('/pals', [SearchController::class, 'pals_index'])->name('searchUsers');
