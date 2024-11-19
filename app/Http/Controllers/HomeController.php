@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Log;
 
 class HomeController extends Controller
 {
-    const AMOUNT = 30;
+    const AMOUNT = 20;
     public function home()
     {
         return view('home.home');
@@ -88,19 +88,24 @@ class HomeController extends Controller
 
             $users = [];
             $index = 0;
-            foreach ($req->users as $user) {
-                if (!(in_array($user, $users))) {
-                    $users[$index] = $user;
-                    $index++;
+            if (!empty($req->users)) {
+                foreach ($req->users as $user) {
+                    if (!(in_array($user, $users))) {
+                        $users[$index] = $user;
+                        $index++;
+                    }
                 }
             }
 
+
             $meetups = [];
             $index = 0;
-            foreach ($req->meetups as $meetup) {
-                if (!(in_array($meetup, $meetups))) {
-                    $meetups[$index] = $meetup;
-                    $index++;
+            if (!empty($req->meetups)) {
+                foreach ($req->meetups as $meetup) {
+                    if (!(in_array($meetup, $meetups))) {
+                        $meetups[$index] = $meetup;
+                        $index++;
+                    }
                 }
             }
             $usersFromDb = User::select('id', 'first_name', 'last_name', 'image_profil')->whereIn('id', $users)->get();
