@@ -77,8 +77,8 @@
     }
     
     .container-notif{
-        top:5em;
-        height: calc(100vh - 10rem) !important ;
+        top:3em;
+        height: calc(90% - 100px) !important ;
     }
 }
 
@@ -114,11 +114,11 @@
 .container-notif{
     background-color: white;
     position: absolute;
-    right: -1000px;
+    right: 0;
     display: none;
     flex-direction: column;
     gap: .8em;
-    margin:1rem;
+    margin:1em;
     max-width: 40em;
     width: 40%;
     min-width: 300px;
@@ -128,11 +128,11 @@
     rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
     overflow-y:scroll;
     overflow-x: hidden;
-    padding: 0.5em;
-    gap: 0.5em;
-    height: calc(100vh - 2rem);
+  
+    height: 90% ;
     box-sizing: border-box;
     z-index: 2;
+
 }
 .container-notif::-webkit-scrollbar-thumb{
     background-color: #bfbfbf;
@@ -182,9 +182,3 @@
     flex-grow: 0;
     flex-shrink: 0;
 }
-
-
-
-
-
-
