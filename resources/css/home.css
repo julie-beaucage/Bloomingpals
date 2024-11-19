@@ -7,6 +7,100 @@
     gap: 2em;
 }
 
+.main-carousel {
+    display: flex;
+    overflow: hidden;
+    position: relative;
+    height: 300px; 
+    justify-content: center; 
+}
+
+.carousel-wrapper {
+    display: flex;
+    animation: slide 25s infinite linear;
+    max-width: 100%!important; 
+}
+
+.carousel-card {
+    flex: 0 0 100%; 
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    border-radius: 20px;
+    background-color: #f0f0f0;
+    text-align: center;
+}
+
+.carousel-card img {
+    max-width: 80%;
+    max-height: 80%;
+}
+
+.carousel-text {
+    text-align: center;
+    font-size: 1em;
+    color: #333;
+}
+
+.card-1 {
+    width: 100px !important;
+    background-color: #FFD700; 
+}
+
+.card-2 {
+    background-color: #ADD8E6; 
+}
+
+.card-3 {
+    background-color: #98FB98;
+}
+
+.card-4 {
+    background-color: #f2a6b2; 
+}
+
+@keyframes slide {
+    0% {
+        transform: translateX(0);
+    }
+    20% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-100%);
+    }
+    45% {
+        transform: translateX(-100%);
+    }
+    50% {
+        transform: translateX(-200%);
+    }
+    70% {
+        transform: translateX(-200%);
+    }
+    75% {
+        transform: translateX(-300%);
+    }
+    95% {
+        transform: translateX(-300%);
+    }
+    100% {
+        transform: translateX(-400%);
+    }
+}
+
+
+.rejoindre_btn{
+    border-radius: 8px;
+    cursor: pointer;
+    color: #fff;
+    fill: #fff;
+    padding: 8px 16px;
+    background-color: #00798a;
+    border-color: #00798a;
+}
 @media (pointer:none), (pointer:coarse) {
     #home_cntr {
         padding: 1em;
@@ -16,7 +110,6 @@
 #showcase {
     font-size: 1.2em;
 }
-
 
 @media screen and (max-width: 800px) {
     #home_cntr {

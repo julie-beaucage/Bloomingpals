@@ -30,11 +30,11 @@ class HomeController extends Controller
         return view('partial_views.event_cards', ['events' => $meetups]);
     }
 
-    public function user_meetups()
+   /* public function user_meetups()
     {
         $meetups = Event::all()->take(20);
         return view('partial_views.meetup_cards', ['events' => $meetups]);
-    }
+    }*/
 
     public function top_events()
     {
@@ -42,11 +42,11 @@ class HomeController extends Controller
         return view('partial_views.event_cards', ['events' => $events]);
     }
 
-    public function recent_meetups()
+   /* public function recent_meetups()
     {
         $meetups = Meetup::orderBy('id', 'desc')->take(20)->get();
         return view('partial_views.meetup_cards', ['meetups' => $meetups]);
-    }
+    }*/
 
     public function upcoming_events()
     {
