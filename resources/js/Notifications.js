@@ -132,11 +132,16 @@ $(document).ready(function () {
 
     let notif_read = false;
     $('.navbar_notification').each(function () {
-
-
         $(this).on('click', function () {
-            console.log("Grr");
-            $('#container-notification-toggle').toggle();
+            let right = $('#container-notification-toggle').css('right');
+            if (right == '0px') {
+                $('#container-notification-toggle').animate({ right: '-1000px' }, 500, () => $('#container-notification-toggle').toggle());
+            }
+            else {
+                $('#container-notification-toggle').toggle();
+                $('#container-notification-toggle').animate({ right: '0px' }, 500);
+            }
+            
 
             if (notif_read == false) {
                 window.setTimeout(function () {

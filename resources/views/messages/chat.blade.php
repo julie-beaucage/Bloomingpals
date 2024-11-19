@@ -1,47 +1,28 @@
 @php
+    use Carbon\Carbon;
     $messages = $messages->values();
 @endphp
 
 @foreach ($messages as $index=>$message)
 
     @php
-        $date = new DateTime($message->created_at);
-        $now = new DateTime();
+        Carbon::setLocale('fr');
+        $date =  Carbon::parse($message->created_at);
+        $now = Carbon::now();
         $date_string = null;
         $hasImage = true;
         $user = $users->where('id', $message->id_user)->first();
         $img = $user->image_profil ? asset('storage/' . $user->image_profil) : asset('/images/simple_flower.png');
+        $date_string = $date->format('H:i');
+        
+        if ($now->diff($date)->i < 1) {
+            $date_string = "";
+        }
+        elseif ($index < count($messages) - 1) {
+            $nextDate = Carbon::parse($messages[$index + 1]->created_at);
 
-        if ($now->diff($date)->days > 0) {
-            $date_string = $date->format('d-m-Y');
-
-            if ($index < count($messages) - 1) {
-                $nextDate = new DateTime($messages[$index + 1]->created_at);
-                
-                if ($nextDate->diff($date)->d < 1) {
-                    $date_string = "";
-                }
-            }
-            else {
-                if ($now->diff($date)->d < 1) {
-                    $date_string = "";
-                }
-            }
-        } 
-        else {
-            $date_string = $date->format('H:i');
-
-            if ($index < count($messages) - 1) {
-                $nextDate = new DateTime($messages[$index + 1]->created_at);
-                
-                if ($nextDate->diff($date)->i < 2) {
-                    $date_string = "";
-                }
-            }
-            else {
-                if ($now->diff($date)->i < 2) {
-                    $date_string = "";
-                }
+            if ($nextDate->diff($date)->i < 1) {
+                $date_string = "";
             }
         }
 
@@ -57,6 +38,12 @@
         $class = ($user->id == auth()->user()->id) ? 'link dark' : 'link';
         $content = preg_replace('/(https?:\/\/[^\s]+)/', '<a href="$1" target="_blank" class="' . $class. '">$1</a>', $content);
     @endphp
+
+    @if ($index == 0 || $date->isSameDay(Carbon::parse($messages[$index - 1]->created_at)) == false)
+        <div class="separator">
+            {{ ucfirst($date->translatedFormat('l j F Y')) }}
+        </div>
+    @endif
 
     <div class="message {{ $message->id_user == Auth::id() ? 'sent' : 'received' }}">
         @if ($user->id != auth()->user()->id && $hasImage)

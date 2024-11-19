@@ -14,7 +14,7 @@
         }
         $personality = $chatRoom['other_users'][0] ? $chatRoom['other_users'][0]->getPersonalityType() : '';
 
-        $lastMessage = ($chatRoom['last_user']->id == Auth::id()) ? 'Vous: ' : '';
+        $lastMessage = ($chatRoom['last_user']->id == Auth::id()) ? 'Vous: ' : (count($chatRoom['other_users']) > 1 ? $chatRoom['other_users'][0]->first_name . ': ' : '');
         $lastMessage .= $chatRoom['last_message'] ? $chatRoom['last_message']->content : '';
 
     @endphp

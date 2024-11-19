@@ -14,33 +14,18 @@ class MessagesController extends Controller
 
     public function index($id = null)
     {
-        $userChatRooms = ChatRoom::query()->join('chatRooms_users', 'chatRooms.id', '=', 'chatRooms_users.id_chatRoom')
-        ->where('chatRooms_users.id_user', '=', auth()->user()->id)
-        ->get();
+        $users = collect([]);
 
-        $chatRooms = [];
+        if ($id != null) {
+            $users = User::query()->join('chatRooms_users', 'users.id', '=', 'chatRooms_users.id_user')->where('id_chatRoom', '=', $id)->get();
 
-        foreach ($userChatRooms as $chatRoom) {
-
-            $lastMessage = Message::query()->where('id_chatRoom', '=', $chatRoom->id)->orderBy('created_at', 'desc')->first();
-            $other_users = User::query()->join('chatRooms_users', 'users.id', '=', 'chatRooms_users.id_user')->where('id_chatRoom', '=', $chatRoom->id)->where('id_user', '!=', auth()->user()->id)->get();
-            $lastUser = ($lastMessage == null) ? $other_users->first() : User::query()->where('id', '=', $lastMessage->id_user)->first();
-
-            if ($chatRoom->name == null) {
-                $chatRoom->name = implode(', ', $other_users->pluck('first_name')->toArray());
+            if (!$users->contains('id', auth()->user()->id)) {
+                abort(404);
+                return;
             }
-
-            $chatRooms[] = [
-                'id' => $chatRoom->id,
-                'name' => $chatRoom->name,
-                'last_user' => $lastUser,
-                'last_message' => $lastMessage,
-            ];
         }
 
-        $chat = $this->chat($id);
-
-        return view('messages.index', compact('chat'));
+        return view('messages.index', compact('users'));
     }
 
     public function menu($query = null) {
@@ -61,11 +46,17 @@ class MessagesController extends Controller
             if ($query != null && $query != "") {
                 $query = strtolower($query);
 
-                foreach ($other_users as $user) {
-                    if (strpos(strtolower($user->full_name), $query) !== false || strpos(strtolower($chatRoom->name), $query) !== false) {
-                        $isQuery = true;
+                if ($chatRoom->name == null) {
+                    foreach ($other_users as $user) {
+                        if (strpos(strtolower($user->full_name), $query) !== false) {
+                            $isQuery = true;
+                        }
                     }
                 }
+                else if (strpos(strtolower($chatRoom->name), $query) !== false) {
+                    $isQuery = true;
+                }
+
             }
             else {
                 $isQuery = true;
@@ -85,8 +76,11 @@ class MessagesController extends Controller
                 'last_user' => $lastUser,
                 'other_users' => $other_users,
                 'last_message' => $lastMessage,
+                'last_message_date' => ($lastMessage == null) ? null : $lastMessage->created_at,
             ];
         }
+
+        $chatRooms = collect($chatRooms)->sortByDesc('last_message_date')->values();
 
         return view('messages.menu', compact('chatRooms'));
     }
@@ -111,15 +105,28 @@ class MessagesController extends Controller
             return;
         }
 
+        $chatroom = ChatRoom::query()->where('id', '=', $id)->first();
         $messages = Message::query()->where('id_chatRoom', '=', $id)->get();
         $count = $messages->count();
 
         if ($count == $etag) {
-            return response()->json([]);
+            return response()->json([
+                'chatroom' => [
+                    'id' => $chatroom->id,
+                    'name' => $chatroom->computed_name,
+                ],
+                'etag' => $etag
+            ]);
         }
+        
 
-        $messages = $messages->slice((int)$etag - $count);
-        return response()->json($count);
+        return response()->json([
+            'chatroom' => [
+                'id' => $chatroom->id,
+                'name' => $chatroom->computed_name,
+            ],
+            'etag' => ($count == $etag) ? $etag : $count,
+        ]);
     }
 
     public function send($id) {
@@ -139,12 +146,12 @@ class MessagesController extends Controller
     public function searchUsers($query = "") {
         if ($query == "") return response()->json([]);
 
-        $users = User::query()->where(DB::raw("CONCAT(`first_name`, ' ', `last_name`)"), 'LIKE', $query . '%')->get();
+        $users = User::query()->where(DB::raw("CONCAT(`first_name`, ' ', `last_name`)"), 'LIKE', '%' . $query . '%')->orderBy('first_name')->get();
         $users = $users->map(function ($user) {
             $user->personality = $user->getPersonalityType();
             return $user;
         });
-        return response()->json($users->where('id', '!=', auth()->user()->id));
+        return response()->json($users->where('id', '!=', auth()->user()->id)->take(5));
     }
 
     public function newChat(Request $request) {

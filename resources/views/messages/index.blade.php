@@ -37,6 +37,11 @@
             </div>
         </div>
         <div id="chat_cntr" >
+            <div id="chat_header">
+                <span id="info_btn" class="material-symbols-rounded no_select pointer icon_btn hover_darker" id="back_btn">info</span>
+                <h1 id="chat_title"></h1>
+                <span id="back_btn" class="material-symbols-rounded no_select pointer icon_btn hover_darker" id="back_btn">arrow_back</span>
+            </div>
             <div id="chat_messages_cntr">
                 {{-- Chat --}}
             </div>
@@ -44,6 +49,31 @@
                 <input type="text" id="message_input" maxlength="200" class="search_field" placeholder="Type a message"/>
             </div>
         </div>
+        <div id="chat_settings_cntr" style="display: none">
+            <div id="settings_header">
+                <h1 id="settings_title"></h1>
+                <span id="close_btn" class="material-symbols-rounded no_select pointer icon_btn hover_darker" id="back_btn">close</span>
+            </div>
+            <div id="settings_cntr">
+                <div id="name_field">
+                    <span>Changez le nom de la conversation</span>
+                    <input type="text" id="name_input" class="search_field" placeholder="Nom"/>
+                </div>
+                <div id="members_field">
+                    <span>Membre ({{$users->count()}})</span>
+                    <div id="members_cntr">
+                        <div id="members">
+                            {{-- $members --}}
+                        </div>
+                        <span id="see_more">Voir plus</span>
+                    <div>
+                </div>
+                <div id="leave_field">
+                    <span>Quitter la conversation</span>
+                    <input type="submit" id="leave_btn" class="btn_primary no_select" value="Quitter"/>
+                </div>
+            </div>
+        <div>
     </div>
 @endsection()
 

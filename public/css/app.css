@@ -397,9 +397,9 @@ body {
         display: none;
     }
     .header-nav {
-        height: 3em;
+        height: 4em;
         width: 100%;
-        padding: 0.5em;
+        padding: 1em;
         display: flex !important;
         align-items: center;
         justify-content: space-between;
@@ -419,11 +419,17 @@ body {
     .header-title{
         font-size: 1.5em;
         font-weight: 600;
+        color: var(--text);
     }
     .navbar_notification {
+        font-size: 1.1em;
         display: flex;
         justify-content: center;
         align-items: center;
+        border-radius: 0.75em;
+        padding: 0.25em;
+        background-color: var(--white);
+        color: var(--text);
     }
     .hideNotification{
         display: none !important;

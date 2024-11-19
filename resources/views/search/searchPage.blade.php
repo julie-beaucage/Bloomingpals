@@ -273,7 +273,7 @@
 
                 timeout = setTimeout(function() {
                     goTo(1, true);
-                }, 350);
+                }, 300);
             });
 
             $("#filter_btn").click(function() {
