@@ -147,4 +147,23 @@ class User extends Authenticatable implements MustVerifyEmail
     
         return $points;
     }
+    public static function BanUser($userId) {
+        $request = User::where("id", $userId);
+        $request->update([
+            'is_ban' => 1
+        ]);
+    }
+    public static function UnBanUser($userId) {
+        $request = User::where("id", $userId);
+        $request->update([
+            'is_ban' => 0
+        ]);
+    }
+
+    public static function IsBanWithEmail($email) {
+        if (User::where("email", $email)->get()->first()->is_ban == 1) {
+            return true;
+        }
+        return false;
+    }
 }

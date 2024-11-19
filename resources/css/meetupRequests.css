@@ -39,7 +39,8 @@ a.respondButton:hover {
 .profilesContainer {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(18em, 2fr));
-    width: 100%;
+    width: calc(100% - 3em);
+    padding: 1em 1em 0 1em;
 }
 
 hr {
@@ -53,4 +54,36 @@ hr {
     border-width: 1px 0 rgba(0, 0, 0, 0.388);
     margin: 1em 2.55em;
     width: calc(100% - 5em);
-  }
+}
+
+.userContainer {
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 1em;
+    width: max-content;
+    padding: 0 0.5em 0 0.5em;
+}
+
+.titleBackground {
+    background-color: white;
+    border-radius: 1em;
+    padding: 1em;
+    border: 1px solid black;
+}
+
+.biggerRespondButton {
+    background-color: rgb(177, 177, 177);
+    border-radius: 1em;
+    padding: 0.3em 0.6em 0.3em 0.6em ;
+    margin: 0.2em;
+    color: black;
+    border: 0.15em rgb(134, 134, 134) solid;
+    font-size: 1.2em;
+}
+
+.biggerRespondButton:hover {
+    background-color: rgb(92, 92, 92);
+    text-decoration: none;
+    color: white;
+    border: 0.15em rgb(0, 0, 0) solid;
+}
