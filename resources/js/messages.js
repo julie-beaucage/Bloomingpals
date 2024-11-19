@@ -145,7 +145,10 @@ async function changeChat(id, immediate = false) {
         let spinner = $("<div>").attr("class", "loader");
         $('#chat_messages_cntr').html(spinner);
 
-        await updateChat(id);
+        let update = updateChat(id);
+        $("#chat_cntr").show();
+        $("#chat_settings_cntr").hide();
+        await update;
         $("#chat_messages_cntr").scrollTop($('#chat_messages_cntr')[0].scrollHeight);
         periodiclyUpdateChat(id);
 
@@ -181,6 +184,8 @@ async function changeChat(id, immediate = false) {
                 }
             }
         });
+        
+        loadSettings(id);
     }, 500, immediate)();
 };
 

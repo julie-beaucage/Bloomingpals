@@ -4,6 +4,7 @@
 
 @section ("style")
     <link rel="stylesheet" href="{{ asset('css/messages.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/cards.css') }}" />
 @endsection()
 
 @section("content")
@@ -55,28 +56,80 @@
                 <span id="close_btn" class="material-symbols-rounded no_select pointer icon_btn hover_darker" id="back_btn">close</span>
             </div>
             <div id="settings_cntr">
-                <div id="name_field">
-                    <span>Changez le nom de la conversation</span>
-                    <input type="text" id="name_input" class="search_field" placeholder="Nom"/>
-                </div>
-                <div id="members_field">
-                    <span>Membre ({{$users->count()}})</span>
-                    <div id="members_cntr">
-                        <div id="members">
-                            {{-- $members --}}
-                        </div>
-                        <span id="see_more">Voir plus</span>
-                    <div>
-                </div>
-                <div id="leave_field">
-                    <span>Quitter la conversation</span>
-                    <input type="submit" id="leave_btn" class="btn_primary no_select" value="Quitter"/>
-                </div>
             </div>
         <div>
     </div>
 @endsection()
 
 @section("script")
+    <script>
+        async function loadSettings(id) {
+
+            $("#settings_cntr").empty();
+            
+            let info = null;
+
+            await $.ajax({
+                url: "/info/" + id,
+                method: "GET",
+                data: {
+                    id: id
+                },
+                success: function(data) {
+                    info = data;
+                },
+                error: function(err) {
+                    console.log(err);
+                }
+            });
+
+            if (info == null) {
+                return;
+            }
+
+            if (info['users'].length > 1) {
+                $("#settings_cntr").append(`
+                    <div id="name_field">
+                        <span class="field_title">Changez le nom de la conversation</span>
+                        <input type="text" id="name_input" class="search_field" placeholder="Nom" value="${info["chatroom"].name}"/>
+                    </div>
+                `);
+
+                $("#settings_cntr").append(`
+                    <div id="members_field">
+                        <span class="field_title">Membres du groupe (${info['users'].length})</span>
+                        <div id="members_cntr">
+                            <div id="members">
+                            </div>
+                            <span id="see_more" class="hover_darker">Voir plus</span>
+                        </div>
+                    </div>
+                `);
+
+                await $.ajax({
+                    url: "/chatMembers/" + id,
+                    method: "GET",
+                    success: function(data) {
+                        $("#members").append(data);
+                    },
+                    error: function(err) {
+                        console.log(err);
+                    }
+                });
+            }
+
+            $("#settings_cntr").append(`
+                <div id="leave_field">
+                    <span class="field_title">Quitter la conversation</span>
+                    <input type="submit" id="leave_btn" class="btn_primary no_select" value="Quitter"/>
+                </div>
+            `);
+
+            $("#see_more").click(function() {
+                $("#members").toggleClass("expanded");
+                $("#see_more").text($("#members").hasClass("expanded") ? "Voir moins" : "Voir plus");
+            });
+        }
+    </script>
     <script src="{{ asset('js/messages.js') }}"></script>
 @endsection()

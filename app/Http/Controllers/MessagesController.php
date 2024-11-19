@@ -85,6 +85,25 @@ class MessagesController extends Controller
         return view('messages.menu', compact('chatRooms'));
     }
 
+    public function info($id) {
+        $users = User::query()->join('chatRooms_users', 'users.id', '=', 'chatRooms_users.id_user')->where('id_chatRoom', '=', $id)->get();
+
+        if (!$users->contains('id', auth()->user()->id)) {
+            return;
+        }
+
+        $chatRoom = ChatRoom::query()->where('id', '=', $id)->first();
+        $other_users = User::query()->join('chatRooms_users', 'users.id', '=', 'chatRooms_users.id_user')->where('id_chatRoom', '=', $chatRoom->id)->where('id_user', '!=', auth()->user()->id)->get();
+
+        return response()->json([
+            'chatroom' => [
+                'id' => $chatRoom->id,
+                'name' => $chatRoom->computed_name,
+            ],
+            'users' => $other_users,
+        ]);
+    }
+
     public function chat($id, $page = 0)
     {
         $users = User::query()->join('chatRooms_users', 'users.id', '=', 'chatRooms_users.id_user')->where('id_chatRoom', '=', $id)->get();
@@ -164,14 +183,26 @@ class MessagesController extends Controller
             $ids[] = (string)auth()->user()->id;
             
             $chatRoom = ChatRoom::query()->select('chatRooms.id', DB::raw('COUNT(*) as count'), DB::raw('group_concat(chatRooms_users.id_user) as users'))->join('chatRooms_users', 'chatRooms.id', '=', 'chatRooms_users.id_chatRoom')->groupBy('chatRooms.id')->having('count', '=', count($ids))->get();
+
             
             $chatRoom = $chatRoom->filter(function ($value, $key) use ($ids) {
+
+                $users = explode(',', $value->users);
+
+                if (count($users) > 2) {
+                    return false;
+                }
+                
+                if (count($users) != count($ids)) {
+                    return false;
+                }
+
                 foreach ($ids as $id) {
-                    $users = explode(',', $value->users);
                     if (!in_array($id, $users)) {
                         return false;
                     }
                 }
+
                 return true;
             });
 
@@ -197,5 +228,18 @@ class MessagesController extends Controller
 
             return response()->json($chatRoom->id);
         }
+    }
+
+    public function chatMembers($id) {
+        $users = User::query()->join('chatRooms_users', 'users.id', '=', 'chatRooms_users.id_user')->where('id_chatRoom', '=', $id)->get();
+
+        if (!$users->contains('id', auth()->user()->id)) {
+            return;
+        }
+
+        $chatRoom = ChatRoom::query()->where('id', '=', $id)->first();
+
+        $other_users = User::query()->join('chatRooms_users', 'users.id', '=', 'chatRooms_users.id_user')->where('id_chatRoom', '=', $chatRoom->id)->where('id_user', '!=', auth()->user()->id)->get();
+        return view('partial_views.user_cards', ['users' => $other_users]);
     }
 }

@@ -351,7 +351,7 @@ INSERT INTO chatRooms (name) VALUES ('Projet d''équipe'), ('Club de lecture'), 
 
 -- Insert Users into Group Chats
 INSERT INTO chatRooms_users (id_chatRoom, id_user) VALUES 
-(11, 1), (11, 2), (11, 3), (12, 4), (12, 5), (12, 6), (13, 7), (13, 8), (13, 9), (14, 10), (14, 11), (14, 12), (15, 13), (15, 14), (15, 15);
+(11, 1), (11, 2), (11, 3), (11, 4), (11, 5), (12, 4), (12, 5), (12, 6), (13, 7), (13, 8), (13, 9), (14, 10), (14, 11), (14, 12), (15, 13), (15, 14), (15, 15);
 
 
 -- Private Chat 1 Messages
