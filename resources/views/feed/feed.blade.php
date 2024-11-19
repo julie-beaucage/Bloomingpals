@@ -7,18 +7,12 @@
 
 @section('content')
 
-<button onclick="fetchContent();">
-    Click
-</button>
 <div class="form-title">
     <h5>Fil d'actualité</h5>
 </div>
 <div class="feed-container">
     <div id="feed_friend" class="feed-friend">
-        <div class="user-suggestion-container">
-            <div class="user">
-aaaaa
-            </div>
+        <div id="friends_suggestion" class="user-suggestion-container">
 
         </div>
 
@@ -120,7 +114,7 @@ aaaaa
                     resolve(data)
                 }
             });
-        })
+        });
     }
     function promise_fetchMeetups() {
         return new Promise(resolve => {
@@ -131,7 +125,7 @@ aaaaa
                     resolve(data)
                 }
             });
-        })
+        });
     }
     function promise_fetchEvents() {
         return new Promise(resolve => {
@@ -167,10 +161,12 @@ aaaaa
                 user = searchById(users, (JSON.parse(feed[i].content)).user);
                 image = user.image_profil ? 'storage/' + user.image_profil : window.location.origin + '/images/simple_flower.png';
                 name = user.first_name + ' ' + user.last_name;
+                link="user/"+user.id;
                 if (feed[i].name.includes('Meetup')) {
                     meetup = searchById(meetups, (JSON.parse(feed[i].content)).meetup);
                     random = Math.floor(Math.random() * 3) + 1;
                     image_content = meetup.image ? meetup.image : "\\images\\meetup_default" + random + '.png';
+                    link="meetup/"+meetup.id;
 
                     if (feed[i].name == 'Meetup Create') {
                         message = user.first_name + ' à créé(e) un nouveau Meetup: <strong>' + meetup.name + '</strong>. Rejoignez !';
@@ -179,7 +175,8 @@ aaaaa
                         message = user.first_name + ' à rejoin un nouveau Meetup: <strong>' + meetup.name + '.</strong>';
                     }
                 } else if (feed[i].name.includes('Event')) {
-                    if (feed[i].name == 'Meetup Join') {
+                    link="event/"
+                    if (feed[i].name == 'Event Join') {
                         message = user.first_name + ' à rejoin un nouveau Meetup: <strong>' + meetup.name + '.</strong>';
                     }
                 }
@@ -190,12 +187,12 @@ aaaaa
                 }
 
 
-                action = `<a class="feed-post hover_darker pointer">
+                action = `<a class="feed-post hover_darker pointer" href="${link}">
                     <div class="feed-header">
                         <img class="profile-img" src="${image}" alt="Profile">
                         <div class="feed-user-info">
                             <strong>${name}</strong>
-                            <div>Il y a 2 heures</div>
+                            <div></div>
                         </div>
                     </div>
                     <div class="feed-content">
@@ -341,9 +338,6 @@ aaaaa
         });
         pageFeed++;
         content = content.concat(_actions);
-        //console.log(content);
-
-
 
         while (meetups.length < 5) {
             _meetups = await promise_fetchMeetups();
@@ -397,27 +391,65 @@ aaaaa
         }
         //console.log(content);
         handleContent(content);
-        return content>0;
+        console.log(content.length > 0);
+        return content.length > 0;
+    }
+    function fetchSuggestedUsers() {
+        let html = '<div class="loading" style="position: relative;width: 100%; height:10em;"><svg class="spinner" viewBox="0 0 50 50" id="svgLoading">' +
+            '<circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>'
+            + '</svg></div>';
 
+        let loading=$("#friends_suggestion").append(html);
+        $.ajax({
+            url: 'feed/userSuggestion',
+            method: 'GET',
+            success: function (data) {
+                ($(loading).children()[0]).remove();
+                data.forEach(user=>{
+                    image = user.image_profil ? 'storage/' + user.image_profil : window.location.origin + '/images/simple_flower.png';
+                    let html=`
+                        <a class="user pointer" href="profile/${user.id}">
+                            <div class="user-banner">
+                                <img src="${image}">
+                            </div>
+                            <div class='text'><strong>
+                            ${user.first_name} ${user.last_name}</strong>
+                            </div>
+
+                        </a>
+                    `;
+                    $('#friends_suggestion').append(html);
+
+                });
+                console.log(data);
+            }
+        });
     }
     let isLoading = true;
     $(document).ready(async function () {
         loading(friend)
+        fetchSuggestedUsers();
+        //fetchSuggestedUsers();
+        //fetchSuggestedUsers();
+
 
         $('#content').scroll(async function () {
+            console.log($('#content').scrollTop() + $('#content').height() - $(friend).height());
             if ($('#content').scrollTop() + $('#content').height() - $(friend).height() > 0 && isLoading == true) {
                 isLoading = false;
                 if (await getContent() == false) {
                     removeLoading(friend);
                     $('#content').off();
+                }else{
+                    isLoading=true;
                 }
 
             }
             //console.log($('#content').scrollTop() + $('#content').height() - $(friend).height());
             // console.log($('#content').scrollTop()+$('#content').height());
         });
-       await getContent();
-       removeLoading();
+        await getContent();
+        removeLoading();
         //fetchContent();
         // let time = new Date().getTime();
         // for (let i = 0; i < 10; i++) {

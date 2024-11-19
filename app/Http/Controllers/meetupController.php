@@ -171,10 +171,9 @@ class MeetupController extends BaseController
                 // create Action for feed
 
                 $obj = array('meetup' => $id_meetup);
-                DB::statement("Call addAction(?,?,?,?)", [
+                DB::statement("Call addAction(?,?,?)", [
                     $id_owner,
                     'Meetup Create',
-                    'viens de créer un nouveau Meetup : ',
                     json_encode($obj)
                 ]);
 
@@ -387,8 +386,8 @@ class MeetupController extends BaseController
         Meetup_User::AddParticipant($userId, $meetupId);
         Meetup_Request::AcceptMeetupRequest($userId, $meetupId);
 
-
-
+        DB::statement('Call addAction(?,?,?)',[$userId,'Meetup Join',[$meetupId]]);
+        
         return $this->MeetupRequests($meetupId);
     }
 

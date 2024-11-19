@@ -140,6 +140,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/fetchData', [HomeController::class, 'fetchData']);
         Route::get('/fetchMeetups/{page}', [HomeController::class, 'fetchMeetups']);
         Route::get('/fetchEvents/{page}', [HomeController::class, 'fetchEvents']);
+        Route::get('/userSuggestion', [HomeController::class, 'suggestedUsers']);
     });
 
     
