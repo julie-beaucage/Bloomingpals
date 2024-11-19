@@ -8,12 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Friendship_Request extends Model
 {
     protected $table= 'Friendships_Requests';
-
     protected $fillable = ["id_user_send", "id_user_receive", "state"];
-
     public $timestamps = false;
 
-    /* you may need to check if the other user already sent a request*/
     public static function AddFriendRequest($user1, $user2) {
         if (!Friendship_Request::IsRefuse($user1, $user2)) {
             if (Friendship_Request::IsRefuse($user2, $user1)) {

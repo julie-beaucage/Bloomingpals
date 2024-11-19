@@ -4,7 +4,7 @@
 @endsection
 
 @section("content")
-<span>
+<div class="eee">
     <div class="test_container">
         <h3>Test de Personnalité</h3>
         <form id="personality-test-form" method="POST" action="{{ route('personality.submit') }}"
@@ -39,7 +39,7 @@
             <div id="error-message" style="color: red; display: none;"></div>
         </form>
     </div>
-</span>
+</div>
 @endsection
 
 @section('script')

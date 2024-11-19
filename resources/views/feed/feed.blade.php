@@ -60,12 +60,23 @@
             <div class="feed-text">5 de tes amis vont a montreal</div>
         </div>
     </a> -->
+    
+</div>
 
 
-
-@endsection()
+@endsection
 
 @section('script')
+<script>
+    function toggleEmotionPicker() {
+        document.getElementById('emotion-picker').classList.toggle('show');
+    }
+
+    function selectEmotion(emotion) {
+        document.querySelector('.emotion-button').innerHTML = emotion;
+        toggleEmotionPicker();
+    }
+</script>
 <script>
     let pageFeed = 0;
     let pageMeetup = 0;
@@ -463,4 +474,4 @@
     });
     const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay))
 </script>
-@endsection()
+@endsection

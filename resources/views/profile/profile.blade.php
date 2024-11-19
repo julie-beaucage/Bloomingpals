@@ -99,9 +99,26 @@
             <div class="grey_button">Vous avez été refusé</div>
         @else
             <a href="{{ route("SendFriendRequest", ["id" => $user->id])}}">
-                <div class="blue_button">Ajouter en ami</div>
+                <div class="blue_button">Ajouter ami(2)</div>
             </a>
         @endif
+       <!-- <button 
+            class="friend-action-btn {{ strtolower($relation) }}" 
+            onclick="handleFriendAction('{{ $relation }}', {{ $user->id }})">
+            @if ($relation == "Friend")
+                ✅ Ami(e)
+            @elseif ($relation == "SendingInvitation")
+                📤 Annuler la demande
+            @elseif ($relation == "Invited")
+                ✉️ Invitation reçue
+            @elseif ($relation == "Blocked")
+                🚫 Bloqué(e)
+            @else
+                ➕ Ajouter ami(e)
+            @endif
+        </button>
+        <x-button-friend :user="$user" :relation="$relation" />-->
+
 
         <div class="containerOnglerMain">
 
@@ -154,9 +171,12 @@
         @endsection()
 
         @section('script')
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> 
         <script src="{{ asset('/js/profileOnglet.js') }}"></script>
         <script src="{{ asset('/js/resendEmail.js') }}"></script>
+        <script>
+        
+        </script>
         <script>
             function Confirmm() {
                 var pop_up_box = "<div class='pop-up-overlay'>" +
