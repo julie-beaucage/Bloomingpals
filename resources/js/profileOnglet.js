@@ -68,21 +68,58 @@ document.addEventListener('DOMContentLoaded', function () {
                 } else {
                     console.error("Élément 'profile-content' introuvable.");
                 }
+                if (isInterestsTabActive()) {
+                    initSearchInterest(); 
+                    setupTagSelection(); 
+                }
             })
             .catch(error => console.error('Erreur lors du chargement de la section:', error));
     }
-    
-    
 
-    $(document).on("click", ".interet-tag", function () {
-        const tagId = $(this).data('id');
-        if ($(this).hasClass('interet-selected')) {
+    function isInterestsTabActive() {
+        const interestsTabLink = document.querySelector('.tab-link[href*="interets/interets"]');
+        return interestsTabLink && interestsTabLink.classList.contains('active');
+    }
+
+    // Fonction pour initialiser la barre de recherche
+    function initSearchInterest() {
+        const searchInput = document.getElementById('searchInterests');
+        
+        if (searchInput) {
+            searchInput.addEventListener('input', function () {
+                const searchValue = searchInput.value.toLowerCase();
+                const tags = document.querySelectorAll('.interet-tag');
+
+                tags.forEach(function (tag) {
+                    const tagText = tag.textContent.toLowerCase();
+                    if (tagText.includes(searchValue)) {
+                        tag.style.display = '';
+                    } else {
+                        tag.style.display = 'none';
+                    }
+                });
+            });
         } else {
-            console.log("Sélectionné :", tagId);
+            console.error("L'élément #searchInterests n'a pas été trouvé.");
         }
-        $(this).toggleClass('interet-selected'); 
-        updateSelectedInterets(); 
-    });
+    }
+
+    function setupTagSelection() {
+        const tags = document.querySelectorAll('.interet-tag');
+        
+        tags.forEach(function (tag) {
+            tag.addEventListener('click', function () {
+                const tagId = this.dataset.id;
+
+                if (!this.classList.contains('interet-selected')) {
+                    this.classList.add('interet-selected');
+                } else {
+                    this.classList.remove('interet-selected');
+                }
+                updateSelectedInterets(); 
+            });
+        });
+    }
 
     function updateSelectedInterets() {
         const selectedIds = Array.from(document.querySelectorAll('.interet-tag.interet-selected'))

@@ -142,8 +142,6 @@
         @endif
 
     </div>
-
-
 </form>
 
 @endsection

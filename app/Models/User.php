@@ -46,7 +46,21 @@ class User extends Authenticatable implements MustVerifyEmail
     }
     public function getPersonalityType()
     {
-        $personality = DB::table('users')
+       $personality_type = DB::table('personalities')
+            ->join('users', 'users.personality', '=', 'personalities.id')
+            ->where('users.id', $this->id)
+            ->select('personalities.type as personality_type')
+            ->first();
+    
+        if ($personality_type) {
+            return $personality_type->personality_type;
+        } else {
+            return 'Indéterminé'; 
+        }
+    }
+    public function getPersonalityGroup()
+    {
+       $personality = DB::table('users')
             ->join('personalities', 'users.personality', '=', 'personalities.id')
             ->join('groups_personalities', 'groups_personalities.id', '=', 'personalities.group_perso')
             ->where('users.id', $this->id)
@@ -56,7 +70,6 @@ class User extends Authenticatable implements MustVerifyEmail
         if ($personality) {
             return $personality->personality_name;
         } else {
-            Log::warning('No personality found for user ID ' . $this->id);
             return 'default-class'; 
         }
     }
@@ -95,31 +108,26 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function calculateAffinity($otherUserId, $idUser) {
         $userPersonality = $this->getUserPersonality($idUser);
-        
         $otherUserPersonality = $this->getUserPersonality($otherUserId);
     
         $personalityAffinity = 0;
         if ($userPersonality && $otherUserPersonality) {
             if ($userPersonality->type === $otherUserPersonality->type) {
-                $personalityAffinity = 1.0; 
+                $personalityAffinity  = 1.0; 
             } elseif ($userPersonality->group_name === $otherUserPersonality->group_name) {
-                $personalityAffinity = 0.5; 
+                $personalityAffinity  = 0.5; 
             }
-        } else {
-            Log::warning("One of the users does not have a personality.");
-        }
-
+        } 
         $userInterests = User_Interest::getInteretsParUtilisateur($idUser);
         $otherUserInterests = User_Interest::getInteretsParUtilisateur($otherUserId);
     
         $pointsUser1 = $this->calculateInterestPoints($userInterests, $otherUserInterests);
         $totalPointsUser1 = 2 * count($userInterests);
         if ($totalPointsUser1 == 0) {
-            Log::warning("User 1 has no interests.");
             return 0;
         }
         $affinityUser1 = ($pointsUser1 / $totalPointsUser1) * 100;
-        $finalAffinity = ($personalityAffinity * 0.5 + ($affinityUser1 / 100) * 0.5) * 100;
+        $finalAffinity = ($personalityAffinity* 0.5 + ($affinityUser1 / 100) * 0.5) * 100;
         return round($finalAffinity, 2);
     }
     

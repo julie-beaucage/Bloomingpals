@@ -42,7 +42,7 @@
     gap: 1em;
 }
 
-#inputs_cntr > button {
+#inputs_cntr>button {
     display: flex;
     align-items: center;
     flex-shrink: 0;
@@ -64,7 +64,7 @@
     width: 100%;
 }
 
-#categories_cntr > button {
+#categories_cntr>button {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -79,7 +79,7 @@
     border-radius: 0.75em;
 }
 
-#categories_cntr > .selected {
+#categories_cntr>.selected {
     filter: brightness(0.9);
 }
 
@@ -144,18 +144,18 @@
     }
 }
 
-.filters_cntr > .header {
+.filters_cntr>.header {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.filters_cntr > .header > .title {
+.filters_cntr>.header>.title {
     font-size: 1.3em;
     font-weight: 500;
 }
 
-.filters_cntr > .content {
+.filters_cntr>.content {
     -ms-overflow-style: none;
     scrollbar-width: none;
     max-height: calc(100vh - 20em);
@@ -163,7 +163,7 @@
     overflow-y: scroll;
 }
 
-.filters_cntr > .content::-webkit-scrollbar { 
+.filters_cntr>.content::-webkit-scrollbar {
     display: none;
 }
 
@@ -215,7 +215,7 @@
     border-radius: 0.75em;
 }
 
-.suggestion + .suggestion {
+.suggestion+.suggestion {
     border-top: 1px solid var(--neutral-200);
 }
 
@@ -231,7 +231,7 @@
 .suggestions {
     display: none;
 }
-  
+
 .suggestions:has(.suggestion) {
     display: flex;
 }
@@ -262,7 +262,7 @@
     grid-template-columns: 1fr 1fr 1fr;
 }
 
-.selection_grid > div {
+.selection_grid>div {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -278,8 +278,239 @@
     border: 1px solid transparent;
 }
 
-.selection_grid > div:not(.selected) {
+.selection_grid>div:not(.selected) {
     background-color: var(--neutral-100) !important;
     border: 1px solid var(--neutral-200) !important;
     color: var(--neutral-800) !important;
+}
+
+/*-----------------USERS SEARCH----------------------*/
+.send_btn_search{
+    border-radius: 2em;
+    font-size: 0.7em;
+    padding:1em;
+    border:solid gray 2px;
+    width: fit-content;
+    margin-left: 30%;
+}
+
+.send_btn_search .txt{
+font-family:"Poppins", sans-serif !important;
+}
+.checkbox-container {
+    display: none; 
+}
+.invisible-radio {
+    display: none;
+}
+.containerPals{
+    height: 100hv;
+    width: 100%;
+}
+.containerPals .filters_cntr{
+    max-height: fit-content !important;
+    height: 90%;
+    overflow: auto;
+}
+
+.containerPals .filters_cntr .content{
+    min-height: fit-content!important;
+    height: 100% !important;
+    max-height: 100% !important;
+    border-radius: 8px;
+    min-height: 70%;
+    background-color: rgba(245, 244, 244, 0.799);
+
+}
+.containerPals::-webkit-scrollbar {
+    width: 12px;
+}
+
+.containerPals::-webkit-scrollbar-track {
+    background: rgba(149, 26, 26, 0.2) !important;
+    border-radius: 10px !important;
+}
+
+.containerPals::-webkit-scrollbar-thumb {
+    background-color: rgba(100, 100, 100, 0.5) !important; 
+    border-radius: 10px !important; 
+    border: 3px solid rgba(200, 200, 200, 0.2) !important; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(171, 102, 148, 0.7)!important; 
+}
+
+.containerPals #absolute_cntr {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+}
+
+.containerPals #absolute_cntr::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.368);
+    opacity: 0.5;
+    z-index: -1;
+}
+.containerPals #inputs_cntr {
+    position: relative;
+}
+
+.containerPals #search_field {
+    padding-right: 25px; 
+}
+.containerPals .container_reset_btn{
+    padding:5px;
+    min-height: fit-content;
+    height: 2em;
+    color:#888;
+    margin-bottom:1em;
+}
+
+.containerPals .container_reset_btn .button{
+    border:solid 2px rgb(172, 171, 171);
+    font-family:"Poppins", sans-serif !important;
+    margin-left:4em;
+    padding:0.5em;
+    border-radius: 8px;
+}
+
+.containerPals .container_reset_btn .button:hover{
+ background-color: var(--primary-400);
+ color:var(--white)
+}
+
+.containerPals .clear-btn {
+    position: absolute;
+    right: 4em; 
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none !important;
+    color: #888;
+    font-size: 16px;
+    cursor: pointer;
+    display: none; 
+}
+
+.tag_recherche {
+    display: inline-block;
+    background-color: #d8e8ff; 
+    color: #333;
+    padding: 5px 10px;
+    margin: 3px;
+    border-radius: 8px;
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+.containerPals #search_field:not(:placeholder-shown) + .clear-btn {
+    display: inline; 
+}
+
+.containerPals .selection_grid {
+    display: flex;
+    grid-template-columns: 1fr 1fr;
+}
+
+.containerPals .selection_grid>div {
+    height: auto;
+    min-height: fit-content;
+    display: block;
+}
+.checkbox-container{
+    padding:0.4em;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.248);
+}
+
+.containerRadioSelect{
+    border:solid rgba(255, 255, 255, 0.484) 2px;
+    border-radius: 6px;
+    padding:0.4em;
+}
+
+.type_span{
+    font-size: 0.7em;
+}
+
+.group-title{
+    font-size: 1.6em;
+}
+
+.containerPals .PersonalityCheckboxContainer {
+   display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.hidden {
+    display: none;
+}
+
+.visible {
+    display: block;
+    animation: slideIn 0.5s forwards;
+}
+
+.PersonalityCheckboxContainer {
+    transition: max-height 0.3s ease-in-out;
+    overflow: hidden;
+    max-height: 0;
+}
+
+.PersonalityCheckboxContainer.visible {
+    max-height: 500px;
+}
+.active-group {
+    text-decoration: underline; 
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media only screen and (max-width: 600px) {
+   .containerPals .selection_grid {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .containerPals .filters_cntr{
+        height: 95%;
+        margin-bottom: 1em;
+    }
+
+    .containerPals .filters_cntr>.content {
+        max-height: fit-content;
+        margin-bottom: 0.5em;
+    }
+    .type_span{
+        font-size: 0.9em;
+    }
+    .containerPals .selection_cell label{
+        font-size: 1.2em;
+    }
+    
+    .group-title{
+        font-size: 1.9em;
+    }
+    .containerPals #absolute_cntr {
+        height: calc(100vh - 6em);
+        align-items: end;
+    }
+
 }

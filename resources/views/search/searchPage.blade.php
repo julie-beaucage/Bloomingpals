@@ -6,6 +6,7 @@
 @endsection()
 
 @section('content')
+<div class="palsMainContainer">
     <div id="relative_cntr" class="hidden">
         <div id="absolute_cntr">
             <div class="filters_cntr">
@@ -93,6 +94,7 @@
         <div id="result" class="cards_list">
         </div>
     </div>
+</div>
 @endsection()
 
 @section('script')

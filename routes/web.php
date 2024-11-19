@@ -11,15 +11,25 @@ use App\Http\Controllers\CustomVerificationController;
 use App\Http\Controllers\PersonalityController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\MessagesController;
-
-
+use App\Http\Controllers\SearchUserController;
 
 Route::get('/', function () {
-    if (auth()->check()) {
-        return redirect()->route('home');
-    }
-    return view('auth.login');
+    return redirect()->route('home');
 });
+Route::get('/home', [HomeController::class, 'home'])->name('home');
+Route::get('/home/showcase', [HomeController::class, 'showcase'])->name('showcase');
+Route::get('/home/user_meetups', [HomeController::class, 'user_meetups'])->name('user_meetups');
+Route::get('/home/top_events', [HomeController::class, 'top_events'])->name('top_events');
+Route::get('/home/recent_meetups', [HomeController::class, 'recent_meetups'])->name('recent_meetups');
+Route::get('/home/upcoming_events', [HomeController::class, 'upcoming_events'])->name('upcoming_events');
+
+Route::get('/about', function () {
+    return view('about'); 
+})->name('about');
+
+Route::get('/personality-info', function () {
+    return view('test_personality.info-personality'); 
+})->name('personality-info');
 
 // Authentification
 Route::get('/email/verify/{id}/{hash}', [CustomVerificationController::class, 'verify'])->name('verification.verify');
@@ -27,8 +37,8 @@ Route::get('/email/verify', function () {
     return view('auth.verify');
 })->middleware('auth')->name('verification.notice');
 
-Route::get('/signIn', [UsersController::class, 'registerForm'])->middleware('guest');
-Route::get('/login', [UsersController::class, 'loginForm'])->middleware('guest');
+Route::get('/signIn', [UsersController::class, 'registerForm'])->middleware('guest')->name('register.form');
+Route::get('/login', [UsersController::class, 'loginForm'])->middleware('guest')->name('login.form');
 Route::post('/signIn', [UsersController::class, 'create'])->name('signin');
 Route::post('/login', [UsersController::class, 'login'])->name('login');
 Route::get('/logout', [UsersController::class, 'logout'])->name('logout');
@@ -38,16 +48,10 @@ Route::post('profile/checkPassword', [UsersController::class, 'checkPassword']);
 Route::post('/profile/checkEmail', [UsersController::class, 'isEmailTaken']);
 Route::post('/profile/updateAccount', [UsersController::class, 'updateAccount']);
 
+
+
 Route::middleware('auth')->group(function () {
     
-    // Home
-    Route::get('/home', [HomeController::class, 'home'])->name('home');
-    Route::get('/home/showcase', [HomeController::class, 'showcase'])->name('showcase');
-    Route::get('/home/user_meetups', [HomeController::class, 'user_meetups'])->name('user_meetups');
-    Route::get('/home/top_events', [HomeController::class, 'top_events'])->name('top_events');
-    Route::get('/home/recent_meetups', [HomeController::class, 'recent_meetups'])->name('recent_meetups');
-    Route::get('/home/upcoming_events', [HomeController::class, 'upcoming_events'])->name('upcoming_events');
-
     // Profile
     Route::get('/profile/{id}', [UsersController::class, 'profile'])->name('profile');
     Route::put('/profile/update/{id}', [UsersController::class, 'update'])->name('profile.update');
@@ -64,7 +68,6 @@ Route::middleware('auth')->group(function () {
 
     //INTERET
     Route::get('interets/interets/{id}', [InterestsController::class, 'interets'])->name('interets.interets');
-    //Route::put('/interets/update_Interets', [InterestsController::class, 'update_Interets'])->name('interets.update_Interets');
     Route::put('/interets/update_Interets/{id}', [InterestsController::class, 'update_Interets'])->name('interets.update_Interets');
 
     
@@ -85,19 +88,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/meetup/form/{id}', [MeetupController::class, 'form']);
     Route::get('/meetup/form/event/{id}', [MeetupController::class, 'formEvent']);
     Route::get('/meetup/interests/{id}', [MeetupController::class, 'interests']);
-
-
     Route::get('/meetup/{meetupId}', [MeetupController::class, 'MeetupPage'])->name('meetupPage');
     Route::get('/meetup/join/{meetupId}', [MeetupController::class, 'JoinMeetup'])->name('joinMeetup');
     Route::get('/meetup/cancel/{meetupId}', [MeetupController::class, 'CancelJoiningMeetup'])->name('cancelJoiningMeetup');
     Route::get('/meetup/leave/{meetupId}', [MeetupController::class, 'LeaveMeetup'])->name('leaveMeetup');
-
     Route::get('/meetup/removeParticipant/{meetupId}/{userId}', [MeetupController::class, 'RemoveParticipant'])->name("removeParticipant");
-
     Route::get('/meetup/requests/{meetupId}', [MeetupController::class, 'MeetupRequests'])->name('meetupRequests');
     Route::get('/meetup/requests/accept/{meetupId}/{userId}', [MeetupController::class, 'AcceptRequest'])->name('acceptRequest');
     Route::get('/meetup/requests/deny/{meetupId}/{userId}', [MeetupController::class, 'DenyRequest'])->name('denyRequest');
-
 
     // Event
     Route::get('/event/{id}', [EventController::class, 'event'])->name('event');
@@ -123,6 +121,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/info/{id}', [MessagesController::class, 'info'])->name('info');
     Route::get('/chatMembers/{id}', [MessagesController::class, 'chatMembers'])->name('members');
 
+    //Pals + seach pals_index
+    Route::get('/pals', [SearchController::class, 'pals_index'])->name('searchUsers');
+
+
     //utilisateurs
     Route::get("user/friend/request/send/{id}", [UsersController::class, "SendFriendRequest"])->name("SendFriendRequest");
     Route::get("user/friend/request/accept/{id}", [UsersController::class, "AcceptFriendRequest"])->name("AcceptFriendRequest");
@@ -137,4 +139,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/notifications', [NotificationController::class,'index']);
     Route::delete('/notifications/delete', [NotificationController::class,'delete']);
     Route::get('/hasNotificationOn', [NotificationController::class, 'hasNotificationOn']);
+
+    // Feed
+    Route::get('/feed', function(){
+        return View::make('feed.feed');
+    })->name('feed');
+
+    Route::namespace('feed')->prefix('feed')->group( function () {
+        Route::get('/fetchFeed/{page}', [HomeController::class, 'fetchFeed']);
+        Route::post('/fetchData', [HomeController::class, 'fetchData']);
+    });
+
+    
 });

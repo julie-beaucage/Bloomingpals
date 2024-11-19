@@ -10,13 +10,9 @@ $(document).ready(function () {
     function displayNotification(data) {
         parsedData = JSON.parse(data);
         let notification = document.createElement("div");
-
         notification.classList.add("notification-container");
-
-
+        
         let htmlElement;
-        console.log(parsedData);
-
         let img_src = "";
         let profile_link = "";
         let header_text = "";
@@ -30,7 +26,6 @@ $(document).ready(function () {
 
             case 'Meetup Request':
                 image = parsedData.user_send.image_profil == null ? 'images/simple_flower.png' : 'storage/' + parsedData.user_send.image_profil;
-
                 img_src = img + image;
                 profile_link = '/profile/' + parsedData.user_send.id;
                 header_text = parsedData.user_send.first_name + ' ' + parsedData.user_send.last_name;
@@ -67,8 +62,6 @@ $(document).ready(function () {
                 content = parsedData.message;
                 break;
         }
-
-
 
         htmlElement = '<div class="notification-container" id="' + parsedData.id_notification + '" linking="' + linking + '">' +
             '<div class="center-content"><a id="profile-notif" href="' + profile_link + '""><img class="profile-picture-notif ' + img_square + '" id="notification-profile-picture" src="' +
@@ -112,80 +105,57 @@ $(document).ready(function () {
 
     });
 
-
     function handleNewNotification() {
         $('.notification-container').on('click', function (event) {
             window.location.href = $(this).attr('linking');
         });
-
         let notification_read = false;
 
         $("#close-notification").on('click', function () {
             $(".notification-container").remove();
             notification_read = true;
         })
-
         window.setTimeout(function () { if (!notification_read) { $(".notification-container").remove(); } }, 10 * 1000);
     }
 
-    // handle all notification container
-
     let notif_read = false;
-    $('.navbar_notification').each(function () {
-        $(this).on('click', function () {
-            let right = $('#container-notification-toggle').css('right');
-            if (right == '0px') {
-                $('#container-notification-toggle').animate({ right: '-1000px' }, 500, () => $('#container-notification-toggle').toggle());
-            }
-            else {
-                $('#container-notification-toggle').toggle();
-                $('#container-notification-toggle').animate({ right: '0px' }, 500);
-            }
-            
+    $('.navbar_notification').on('click', function (e) {
+        e.stopPropagation();
+        $('#container-notification-toggle').toggle();
 
-            if (notif_read == false) {
-                window.setTimeout(function () {
+        // Marquer toutes les notifications comme lues
+        if (notif_read == false) {
+            window.setTimeout(function () {
+                $.ajax({
+                    type: "GET",
+                    url: '/ReadAll',
+                });
+                notif_read = true;
+                $('.notification-badge').hide();
+                $(".close_icon-page").off();
+                $(".close_icon-page").on('click', function () {
                     $.ajax({
-                        type: "GET",
-                        url: '/ReadAll',
+                        type: "DELETE",
+                        url: '/notifications/delete',
+                        data: { id: $(this).attr('id'), _token: crsf }
                     });
-                    notif_read = true;
-                    $('.notification-badge').each(function () {
-                        console.log($(this));
-                        $(this).hide();
-                    });
-
-                    $('.notif-icon').each(function () {
-                        id = $(this).attr('id');
-                        $(this).parent().append('<span class="material-symbols-rounded close_icon-page" id="' + id + '">close</span>');
-                        $(this).remove();
-
-                    });
-                    $(".close_icon-page").off();
-                    $(".close_icon-page").on('click', function () {
-                        $.ajax({
-                            type: "DELETE",
-                            url: '/notifications/delete',
-                            data: { id: $(this).attr('id'), _token: crsf }
-                        });
-                        container = $(this).parent().parent().parent().parent();
-                        container.addClass('border-red');
-
-                        window.setTimeout(function () {
-                            container.remove().parent();
-                        }, 500);
-
-                    });
-
-                }, 2 * 1000);
-            }
-        })
+                    $(this).closest('.notification-container').remove();
+                });
+            }, 2 * 1000);
+        }
     });
 
-    $('.notification-container-page').on('click', function (event) {
+    $('#menu-icon').on('click', function (e) {
+        e.stopPropagation();  
+        $('#dropdown-menu').toggleClass('show');
+    });
 
-        if (!(event.target.classList.contains('close_icon-page'))) {
-            window.location.href = $(this).attr('linking');
+    $(document).on('click', function (e) {
+        if (!$(e.target).closest('.navbar_notification').length) {
+            $('#container-notification-toggle').hide();
+        }
+        if (!$(e.target).closest('.menu-icon').length) {
+            $('#container-menu-toggle').hide();
         }
     });
 
@@ -195,12 +165,9 @@ $(document).ready(function () {
             url: '/notifications/delete',
             data: { id: $(this).attr('id'), _token: crsf }
         });
-        container = $(this).parent().parent().parent().parent();
-        container.addClass('border-red');
-
-        window.setTimeout(function () {
-            container.remove().parent();
+        $(this).closest('.notification-container').addClass('border-red');
+        setTimeout(function () {
+            $(this).closest('.notification-container').remove();
         }, 500);
-
     });
 });

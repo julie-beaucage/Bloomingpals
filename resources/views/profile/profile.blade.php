@@ -19,23 +19,18 @@
 @include('profile.account-settings')
 
 @section('content')
-
 <div id="profile-overlay-cntr" class="overlay-cntr">
     @if ($user->id == Auth::user()->id)
         <x-email-verification-modal />
         @include('profile.edit-profile-modal', ['style' => 'display: none;'])
     @endif
 </div>
-
-
 <div id="background_cntr" class="no_select">
     <div id="background_color"></div>
     <img id="background_img"
         src="{{ $user->background_image ? asset('storage/' . $user->background_image) : asset('/images/R.jpg') }}"
         alt="Bannière du profile">
 </div>
-
-
 <div id="profile_cntr" class="personality {{ $userPersonality }}">
     <div id="info_cntr" class="personality {{ $userPersonality }}">
         <div class="profile-picture no_select">
@@ -104,9 +99,26 @@
             <div class="grey_button">Vous avez été refusé</div>
         @else
             <a href="{{ route("SendFriendRequest", ["id" => $user->id])}}">
-                <div class="blue_button">Ajouter en ami</div>
+                <div class="blue_button">Ajouter ami(2)</div>
             </a>
         @endif
+       <!-- <button 
+            class="friend-action-btn {{ strtolower($relation) }}" 
+            onclick="handleFriendAction('{{ $relation }}', {{ $user->id }})">
+            @if ($relation == "Friend")
+                ✅ Ami(e)
+            @elseif ($relation == "SendingInvitation")
+                📤 Annuler la demande
+            @elseif ($relation == "Invited")
+                ✉️ Invitation reçue
+            @elseif ($relation == "Blocked")
+                🚫 Bloqué(e)
+            @else
+                ➕ Ajouter ami(e)
+            @endif
+        </button>
+        <x-button-friend :user="$user" :relation="$relation" />-->
+
 
         <div class="containerOnglerMain">
 
@@ -159,9 +171,12 @@
         @endsection()
 
         @section('script')
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> 
         <script src="{{ asset('/js/profileOnglet.js') }}"></script>
         <script src="{{ asset('/js/resendEmail.js') }}"></script>
+        <script>
+        
+        </script>
         <script>
             function Confirmm() {
                 var pop_up_box = "<div class='pop-up-overlay'>" +
