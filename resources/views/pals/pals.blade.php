@@ -2,7 +2,7 @@
 
 @section('style')
 <link rel="stylesheet" type="text/css" href="{{ asset('css/search.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('css/cards.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('css/palCard.css') }}">
 @endsection
 
 @section('content')
@@ -21,7 +21,7 @@
             <div id="selected-info"></div>
         </div>
         <div id="result" class="cards_list">
-            @include('partial_views.user_cards')
+            @include('partial_views.pal_card')
         </div>
     </div>
 </div>

@@ -3,9 +3,6 @@
 @if (is_null($personality))
 
 <div class="personality-container-empty">
-    <p>ddsdsdsd</p>
-    <a href personality-info >test de button</a>
-    <p>Vous avez déjà un compte? <a href="test_personality/info-personality" class="link">Se connecter</a></p>
     @if ($user->id == Auth::user()->id)
         <p class="personality-message">Découvrez votre personnalité et facilitez la recherche d'affinités pour vous faire de nouveaux amis !</p>
         <p class="personality-instruction">Complétez le test de personnalité basé sur Myers-Briggs pour trouver des "Pals" similaires à vous !</p>
@@ -18,9 +15,8 @@
 </div>
 
 @else
-    @if ($user->id == Auth::user()->id)
-    <p>Vous avez déjà un compte? <a href="{{ route('personality-info') }}" class="link">Se connecter</a></p>
-    <div class="containerPerso">
+    @if ($user->id == Auth::user()->id)     
+            <div class="containerPerso">
             <h2 class="test">Votre Personnalité</h2>
             <div class="personality-card {{ strtolower($personality->group_name) }}">
                 <p>Groupe de personnalité : <strong>{{ $personality->group_name }}</strong></p>
