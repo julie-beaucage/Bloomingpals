@@ -1,0 +1,18 @@
+.flexRow{
+    display: flex;
+    flex-direction: row;
+}
+
+.whitebg {
+    background-color: white;
+}
+
+.maxWidth {
+    width: 100%;
+}
+
+#banUserForm {
+    display: none;
+    
+}
+
