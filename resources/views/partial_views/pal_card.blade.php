@@ -65,7 +65,7 @@ function btn_setUp($relation, $userId) {
         $btn_txt = "Vous avez été refusé";
     } else {
         $url = route("SendFriendRequest", ["id" => $userId]);
-        $btn_txt = "Ajouter un ami(e)";
+        $btn_txt = "Ajouter en ami";
     }
 
     return "
