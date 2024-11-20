@@ -114,11 +114,12 @@
         return var_user;
     }
     function appendContent(users, meetups, feed) {
-        let action, meesage, user, image_content;
+        let action, meesage, user, image_content,noImage;
 
         for (let i = 0; i < feed.length; i++) {
+            noImage=false;
             if (feed[i].type == 'Feed') {
-                user = searchById(users, (JSON.parse(feed[i].content)).user);
+                user = searchById(users, feed[i].id_user);
                 image = user.image_profil ? 'storage/' + user.image_profil : window.location.origin + '/images/simple_flower.png';
                 name = user.first_name + ' ' + user.last_name;
                 link = "user/" + user.id;
@@ -141,11 +142,12 @@
                     }
                 }
                 else if (feed[i].name.includes('Personality')) {
-                    if (feed[i].name == 'Test Personality') {
+                    if (feed[i].name == 'Personality Test') {
+                        noImage=true;
+                        console.log("perso");
                         message = user.first_name + ' à complété(e) le test de personnalité !';
                     }
                 }
-
 
                 action = `<a class="feed-post hover_darker pointer" href="${link}">
                     <div class="feed-header">
@@ -162,10 +164,23 @@
                         </div>
                     </div>
                 </a>`;
+
+                if(noImage == true){
+                    action = `<a class="feed-post hover_darker pointer" href="${link}">
+                    <div class="feed-header">
+                        <img class="profile-img" src="${image}" alt="Profile">
+                        <div class="feed-user-info">
+                            <strong>${name}</strong>
+                            <div></div>
+                        </div>
+                    </div>
+                    <div class="feed-content">
+                        <p>${message}</p>
+                    </div>
+                </a>`;
+                }
                 $(friend).append(action);
             } else if (feed[i].type == 'Event') {
-                console.log("AAA");
-
                 let event = `<a class="card no_select hover_darker pointer" href="event/${feed[i].id}">
                     <div class="card-banner">
                         <img src="${feed[i].image}" alt="Image de l'évènement" class="feed-img">
@@ -261,16 +276,18 @@
             let userIds = {};
             let meetupIds = {};
             time = new Date().getTime();
+            
             for (var i in content) {
                 if (content[i].type == 'Feed') {
                     if (content[i].name == 'Meetup Create') {
                         meetupIds[i] = (JSON.parse(content[i].content).meetup);
                     }
-                    userIds[i] = (JSON.parse(content[i].content).user);
+                    userIds[i] = (content[i].id_user);
                 }
             }
 
             let res = await getData(userIds, meetupIds);
+            console.log(res);
             appendContent(res[0], res[1], content);
 
 

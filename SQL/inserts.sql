@@ -594,7 +594,7 @@ INSERT INTO meetups_interests (id_interest, id_meetup) VALUES (100, 5);
 -- Type Feed
 INSERT INTO types_actions(name) VALUES('Meetup Create');
 INSERT INTO types_actions (name) VALUES('Meetup Join');
-INSERT INTO types_actions (name) VALUES('Personnality Test');
+INSERT INTO types_actions (name) VALUES('Personality Test');
 
 -- Feed
 CALL fillFeed(2);

@@ -74,10 +74,9 @@ class HomeController extends Controller
 
             $feed = DB::table('actions')
                 ->join('types_actions', 'type', '=', 'types_actions.id')
-                ->select('actions.id', 'name', 'content')
-                ->offset(self::AMOUNT * $page)->take(self::AMOUNT)
+                ->select('actions.id', 'name','id_user','content')->where('id_user','!=',Auth::user()->id)
+                ->offset(self::AMOUNT * $page)->take(self::AMOUNT)->orderByDesc('actions.id')
                 ->get();
-
             return $feed;
         }
     }
