@@ -4,6 +4,7 @@
     "/js/resendEmail.js": "/js/resendEmail.js",
     "/js/validationTestPersonality.js": "/js/validationTestPersonality.js",
     "/js/Notifications.js": "/js/Notifications.js",
+    "/js/profileOnglet.js": "/js/profileOnglet.js",
     "/css/app.css": "/css/app.css",
     "/css/profile.css": "/css/profile.css",
     "/css/meetup.css": "/css/meetup.css",

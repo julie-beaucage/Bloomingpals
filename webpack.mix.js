@@ -17,6 +17,7 @@ mix.js('resources/js/validationLogin.js', 'public/js');
 mix.js('resources/js/resendEmail.js', 'public/js');
 mix.js('resources/js/validationTestPersonality.js', 'public/js');
 mix.js('resources/js/Notifications.js', 'public/js');
+mix.js('resources/js/profileOnglet.js', 'public/js');
 mix.postCss('resources/css/app.css', 'public/css', []);
 mix.postCss('resources/css/login.css', 'public/css', []);
 mix.postCss('resources/css/meetupForm.css', 'public/css', []);

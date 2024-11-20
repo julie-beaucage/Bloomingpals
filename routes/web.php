@@ -11,6 +11,7 @@ use App\Http\Controllers\CustomVerificationController;
 use App\Http\Controllers\PersonalityController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\AdminController;
+use App\Models\Object_Type;
 
 
 
@@ -145,6 +146,11 @@ Route::middleware('auth')->group(function () {
     Route::namespace('feed')->prefix('feed')->group( function () {
         Route::get('/fetchFeed/{page}', [HomeController::class, 'fetchFeed']);
         Route::post('/fetchData', [HomeController::class, 'fetchData']);
+    });
+
+    Route::get('/test', function(){
+        $reportsReasons = Object_Type::all();
+        return view("reports.reportUser", compact('reportsReasons'));
     });
 
     
