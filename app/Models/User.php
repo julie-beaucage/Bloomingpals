@@ -11,12 +11,18 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Cache;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
     protected $table = 'users';
     protected $primaryKey = 'id';
+
+    public function getFullNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
 
     public function hasVerifiedEmail()
     {
@@ -146,6 +152,11 @@ class User extends Authenticatable implements MustVerifyEmail
         }
     
         return $points;
+    }
+
+    public function isOnline()
+    {
+        return Cache::has('user-is-online-' . $this->id);
     }
     public static function BanUser($userId) {
         $request = User::where("id", $userId);

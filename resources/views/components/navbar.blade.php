@@ -1,11 +1,11 @@
 @if (Auth::check())
     <nav id="navbar">
-        <span class="title no_select">BloomingPals
+        <a class="title no_select" href="/home">BloomingPals
             <img src="{{ asset('/images/logo.png') }}" alt="Logo" class="logo">
-        </span>
-        <span class="shrinked_title no_select shrinked_only">
+        </a>
+        <a class="shrinked_title no_select shrinked_only" href="/home">
             <img src="{{ asset('/images/logo.png') }}" alt="Logo" class="logo">
-        </span>
+        </a>
         @php
             $tabs = [
                 [
@@ -21,10 +21,16 @@
                     'url' => route('search')
                 ],
                 [
-                    'id' => 'pals',  
-                    'title' => 'Pals', 
-                    'icon' => 'group', 
-                    'url' => route('searchUsers') 
+                    'id' => 'messages',
+                    'title' => 'Messages',
+                    'icon' => 'forum',
+                    'url' => route('messages')
+                ],
+                [
+                    'id' => 'pals',
+                    'title' => 'Pals',
+                    'icon' => 'group',
+                    'url' => route('searchPals')
                 ],
                 [
                     'id' => 'notification',
@@ -42,14 +48,25 @@
                     'id' => 'profile',
                     'title' => 'Profil',
                     'icon' => Auth::user()->image_profil ? asset('storage/' . Auth::user()->image_profil) : asset('/images/simple_flower.png'),
-                    'url' => route('profile', ['id' => Auth::user()->id])
+                    'url' => route('profile', ['id' => Auth::user()->id]),
+                    'submenu' => [
+                        [
+                            'title' => 'Mon profil',
+                            'url' => route('profile', ['id' => Auth::user()->id]),
+                            'icon' => 'person',
+                        ],
+                        [
+                            'title' => 'Déconnexion',
+                            'url' => route('logout'),
+                            'icon' => 'logout',
+                        ],
+                        [
+                            'title' => 'A propos',
+                            'url' => route('about'),
+                            'icon' => 'info',
+                        ]
+                    ]
                 ],
-                [
-                    'id' => 'logout',
-                    'title' => 'Déconnexion',
-                    'icon' => 'logout',
-                    'url' => route('logout')
-                ]
             ];
             if (Auth::user()->is_admin) {
                 array_push($tabs, [
@@ -63,13 +80,15 @@
             foreach ($tabs as $tab) {
                 $id = $tab['id'];
                 $title = $tab['title'];
-                $icon = $tab['icon'];
+                $titlesub = $tab['title'];
+                $icon = $tab['icon'] ?? '';
                 $url = $tab['url'];
+                $urlsub = $tab['url'];
+                $submenu = $tab['submenu'] ?? null;
 
                 $class = 'navbar_item no_select';
                 $class = $id == Route::current()->uri() ? $class . ' active' : $class;
                 $class .= ' ' . Auth::user()->getPersonalityGroup();
-
                 $hideNotification = '';
                 if ($id == 'notification') {
                     $hideNotification = 'hideNotification';
@@ -77,7 +96,6 @@
                     if ($notif_count != 0) {
                         $unreadNotif = '<div class="notification-badge-container"><span class="notification-badge"><span class="notif-count">' . $notif_count . '</span></span></div>';
                     }
-
                 } else {
                     $hideNotification = '';
                     $unreadNotif = '';
@@ -87,31 +105,49 @@
                     $notifId = 'navbar_notification';
                 }
 
+                $hideLogout = '';
+                if ($id == 'logout') {
+                    $hideLogout = 'hideNotification';
+                }
                 if ($id === 'profile') {
-                    echo <<<HTML
-                                        <a class="$class" href="$url">
-                                            <div class="shrinked_title shrinked_only">
-                                                <span class="title">$title</span>
-                                            </div>
-                                            <span class="navbar_icon">
-                                                <img src="$icon" alt="Photo de profil" class="profile-image">
-                                                <span class="title">$title</span>
-                                            </span>
-                                        </a>
-                                    HTML;
+                    echo '<div class="profile-menu-container">
+                            <a class="' . $class . '" href="' . $url . '">
+                                <div class="shrinked_title shrinked_only">
+                                    <span class="title">' . $title . '</span>
+                                </div>
+                                <span class="navbar_icon">
+                                    <img src="' . $icon . '" alt="Photo de profil" class="profile_image">
+                                    <span class="title">' . $title . '</span>
+                                </span>
+                            </a>
+                            <div class="profile-dropdown">';
+                    foreach ($submenu as $sub) {
+                        $iconSub = $sub['icon'] ? '<span class="material-symbols-rounded icon_md">' . $sub['icon'] . '</span>' : ''; 
+
+                        echo '<a href="' . $sub['url'] . '">' . $iconSub . $sub['title'] . '</a>';                    }
+                    echo '</div>
+                        </div>';
+                } elseif ($id == 'notification') {
+                    echo '<a class="' . $class . ' navbar_notification" href="' . $url . '">
+                             ' . $unreadNotif . '
+                            <div class="shrinked_title shrinked_only">
+                               <span class="title">' . $title . '</span>
+                            </div>
+                            <span class="navbar_icon">
+                              <span class="material-symbols-rounded icon_md">' . $icon . '</span>
+                              <span class="title">' . $title . '</span>
+                            </span>
+                        </a>';
                 } else {
-                    echo <<<HTML
-                                        <a class="$class $hideNotification $notifId" href="$url">
-                                        $unreadNotif
-                                            <div class="shrinked_title shrinked_only">
-                                                <span class="title">$title</span>
-                                            </div>
-                                            <span class="navbar_icon">
-                                                <span class="material-symbols-rounded icon_md">$icon</span>
-                                                <span class="title">$title</span>
-                                            </span>
-                                        </a>
-                                    HTML;
+                    echo '<a class="' . $class . '" href="' . $url . '">
+                            <div class="shrinked_title shrinked_only">
+                                <span class="title">' . $title . '</span>
+                            </div>
+                            <span class="navbar_icon">
+                                <span class="material-symbols-rounded icon_md">' . $icon . '</span>
+                                <span class="title">' . $title . '</span>
+                            </span>
+                        </a>';
                 }
             }
         @endphp

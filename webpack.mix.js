@@ -17,6 +17,9 @@ mix.js('resources/js/validationLogin.js', 'public/js');
 mix.js('resources/js/resendEmail.js', 'public/js');
 mix.js('resources/js/validationTestPersonality.js', 'public/js');
 mix.js('resources/js/Notifications.js', 'public/js');
+mix.js('resources/js/home-Overlay-login.js', 'public/js');
+mix.js('resources/js/flash.js', 'public/js');
+mix.js('resources/js/messages.js', 'public/js');
 mix.postCss('resources/css/app.css', 'public/css', []);
 mix.postCss('resources/css/login.css', 'public/css', []);
 mix.postCss('resources/css/meetupForm.css', 'public/css', []);
@@ -31,6 +34,8 @@ mix.postCss('resources/css/personality.css', 'public/css', []);
 mix.postCss('resources/css/overlay-modal.css', 'public/css', []);
 mix.postCss('resources/css/home.css', 'public/css', []);
 mix.postCss('resources/css/notifications.css', 'public/css', []);
+mix.postCss('resources/css/palCard.css', 'public/css', []);
+mix.postCss('resources/css/messages.css', 'public/css', []);
 mix.postCss('resources/css/feed.css', 'public/css', []);
 
 mix.postCss('resources/css/feed2.css', 'public/css', []);

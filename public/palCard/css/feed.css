@@ -316,7 +316,8 @@
         font-size: 1em;
     }
     .feed-img{
-        object-position: center;
+        -o-object-position: center;
+           object-position: center;
     }
     .banner{
         border-radius: 1em 1em 1px 1px;
@@ -331,7 +332,8 @@
         font-size: 1em;
     }
     .feed-img{
-        object-position: top;
+        -o-object-position: top;
+           object-position: top;
     }
     .banner{
         border-radius: 1em 1em 1px 1px;

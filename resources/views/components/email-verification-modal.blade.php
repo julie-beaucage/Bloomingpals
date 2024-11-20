@@ -4,7 +4,6 @@
             <span class="title no_wrap">Vérification de votre courriel</span>
             <button class="close" onclick="closeModal('emailVerificationModal')">
                 <span class="material-symbols-rounded" style="font-size: 24px; color: black;">close</span>
-
             </button>
         </div>
         <div class="body carousel-container">

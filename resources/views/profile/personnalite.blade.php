@@ -15,8 +15,8 @@
 </div>
 
 @else
-    @if ($user->id == Auth::user()->id)
-        <div class="containerPerso">
+    @if ($user->id == Auth::user()->id)     
+            <div class="containerPerso">
             <h2 class="test">Votre Personnalité</h2>
             <div class="personality-card {{ strtolower($personality->group_name) }}">
                 <p>Groupe de personnalité : <strong>{{ $personality->group_name }}</strong></p>

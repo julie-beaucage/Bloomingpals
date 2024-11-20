@@ -1,0 +1,991 @@
+@import 'profile.css';
+:root {
+    --personality-color: #ffffff; 
+    --personality-color-pale: #ffffff; 
+    --personality-color-pale-more: #ffffff; 
+    --personality-text-color: #000000; 
+    --personality-text-color-button: #ffffff; 
+}
+
+.cards_list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 2em;
+}
+.cards_user {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.3em;
+}
+.cards_row {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 2em;
+    overflow: hidden;
+}
+
+.card_long {
+    width: 100%;
+    height: fit-content;
+    border: 1px solid var(--neutral-200);
+    border-radius: 1em;
+    box-sizing: border-box;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    background-color: var(--white);
+    align-items: center;
+}
+
+.cards_list > .card {
+    width: calc(50% - 1em);
+    border: 1px solid var(--neutral-200);
+    border-radius: 1em;
+    box-sizing: border-box;
+    overflow: hidden;
+    background-color: var(--white);
+    flex-shrink: 0;
+}
+
+.cards_row > .card {
+    width: 23em;
+    border: 1px solid var(--neutral-200);
+    border-radius: 1em;
+    box-sizing: border-box;
+    overflow: hidden;
+    background-color: var(--white);
+    flex-shrink: 0;
+}
+
+.cards_row > .card > .banner {
+    height: 12em;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+@media only screen and (max-width: calc(800px)) {    
+    .cards_list > .card {
+        width: 100% !important;
+    }
+}
+
+.banner {
+    background-color: var(--neutral-200);
+}
+
+.card > .banner {
+    height: 18em;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.card_long > .banner {
+    height: 4em;
+    width: 4em;
+    overflow: hidden;
+    margin: 0.75em;
+    border-radius: 4em;
+    flex-shrink: 0;
+    background-color: var(--personality-color-pale) !important;
+    border: 2px solid var(--personality-color);
+}
+/*-----------------MINI PARTIE POUR LES USERS CARDS */
+.containerPals .cards_list {
+    gap: 1em;
+}
+.containerPals .card_long{
+    justify-content: flex-start;
+    display: flex; 
+    flex-direction: column;
+    background-color: var(--personality-color-pale-more) !important;
+    height: 18em;
+    width: 20em;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+}
+.banner, .content_user{
+    display: flex;
+    align-items: center;  
+    justify-content: space-between;  
+  }
+  /* IMAGE USER*/
+.containerPals .card_long .banner {
+    display: flex;
+    height: 6em;
+    width: 6em;
+    overflow: hidden;
+    margin: 0.75em;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background-color: var(--personality-color-pale) !important;
+    border: 2px solid var(--personality-color);
+    margin-right: 1em;
+    box-sizing: border-box; 
+}
+
+.containerPals .card_long .banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+/* INFORMATION USER*/
+.card_long .content_user {
+    width: 50%;
+    margin-left: 0;
+    display: flex;
+    flex-direction: column; 
+    justify-content: space-between; 
+    text-align: center;
+    gap:0.4rem;
+    align-items: center;
+    box-sizing: border-box; 
+}
+.containerPals     .text_nowrap > * {
+    position: static; 
+    overflow: visible; 
+    text-overflow: unset; 
+}
+.containerPals .profile_link .name {
+    text-decoration: none;
+}
+
+.containerPals .profile_link:hover .name {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.containerPals .profile_link:hover .banner img {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.profile_link:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+.containerPals .infos {
+    color: var(--neutral-800) !important;
+    font-size: 0.8em !important;
+}
+
+.tag_perso {
+    background-color: var(--personality-text-button) !important;
+    color: white;
+    border-radius: 0.6em;
+    padding: 0.4em;
+}
+
+.containerPals .tag {
+    font-size: 0.7em;
+}
+/*BOUTONS */
+.btn-container {
+    margin: 1em;
+    box-sizing: border-box; 
+}
+
+.btn_friends {
+    display: inline-block!important;
+    min-width: fit-content;
+    padding: 0.5em 1em;
+    width: 15em;
+    font-size: 1em;
+    border: 2px solid var(--primary-color);
+    border-radius: 4px;
+    background-color: var(--primary-400);
+    color: var(--white);
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+
+.btn_friends:hover {
+    background-color: var(--primary-200);
+    color: var(--neutral-100);
+    transform: scale(1.05);
+}
+
+.btn_friends:active {
+    transform: scale(0.98);
+}
+
+.btn_friends:disabled {
+    background-color: var(--neutral-200);
+    color: var(--neutral-500);
+    cursor: not-allowed;
+    border: 2px solid var(--neutral-300);
+}
+
+/*BOUTONS ACCEPTER/REFUSER*/
+.acceptContainer {
+    display: flex;
+    gap: 2em;
+    font-size: 1em !important;
+}
+
+.buttonn {
+    text-decoration: none;
+    text-align: center;
+    padding: 0.4em;
+    width: 5em;
+    min-width: fit-content;
+    border: 2px solid var(--primary-color);
+    border-radius: 4px;
+    background-color: var(--primary-400);
+    color: var(--white);
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+
+.buttonn:hover {
+    background-color: var(--primary-200);
+    color: var(--neutral-100);
+    transform: scale(1.05);
+}
+
+.btn_accept {
+    background-color: var(--primary-400);
+    color: var(--white);
+}
+.btn_accept:hover{
+    background-color:var(--secondary-300);
+}
+.btn_refuse {
+    background-color: var(--neutral-500);
+    color: black;
+}
+.btn_refuse:hover {
+    background-color: var(--primary-600);
+    color: var(--white);
+}
+
+/* ----------------- Media Queries ----------------- */
+@media (max-width: 800px) {
+.containerPals .card_long{
+    width: 15em;
+}
+.containerPals .name{
+    font-size: 1.2em;
+}
+}
+@media (max-width: 600px) {
+    .containerPals .card_long {
+        height: 7.8em;
+        gap:0.2rem;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        flex-direction: row;
+    }
+    .containerPals .card_long > div:nth-child(2) {
+        width: 50%;
+    }
+    
+    .containerPals .card_long > div:nth-child(3) {
+        width: 40%; 
+    }
+    .containerPals .card_long .banner {
+        height: 4em;
+        width: 4em;
+    } 
+    .containerPals .name {
+        font-size: unset;
+    }
+    .card_long .content_user {
+        margin-left: 0;
+        display: flex;
+        flex-direction: column; 
+        justify-content: space-between; 
+        text-align: center;
+        gap:0.4rem;
+        align-items: center;
+    }
+    .tag_perso {
+        border-radius: 0.6em;
+        padding: 0.2em;
+        width: 1em;
+    }
+    .containerPals .card_long .btn-container {
+        margin-left: 0; 
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+        align-items: center; 
+        margin:0.75em;
+    }
+    .containerPals  .btn_friends{
+        max-width: fit-content;
+        width: 100%!important;
+        height: 50%;
+
+    }
+    .acceptContainer {
+        display: block;
+        gap:0.2em;
+    }
+    .acceptContainer a {
+        margin-bottom: 10px;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+    }
+    .buttonn{
+        margin-bottom: 10px;
+        width: -webkit-fill-available;
+    }
+}
+
+
+/*--------------------------------------------------*/
+.banner img {
+    width: 100%;
+    height: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+    -o-object-position: top;
+    object-position: top;
+}
+
+.content {
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: Top;
+    gap: 0.5em;
+}
+
+.name_cntr {
+    height: 2em;
+}
+
+.tags_cntr {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5em;
+    flex-grow: 1;
+}
+.add-blossomlink {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.plus-icon {
+    font-family: 'Material Symbols Rounded';
+    font-size: 30px;
+    background-color: rgba(255, 255, 255, 0.268);
+    border: none;
+    color: var(--primary-color);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.plus-icon:hover {
+    transform: scale(1.2);
+}
+
+.hover-text {
+    display: none;
+    font-size: 12px;
+    margin-top: 5px;
+    color: var(--white);
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.add-blossomlink:hover .hover-text {
+    display: block;
+}
+
+@media screen and (max-width: 600px) {
+    .card_long .header > .tag {
+        display: none;
+    }
+}
+
+.name {
+    font-size: 1.5em;
+    font-weight: 500;
+}
+
+.adress {
+    display: flex;
+    font-size: 0.9em;
+    font-weight: 500;
+    align-items: Top;
+    color: var(--neutral-600);
+    gap: 0.25em;
+}
+
+hr {
+    width: 100%;
+    border: 1px solid var(--neutral-200);
+    border-radius: 1em;
+}
+
+.infos {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--neutral-600);
+    font-size: 0.9em;
+}
+
+.cards_scroller {
+    position: relative;
+    padding: 0 1rem;
+}
+
+.scroll_btn {
+    position: absolute;
+    top: 50%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    background-color: var(--white);
+    border: 1px solid var(--neutral-200);
+    border-radius: 0.75em;
+    padding: 0.5em;
+    z-index: 1;
+}
+
+.scroll_left {
+    left: 0;
+    transform: translate(calc(-50% + 1rem), -50%);
+}
+
+.scroll_right {
+    right: 0;
+    transform: translate(calc(50% - 1rem), -50%);
+}
+
+.cards_scroller:hover .scroll_btn {
+    display: flex;
+}
+
+@media (pointer:none), (pointer:coarse) {
+    .scroll_btn {
+        display: none !important;
+    }
+    
+    .cards_row {
+        overflow-x: auto;
+        scrollbar-width: none;
+    }
+}@import 'profile.css';
+:root {
+    --personality-color: #ffffff; 
+    --personality-color-pale: #ffffff; 
+    --personality-color-pale-more: #ffffff; 
+    --personality-text-color: #000000; 
+    --personality-text-color-button: #ffffff; 
+}
+
+.cards_list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 2em;
+}
+.cards_user {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.3em;
+}
+.cards_row {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 2em;
+    overflow: hidden;
+}
+
+.card_long {
+    width: 100%;
+    height: fit-content;
+    border: 1px solid var(--neutral-200);
+    border-radius: 1em;
+    box-sizing: border-box;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    background-color: var(--white);
+    align-items: center;
+}
+
+.cards_list > .card {
+    width: calc(50% - 1em);
+    border: 1px solid var(--neutral-200);
+    border-radius: 1em;
+    box-sizing: border-box;
+    overflow: hidden;
+    background-color: var(--white);
+    flex-shrink: 0;
+}
+
+.cards_row > .card {
+    width: 23em;
+    border: 1px solid var(--neutral-200);
+    border-radius: 1em;
+    box-sizing: border-box;
+    overflow: hidden;
+    background-color: var(--white);
+    flex-shrink: 0;
+}
+
+.cards_row > .card > .banner {
+    height: 12em;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+@media only screen and (max-width: calc(800px)) {    
+    .cards_list > .card {
+        width: 100% !important;
+    }
+}
+
+.banner {
+    background-color: var(--neutral-200);
+}
+
+.card > .banner {
+    height: 18em;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.card_long > .banner {
+    height: 4em;
+    width: 4em;
+    overflow: hidden;
+    margin: 0.75em;
+    border-radius: 4em;
+    flex-shrink: 0;
+    background-color: var(--personality-color-pale) !important;
+    border: 2px solid var(--personality-color);
+}
+/*-----------------MINI PARTIE POUR LES USERS CARDS */
+.containerPals .cards_list {
+    gap: 1em;
+}
+.containerPals .card_long{
+    justify-content: flex-start;
+    display: flex; 
+    flex-direction: column;
+    background-color: var(--personality-color-pale-more) !important;
+    height: 18em;
+    width: 20em;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+}
+.banner, .content_user{
+    display: flex;
+    align-items: center;  
+    justify-content: space-between;  
+  }
+  /* IMAGE USER*/
+.containerPals .card_long .banner {
+    display: flex;
+    height: 6em;
+    width: 6em;
+    overflow: hidden;
+    margin: 0.75em;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background-color: var(--personality-color-pale) !important;
+    border: 2px solid var(--personality-color);
+    margin-right: 1em;
+    box-sizing: border-box; 
+}
+
+.containerPals .card_long .banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+/* INFORMATION USER*/
+.card_long .content_user {
+    width: 50%;
+    margin-left: 0;
+    display: flex;
+    flex-direction: column; 
+    justify-content: space-between; 
+    text-align: center;
+    gap:0.4rem;
+    align-items: center;
+    box-sizing: border-box; 
+}
+.containerPals     .text_nowrap > * {
+    position: static; 
+    overflow: visible; 
+    text-overflow: unset; 
+}
+.containerPals .profile_link .name {
+    text-decoration: none;
+}
+
+.containerPals .profile_link:hover .name {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.containerPals .profile_link:hover .banner img {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.profile_link:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+.containerPals .infos {
+    color: var(--neutral-800) !important;
+    font-size: 0.8em !important;
+}
+
+.tag_perso {
+    background-color: var(--personality-text-button) !important;
+    color: white;
+    border-radius: 0.6em;
+    padding: 0.4em;
+}
+
+.containerPals .tag {
+    font-size: 0.7em;
+}
+/*BOUTONS */
+.btn-container {
+    margin: 1em;
+    box-sizing: border-box; 
+}
+
+.btn_friends {
+    display: inline-block!important;
+    min-width: fit-content;
+    padding: 0.5em 1em;
+    width: 15em;
+    font-size: 1em;
+    border: 2px solid var(--primary-color);
+    border-radius: 4px;
+    background-color: var(--primary-400);
+    color: var(--white);
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+
+.btn_friends:hover {
+    background-color: var(--primary-200);
+    color: var(--neutral-100);
+    transform: scale(1.05);
+}
+
+.btn_friends:active {
+    transform: scale(0.98);
+}
+
+.btn_friends:disabled {
+    background-color: var(--neutral-200);
+    color: var(--neutral-500);
+    cursor: not-allowed;
+    border: 2px solid var(--neutral-300);
+}
+
+/*BOUTONS ACCEPTER/REFUSER*/
+.acceptContainer {
+    display: flex;
+    gap: 2em;
+    font-size: 1em !important;
+}
+
+.buttonn {
+    text-decoration: none;
+    text-align: center;
+    padding: 0.4em;
+    width: 5em;
+    min-width: fit-content;
+    border: 2px solid var(--primary-color);
+    border-radius: 4px;
+    background-color: var(--primary-400);
+    color: var(--white);
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+
+.buttonn:hover {
+    background-color: var(--primary-200);
+    color: var(--neutral-100);
+    transform: scale(1.05);
+}
+
+.btn_accept {
+    background-color: var(--primary-400);
+    color: var(--white);
+}
+.btn_accept:hover{
+    background-color:var(--secondary-300);
+}
+.btn_refuse {
+    background-color: var(--neutral-500);
+    color: black;
+}
+.btn_refuse:hover {
+    background-color: var(--primary-600);
+    color: var(--white);
+}
+
+/* ----------------- Media Queries ----------------- */
+@media (max-width: 800px) {
+.containerPals .card_long{
+    width: 15em;
+}
+.containerPals .name{
+    font-size: 1.2em;
+}
+}
+@media (max-width: 600px) {
+    .containerPals .card_long {
+        height: 7.8em;
+        gap:0.2rem;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        flex-direction: row;
+    }
+    .containerPals .card_long > div:nth-child(2) {
+        width: 50%;
+    }
+    
+    .containerPals .card_long > div:nth-child(3) {
+        width: 40%; 
+    }
+    .containerPals .card_long .banner {
+        height: 4em;
+        width: 4em;
+    } 
+    .containerPals .name {
+        font-size: unset;
+    }
+    .card_long .content_user {
+        margin-left: 0;
+        display: flex;
+        flex-direction: column; 
+        justify-content: space-between; 
+        text-align: center;
+        gap:0.4rem;
+        align-items: center;
+    }
+    .tag_perso {
+        border-radius: 0.6em;
+        padding: 0.2em;
+        width: 1em;
+    }
+    .containerPals .card_long .btn-container {
+        margin-left: 0; 
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+        align-items: center; 
+        margin:0.75em;
+    }
+    .containerPals  .btn_friends{
+        max-width: fit-content;
+        width: 100%!important;
+        height: 50%;
+
+    }
+    .acceptContainer {
+        display: block;
+        gap:0.2em;
+    }
+    .acceptContainer a {
+        margin-bottom: 10px;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+    }
+    .buttonn{
+        margin-bottom: 10px;
+        width: -webkit-fill-available;
+    }
+}
+
+
+/*--------------------------------------------------*/
+.banner img {
+    width: 100%;
+    height: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+    -o-object-position: top;
+    object-position: top;
+}
+
+.content {
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: Top;
+    gap: 0.5em;
+}
+
+.name_cntr {
+    height: 2em;
+}
+
+.tags_cntr {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5em;
+    flex-grow: 1;
+}
+.add-blossomlink {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.plus-icon {
+    font-family: 'Material Symbols Rounded';
+    font-size: 30px;
+    background-color: rgba(255, 255, 255, 0.268);
+    border: none;
+    color: var(--primary-color);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.plus-icon:hover {
+    transform: scale(1.2);
+}
+
+.hover-text {
+    display: none;
+    font-size: 12px;
+    margin-top: 5px;
+    color: var(--white);
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.add-blossomlink:hover .hover-text {
+    display: block;
+}
+
+@media screen and (max-width: 600px) {
+    .card_long .header > .tag {
+        display: none;
+    }
+}
+
+.name {
+    font-size: 1.5em;
+    font-weight: 500;
+}
+
+.adress {
+    display: flex;
+    font-size: 0.9em;
+    font-weight: 500;
+    align-items: Top;
+    color: var(--neutral-600);
+    gap: 0.25em;
+}
+
+hr {
+    width: 100%;
+    border: 1px solid var(--neutral-200);
+    border-radius: 1em;
+}
+
+.infos {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--neutral-600);
+    font-size: 0.9em;
+}
+
+.cards_scroller {
+    position: relative;
+    padding: 0 1rem;
+}
+
+.scroll_btn {
+    position: absolute;
+    top: 50%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    background-color: var(--white);
+    border: 1px solid var(--neutral-200);
+    border-radius: 0.75em;
+    padding: 0.5em;
+    z-index: 1;
+}
+
+.scroll_left {
+    left: 0;
+    transform: translate(calc(-50% + 1rem), -50%);
+}
+
+.scroll_right {
+    right: 0;
+    transform: translate(calc(50% - 1rem), -50%);
+}
+
+.cards_scroller:hover .scroll_btn {
+    display: flex;
+}
+
+@media (pointer:none), (pointer:coarse) {
+    .scroll_btn {
+        display: none !important;
+    }
+    
+    .cards_row {
+        overflow-x: auto;
+        scrollbar-width: none;
+    }
+}

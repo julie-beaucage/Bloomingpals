@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{ asset('css/personality.css') }}">
 @endsection()
 @php
-    $userPersonality = Auth::user()->getPersonalityGroup();
+    $userPersonality = $user->getPersonalityGroup();
 @endphp
 
 @include('profile.settings-page')
@@ -105,7 +105,6 @@
             </div>
         @endif
         <div class="containerOnglerMain">
-
             @if ($haveAccess)
                 <div class="listOnglet">
                     <ul class="nav nav-tabs justify-content-center" id="main-tabs">
@@ -156,11 +155,12 @@
         @endsection()
 
         @section('script')
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> 
         <script src="{{ asset('/js/profileOnglet.js') }}"></script>
-        
         <script src="{{ asset('/js/resendEmail.js') }}"></script>
+        <script>
+        
+        </script>
         <script>
             function Confirmm() {
                 var pop_up_box = "<div class='pop-up-overlay'>" +

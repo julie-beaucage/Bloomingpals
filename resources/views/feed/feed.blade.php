@@ -7,11 +7,13 @@
 
 @section('content')
 
+
 <div class="form-title">
     <h5>Fil d'actualité</h5>
 </div>
 <div class="feed-container">
     <div id="feed_friend" class="feed-friend">
+
         <div id="friends_suggestion" class="user-suggestion-container">
 
         </div>
@@ -27,6 +29,8 @@
     let pageFeed = 0;
     let pageMeetup = 0;
     let pageEvent = 0;
+
+
     const container = '#feed_container';
     const friend = '#feed_friend';
     let meetups = [];
@@ -50,6 +54,7 @@
 
     async function fetchContent() {
         loading(friend);
+
         let data = await promise_fetchContent();
         console.log(data);
         if (data.length > 0) {
@@ -109,11 +114,12 @@
         return var_user;
     }
     function appendContent(users, meetups, feed) {
-        let action, meesage, user, image_content;
+        let action, meesage, user, image_content,noImage;
 
         for (let i = 0; i < feed.length; i++) {
+            noImage=false;
             if (feed[i].type == 'Feed') {
-                user = searchById(users, (JSON.parse(feed[i].content)).user);
+                user = searchById(users, feed[i].id_user);
                 image = user.image_profil ? 'storage/' + user.image_profil : window.location.origin + '/images/simple_flower.png';
                 name = user.first_name + ' ' + user.last_name;
                 link = "user/" + user.id;
@@ -136,11 +142,12 @@
                     }
                 }
                 else if (feed[i].name.includes('Personality')) {
-                    if (feed[i].name == 'Test Personality') {
+                    if (feed[i].name == 'Personality Test') {
+                        noImage=true;
+                        console.log("perso");
                         message = user.first_name + ' à complété(e) le test de personnalité !';
                     }
                 }
-
 
                 action = `<a class="feed-post hover_darker pointer" href="${link}">
                     <div class="feed-header">
@@ -157,9 +164,23 @@
                         </div>
                     </div>
                 </a>`;
+
+                if(noImage == true){
+                    action = `<a class="feed-post hover_darker pointer" href="${link}">
+                    <div class="feed-header">
+                        <img class="profile-img" src="${image}" alt="Profile">
+                        <div class="feed-user-info">
+                            <strong>${name}</strong>
+                            <div></div>
+                        </div>
+                    </div>
+                    <div class="feed-content">
+                        <p>${message}</p>
+                    </div>
+                </a>`;
+                }
                 $(friend).append(action);
             } else if (feed[i].type == 'Event') {
-
                 let event = `<a class="card no_select hover_darker pointer" href="event/${feed[i].id}">
                     <div class="card-banner">
                         <img src="${feed[i].image}" alt="Image de l'évènement" class="feed-img">
@@ -194,6 +215,7 @@
                 image = feed[i].image ? feed[i].image : "\\images\\meetup_default" + random + '.png';
 
 
+
                 let event = `<a class="card no_select hover_darker pointer" href="meetup/${feed[i].id}">
                     <div class="card-banner">
                         <img src="${image}" alt="Image de l'évènement" class="feed-img">
@@ -226,6 +248,7 @@
         removeLoading(friend);
         //console.log(new Date().getTime() - time);
     }
+
     function getData(list_users, list_meetups) {
         //console.log(list_users);
         return new Promise(resolve => {
@@ -243,9 +266,9 @@
                 }
             });
         });
-
     }
     let time = 0;
+
     async function handleContent(content) {
         if (content.length > 0) {
             //getDataFriend(content);
@@ -253,16 +276,18 @@
             let userIds = {};
             let meetupIds = {};
             time = new Date().getTime();
+            
             for (var i in content) {
                 if (content[i].type == 'Feed') {
                     if (content[i].name == 'Meetup Create') {
                         meetupIds[i] = (JSON.parse(content[i].content).meetup);
                     }
-                    userIds[i] = (JSON.parse(content[i].content).user);
+                    userIds[i] = (content[i].id_user);
                 }
             }
 
             let res = await getData(userIds, meetupIds);
+            console.log(res);
             appendContent(res[0], res[1], content);
 
 
@@ -323,6 +348,7 @@
             return true;
         });
         events = events.splice(4);
+        console.log(events);
 
         for (var i = content.length - 1; i >= 0; i--) {
             var j = Math.floor(Math.random() * (i + 1));
@@ -335,6 +361,7 @@
         console.log(content.length > 0);
         return content.length > 0;
     }
+
     async function fetchSuggestedUsers() {
         let html = '<div class="loading" style="position: relative;width: 100%; height:10em;"><svg class="spinner" viewBox="0 0 50 50" id="svgLoading">' +
             '<circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>'
@@ -350,7 +377,7 @@
                 }
             });
         });
-        if (data.length > 1) {
+        if (data.length > 0) {
             let ids = [];
             data.forEach(user => {
                 console.log(user.id);
@@ -434,6 +461,7 @@
             });
         }else{
             ($(loading).children()[0]).remove();
+            $('#friends_suggestion').css('display','none');
         }
     }
 
@@ -441,12 +469,21 @@
     $(document).ready(async function () {
         loading(friend)
         fetchSuggestedUsers();
-       // fetchSuggestedUsers();
-       // fetchSuggestedUsers();
+         fetchSuggestedUsers();
+        fetchSuggestedUsers();
+        fetchSuggestedUsers();
+        // fetchSuggestedUsers();
+        // fetchSuggestedUsers();
+        // fetchSuggestedUsers();
+        // fetchSuggestedUsers();
+        // fetchSuggestedUsers();
+        // fetchSuggestedUsers();
+        // fetchSuggestedUsers();
+        // fetchSuggestedUsers();
 
 
         $('#content').scroll(async function () {
-            console.log($('#content').scrollTop() + $('#content').height() - $(friend).height());
+            //console.log($('#content').scrollTop() + $('#content').height() - $(friend).height());
             if ($('#content').scrollTop() + $('#content').height() - $(friend).height() > 0 && isLoading == true) {
                 isLoading = false;
                 if (await getContent() == false) {
@@ -472,7 +509,8 @@
 
 
 
+
     });
     const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay))
 </script>
-@endsection()
+@endsection

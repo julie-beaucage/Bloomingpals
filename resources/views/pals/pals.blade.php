@@ -2,7 +2,7 @@
 
 @section('style')
 <link rel="stylesheet" type="text/css" href="{{ asset('css/search.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('css/cards.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('css/palCard.css') }}">
 @endsection
 
 @section('content')
@@ -15,13 +15,13 @@
                 <input type="text" id="search_field" class="no_select" placeholder="Rechercher des pals">
                 <button id="clear_btn" class="clear-btn" type="button" onclick="clearSearch()">×</button>
                 <button id="filter_btn" class="hover_darker no_select" type="button">
-                    <span class="material-symbols-rounded">filter_vintage</span>
+                    <span class="material-symbols-rounded">page_info</span>
                 </button>
             </div>
             <div id="selected-info"></div>
         </div>
         <div id="result" class="cards_list">
-            @include('partial_views.user_cards')
+            @include('partial_views.pal_card')
         </div>
     </div>
 </div>
@@ -214,7 +214,7 @@ $(document).ready(function () {
 
     function searchUsers(query, personalityGroups, personalityTypes) {
         $.ajax({
-            url: "{{ route('searchUsers') }}",
+            url: "{{ route('searchPals') }}",
             method: "GET",
             data: {
                 search: query,
@@ -234,7 +234,7 @@ $(document).ready(function () {
     }
     function fetchUsers(allFilters) {
     $.ajax({
-        url: "{{ route('searchUsers') }}",  
+        url: "{{ route('searchPals') }}",  
         method: 'GET',
         data: {
             allFilters: allFilters,

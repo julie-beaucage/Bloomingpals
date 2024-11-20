@@ -2,7 +2,6 @@
 :root {
     --personality-color: #ffffff; 
     --personality-color-pale: #ffffff; 
-    --personality-color-pale-more: #ffffff; 
     --personality-text-color: #000000; 
     --personality-text-color-button: #ffffff; 
 }
@@ -13,12 +12,7 @@
     flex-wrap: wrap;
     gap: 2em;
 }
-.cards_user {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 0.3em;
-}
+
 .cards_row {
     width: 100%;
     display: flex;
@@ -92,30 +86,7 @@
     background-color: var(--personality-color-pale) !important;
     border: 2px solid var(--personality-color);
 }
-/*-----------------MINI PARTIE POUR LES USERS CARDS */
-.tag_perso{
-    background-color: var(--personality-text-button) !important;
-    color:white;
-    border-radius: 0.6em;
-    padding:0.4em;
-}
-.containerPals .tag{
-    font-size: 0.7em;
-}
 
-.containerPals .card_long{
-    background-color: var(--personality-color-pale-more) !important;
-
-}
-.containerPals .infos{
-    color:var(--neutral-800) !important;
-    font-size: 0.8em !important;
-    
-}
-.containerPals .cards_list{
-    gap:1em;
-}
-/*--------------------------------------------------*/
 .banner img {
     width: 100%;
     height: 100%;

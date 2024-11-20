@@ -1,22 +1,22 @@
 {
     "/js/app.js": "/js/app.js",
-    "/js/et.js": "/js/et.js",
+    "/js/profileOnglet.js": "/js/profileOnglet.js",
     "/js/validationLogin.js": "/js/validationLogin.js",
     "/js/resendEmail.js": "/js/resendEmail.js",
     "/js/validationTestPersonality.js": "/js/validationTestPersonality.js",
     "/js/Notifications.js": "/js/Notifications.js",
-    "/css/app.css": "/css/app.css",
+    "/js/home-Overlay-login.js": "/js/home-Overlay-login.js",
+    "/js/flash.js": "/js/flash.js",
+    "/js/messages.js": "/js/messages.js",
     "/css/profile.css": "/css/profile.css",
-    "/css/meetupRequests.css": "/css/meetupRequests.css",
+    "/css/app.css": "/css/app.css",
+    "/css/meetup.css": "/css/meetup.css",
     "/css/meetupForm.css": "/css/meetupForm.css",
     "/css/login.css": "/css/login.css",
     "/css/loading.css": "/css/loading.css",
-
     "/css/feed2.css": "/css/feed2.css",
-
-    "/css/reports.css": "/css/reports.css",
-
     "/css/feed.css": "/css/feed.css",
+    "/css/messages.css": "/css/messages.css",
     "/css/notifications.css": "/css/notifications.css",
     "/css/home.css": "/css/home.css",
     "/css/overlay-modal.css": "/css/overlay-modal.css",
@@ -24,6 +24,6 @@
     "/css/interets.css": "/css/interets.css",
     "/css/search.css": "/css/search.css",
     "/css/event.css": "/css/event.css",
-    "/css/meetup.css": "/css/meetup.css",
+    "/css/palCard.css": "/css/palCard.css",
     "/css/cards.css": "/css/cards.css"
 }

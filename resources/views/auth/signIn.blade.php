@@ -1,15 +1,8 @@
-@extends("master")
-
-@section("style")
-<link rel="stylesheet" type="text/css" href="{{ asset('css/login.css') }}">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-
-@endsection()
-
-@section("content")
-<div class="formContainerLogin">
+<!-- Formulaire sign UP -->
+<div class="formContainerLogin" id="signUpForm" style="display: none;">
     <header>
-        <h2>Créer un compte </h2>
+        <span class="title no_wrap"></span>
+        <h2>Créer un compte</h2>
         <hr>
     </header>
     <form action="/signIn" method="POST" id="signupForm">
@@ -20,7 +13,7 @@
                     value="{{ old('firstname') }}" required />
             </div>
             @error('firstname')
-                <div class="error-message">{{ $message }}</div>
+                <div class="errorMessage">{{ $message }}</div>
             @enderror
         </div>
         <div class="inputContainer">
@@ -29,16 +22,16 @@
                     value="{{ old('lastname') }}" required />
             </div>
             @error('lastname')
-                <div class="error-message">{!! htmlspecialchars($message) !!}</div>
+                <div class="errorMessage">{!! htmlspecialchars($message) !!}</div>
             @enderror
         </div>
         <div class="inputContainer">
             <div class="entryarea entryarealogin">
-                <input type="email" class="inputSignup" id="email" placeholder="Courriel" name="email"
+                <input type="email" class="inputSignup" id="emailSign" placeholder="Courriel" name="email"
                     value="{{ old('email') }}" required autocomplete="email" />
             </div>
             @error('email')
-                <div class="error-message">{{ $message }}</div>
+                <div class="errorMessage">{{ $message }}</div>
             @enderror
         </div>
         <div class="inputContainer">
@@ -47,55 +40,56 @@
                     name="birthdate" value="{{ old('birthdate') }}" required />
             </div>
             @error('birthdate')
-                <div class="error-message">{{ $message }}</div>
+                <div class="errorMessage">{{ $message }}</div>
             @enderror
         </div>
         <div class="inputContainer">
             <div class="entryarea entryarealogin">
                 <select class="inputSignup" id="genre" name="genre" required>
-                    <option value="" disabled {{ old('genre') ? '' : 'selected' }}>Sélectionner un genre</option>
+                    <option value="" disabled {{ old('genre') ? '' : 'selected' }}>Sélectionner un genre
+                    </option>
                     <option value="homme" {{ old('genre') == 'homme' ? 'selected' : '' }}>Homme</option>
                     <option value="femme" {{ old('genre') == 'femme' ? 'selected' : '' }}>Femme</option>
-                    <option value="non-genre" {{ old('genre') == 'non-genre' ? 'selected' : '' }}>Non-genre</option>
+                    <option value="non-genre" {{ old('genre') == 'non-genre' ? 'selected' : '' }}>Non-genre
+                    </option>
                 </select>
             </div>
             @error('genre')
-                <div class="error-message">{{ $message }}</div>
+                <div class="errorMessage">{{ $message }}</div>
             @enderror
         </div>
 
         <div class="inputContainer">
             <div class="entryarea entryarealogin">
-                <input type="password" class="inputSignup" id="password" placeholder="Mot de passe" name="password"
-                    value="{{ old('password') }}"  autocomplete="new-password" required />
-                    <span id="togglePassword" class="togglePassword" onclick="togglePasswordVisibility()">
-                        <i class="fas fa-eye"></i>
-                    </span>
+                <input type="password" class="inputSignup" id="passwordSign" placeholder="Mot de passe" name="password"
+                     autocomplete="new-password" required />
+                <span id="togglePassword" class="togglePassword" onclick="togglePasswordVisibility()">
+                  <span id="icone" class="material-symbols-rounded">visibility</span>
+                </span>
             </div>
             @error('password')
-            <div class="error-message">{!! $message !!}</div>
+                <div class="errorMessage">{!! $message !!}</div>
             @enderror
         </div>
         <div class="inputContainer">
             <div class="entryarea entryarealogin">
                 <input type="password" class="inputSignup" id="password_confirmation"
-                    placeholder="Confirmer le mot de passe" name="password_confirmation" autocomplete="new-password" required />
-                    <span id="togglePasswordConfirmation" class="togglePassword" onclick="togglePasswordConfirmationVisibility()">
-                        <i class="fas fa-eye"></i>
-                    </span>
+                    placeholder="Confirmer le mot de passe" name="password_confirmation" autocomplete="new-password"
+                    required />
+                <span id="togglePasswordConfirmation" class="togglePassword"
+                    onclick="togglePasswordConfirmationVisibility()">
+                    <span id="icone_confirm" class="material-symbols-rounded">visibility</span>
+                </span>
             </div>
             @error('password_confirmation')
-                <div class="error-message">{{ $message }}</div>
+                <div class="errorMessage">{{ $message }}</div>
             @enderror
         </div>
         <div class="formButton">
-            <button type="submit" id="submitBtn" class="btn">Créer le compte</button>
+            <button type="submit" id="submitBtnSign" class="btn">Créer le compte</button>
         </div>
-        <p>Vous avez déjà un compte? <a href="/login" class="link">Se connecter</a></p>
+        <p>Vous avez déjà un compte? 
+            <a href="javascript:void(0);" class="link" onclick="showLogin()">Se connecter</a>
+        </p>
     </form>
 </div>
-
-@endsection()
-@section('script')
-<script src="{{asset('/js/validationLogin.js')}}"></script>
-@endsection()

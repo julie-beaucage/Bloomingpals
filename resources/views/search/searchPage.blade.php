@@ -6,93 +6,91 @@
 @endsection()
 
 @section('content')
-<div class="palsMainContainer">
-    <div id="relative_cntr" class="hidden">
-        <div id="absolute_cntr">
-            <div class="filters_cntr">
-                <div class="header">
-                    <span class="title">Filtres de recherche</span>
-                    <span id="close_filter_btn" class="material-symbols-rounded no_select pointer">close</span>
+<div id="relative_cntr" class="hidden">
+    <div id="absolute_cntr">
+        <div class="filters_cntr">
+            <div class="header">
+                <span class="title">Filtres de recherche</span>
+                <span id="close_filter_btn" class="material-symbols-rounded no_select pointer">close</span>
+            </div>
+
+            <div class="content">
+                <div class="filter_cntr selection_grid" data-param="categories">
+                    <div class="selection_cell no_select hover_darker" style="background-color: var(--category-1)" data-id="1">
+                        Sport
+                        <span class="material-symbols-rounded icon">
+                            sports_basketball
+                        </span>
+                    </div>
+                    <div class="selection_cell no_select hover_darker" style="background-color: var(--category-5)"data-id="5">
+                        Social
+                        <span class="material-symbols-rounded">
+                            waving_hand
+                        </span>
+                    </div>
+                    <div class="selection_cell no_select hover_darker" style="background-color: var(--category-3)" data-id="3">
+                        Musique
+                        <span class="material-symbols-rounded icon">
+                            music_note
+                        </span>
+                    </div>
+                    <div class="selection_cell no_select hover_darker" style="background-color: var(--category-4)" data-id="4">
+                        Nerd
+                        <span class="material-symbols-rounded">
+                            chess_pawn
+                        </span>
+                    </div>
+                    <div class="selection_cell no_select hover_darker" style="background-color: var(--category-6)" data-id="6">
+                        Art
+                        <span class="material-symbols-rounded">
+                            palette
+                        </span>
+                    </div>
+                    <div class="selection_cell no_select hover_darker" style="background-color: var(--category-2)" data-id="2">
+                        Culture
+                        <span class="material-symbols-rounded icon">
+                            things_to_do
+                        </span>
+                    </div>
+                </div>
+                
+                <span class="filter_name">Tags</span>
+                <div class="filter_cntr search_suggestion search_selection" data-url="/search/interests" data-param="interests" data-name="name">
+                    <input id="category_search" type="text" class="search_suggestion_input" placeholder="Rechercher par catégorie">
+                    <div id="category_selections" class="selections"></div>
+                    <div id="category_suggestions" class="suggestions">
+                    </div>
                 </div>
 
-                <div class="content">
-                    <div class="filter_cntr selection_grid" data-param="categories">
-                        <div class="selection_cell no_select hover_darker" style="background-color: var(--category-1)" data-id="1">
-                            Sport
-                            <span class="material-symbols-rounded icon">
-                                sports_basketball
-                            </span>
-                        </div>
-                        <div class="selection_cell no_select hover_darker" style="background-color: var(--category-5)"data-id="5">
-                            Social
-                            <span class="material-symbols-rounded">
-                                waving_hand
-                            </span>
-                        </div>
-                        <div class="selection_cell no_select hover_darker" style="background-color: var(--category-3)" data-id="3">
-                            Musique
-                            <span class="material-symbols-rounded icon">
-                                music_note
-                            </span>
-                        </div>
-                        <div class="selection_cell no_select hover_darker" style="background-color: var(--category-4)" data-id="4">
-                            Nerd
-                            <span class="material-symbols-rounded">
-                                chess_pawn
-                            </span>
-                        </div>
-                        <div class="selection_cell no_select hover_darker" style="background-color: var(--category-6)" data-id="6">
-                            Art
-                            <span class="material-symbols-rounded">
-                                palette
-                            </span>
-                        </div>
-                        <div class="selection_cell no_select hover_darker" style="background-color: var(--category-2)" data-id="2">
-                            Culture
-                            <span class="material-symbols-rounded icon">
-                                things_to_do
-                            </span>
-                        </div>
-                    </div>
-                    
-                    <span class="filter_name">Tags</span>
-                    <div class="filter_cntr search_suggestion search_selection" data-url="/search/interests" data-param="interests" data-name="name">
-                        <input id="category_search" type="text" class="search_suggestion_input" placeholder="Rechercher par catégorie">
-                        <div id="category_selections" class="selections"></div>
-                        <div id="category_suggestions" class="suggestions">
-                        </div>
-                    </div>
-    
-                    <span class="filter_name">Ville</span>
-                    <div class="filter_cntr search_suggestion" data-url="/search/cities" data-param="city" data-name="city">
-                        <input id="city_search" type="text" class="search_suggestion_input" placeholder="Rechercher par ville">
-                        <div id="city_suggestions" class="suggestions">
-                        </div>
+                <span class="filter_name">Ville</span>
+                <div class="filter_cntr search_suggestion" data-url="/search/cities" data-param="city" data-name="city">
+                    <input id="city_search" type="text" class="search_suggestion_input" placeholder="Rechercher par ville">
+                    <div id="city_suggestions" class="suggestions">
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <div id="search_cntr">
-        <div id="search_header">
-            <div id="inputs_cntr">
-                <input type="text" id="search_field" class="no_select" placeholder="Rechercher">
-                <button id="filter_btn" class="hover_darker no_select" value="meetups" type="button">
-                    <span class="material-symbols-rounded">
-                        filter_vintage
-                    </span>
-                </button>
-            </div>
-            <div id="categories_cntr">
-                <button class="hover_darker no_select" value="meetups" type="button">Rencontres</button>
-                <button class="hover_darker no_select" value="events" type="button">Évènements</button>
-                <button class="hover_darker no_select" value="users" type="button">Utilisateurs</button>
-            </div>
+<div id="search_cntr">
+    <div id="search_header">
+        <div id="inputs_cntr">
+            <input type="text" id="search_field" class="no_select" placeholder="Rechercher">
+            <button id="filter_btn" class="hover_darker no_select" value="meetups" type="button">
+                <span class="material-symbols-rounded">
+                    page_info
+                </span>
+            </button>
         </div>
+        <div id="categories_cntr">
+            <button class="hover_darker no_select" value="meetups" type="button">Rencontres</button>
+            <button class="hover_darker no_select" value="events" type="button">Évènements</button>
+            <button class="hover_darker no_select" value="users" type="button">Utilisateurs</button>
+        </div>
+    </div>
 
-        <div id="result" class="cards_list">
-        </div>
+    <div id="result" class="cards_list">
     </div>
 </div>
 @endsection()
@@ -275,7 +273,7 @@
 
                 timeout = setTimeout(function() {
                     goTo(1, true);
-                }, 350);
+                }, 300);
             });
 
             $("#filter_btn").click(function() {
