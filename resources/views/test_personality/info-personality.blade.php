@@ -526,6 +526,7 @@
     </div>
 @endsection
 @section('script')
+<script src="{{asset('/js/home-Overlay-login.js')}}"></script>
 <script>
         document.querySelectorAll('.accordion-header').forEach(header => {
             header.addEventListener('click', () => {
