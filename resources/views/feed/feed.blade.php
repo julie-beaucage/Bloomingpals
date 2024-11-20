@@ -250,9 +250,7 @@
                     return resolve(false);
                 }
             });
-
         });
-
     }
     let time = 0;
 
@@ -333,6 +331,7 @@
             return true;
         });
         events = events.splice(4);
+        console.log(events);
 
         for (var i = content.length - 1; i >= 0; i--) {
             var j = Math.floor(Math.random() * (i + 1));
@@ -458,7 +457,7 @@
 
 
         $('#content').scroll(async function () {
-            console.log($('#content').scrollTop() + $('#content').height() - $(friend).height());
+            //console.log($('#content').scrollTop() + $('#content').height() - $(friend).height());
             if ($('#content').scrollTop() + $('#content').height() - $(friend).height() > 0 && isLoading == true) {
                 isLoading = false;
                 if (await getContent() == false) {

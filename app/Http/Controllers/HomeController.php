@@ -250,7 +250,7 @@ class HomeController extends Controller
             }
             global $common_interest;
             $common_interest = 3;
-            if (count($userInterest) < 4) {
+            if (count($userInterest) < 10) {
                 $common_interest = 1;
             }
             function similar($var)
