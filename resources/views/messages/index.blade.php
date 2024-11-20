@@ -9,6 +9,10 @@
 
 @section("content")
     <div id="relative_cntr" class="hidden">
+        <form style="display:none;" id="form_img" enctype="multipart/form-data">
+        <input type="file" style="display:none;" id="fileInput" accept="image/*">
+        </form>
+        
         <div id="absolute_cntr">
             <div class="popup_cntr">
                 <div class="header">
@@ -48,6 +52,7 @@
             </div>
             <div id="chat_input_cntr">
                 <input type="text" id="message_input" maxlength="200" class="search_field" placeholder="Type a message"/>
+                <span id="image_plus"class="icon_btn hover_darker pointer no_select material-symbols-rounded">add_circle</span>
             </div>
         </div>
         <div id="chat_settings_cntr" style="display: none">
@@ -63,6 +68,7 @@
 
 @section("script")
     <script>
+        
         async function loadSettings(id) {
 
             $("#settings_cntr").empty();

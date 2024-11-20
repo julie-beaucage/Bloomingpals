@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use PHPUnit\TextUI\XmlConfiguration\Group;
+use Storage;
 
 class MessagesController extends Controller
 {
@@ -56,7 +57,6 @@ class MessagesController extends Controller
                 else if (strpos(strtolower($chatRoom->name), $query) !== false) {
                     $isQuery = true;
                 }
-
             }
             else {
                 $isQuery = true;
@@ -79,7 +79,6 @@ class MessagesController extends Controller
                 'last_message_date' => ($lastMessage == null) ? null : $lastMessage->created_at,
             ];
         }
-
         $chatRooms = collect($chatRooms)->sortByDesc('last_message_date')->values();
 
         return view('messages.menu', compact('chatRooms'));
@@ -111,7 +110,6 @@ class MessagesController extends Controller
         if (!$users->contains('id', auth()->user()->id)) {
             return;
         }
-
         $messages = Message::query()->where('id_chatRoom', '=', $id)->orderBy('created_at','desc')->skip(20 * $page)->take(20)->get()->reverse();
 
         return view('messages.chat', compact('id', 'messages', 'users'));
@@ -138,7 +136,6 @@ class MessagesController extends Controller
             ]);
         }
         
-
         return response()->json([
             'chatroom' => [
                 'id' => $chatroom->id,
@@ -154,12 +151,15 @@ class MessagesController extends Controller
         if (!$users->contains('id', auth()->user()->id)) {
             return;
         }
-
+        //dd(request('image'));
         $msg = new Message;
+        
         $msg->id_chatRoom = $id;
         $msg->id_user = auth()->user()->id;
         $msg->content = request('message');
+        $msg->modify= request('image');
         $msg->save();
+        //dd(Message::where('id_user',1)->get());
     }
 
     public function searchUsers($query = "") {
@@ -241,5 +241,12 @@ class MessagesController extends Controller
 
         $other_users = User::query()->join('chatRooms_users', 'users.id', '=', 'chatRooms_users.id_user')->where('id_chatRoom', '=', $chatRoom->id)->where('id_user', '!=', auth()->user()->id)->get();
         return view('partial_views.user_cards', ['users' => $other_users]);
+    }
+    public function saveImage(Request $req)
+    {
+        $path = $req->file('image')->store('public/chat/images');
+        $path = str_replace('public/', '', 'storage/' . $path);
+        
+        return $path;
     }
 }

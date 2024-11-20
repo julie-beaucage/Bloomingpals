@@ -164,6 +164,7 @@
                 </a>`;
                 $(friend).append(action);
             } else if (feed[i].type == 'Event') {
+                console.log("AAA");
 
                 let event = `<a class="card no_select hover_darker pointer" href="event/${feed[i].id}">
                     <div class="card-banner">
@@ -293,8 +294,6 @@
             _meetups = await promise_fetchMeetups();
             if (_meetups.length == 0) {
                 break;
-
-
             }
             _meetups.forEach(element => {
                 element.type = 'Meetup';
@@ -446,6 +445,7 @@
             });
         }else{
             ($(loading).children()[0]).remove();
+            $('#friends_suggestion').css('display','none');
         }
     }
 
