@@ -30,7 +30,7 @@
                     'id' => 'pals',
                     'title' => 'Pals',
                     'icon' => 'group',
-                    'url' => route('searchUsers')
+                    'url' => route('searchPals')
                 ],
                 [
                     'id' => 'notification',
@@ -120,7 +120,7 @@
                     echo '</div>
                         </div>';
                 } elseif ($id == 'notification') {
-                    echo '<a class="' . $class . '" href="' . $url . '">
+                    echo '<a class="' . $class . ' navbar_notification" href="' . $url . '">
                              ' . $unreadNotif . '
                             <div class="shrinked_title shrinked_only">
                                <span class="title">' . $title . '</span>

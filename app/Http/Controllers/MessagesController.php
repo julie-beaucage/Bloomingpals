@@ -20,8 +20,7 @@ class MessagesController extends Controller
             $users = User::query()->join('chatRooms_users', 'users.id', '=', 'chatRooms_users.id_user')->where('id_chatRoom', '=', $id)->get();
 
             if (!$users->contains('id', auth()->user()->id)) {
-                abort(404);
-                return;
+                return redirect()->route('messages');
             }
         }
 
@@ -80,8 +79,9 @@ class MessagesController extends Controller
             ];
         }
 
+        
         $chatRooms = collect($chatRooms)->sortByDesc('last_message_date')->values();
-
+        
         return view('messages.menu', compact('chatRooms'));
     }
 
@@ -159,18 +159,19 @@ class MessagesController extends Controller
         $msg->id_chatRoom = $id;
         $msg->id_user = auth()->user()->id;
         $msg->content = request('message');
+        $msg->created_at = now();
         $msg->save();
     }
 
     public function searchUsers($query = "") {
         if ($query == "") return response()->json([]);
 
-        $users = User::query()->where(DB::raw("CONCAT(`first_name`, ' ', `last_name`)"), 'LIKE', '%' . $query . '%')->orderBy('first_name')->get();
+        $users = User::query()->where(DB::raw("CONCAT(`first_name`, ' ', `last_name`)"), 'LIKE', '%' . $query . '%')->where('id', '!=', auth()->user()->id)->orderBy('first_name')->get();
         $users = $users->map(function ($user) {
             $user->personality = $user->getPersonalityType();
             return $user;
         });
-        return response()->json($users->where('id', '!=', auth()->user()->id)->take(5));
+        return response()->json($users->take(5));
     }
 
     public function newChat(Request $request) {
@@ -237,9 +238,37 @@ class MessagesController extends Controller
             return;
         }
 
-        $chatRoom = ChatRoom::query()->where('id', '=', $id)->first();
-
-        $other_users = User::query()->join('chatRooms_users', 'users.id', '=', 'chatRooms_users.id_user')->where('id_chatRoom', '=', $chatRoom->id)->where('id_user', '!=', auth()->user()->id)->get();
+        $other_users = User::query()->join('chatRooms_users', 'users.id', '=', 'chatRooms_users.id_user')->where('id_chatRoom', '=', $id)->where('id_user', '!=', auth()->user()->id)->get();
         return view('partial_views.user_cards', ['users' => $other_users]);
+    }
+
+    public function changeChatName($id) {
+        $users = User::query()->join('chatRooms_users', 'users.id', '=', 'chatRooms_users.id_user')->where('id_chatRoom', '=', $id)->get();
+
+        if (!$users->contains('id', auth()->user()->id)) {
+            return;
+        }
+
+        $chatRoom = ChatRoom::query()->where('id', '=', $id)->first();
+        $chatRoom->name = request('name');
+        $chatRoom->save();
+    }
+
+    public function leaveChat($id) {
+        $users = User::query()->join('chatRooms_users', 'users.id', '=', 'chatRooms_users.id_user')->where('id_chatRoom', '=', $id)->get();
+
+        if (!$users->contains('id', auth()->user()->id)) {
+            return;
+        }
+        
+        if ($users->count() <= 2) {
+            Message::query()->where('id_chatRoom', '=', $id)->delete();
+            ChatRoom_User::query()->where('id_chatRoom', '=', $id)->delete();
+            ChatRoom::query()->where('id', '=', $id)->delete();
+        }
+        else {
+            Message::query()->where('id_chatRoom', '=', $id)->where('id_user', '=', auth()->user()->id)->delete();
+            ChatRoom_User::query()->where('id_chatRoom', '=', $id)->where('id_user', '=', auth()->user()->id)->delete();
+        }
     }
 }

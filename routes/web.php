@@ -116,13 +116,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/chat/{id}/{page}', [MessagesController::class, 'chat'])->name('chat');
     Route::get('/menu/{query?}', [MessagesController::class, 'menu'])->name('menu');
     Route::post('/sendchat/{id}', [MessagesController::class, 'send'])->name('sendMessage');
-    Route::post('/newChat', [MessagesController::class, 'newChat'])->name('sendMessage');
+    Route::post('/newChat', [MessagesController::class, 'newChat'])->name('newChat');
     Route::get('/update/{id}/{etag}', [MessagesController::class, 'update'])->name('checkUpdate');
     Route::get('/info/{id}', [MessagesController::class, 'info'])->name('info');
     Route::get('/chatMembers/{id}', [MessagesController::class, 'chatMembers'])->name('members');
+    Route::post('/changeChatName/{id}', [MessagesController::class, 'changeChatName'])->name('changeChatName');
+    Route::post('/leaveChat/{id}', [MessagesController::class, 'leaveChat'])->name('leaveChat');
 
     //Pals + seach pals_index
-    Route::get('/pals', [SearchController::class, 'pals_index'])->name('searchUsers');
+    Route::get('/pals', [SearchController::class, 'pals_index'])->name('searchPals');
 
 
     //utilisateurs

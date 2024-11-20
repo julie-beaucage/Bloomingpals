@@ -19,9 +19,6 @@ Insert INTO types_notifications (name) Values('Friendship Accept');
 INSERT INTO types_actions(name) VALUES('Meetup Search');
 INSERT INTO types_actions (name) VALUES('Meetup Join');
 
--- Feed
-CALL fillFeed(2);
-
 -- Sport
 INSERT INTO interests (name, id_category) VALUES ('Bowling', 1);
 INSERT INTO interests (name, id_category) VALUES ('Tennis', 1);
@@ -331,6 +328,9 @@ INSERT INTO users (email, last_name, first_name, birthdate, password, gender, pe
 ('user19@email.com', 'Scott', 'Jack', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'homme', 15, CURDATE()),
 ('user20@email.com', 'Torres', 'Grace', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'femme', 16, CURDATE());
 
+-- Feed
+CALL fillFeed(2);
+
 -- Meetups --
 INSERT INTO meetups(name, description, id_owner, adress, date, nb_participant, public) 
     VALUES("Nom de la rencontre", "Voici la description", 1, "1234 rue popcorn", DATE "2025-01-01", 100, 1);
@@ -432,12 +432,12 @@ INSERT INTO messages (id_chatRoom, id_user, content, created_at) VALUES
 (11, 2, 'Quelqu’un a des idées pour la première étape ?', '2024-05-02 09:10:00'),
 (11, 3, 'On pourrait faire une analyse des besoins.', '2024-05-02 09:15:00'),
 (11, 1, 'Oui, c’est un bon début.', '2024-05-02 09:17:00'),
-(11, 2, 'On divise les tâches après cette étape ?', '2024-05-02 09:5:00'),
-(11, 3, 'Exactement, chacun peut travailler sur un aspect spécifique.', '2024-05-02 09:10:00'),
-(11, 1, 'Parfait, je m’occupe de la recherche initiale.', '2024-05-02 09:40:00'),
+(11, 2, 'On divise les tâches après cette étape ?', '2024-05-02 09:30:00'),
+(11, 3, 'Exactement, chacun peut travailler sur un aspect spécifique.', '2024-05-02 09:31:00'),
+(11, 1, 'Parfait, je m’occupe de la recherche initiale.', '2024-05-02 09:32:00'),
 (11, 2, 'Moi je vais gérer les contacts.', '2024-05-02 09:45:00'),
 (11, 3, 'Ça marche. On fait un point vendredi ?', '2024-05-02 10:00:00'),
-(11, 1, 'Bonne idée, ça nous laisse le temps d’avancer.', '2024-05-02 10:05:00'),
+(11, 1, 'Bonne idée, ça nous laisse le temps d’avancer.', '2024-05-02 10:00:00'),
 (11, 2, 'Je suis disponible vendredi après-midi.', '2024-05-02 10:10:00'),
 (11, 3, 'Pareil, disons à 14h ?', '2024-05-02 10:15:00'),
 (11, 1, 'Ça marche, à vendredi alors !', '2024-05-02 10:20:00'),
@@ -451,7 +451,7 @@ INSERT INTO messages (id_chatRoom, id_user, content, created_at) VALUES
 (11, 3, 'Oui, c’est mieux de tester avant.', '2024-05-03 14:10:00'),
 (11, 1, 'Je suis dispo après 15h.', '2024-05-03 14:15:00'),
 (11, 2, 'Ok, disons 15h15.', '2024-05-03 14:20:00'),
-(11, 3, 'À plus tard !', '2024-05-03 14:5:00');
+(11, 3, 'À plus tard !', '2024-05-03 14:50:00');
 
 -- Group Chat 12 Messages
 INSERT INTO messages (id_chatRoom, id_user, content, created_at) VALUES

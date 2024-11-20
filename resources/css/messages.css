@@ -128,6 +128,17 @@
     object-fit: cover;
 }
 
+.convo_img:has(.profile_image.online)::before {
+    content: '';
+    position: absolute;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    background-color: var(--secondary-600);
+    border: 2px solid var(--secondary-300);
+    transform: translate(1.35em, 1.35em);
+}
+
 .convo_img {
     height: 100%;
     aspect-ratio: 1/1;
@@ -514,7 +525,7 @@
     height: 100%;
     width: 100%;
     min-width: 300px;
-    gap: 0.5em;
+    gap: 1em;
     padding: 1em;
     max-width: 800px;
     margin: auto auto 0 auto;
@@ -546,7 +557,7 @@
 #settings_cntr {
     display: flex;
     flex-direction: column;
-    gap: 0.5em;
+    gap: 1.5em;
     overflow-x: hidden;
     overflow-y: auto;
 }
@@ -589,13 +600,22 @@
 
 #members > * {
     border-radius: 0;
+    display: none;
+}
+
+#members > *:nth-child(-n+3) {
+    display: flex;
+}
+
+#members.expanded > * {
+    display: flex;
 }
 
 #members > *:first-child {
     border-radius: 0.75em 0.75em 0 0;
 }
 
-#members_cntr > *:last-child {
+#members_cntr:has(#see_more) > #see_more {
     border-radius: 0 0 0.75em 0.75em;
     display: flex;
     flex-direction: row;
@@ -608,6 +628,11 @@
     cursor: pointer;
 }
 
+#members_cntr:not(:has(#see_more)) > #members > *:last-child {
+    display: flex;
+    border-radius: 0 0 0.75em 0.75em;
+}
+
 #leave_field {
     display: flex;
     flex-direction: column;
@@ -617,12 +642,4 @@
 .field_title {
     font-size: 1.25em;
     font-weight: 500;
-}
-
-#members > * {
-    display: none;
-}
-
-#members > *:nth-child(-n+3) {
-    display: flex;
 }
