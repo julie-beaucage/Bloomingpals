@@ -241,6 +241,7 @@ body {
     font-size: 1.5em;
     font-weight: 600;
     text-align: center;
+    justify-content: center;
     padding: 1em 0 1em 0;
 }
 
@@ -412,7 +413,7 @@ body {
     #main {
         display: grid;
         grid-template-columns: auto;
-        grid-template-rows: fit-content 1fr min-content;
+        grid-template-rows: min-content 1fr min-content;
         grid-gap: 0;
 
         grid-template-areas:

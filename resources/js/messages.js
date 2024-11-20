@@ -1,3 +1,5 @@
+const { error } = require("laravel-mix/src/Log");
+
 var urlId = null;
 var page = 0;
 var etag = 0;
@@ -41,17 +43,6 @@ async function loadPage(id, page_nb = page) {
         }
     });
     return returnData;
-}
-
-function updateMenu() 
-{ 
-    $.ajax({
-        url: '/menu/' + $("#search_convo").val(),
-        type: 'GET',
-        success: function(data) {
-            $('#convos_cntr').html(data);
-        }
-    });
 }
 
 function periodiclyUpdateMenu() {
@@ -117,6 +108,9 @@ async function sendMessage(id, message) {
         },
         success: function(data) {
             $(".convo_card-" + id).find('.convo_last').html(message);
+        },
+        error: function(error) {
+            console.log(error);
         }
     });
 }
@@ -222,7 +216,7 @@ $(document).ready(async function() {
     $("#search_convo").keyup(function(e) {
         const query = $(this).val();
         if (e.which == 13) {
-            updateMenu();
+            updateMenu(true);
         }
         
         throttle(function() {

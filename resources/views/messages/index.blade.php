@@ -47,7 +47,7 @@
                 {{-- Chat --}}
             </div>
             <div id="chat_input_cntr">
-                <input type="text" id="message_input" maxlength="200" class="search_field" placeholder="Type a message"/>
+                <input type="text" id="message_input" maxlength="200" class="search_field" placeholder="Envoyer un message"/>
             </div>
         </div>
         <div id="chat_settings_cntr" style="display: none">
@@ -63,6 +63,18 @@
 
 @section("script")
     <script>
+        function updateMenu(search = false) 
+        { 
+            let searchValue = search ? $('#search_convo').val() : '';
+            $.ajax({
+                url: '/menu/' + searchValue,
+                type: 'GET',
+                success: function(data) {
+                    $('#convos_cntr').html(data);
+                }
+            });
+        }
+
         async function loadSettings(id) {
 
             $("#settings_cntr").empty();
@@ -97,11 +109,11 @@
 
                 $("#settings_cntr").append(`
                     <div id="members_field">
-                        <span class="field_title">Membres du groupe (${info['users'].length})</span>
+                        <span class="field_title">Membres du groupe (${info['users'].length + 1})</span>
                         <div id="members_cntr">
                             <div id="members">
                             </div>
-                            <span id="see_more" class="hover_darker">Voir plus</span>
+                            ${(info['users'].length > 3) ? '<span id="see_more" class="hover_darker">Voir plus</span>' : ''}
                         </div>
                     </div>
                 `);
@@ -128,6 +140,50 @@
             $("#see_more").click(function() {
                 $("#members").toggleClass("expanded");
                 $("#see_more").text($("#members").hasClass("expanded") ? "Voir moins" : "Voir plus");
+            });
+
+            $("#name_input").on("focusout", function() {
+                let name = $("#name_input").val();
+                if (name != info["chatroom"].name) {
+                    $.ajax({
+                        url: "/changeChatName/" + id,
+                        method: "POST",
+                        data: {
+                            id: id,
+                            name: name,
+                            "_token": $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(data) {
+                            $("#chat_title").text(name);
+                            console.log(data);
+                        },
+                        error: function(err) {
+                            console.log(err);
+                        }
+                    });
+                }
+            });
+
+            $("#leave_btn").click(function() {
+                $.ajax({
+                    url: "/leaveChat/" + id,
+                    method: "POST",
+                    data: {
+                        id: id,
+                        "_token": $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(data) {
+                        console.log(data);
+                        $("#chat_settings_cntr").hide();
+                        $('#chat_cntr').css('display', 'none');
+                        $('#menu_cntr').addClass('active');
+                        window.history.pushState("", "", '/messages');
+                        updateMenu();
+                    },
+                    error: function(err) {
+                        console.log(err);
+                    }
+                });
             });
         }
     </script>

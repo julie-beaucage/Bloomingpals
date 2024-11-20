@@ -13,9 +13,12 @@
             $image = $chatRoom['last_user']->image_profil ? asset('storage/' . $chatRoom['last_user']->image_profil) : asset('/images/simple_flower.png');
         }
         $personality = $chatRoom['other_users'][0] ? $chatRoom['other_users'][0]->getPersonalityType() : '';
-
-        $lastMessage = ($chatRoom['last_user']->id == Auth::id()) ? 'Vous: ' : (count($chatRoom['other_users']) > 1 ? $chatRoom['other_users'][0]->first_name . ': ' : '');
-        $lastMessage .= $chatRoom['last_message'] ? $chatRoom['last_message']->content : '';
+        
+        $lastMessage = "";
+        if ($chatRoom['last_message']) {
+            $lastMessage .= ($chatRoom['last_user']->id == Auth::id()) ? 'Vous: ' : (count($chatRoom['other_users']) > 1 ? $chatRoom['other_users'][0]->first_name . ': ' : '');
+            $lastMessage .= $chatRoom['last_message']->content;
+        }
 
     @endphp
 
