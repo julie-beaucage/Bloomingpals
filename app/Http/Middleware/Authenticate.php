@@ -18,4 +18,13 @@ class Authenticate extends Middleware
             return redirect()->route('home')->with('error', 'Votre session a expiré. Veuillez vous reconnecter.');
         }
     }
+
+    public function handle($request, \Closure $next, ...$guards)
+    {
+        if (auth()->guest()) {
+            return redirect()->route('home')->with('error', 'Vous n\'avez pas les droits pour accéder à cette page. Veuillez vous connecter.');
+        }
+
+        return $next($request);
+    }
 }

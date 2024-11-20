@@ -91,6 +91,21 @@
     }
 }
 
+.flash-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 0.1em solid #f5c6cb;
+    padding: 1em;
+    border-radius: 0.3em;
+    margin-bottom: 1.5em;
+    font-size: 1em;
+    text-align: center;
+}
+
+
+.flash-error p {
+    margin: 0;
+}
 
 .rejoindre_btn{
     border-radius: 8px;

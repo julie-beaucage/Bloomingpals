@@ -22,11 +22,6 @@
         <p>{{ session('error') }}</p>
     </div>
 @endif
-@if(session('error'))
-    <div class="alert alert-danger">
-        {{ session('error') }}
-    </div>
-@endif
 
 <div id="home_cntr">
     <div class="main-carousel">
@@ -129,17 +124,8 @@
 @endsection()
 
 @section('script')
-<script>
-    window.onload = () => {
-        @if(session('error'))
-            console.log("test");
-            document.getElementById("loginOverlay").style.display = "flex";
-        @endif
-    };
-</script>
 
 <script>
-
     window.onload = () => {
         const wrapper = document.querySelector('.carousel-wrapper');
         const cards = document.querySelectorAll('.carousel-card');
@@ -182,10 +168,12 @@
 </script>
 <script>
     window.onload = () => {
+        var errorLogin = "{{ session('errorLogin') }}";
         var errorMessage = "{{ session('error') }}";
         var showModal = "{{ session('showModal') }}";
+        var showModalLogin = "{{ session('showModalLogin') }}";
         console.log(errorMessage);
-       if (errorMessage) {
+       if (showModalLogin ) {
             document.getElementById("loginOverlay").style.display = "flex"; 
         }
         if(showModal){

@@ -13,7 +13,7 @@
                     value="{{ old('firstname') }}" required />
             </div>
             @error('firstname')
-                <div class="error-message">{{ $message }}</div>
+                <div class="errorMessage">{{ $message }}</div>
             @enderror
         </div>
         <div class="inputContainer">
@@ -22,7 +22,7 @@
                     value="{{ old('lastname') }}" required />
             </div>
             @error('lastname')
-                <div class="error-message">{!! htmlspecialchars($message) !!}</div>
+                <div class="errorMessage">{!! htmlspecialchars($message) !!}</div>
             @enderror
         </div>
         <div class="inputContainer">
@@ -31,7 +31,7 @@
                     value="{{ old('email') }}" required autocomplete="email" />
             </div>
             @error('email')
-                <div class="error-message">{{ $message }}</div>
+                <div class="errorMessage">{{ $message }}</div>
             @enderror
         </div>
         <div class="inputContainer">
@@ -40,7 +40,7 @@
                     name="birthdate" value="{{ old('birthdate') }}" required />
             </div>
             @error('birthdate')
-                <div class="error-message">{{ $message }}</div>
+                <div class="errorMessage">{{ $message }}</div>
             @enderror
         </div>
         <div class="inputContainer">
@@ -55,20 +55,20 @@
                 </select>
             </div>
             @error('genre')
-                <div class="error-message">{{ $message }}</div>
+                <div class="errorMessage">{{ $message }}</div>
             @enderror
         </div>
 
         <div class="inputContainer">
             <div class="entryarea entryarealogin">
                 <input type="password" class="inputSignup" id="passwordSign" placeholder="Mot de passe" name="password"
-                    value="{{ old('password') }}" autocomplete="new-password" required />
+                     autocomplete="new-password" required />
                 <span id="togglePassword" class="togglePassword" onclick="togglePasswordVisibility()">
                   <span id="icone" class="material-symbols-rounded">visibility</span>
                 </span>
             </div>
             @error('password')
-                <div class="error-message">{!! $message !!}</div>
+                <div class="errorMessage">{!! $message !!}</div>
             @enderror
         </div>
         <div class="inputContainer">
@@ -82,7 +82,7 @@
                 </span>
             </div>
             @error('password_confirmation')
-                <div class="error-message">{{ $message }}</div>
+                <div class="errorMessage">{{ $message }}</div>
             @enderror
         </div>
         <div class="formButton">

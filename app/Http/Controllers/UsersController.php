@@ -124,8 +124,11 @@ class UsersController extends Controller
             
             return redirect('/profile/' . $id)->with('message', 'Bienvenue sur BloomingPals, ' . auth()->user()->prenom);
         }
-        return redirect()->back()->with('error', 'Le courriel et le mot de passe ne correspondent pas');
-    }
+        return redirect()->back()
+        ->withErrors(['errorLogin' => 'Le courriel et le mot de passe ne correspondent pas.'])
+        ->with('showModalLogin', true)
+        ->withInput();
+    }    
 
 
     public function resend(Request $request)
