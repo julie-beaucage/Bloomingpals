@@ -93,32 +93,62 @@
     border: 2px solid var(--personality-color);
 }
 /*-----------------MINI PARTIE POUR LES USERS CARDS */
-/* ----------------- MINI PARTIE POUR LES USERS CARDS ----------------- */
-
-.tag_perso {
-    background-color: var(--personality-text-button) !important;
-    color: white;
-    border-radius: 0.6em;
-    padding: 0.4em;
-}
-
-.containerPals .tag {
-    font-size: 0.7em;
-}
-
-.containerPals .card_long {
-    background-color: var(--personality-color-pale-more) !important;
-}
-
-.containerPals .infos {
-    color: var(--neutral-800) !important;
-    font-size: 0.8em !important;
-}
-
 .containerPals .cards_list {
     gap: 1em;
 }
+.containerPals .card_long{
+    justify-content: flex-start;
+    display: flex; 
+    flex-direction: column;
+    background-color: var(--personality-color-pale-more) !important;
+    height: 18em;
+    width: 20em;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
+}
+.banner, .content_user{
+    display: flex;
+    align-items: center;  
+    justify-content: space-between;  
+  }
+  /* IMAGE USER*/
+.containerPals .card_long .banner {
+    display: flex;
+    height: 6em;
+    width: 6em;
+    overflow: hidden;
+    margin: 0.75em;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background-color: var(--personality-color-pale) !important;
+    border: 2px solid var(--personality-color);
+    margin-right: 1em;
+    box-sizing: border-box; 
+}
+
+.containerPals .card_long .banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+/* INFORMATION USER*/
+.card_long .content_user {
+    width: 50%;
+    margin-left: 0;
+    display: flex;
+    flex-direction: column; 
+    justify-content: space-between; 
+    text-align: center;
+    gap:0.4rem;
+    align-items: center;
+    box-sizing: border-box; 
+}
+.containerPals     .text_nowrap > * {
+    position: static; 
+    overflow: visible; 
+    text-overflow: unset; 
+}
 .containerPals .profile_link .name {
     text-decoration: none;
 }
@@ -137,54 +167,33 @@
     background-color: rgba(0, 0, 0, 0.1);
     cursor: pointer;
 }
-
-.card_long .banner-container {
-    display: flex;
-    align-items: center;
-    justify-content: start;
-    margin-bottom: 0.75em;
-    cursor: pointer;
+.containerPals .infos {
+    color: var(--neutral-800) !important;
+    font-size: 0.8em !important;
 }
 
-.containerPals .card_long .banner:hover + .content .header .name_cntr .name,
-.containerPals .card_long .name_cntr:hover .name {
-    text-decoration: underline !important;
-    cursor: pointer;
+.tag_perso {
+    background-color: var(--personality-text-button) !important;
+    color: white;
+    border-radius: 0.6em;
+    padding: 0.4em;
 }
 
-.containerPals .card_long .banner {
-    height: 4em;
-    width: 4em;
-    overflow: hidden;
-    margin: 0.75em;
-    border-radius: 50%;
-    flex-shrink: 0;
-    background-color: var(--personality-color-pale) !important;
-    border: 2px solid var(--personality-color);
-    margin-right: 1em;
+.containerPals .tag {
+    font-size: 0.7em;
 }
-
-.containerPals .card_long .banner img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-}
-
+/*BOUTONS */
 .btn-container {
     margin: 1em;
-}
-
-.content_user {
-    width: 100%;
+    box-sizing: border-box; 
 }
 
 .btn_friends {
+    display: inline-block!important;
     min-width: fit-content;
     padding: 0.5em 1em;
     width: 15em;
     font-size: 1em;
-    font-weight: bold;
     border: 2px solid var(--primary-color);
     border-radius: 4px;
     background-color: var(--primary-400);
@@ -210,16 +219,7 @@
     border: 2px solid var(--neutral-300);
 }
 
-.btn_friends.secondary {
-    background-color: var(--secondary-color);
-    color: var(--neutral-100);
-}
-
-.btn_friends.secondary:hover {
-    background-color: var(--neutral-100);
-    color: var(--secondary-color);
-}
-
+/*BOUTONS ACCEPTER/REFUSER*/
 .acceptContainer {
     display: flex;
     gap: 2em;
@@ -228,7 +228,8 @@
 
 .buttonn {
     text-decoration: none;
-    padding: 1em;
+    text-align: center;
+    padding: 0.4em;
     width: 5em;
     min-width: fit-content;
     border: 2px solid var(--primary-color);
@@ -249,88 +250,93 @@
     background-color: var(--primary-400);
     color: var(--white);
 }
-
+.btn_accept:hover{
+    background-color:var(--secondary-300);
+}
 .btn_refuse {
     background-color: var(--neutral-500);
     color: black;
 }
-
-.acceptContainer a {
-    text-decoration: none;
+.btn_refuse:hover {
+    background-color: var(--primary-600);
+    color: var(--white);
 }
 
 /* ----------------- Media Queries ----------------- */
-
-/* Version mobile (800px) */
 @media (max-width: 800px) {
-    .containerPals .card_long {
-        flex-direction: column;
-        align-items: center;
-        padding: 1em;
-    }
-
-    .containerPals .card_long .banner {
-        width: 5em;
-        height: 5em;
-        margin-right: 0;
-        margin-bottom: 1em;
-    }
-
-    .containerPals .card_long .content_user {
-        width: 100%;
-        text-align: center;
-    }
-
-    .btn_friends {
-        width: 100%;
-        font-size: 0.9em;
-    }
-
-    .btn-container {
-        text-align: center;
-    }
+.containerPals .card_long{
+    width: 15em;
 }
-
-/* Version mobile (600px) */
+.containerPals .name{
+    font-size: 1.2em;
+}
+}
 @media (max-width: 600px) {
     .containerPals .card_long {
-        flex-direction: column;
-        padding: 1em;
+        height: 7.8em;
+        gap:0.2rem;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        flex-direction: row;
     }
-
+    .containerPals .card_long > div:nth-child(2) {
+        width: 50%;
+    }
+    
+    .containerPals .card_long > div:nth-child(3) {
+        width: 40%; 
+    }
     .containerPals .card_long .banner {
-        width: 6em;
-        height: 6em;
+        height: 4em;
+        width: 4em;
+    } 
+    .containerPals .name {
+        font-size: unset;
     }
-
-    .containerPals .card_long .content_user {
+    .card_long .content_user {
+        margin-left: 0;
+        display: flex;
+        flex-direction: column; 
+        justify-content: space-between; 
+        text-align: center;
+        gap:0.4rem;
+        align-items: center;
+    }
+    .tag_perso {
+        border-radius: 0.6em;
+        padding: 0.2em;
+        width: 1em;
+    }
+    .containerPals .card_long .btn-container {
+        margin-left: 0; 
         width: 100%;
         text-align: center;
+        justify-content: center;
+        align-items: center; 
+        margin:0.75em;
     }
+    .containerPals  .btn_friends{
+        max-width: fit-content;
+        width: 100%!important;
+        height: 50%;
 
-    .btn_friends {
-        width: 100%;
-        font-size: 0.8em;
     }
-
     .acceptContainer {
-        flex-direction: column;
-        gap: 1em;
+        display: block;
+        gap:0.2em;
     }
-
-    .buttonn {
+    .acceptContainer a {
+        margin-bottom: 10px;
         width: 100%;
+        height: 100%;
+        box-sizing: border-box;
     }
-
-    .card_long .infos {
-        font-size: 0.7em;
-    }
-
-    .containerPals .tag {
-        font-size: 0.6em;
+    .buttonn{
+        margin-bottom: 10px;
+        width: -webkit-fill-available;
     }
 }
-
 
 
 /*--------------------------------------------------*/

@@ -65,7 +65,7 @@ function btn_setUp($relation, $userId) {
         $btn_txt = "Vous avez été refusé";
     } else {
         $url = route("SendFriendRequest", ["id" => $userId]);
-        $btn_txt = "Ajouter ami(e)";
+        $btn_txt = "Ajouter un ami(e)";
     }
 
     return "
@@ -137,9 +137,12 @@ usort($userDataList, function ($a, $b) use ($currentUser) {
             </div>
             <div class="infos">
                 <span>{{ $userData['affinity'] }}% d'affinité avec vous</span>
-                <div class="tag_perso {{ $userData['userPersonality'] }}">{{ $userData['userPersonalityType'] }}</div>
-
             </div>
+            <div>
+              <span class="tag_perso {{ $userData['userPersonality'] }}">{{ $userData['userPersonalityType'] }}
+               </span>
+            </div>
+
         </div>
         <div class="btn-container">
             {!! btn_setUp($userData['relation'], $userData['user']->id) !!}
