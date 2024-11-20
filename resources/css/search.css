@@ -113,7 +113,7 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    background-color: var(--background-100);
+    background-color: var(--background-900);
     opacity: 0.5;
     z-index: -1;
 }
@@ -134,7 +134,7 @@
 
 @media only screen and (max-width: 600px) {
     #absolute_cntr {
-        height: calc(100vh - 5em);
+        height: calc(100vh - 8em);
         align-items: end;
     }
 

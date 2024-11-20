@@ -116,7 +116,8 @@ ENGINE = InnoDB;
 
 -- chatRooms ------------------------------------
 CREATE TABLE IF NOT EXISTS chatRooms(
-    id INT PRIMARY KEY auto_increment
+    id INT PRIMARY KEY auto_increment,
+    `name` varchar(20) default null
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
@@ -125,11 +126,12 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS messages(
     id INT PRIMARY KEY auto_increment,
     id_chatRoom INT NOT NULL,
-    id_user_send INT NOT NULL,
-    content Varchar(2000) NOT NULL,
+    id_user INT NOT NULL,
+    content Varchar(200) NOT NULL,
+    created_at datetime default(now()),
     `modify` Bool DEFAULT(False),
     FOREIGN KEY (id_chatRoom) REFERENCES chatRooms (id),
-    FOREIGN KEY (id_user_send) REFERENCES users (id)
+    FOREIGN KEY (id_user) REFERENCES users (id)
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
@@ -137,10 +139,10 @@ ENGINE = InnoDB;
 -- chatRooms_users ------------------------------
 CREATE TABLE IF NOT EXISTS chatRooms_users(
     id_chatRoom INT NOT NULL,
-    id_user_send INT NOT NULL,
+    id_user INT NOT NULL,
     FOREIGN KEY (id_chatRoom) REFERENCES chatRooms (id),
-    FOREIGN KEY (id_user_send) REFERENCES users (id),
-    PRIMARY KEY pk_chatRooms_users (id_chatRoom, id_user_send)
+    FOREIGN KEY (id_user) REFERENCES users (id),
+    PRIMARY KEY pk_chatRooms_users (id_chatRoom, id_user)
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------

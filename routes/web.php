@@ -10,16 +10,26 @@ use App\Http\Controllers\InterestsController;
 use App\Http\Controllers\CustomVerificationController;
 use App\Http\Controllers\PersonalityController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\MessagesController;
 use App\Http\Controllers\SearchUserController;
 
-
-
 Route::get('/', function () {
-    if (auth()->check()) {
-        return redirect()->route('home');
-    }
-    return view('auth.login');
+    return redirect()->route('home');
 });
+Route::get('/home', [HomeController::class, 'home'])->name('home');
+Route::get('/home/showcase', [HomeController::class, 'showcase'])->name('showcase');
+Route::get('/home/user_meetups', [HomeController::class, 'user_meetups'])->name('user_meetups');
+Route::get('/home/top_events', [HomeController::class, 'top_events'])->name('top_events');
+Route::get('/home/recent_meetups', [HomeController::class, 'recent_meetups'])->name('recent_meetups');
+Route::get('/home/upcoming_events', [HomeController::class, 'upcoming_events'])->name('upcoming_events');
+
+Route::get('/about', function () {
+    return view('about'); 
+})->name('about');
+
+Route::get('/personality-info', function () {
+    return view('test_personality.info-personality'); 
+})->name('personality-info');
 
 // Authentification
 Route::get('/email/verify/{id}/{hash}', [CustomVerificationController::class, 'verify'])->name('verification.verify');
@@ -27,8 +37,8 @@ Route::get('/email/verify', function () {
     return view('auth.verify');
 })->middleware('auth')->name('verification.notice');
 
-Route::get('/signIn', [UsersController::class, 'registerForm'])->middleware('guest');
-Route::get('/login', [UsersController::class, 'loginForm'])->middleware('guest');
+Route::get('/signIn', [UsersController::class, 'registerForm'])->middleware('guest')->name('register.form');
+Route::get('/login', [UsersController::class, 'loginForm'])->middleware('guest')->name('login.form');
 Route::post('/signIn', [UsersController::class, 'create'])->name('signin');
 Route::post('/login', [UsersController::class, 'login'])->name('login');
 Route::get('/logout', [UsersController::class, 'logout'])->name('logout');
@@ -42,14 +52,6 @@ Route::post('/profile/updateAccount', [UsersController::class, 'updateAccount'])
 
 Route::middleware('auth')->group(function () {
     
-    // Home
-    Route::get('/home', [HomeController::class, 'home'])->name('home');
-    Route::get('/home/showcase', [HomeController::class, 'showcase'])->name('showcase');
-    Route::get('/home/user_meetups', [HomeController::class, 'user_meetups'])->name('user_meetups');
-    Route::get('/home/top_events', [HomeController::class, 'top_events'])->name('top_events');
-    Route::get('/home/recent_meetups', [HomeController::class, 'recent_meetups'])->name('recent_meetups');
-    Route::get('/home/upcoming_events', [HomeController::class, 'upcoming_events'])->name('upcoming_events');
-
     // Profile
     Route::get('/profile/{id}', [UsersController::class, 'profile'])->name('profile');
     Route::put('/profile/update/{id}', [UsersController::class, 'update'])->name('profile.update');
@@ -107,6 +109,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/search/cities', [SearchController::class, 'cities'])->name('search.cities');
     Route::get('/search/interests', [SearchController::class, 'interests'])->name('search.interests');
     Route::get('/search/getInterests', [SearchController::class, 'getInterests'])->name('search.getInterests');
+
+    // Messages
+    Route::get('/messages/{id?}', [MessagesController::class, 'index'])->name('messages');
+    Route::get('/searchUsers/{query?}', [MessagesController::class, 'searchUsers'])->name('searchUsers');
+    Route::get('/chat/{id}/{page}', [MessagesController::class, 'chat'])->name('chat');
+    Route::get('/menu/{query?}', [MessagesController::class, 'menu'])->name('menu');
+    Route::post('/sendchat/{id}', [MessagesController::class, 'send'])->name('sendMessage');
+    Route::post('/newChat', [MessagesController::class, 'newChat'])->name('sendMessage');
+    Route::get('/update/{id}/{etag}', [MessagesController::class, 'update'])->name('checkUpdate');
+    Route::get('/info/{id}', [MessagesController::class, 'info'])->name('info');
+    Route::get('/chatMembers/{id}', [MessagesController::class, 'chatMembers'])->name('members');
 
     //Pals + seach pals_index
     Route::get('/pals', [SearchController::class, 'pals_index'])->name('searchUsers');
