@@ -147,7 +147,7 @@ class MeetupController extends BaseController
                 }
                 // create Action for feed
 
-                $obj = array('meetup' => $id_meetup,'u');
+                $obj = array('meetup' => $id_meetup,);
                 DB::statement("Call addAction(?,?,?)", [
                     $id_owner,
                     'Meetup Create',
