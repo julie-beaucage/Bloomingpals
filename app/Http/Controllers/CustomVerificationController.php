@@ -17,12 +17,12 @@ class CustomVerificationController extends Controller
 
         if (! $user || ! hash_equals($hash, sha1($user->getEmailForVerification()))) {
             Log::error('Échec de la vérification pour l\'utilisateur ID : ' . $id . ' avec hash : ' . $hash);
-            return redirect('/login')->withErrors(['message' => 'Échec de la vérification']);
+            return redirect('home')->withErrors(['message' => 'Échec de la vérification']);
         }
 
         if ($user->hasVerifiedEmail()) {
             Log::info('L\'utilisateur a déjà vérifié son email : ' . $user->email);
-            return redirect('/login')->with('status', 'Votre email a déjà été vérifié.');
+            return redirect('home')->with('status', 'Votre email a déjà été vérifié.');
         }
 
         $user->markEmailAsVerified();
@@ -32,6 +32,6 @@ class CustomVerificationController extends Controller
         
         event(new Verified($user));
 
-        return redirect('/login')->with('status', 'Votre email a été vérifié.');
+        return redirect('home')->with('status', 'Votre email a été vérifié.');
     }
 }

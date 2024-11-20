@@ -193,7 +193,7 @@ class UsersController extends Controller
         } else if ($user->confidentiality == "public") {
             $haveAccess = true;
         }
-
+        $relationRequest=null;
         if ($relation == 'GotBlocked') {
             return redirect()->back();
         } else if ($relation != "Friend") {
@@ -205,6 +205,8 @@ class UsersController extends Controller
             } else if ($relationRequest == "refuse") {
                 $relation = "Refuse";
             }
+                
+            
         }
         return view('profile.profile', compact('user', 'profileCompletionPercentage', 'emailVerified', 'interestsSelected', 'personalityTestDone', 'relation','modified', 'haveAccess','relationRequest'));
     }
