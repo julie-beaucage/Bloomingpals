@@ -30,7 +30,6 @@ class UsersController extends Controller
     public function create(Request $request)
     { 
         $validator = Validator::make($request->all(),[
-        //$formFields = $request->validate([
             'lastname' => ['required', 'min:3', 'max:20'],
             'firstname' => ['required', 'min:3', 'max:20'],
             'birthdate' => ['required', 'date', 'before:' . now()->subYears(15)->toDateString()],
@@ -95,19 +94,12 @@ class UsersController extends Controller
             return view('auth.verify');
 
         } catch (QueryException $e) {
-            dd($e->getMessage());
-            Log::error('Erreur lors de la création de223 ');
-
             DB::rollBack();
             Log::error('Erreur lors de la création de l\'utilisateur : ' . $e->getMessage());
             return redirect()->back()
             ->withInput()
             ->with('error', 'Erreur lors de la création de l\'utilisateur : ' . $e->getMessage())
             ->with('showModal', $showModal);
-            //return redirect()->back()->with('error', '$e->getMessage()');
-            //return back()->withErrors(['error' => $e->getMessage()]);
-
-           //return redirect()->back()withErrors(['error' => $e->getMessage()]);
         }
 
     }
@@ -163,7 +155,7 @@ class UsersController extends Controller
         $user = User::find($id);
 
         if (!$user) {
-            return redirect()->route('/login')->with('error', 'Utilisateur non trouvé.');
+            return redirect()->route('home')->with('error', 'Utilisateur non trouvé.');
         }
         $profileCompletion = 0;
         $emailVerified = $user->hasVerifiedEmail();
