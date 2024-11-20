@@ -377,7 +377,7 @@
                 }
             });
         });
-        if (data.length > 1) {
+        if (data.length > 0) {
             let ids = [];
             data.forEach(user => {
                 console.log(user.id);
@@ -469,8 +469,17 @@
     $(document).ready(async function () {
         loading(friend)
         fetchSuggestedUsers();
-       // fetchSuggestedUsers();
-       // fetchSuggestedUsers();
+         fetchSuggestedUsers();
+        fetchSuggestedUsers();
+        fetchSuggestedUsers();
+        // fetchSuggestedUsers();
+        // fetchSuggestedUsers();
+        // fetchSuggestedUsers();
+        // fetchSuggestedUsers();
+        // fetchSuggestedUsers();
+        // fetchSuggestedUsers();
+        // fetchSuggestedUsers();
+        // fetchSuggestedUsers();
 
 
         $('#content').scroll(async function () {
