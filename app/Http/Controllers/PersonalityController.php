@@ -59,6 +59,8 @@ class PersonalityController extends Controller
             return redirect()->back()->with('error', 'Type de personnalité non trouvé.');
         }
                 $request->session()->forget('answers');
+        
+        DB::statement('Call addAction(?,?,?)',[$userId,'Personality Test',[]]);
 
         return view('test_personality.resultat_test', compact('personality'));
     }

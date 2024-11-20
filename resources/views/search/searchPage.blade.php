@@ -197,7 +197,7 @@
                             $("#result").empty();
                             curr_page = 1;
                         }
-                            
+                        console.log(data);
 
                         $("#result").append(data);
                     },
