@@ -1,6 +1,7 @@
 @php
     use Carbon\Carbon;
     $messages = $messages->values();
+    
 @endphp
 
 @foreach ($messages as $index=>$message)
@@ -33,10 +34,14 @@
                 $hasImage = false;
             }
         }
-
         $content = $message->content;
-        $class = ($user->id == auth()->user()->id) ? 'link dark' : 'link';
-        $content = preg_replace('/(https?:\/\/[^\s]+)/', '<a href="$1" target="_blank" class="' . $class. '">$1</a>', $content);
+        if($message->modify == 1){
+            $content='<img src="'.asset($message->content).'" class="chat-img">';
+        }else{
+            $class = ($user->id == auth()->user()->id) ? 'link dark' : 'link';
+            $content = preg_replace('/(https?:\/\/[^\s]+)/', '<a href="$1" target="_blank" class="' . $class. '">$1</a>', $content);
+        }
+        
     @endphp
 
     @if ($index == 0 || $date->isSameDay(Carbon::parse($messages[$index - 1]->created_at)) == false)

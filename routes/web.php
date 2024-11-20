@@ -120,11 +120,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/update/{id}/{etag}', [MessagesController::class, 'update'])->name('checkUpdate');
     Route::get('/info/{id}', [MessagesController::class, 'info'])->name('info');
     Route::get('/chatMembers/{id}', [MessagesController::class, 'chatMembers'])->name('members');
+
+    Route::post('/saveImage', [MessagesController::class, 'saveImage']);
     Route::post('/changeChatName/{id}', [MessagesController::class, 'changeChatName'])->name('changeChatName');
     Route::post('/leaveChat/{id}', [MessagesController::class, 'leaveChat'])->name('leaveChat');
 
     //Pals + seach pals_index
     Route::get('/pals', [SearchController::class, 'pals_index'])->name('searchPals');
+
 
 
     //utilisateurs

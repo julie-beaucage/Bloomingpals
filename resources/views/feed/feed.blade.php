@@ -164,6 +164,7 @@
                 </a>`;
                 $(friend).append(action);
             } else if (feed[i].type == 'Event') {
+                console.log("AAA");
 
                 let event = `<a class="card no_select hover_darker pointer" href="event/${feed[i].id}">
                     <div class="card-banner">
@@ -249,9 +250,7 @@
                     return resolve(false);
                 }
             });
-
         });
-
     }
     let time = 0;
 
@@ -293,8 +292,6 @@
             _meetups = await promise_fetchMeetups();
             if (_meetups.length == 0) {
                 break;
-
-
             }
             _meetups.forEach(element => {
                 element.type = 'Meetup';
@@ -334,6 +331,7 @@
             return true;
         });
         events = events.splice(4);
+        console.log(events);
 
         for (var i = content.length - 1; i >= 0; i--) {
             var j = Math.floor(Math.random() * (i + 1));
@@ -446,6 +444,7 @@
             });
         }else{
             ($(loading).children()[0]).remove();
+            $('#friends_suggestion').css('display','none');
         }
     }
 
@@ -458,7 +457,7 @@
 
 
         $('#content').scroll(async function () {
-            console.log($('#content').scrollTop() + $('#content').height() - $(friend).height());
+            //console.log($('#content').scrollTop() + $('#content').height() - $(friend).height());
             if ($('#content').scrollTop() + $('#content').height() - $(friend).height() > 0 && isLoading == true) {
                 isLoading = false;
                 if (await getContent() == false) {

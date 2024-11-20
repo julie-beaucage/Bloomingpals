@@ -381,13 +381,11 @@ CREATE TABLE IF NOT EXISTS actions(
 	id INT PRIMARY KEY AUTO_INCREMENT,
     id_user INT NOT NULL,
     type INT NOT NULL,
-    message varchar(256),
     content JSON,
     FOREIGN KEY (id_user) REFERENCES users(id),
     FOREIGN KEY (type) REFERENCES types_actions(id)
 )
 ENGINE = InnoDB;
--- -----------------------------------------------------
 
 -- canada_cities ---------------------------------------
 CREATE TABLE canadacities (
@@ -404,4 +402,3 @@ CREATE TABLE canadacities (
   postal TEXT(4000),
   id TEXT(10)
 );
--- -----------------------------------------------------

@@ -15,9 +15,6 @@ Insert INTO types_notifications (name) Values('Friendship Request');
 Insert INTO types_notifications (name) Values('Meetup Interest');
 Insert INTO types_notifications (name) Values('Friendship Accept');
 
--- Type Feed
-INSERT INTO types_actions(name) VALUES('Meetup Search');
-INSERT INTO types_actions (name) VALUES('Meetup Join');
 
 -- Sport
 INSERT INTO interests (name, id_category) VALUES ('Bowling', 1);
@@ -596,6 +593,15 @@ INSERT INTO meetups_interests (id_interest, id_meetup) VALUES (23, 3);
 INSERT INTO meetups_interests (id_interest, id_meetup) VALUES (14, 4);
 INSERT INTO meetups_interests (id_interest, id_meetup) VALUES (11, 5);
 INSERT INTO meetups_interests (id_interest, id_meetup) VALUES (100, 5);
+
+
+-- Type Feed
+INSERT INTO types_actions(name) VALUES('Meetup Create');
+INSERT INTO types_actions (name) VALUES('Meetup Join');
+INSERT INTO types_actions (name) VALUES('Personnality Test');
+
+-- Feed
+CALL fillFeed(2);
 
 -- Evenement --
 CALL addEvent ('Tori Kelly', '', 'Musique', 'Montreal', '59 St Catherine Est', '2024-10-22 00:00:00', 'Paid', '//images.ctfassets.net/3yxl57nu0yl4/ZvkgASpWsMVv5Xr3RLNEz/e4b9c537ee8c00f15fef16a71b0c8e93/tori_kelly_2024.jpg');
