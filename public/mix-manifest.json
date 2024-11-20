@@ -5,6 +5,8 @@
     "/js/resendEmail.js": "/js/resendEmail.js",
     "/js/validationTestPersonality.js": "/js/validationTestPersonality.js",
     "/js/Notifications.js": "/js/Notifications.js",
+    "/js/home-Overlay-login.js": "/js/home-Overlay-login.js",
+    "/js/flash.js": "/js/flash.js",
     "/css/profile.css": "/css/profile.css",
     "/css/app.css": "/css/app.css",
     "/css/meetup.css": "/css/meetup.css",

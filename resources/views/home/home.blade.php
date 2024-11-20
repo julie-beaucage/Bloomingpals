@@ -278,5 +278,6 @@
     });
 </script>
 <script src="{{asset('/js/validationLogin.js')}}"></script>
+<script src="{{asset('/js/home-Overlay-login.js')}}"></script>
 
 @endsection()
