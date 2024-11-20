@@ -345,7 +345,6 @@
         });
 
         $('input[type="file"]').on('change', function () {
-
             previewFile();
         });
 

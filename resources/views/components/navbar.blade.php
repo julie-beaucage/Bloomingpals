@@ -1,11 +1,11 @@
 @if (Auth::check())
     <nav id="navbar">
-        <span class="title no_select">BloomingPals
+        <a class="title no_select" href="/home">BloomingPals
             <img src="{{ asset('/images/logo.png') }}" alt="Logo" class="logo">
-        </span>
-        <span class="shrinked_title no_select shrinked_only">
+        </a>
+        <a class="shrinked_title no_select shrinked_only" href="/home">
             <img src="{{ asset('/images/logo.png') }}" alt="Logo" class="logo">
-        </span>
+        </a>
         @php
             $tabs = [
                 [
@@ -21,10 +21,16 @@
                     'url' => route('search')
                 ],
                 [
+                    'id' => 'messages',
+                    'title' => 'Messages',
+                    'icon' => 'forum',
+                    'url' => route('messages')
+                ],
+                [
                     'id' => 'pals',
                     'title' => 'Pals',
                     'icon' => 'group',
-                    'url' => route('searchUsers')
+                    'url' => route('searchPals')
                 ],
                 [
                     'id' => 'notification',
@@ -114,7 +120,7 @@
                     echo '</div>
                         </div>';
                 } elseif ($id == 'notification') {
-                    echo '<a class="' . $class . '" href="' . $url . '">
+                    echo '<a class="' . $class . ' navbar_notification" href="' . $url . '">
                              ' . $unreadNotif . '
                             <div class="shrinked_title shrinked_only">
                                <span class="title">' . $title . '</span>

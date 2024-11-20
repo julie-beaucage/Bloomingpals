@@ -214,7 +214,7 @@ $(document).ready(function () {
 
     function searchUsers(query, personalityGroups, personalityTypes) {
         $.ajax({
-            url: "{{ route('searchUsers') }}",
+            url: "{{ route('searchPals') }}",
             method: "GET",
             data: {
                 search: query,
@@ -234,7 +234,7 @@ $(document).ready(function () {
     }
     function fetchUsers(allFilters) {
     $.ajax({
-        url: "{{ route('searchUsers') }}",  
+        url: "{{ route('searchPals') }}",  
         method: 'GET',
         data: {
             allFilters: allFilters,

@@ -10,6 +10,7 @@ use App\Http\Controllers\InterestsController;
 use App\Http\Controllers\CustomVerificationController;
 use App\Http\Controllers\PersonalityController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\MessagesController;
 use App\Http\Controllers\SearchUserController;
 
 Route::get('/', function () {
@@ -109,8 +110,24 @@ Route::middleware('auth')->group(function () {
     Route::get('/search/interests', [SearchController::class, 'interests'])->name('search.interests');
     Route::get('/search/getInterests', [SearchController::class, 'getInterests'])->name('search.getInterests');
 
+    // Messages
+    Route::get('/messages/{id?}', [MessagesController::class, 'index'])->name('messages');
+    Route::get('/searchUsers/{query?}', [MessagesController::class, 'searchUsers'])->name('searchUsers');
+    Route::get('/chat/{id}/{page}', [MessagesController::class, 'chat'])->name('chat');
+    Route::get('/menu/{query?}', [MessagesController::class, 'menu'])->name('menu');
+    Route::post('/sendchat/{id}', [MessagesController::class, 'send'])->name('sendMessage');
+    Route::post('/newChat', [MessagesController::class, 'newChat'])->name('newChat');
+    Route::get('/update/{id}/{etag}', [MessagesController::class, 'update'])->name('checkUpdate');
+    Route::get('/info/{id}', [MessagesController::class, 'info'])->name('info');
+    Route::get('/chatMembers/{id}', [MessagesController::class, 'chatMembers'])->name('members');
+
+    Route::post('/saveImage', [MessagesController::class, 'saveImage']);
+    Route::post('/changeChatName/{id}', [MessagesController::class, 'changeChatName'])->name('changeChatName');
+    Route::post('/leaveChat/{id}', [MessagesController::class, 'leaveChat'])->name('leaveChat');
+
     //Pals + seach pals_index
-    Route::get('/pals', [SearchController::class, 'pals_index'])->name('searchUsers');
+    Route::get('/pals', [SearchController::class, 'pals_index'])->name('searchPals');
+
 
 
     //utilisateurs
@@ -132,10 +149,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/feed', function(){
         return View::make('feed.feed');
     })->name('feed');
+    Route::get('/feed2', function(){
+        return View::make('feed.feed2');
+    })->name('feed2');
 
     Route::namespace('feed')->prefix('feed')->group( function () {
         Route::get('/fetchFeed/{page}', [HomeController::class, 'fetchFeed']);
-        Route::post('/fetchData', [HomeController::class, 'fetchData']);
+        Route::get('/fetchData', [HomeController::class, 'fetchData']);
+        Route::get('/fetchMeetups/{page}', [HomeController::class, 'fetchMeetups']);
+        Route::get('/fetchEvents/{page}', [HomeController::class, 'fetchEvents']);
+        Route::get('/userSuggestion', [HomeController::class, 'suggestedUsers']);
+        Route::get('/calculateAffinity', [HomeController::class, 'calculateAffinity']);
+        Route::get('/friends', [HomeController::class, 'friends']);
     });
 
     

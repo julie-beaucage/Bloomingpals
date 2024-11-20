@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\City;
 use App\Models\Meetup;
+use App\Models\User_Interest;
 use illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -17,6 +18,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use App\Models\User;
+use App\Models\Event;
 use App\Models\Meetup_Interest;
 
 use Route;
@@ -48,48 +50,49 @@ class MeetupController extends BaseController
 
     public function Form($id = null, $isEvent = null)
     {
+        if (Auth::user()->id != null) {
+            if ($isEvent == true) {
+                $data = DB::table('events')
+                    ->select('*')
+                    ->where('id', $id)
+                    ->first();
+                if ($data == null) {
+                    abort(404);
+                }
 
-        if ($isEvent == true) {
-            $data = DB::table('events')
-                ->select('*')
-                ->where('id', $id)
-                ->first();
-            if ($data == null) {
-                abort(404);
-            }
+                $data = json_decode(json_encode($data), true);
+                $date = $data['date'];
+                $date = explode(' ', $date);
+                $data['date'] = $date[0];
+                $data['time'] = $date[1];
+                $data['nb_participant'] = '';
+                $data['empty'] = true;
+                // $data['description'] = ;
+                $data['isEvent'] = $id;
+            } else if ($id != null) {
+                $data = Meetup::where('id', '=', $id)->first();
 
-            $data = json_decode(json_encode($data), true);
-            $date = $data['date'];
-            $date = explode(' ', $date);
-            $data['date'] = $date[0];
-            $data['time'] = $date[1];
-            $data['nb_participant'] = '';
-            $data['empty'] = true;
-            // $data['description'] = ;
-            $data['isEvent'] = $id;
-        } else if ($id != null) {
-            $data = Meetup::where('id', '=', $id)->first();
+                if ($data == null) {
+                    abort(404);
+                }
+                if (Auth::user()->id != $data->id_owner) {
+                    abort(403);
+                }
+                $date = $data->date;
+                $date = explode(' ', $date);
+                $data->date = $date[0];
+                $data->time = $date[1];
+                $data['empty'] = false;
+                $data['isEvent'] = false;
+            } else {
+                $data = new Meetup();
+                $data['empty'] = true;
+                $data['isEvent'] = false;
+            }
+            $listCities = $this->getCities();
 
-            if ($data == null) {
-                abort(404);
-            }
-            if (Auth::user()->id != $data->id_owner) {
-                abort(403);
-            }
-            $date = $data->date;
-            $date = explode(' ', $date);
-            $data->date = $date[0];
-            $data->time = $date[1];
-            $data['empty'] = false;
-            $data['isEvent'] = false;
-        } else {
-            $data = new Meetup();
-            $data['empty'] = true;
-            $data['isEvent'] = false;
+            return view('meetups.form', compact('data', 'listCities'));
         }
-        $listCities = $this->getCities();
-
-        return view('meetups.form', compact('data', 'listCities'));
     }
 
     public function create(Request $req, $isEvent = null)
@@ -122,19 +125,19 @@ class MeetupController extends BaseController
                 $req->public
             ]);
 
-            
+
             if ($req->interests != "") {
                 $id_interests = explode(',', $req->interests);
                 $meetup = Meetup::where('image', $path)->where('date', date_create("$req->date" . " " . "$req->time"))
                     ->where('name', $req->name)->where('adress', $req->adress)->where('id_owner', $id_owner)->get();
-                
-                    $id_meetup=0;
-                    foreach($meetup as $meet ){
-                        if($meet->id>$id_meetup){
-                            $id_meetup=$meet->id;
-                        }
+
+                $id_meetup = 0;
+                foreach ($meetup as $meet) {
+                    if ($meet->id > $id_meetup) {
+                        $id_meetup = $meet->id;
                     }
-                        
+                }
+
 
                 foreach ($id_interests as $id) {
                     Meetup_Interest::insert([
@@ -142,11 +145,20 @@ class MeetupController extends BaseController
                         'id_meetup' => $id_meetup
                     ]);
                 }
+                // create Action for feed
+
+                $obj = array('meetup' => $id_meetup);
+                DB::statement("Call addAction(?,?,?)", [
+                    $id_owner,
+                    'Meetup Create',
+                    json_encode($obj)
+                ]);
+
                 DB::commit();
             }
 
         }
-        Artisan::call('storage:link'); // update les symLinks
+        //Artisan::call('storage:link'); // update les symLinks
 
         return redirect('/home');
     }
@@ -205,11 +217,11 @@ class MeetupController extends BaseController
                             'id_meetup' => $id
                         ]);
                     }
-                   
+
                 }
                 DB::commit();
             }
-            Artisan::call('storage:link'); // update les symLinks
+            //Artisan::call('storage:link'); // update les symLinks
             return redirect('/home');
         }
         abort(404);
@@ -351,6 +363,8 @@ class MeetupController extends BaseController
         Meetup_User::AddParticipant($userId, $meetupId);
         Meetup_Request::AcceptMeetupRequest($userId, $meetupId);
 
+        DB::statement('Call addAction(?,?,?)',[$userId,'Meetup Join',[$meetupId]]);
+        
         return $this->MeetupRequests($meetupId);
     }
 
