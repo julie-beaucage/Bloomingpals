@@ -144,10 +144,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/feed', function(){
         return View::make('feed.feed');
     })->name('feed');
+    Route::get('/feed2', function(){
+        return View::make('feed.feed2');
+    })->name('feed2');
 
     Route::namespace('feed')->prefix('feed')->group( function () {
         Route::get('/fetchFeed/{page}', [HomeController::class, 'fetchFeed']);
-        Route::post('/fetchData', [HomeController::class, 'fetchData']);
+        Route::get('/fetchData', [HomeController::class, 'fetchData']);
+        Route::get('/fetchMeetups/{page}', [HomeController::class, 'fetchMeetups']);
+        Route::get('/fetchEvents/{page}', [HomeController::class, 'fetchEvents']);
+        Route::get('/userSuggestion', [HomeController::class, 'suggestedUsers']);
+        Route::get('/calculateAffinity', [HomeController::class, 'calculateAffinity']);
+        Route::get('/friends', [HomeController::class, 'friends']);
     });
 
     
