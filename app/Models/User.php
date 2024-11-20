@@ -11,6 +11,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Cache;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -151,5 +152,10 @@ class User extends Authenticatable implements MustVerifyEmail
         }
     
         return $points;
+    }
+
+    public function isOnline()
+    {
+        return Cache::has('user-is-online-' . $this->id);
     }
 }

@@ -166,12 +166,12 @@ class MessagesController extends Controller
     public function searchUsers($query = "") {
         if ($query == "") return response()->json([]);
 
-        $users = User::query()->where(DB::raw("CONCAT(`first_name`, ' ', `last_name`)"), 'LIKE', '%' . $query . '%')->orderBy('first_name')->get();
+        $users = User::query()->where(DB::raw("CONCAT(`first_name`, ' ', `last_name`)"), 'LIKE', '%' . $query . '%')->where('id', '!=', auth()->user()->id)->orderBy('first_name')->get();
         $users = $users->map(function ($user) {
             $user->personality = $user->getPersonalityType();
             return $user;
         });
-        return response()->json($users->where('id', '!=', auth()->user()->id)->take(5));
+        return response()->json($users->take(5));
     }
 
     public function newChat(Request $request) {

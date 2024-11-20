@@ -327,6 +327,21 @@ body {
 .header-nav{
     display:none;
 }
+.header-nav .header_btns{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1.5em;
+    justify-content: center;
+}
+
+.header-nav .title {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    font-size: 1.5em;
+    font-weight: 600;
+}
 .profile-menu-container {
     position: relative;
     display: inline-block;
@@ -429,6 +444,10 @@ body {
         width:  auto;
     }
 
+    #navbar .navbar_notification {
+        display: none;
+    }
+
     #navbar > .title {
         display: none;
     }
@@ -475,16 +494,6 @@ body {
     .header-title{
         font-size: 1.5em;
         font-weight: 600;
-        color: var(--text);
-    }
-    .navbar_notification {
-        font-size: 1.1em;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 0.75em;
-        padding: 0.25em;
-        background-color: var(--white);
         color: var(--text);
     }
     .hideNotification{
@@ -543,11 +552,6 @@ body {
         font-weight: bold;
     }
 
-    .navbar_notification .material-symbols-rounded{
-        font-size: 24px;
-        color: #333;
-        padding-right:0.4em;
-    }
     .material-symbols-rounded#menu-icon {
         font-size: 24px;
         cursor: pointer;
@@ -587,10 +591,6 @@ body {
         display: block;
     }
 
-    .navbar_notification {
-        position: relative;
-    }
-
     .icon_md {
         font-size: 24px;
     }
@@ -609,7 +609,6 @@ body {
     .menu-icon {
         font-size: 30px;
         cursor: pointer;
-        margin-left: 20px;
     }
 
     .navbar_logout {

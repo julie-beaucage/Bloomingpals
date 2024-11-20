@@ -128,6 +128,17 @@
     object-fit: cover;
 }
 
+.convo_img:has(.profile_image.online)::before {
+    content: '';
+    position: absolute;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    background-color: var(--secondary-600);
+    border: 2px solid var(--secondary-300);
+    transform: translate(1.35em, 1.35em);
+}
+
 .convo_img {
     height: 100%;
     aspect-ratio: 1/1;

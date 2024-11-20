@@ -77,7 +77,7 @@
     }
     
     .container-notif{
-        top:3em;
+        top:5em;
         height: calc(90% - 100px) !important ;
     }
 }
@@ -114,7 +114,7 @@
 .container-notif{
     background-color: white;
     position: absolute;
-    right: 0;
+    right: 1em;
     display: none;
     flex-direction: column;
     gap: .8em;
