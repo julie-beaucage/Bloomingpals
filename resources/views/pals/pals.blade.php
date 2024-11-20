@@ -21,7 +21,7 @@
             <div id="selected-info"></div>
         </div>
         <div id="result" class="cards_list">
-            @include('partial_views.user_cards')
+            @include('partial_views.pal_card')
         </div>
     </div>
 </div>

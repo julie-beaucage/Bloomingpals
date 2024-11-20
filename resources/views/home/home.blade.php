@@ -22,6 +22,12 @@
         <p>{{ session('error') }}</p>
     </div>
 @endif
+@if(session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
+
 <div id="home_cntr">
     <div class="main-carousel">
         <div class="carousel-wrapper" id="carousel-wrapper">
