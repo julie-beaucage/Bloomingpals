@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use App\Models\User_Interest;
 use App\Events\NewNotif;
+use Illuminate\Support\Facades\Validator;
+
 use Symfony\Component\HttpKernel\Profiler\Profile;
 
 class UsersController extends Controller
@@ -28,8 +30,9 @@ class UsersController extends Controller
     }
 
     public function create(Request $request)
-    {
-        $formFields = $request->validate([
+    { 
+        $validator = Validator::make($request->all(),[
+        //$formFields = $request->validate([
             'lastname' => ['required', 'min:3', 'max:20'],
             'firstname' => ['required', 'min:3', 'max:20'],
             'birthdate' => ['required', 'date', 'before:' . now()->subYears(15)->toDateString()],
@@ -63,10 +66,16 @@ class UsersController extends Controller
             'password.regex' => "Le mot de passe doit respecter les critères suivants : <br>- Au moins un caractère spécial <br>- Au moins une majuscule <br>- Au moins une minuscule <br>- Au moins un chiffre.",
         ]);
 
+        $formFields = $request->all();
         $password = bcrypt($formFields['password']);
+        if ($validator->fails()) {
+            $showModal=true;
+            return redirect()->back()->withErrors($validator)->withInput()->with('showModal', $showModal);
 
+        }
         DB::beginTransaction();
 
+        $showModal = true;
         try {
             DB::statement("CALL creerUsager(?, ?, ?, ?, ?,?)", [
                 $formFields['email'],
@@ -86,11 +95,21 @@ class UsersController extends Controller
             }
             DB::commit();
             return view('auth.verify');
+
         } catch (QueryException $e) {
+            dd($e->getMessage());
+            Log::error('Erreur lors de la création de223 ');
+
             DB::rollBack();
             Log::error('Erreur lors de la création de l\'utilisateur : ' . $e->getMessage());
+            return redirect()->back()
+            ->withInput()
+            ->with('error', 'Erreur lors de la création de l\'utilisateur : ' . $e->getMessage())
+            ->with('showModal', $showModal);
+            //return redirect()->back()->with('error', '$e->getMessage()');
+            //return back()->withErrors(['error' => $e->getMessage()]);
 
-            return back()->withErrors(['error' => $e->getMessage()]);
+           //return redirect()->back()withErrors(['error' => $e->getMessage()]);
         }
 
     }
@@ -104,7 +123,7 @@ class UsersController extends Controller
     {
         
         $data = array(
-            "email" => $request['email'],
+            "email" => $request['emailLogin'],
             "password" => $request['password']
         );
         if (User::IsBanWithEmail($request['email'])) {
@@ -116,10 +135,10 @@ class UsersController extends Controller
             $notifController = new NotificationController();
             $notifController->sendAllToNoficationTable($id);
             $notifController->sendDailyNotification();
-
+            
             return redirect('/profile/' . $id)->with('message', 'Bienvenue sur BloomingPals, ' . auth()->user()->prenom);
         }
-        return back()->withErrors(['email' => 'Le courriel et le mot de passe ne correspondent pas'])->onlyInput('email');
+        return redirect()->back()->with('error', 'Identifiants incorrects.');
     }
 
 
@@ -143,12 +162,10 @@ class UsersController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/login');
+        return redirect('/home');
     }
     public function profile($id,$modified =false)
     {
-        Log::info("Appel du contrôleur profile pour l'utilisateur avec ID: " . $id);
-
         $user = User::find($id);
 
         if (!$user) {
@@ -186,7 +203,6 @@ class UsersController extends Controller
         }
 
 
-        
         if ($relation == 'GotBlocked') {
             return redirect()->back();
         } else if ($relation != "Friend") {
@@ -198,8 +214,9 @@ class UsersController extends Controller
             } else if ($relationRequest == "refuse") {
                 $relation = "Refuse";
             }
-        }
-        return view('profile.profile', compact('user', 'profileCompletionPercentage', 'emailVerified', 'interestsSelected', 'personalityTestDone', 'relation','modified', 'haveAccess', 'reportsReasons'));
+
+        return view('profile.profile', compact('user', 'profileCompletionPercentage', 'emailVerified', 'interestsSelected', 'personalityTestDone', 'relation','modified', 'haveAccess','relationRequest'));
+
     }
 
 

@@ -1,9 +1,7 @@
-document.addEventListener('DOMContentLoaded', function() {
+
+function age_verify(){
     const form_de_login = document.getElementById('signupForm'); 
     const InputDateNaissance = document.getElementById('date_naissance');
-    const passwordInput = document.getElementById('password');
-    const passwordConfirmationInput = document.getElementById('password_confirmation');
-
     form_de_login.addEventListener('submit', function(event) {
         const birthdate = new Date(InputDateNaissance.value);
         const today = new Date();
@@ -19,22 +17,40 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Vous devez avoir au moins 15 ans pour vous inscrire.');
         }
     });
-});
-
+}
 function togglePasswordVisibility() {
-    const passwordInput = document.getElementById('password');
-    const toggleIcon = document.getElementById('togglePassword').querySelector('i');
-    const type = passwordInput.type === 'password' ? 'text' : 'password';
-    passwordInput.type = type;
-    toggleIcon.classList.toggle('fa-eye', type === 'password');
-    toggleIcon.classList.toggle('fa-eye-slash', type === 'text');
+    const passwordInput = document.getElementById('passwordSign'); 
+    const toggleIcon = document.getElementById('icone'); 
+
+    if (passwordInput && toggleIcon) {
+        const isPasswordVisible = passwordInput.type === 'text';
+        toggleIcon.textContent = isPasswordVisible ? 'visibility' : 'visibility_off';
+        passwordInput.type = isPasswordVisible ? 'password' : 'text';
+    }
 }
 
 function togglePasswordConfirmationVisibility() {
-    const passwordConfirmationInput = document.getElementById('password_confirmation');
-    const toggleIcon = document.getElementById('togglePasswordConfirmation').querySelector('i');
-    const type = passwordConfirmationInput.type === 'password' ? 'text' : 'password';
-    passwordConfirmationInput.type = type;
-    toggleIcon.classList.toggle('fa-eye', type === 'password');
-    toggleIcon.classList.toggle('fa-eye-slash', type === 'text');
+    const passwordInput = document.getElementById('password_confirmation'); 
+    const toggleIcon = document.getElementById('icone_confirm'); 
+
+    if (passwordInput && toggleIcon) {
+        const isPasswordVisible = passwordInput.type === 'text';
+        toggleIcon.textContent = isPasswordVisible ? 'visibility' : 'visibility_off';
+        passwordInput.type = isPasswordVisible ? 'password' : 'text';
+    }
 }
+
+function togglePasswordVisibilityLogin() {
+    const passwordInput = document.getElementById('passwordLogin'); 
+    const toggleIcon = document.getElementById('icone_login'); 
+
+    if (passwordInput && toggleIcon) {
+        const isPasswordVisible = passwordInput.type === 'text';
+        toggleIcon.textContent = isPasswordVisible ? 'visibility' : 'visibility_off';
+        passwordInput.type = isPasswordVisible ? 'password' : 'text';
+    }
+}
+window.togglePasswordVisibility = togglePasswordVisibility;
+window.togglePasswordConfirmationVisibility = togglePasswordConfirmationVisibility;
+window.togglePasswordVisibilityLogin = togglePasswordVisibilityLogin;
+//window.age_verify= age_verify;

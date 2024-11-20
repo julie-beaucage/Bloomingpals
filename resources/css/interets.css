@@ -170,6 +170,9 @@
     font-family: "Poppins", sans-serif !important;
     cursor: text;
     margin-bottom: 0.5em;
+    position: sticky;
+    top: -16;
+    z-index: 10; 
 }
 
 .interet-btn-annuler {

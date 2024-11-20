@@ -1,28 +1,53 @@
-.pageContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 2em; 
-    flex-wrap: wrap;
+.pageContainerLogin {
+    display:  flex; 
+    flex-direction:  row; 
+    width:  auto; 
+    height:  fit-content !important; 
+    margin:  auto auto; 
+    border-radius:  4px; 
+    box-shadow:  0px 2px 6px -1px rgba(0,0,0,.12);
+    min-height: fit-content;
 }
 
+#loginOverlay .container-custom-modal {
+    overflow-y: auto !important;
+    overflow-x: hide !important;
+}
+
+
+.img_login_left {
+    position: sticky;
+    top: 0;
+    align-self: flex-start;
+    width: 40%;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: rgba(222, 233, 230, 0.6);
+    margin-top:2em;
+    border-radius:  4px; 
+
+}
 .headerContainer {
     margin-bottom: 20px;
 }
 
+
 .image_login img {
+    padding-top: 15%;
     width: 120px;
     height: auto;
     margin-bottom: 10px;
+
 }
 
 .formContainerLogin {
-    background-color: white;
-    padding: 2.5em;
-    width: 25em;
-    box-shadow: 0 0.125em 0.625em rgba(0, 0, 0, 0.1);
-    border-radius: 0.5em;
-    text-align: center;
+    padding:  40px 30px; 
+    display:  flex; 
+    flex-direction:  column;
+    align-items:  flex-start; 
+    padding-bottom:  20px; 
+    width:  300px; 
+    min-height: fit-content;
 }
 
 input[type="text"], input[type="password"], input[type="email"], input[type="date"],select {
@@ -58,8 +83,8 @@ header h2 {
     color: var(--text);
 }
 
-.errorMessage {
-    color: var(--error);
+.errorMessage .error-message{
+    color: red !important;
     font-size: 0.75em;
     text-align: left;
 }
@@ -83,8 +108,22 @@ header h2 {
     background-color: var(--primary-300);
 }
 
+
 @media only screen and (max-width: 1075px) {
     .formContainerLogin {
         float: right;
+    }
+}
+
+@media only screen and (max-width: 720px) {
+    .img_login_left {
+        display: none;
+    }
+    #loginOverlay{
+        height: 100%;
+    }
+    #loginOverlay .container-custom-modal{
+        width: fit-content;
+        font-size: 1.3em;
     }
 }

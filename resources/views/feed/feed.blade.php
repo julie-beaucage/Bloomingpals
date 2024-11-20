@@ -12,6 +12,7 @@
 </div>
 <div class="feed-container">
     <div id="feed_friend" class="feed-friend">
+
         <div id="friends_suggestion" class="user-suggestion-container">
 
         </div>
@@ -27,6 +28,7 @@
     let pageFeed = 0;
     let pageMeetup = 0;
     let pageEvent = 0;
+
     const container = '#feed_container';
     const friend = '#feed_friend';
     let meetups = [];
@@ -48,20 +50,6 @@
         $("#loading").remove();
     }
 
-    async function fetchContent() {
-        loading(friend);
-        let data = await promise_fetchContent();
-        console.log(data);
-        if (data.length > 0) {
-            setTimeout(function () {
-                handleContent(data);
-                pageIndex += 1;
-                isLoading = true;
-            }, 1 * 1000);
-        } else {
-            removeLoading(friend);
-        }
-    }
     function promise_fetchContent() {
         return new Promise(resolve => {
             $.ajax({
@@ -193,7 +181,6 @@
                 random = Math.floor(Math.random() * 3) + 1;
                 image = feed[i].image ? feed[i].image : "\\images\\meetup_default" + random + '.png';
 
-
                 let event = `<a class="card no_select hover_darker pointer" href="meetup/${feed[i].id}">
                     <div class="card-banner">
                         <img src="${image}" alt="Image de l'évènement" class="feed-img">
@@ -242,10 +229,13 @@
                     return resolve(false);
                 }
             });
+
+ 
         });
 
     }
     let time = 0;
+
     async function handleContent(content) {
         if (content.length > 0) {
             //getDataFriend(content);
@@ -335,6 +325,7 @@
         console.log(content.length > 0);
         return content.length > 0;
     }
+
     async function fetchSuggestedUsers() {
         let html = '<div class="loading" style="position: relative;width: 100%; height:10em;"><svg class="spinner" viewBox="0 0 50 50" id="svgLoading">' +
             '<circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>'
@@ -475,4 +466,4 @@
     });
     const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay))
 </script>
-@endsection()
+@endsection
