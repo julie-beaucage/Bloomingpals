@@ -22,6 +22,6 @@ class ChatRoom extends Model
 
             return implode(', ', $other_users->pluck('full_name')->toArray());
         }
-        return $this->name . ' ' . $this->last_name;
+        return $this->name;
     }
 }

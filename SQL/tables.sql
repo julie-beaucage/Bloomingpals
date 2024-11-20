@@ -128,9 +128,9 @@ CREATE TABLE IF NOT EXISTS messages(
     id INT PRIMARY KEY auto_increment,
     id_chatRoom INT NOT NULL,
     id_user INT NOT NULL,
-    content Varchar(200) NOT NULL,
-    created_at datetime default(now()),
+    content Varchar(2000) NOT NULL,
     `modify` Bool DEFAULT(False),
+    created_at datetime,
     FOREIGN KEY (id_chatRoom) REFERENCES chatRooms (id),
     FOREIGN KEY (id_user) REFERENCES users (id)
 )
