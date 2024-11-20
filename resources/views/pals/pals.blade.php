@@ -2,7 +2,7 @@
 
 @section('style')
 <link rel="stylesheet" type="text/css" href="{{ asset('css/search.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('css/cards.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('css/palCard.css') }}">
 @endsection
 
 @section('content')
