@@ -20,6 +20,10 @@ document.addEventListener('DOMContentLoaded', function () {
             loadTabContent(interestsTabLink.getAttribute('href'));
         }
     }
+    $(document).on("click", "#reportPanel", function () {
+        console.log("Bouton signalé cliqué.");
+        $("#reportPanel").css("display", "block");
+    });
 
     tabLinks.forEach(link => {
         link.addEventListener('click', function (event) {
