@@ -13,7 +13,7 @@ if (count($users) == 0) {
 }
 
 foreach ($users as $user) {
-    $userPersonality = $user->getPersonalityType(); 
+    $userPersonality = $user->getPersonalityGroup(); 
     $affinity = $currentUser->calculateAffinity($user->id, $currentUser->id);
     $image = $user->image_profil ? asset('storage/' . $user->image_profil) : asset('/images/simple_flower.png');
     $tags = "";

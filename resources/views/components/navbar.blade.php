@@ -108,7 +108,7 @@
                                     <span class="title">' . $title . '</span>
                                 </div>
                                 <span class="navbar_icon">
-                                    <img src="' . $icon . '" alt="Photo de profil" class="profile-image">
+                                    <img src="' . $icon . '" alt="Photo de profil" class="profile_image">
                                     <span class="title">' . $title . '</span>
                                 </span>
                             </a>
