@@ -79,7 +79,7 @@
             <input type="text" id="search_field" class="no_select" placeholder="Rechercher">
             <button id="filter_btn" class="hover_darker no_select" value="meetups" type="button">
                 <span class="material-symbols-rounded">
-                    filter_vintage
+                    page_info
                 </span>
             </button>
         </div>

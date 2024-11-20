@@ -34,7 +34,6 @@ mix.postCss('resources/css/overlay-modal.css', 'public/css', []);
 mix.postCss('resources/css/home.css', 'public/css', []);
 mix.postCss('resources/css/notifications.css', 'public/css', []);
 mix.postCss('resources/css/palCard.css', 'public/css', []);
-mix.postCss('resources/css/feed.css', 'palCard/css', []);
 mix.postCss('resources/css/messages.css', 'public/css', []);
 mix.postCss('resources/css/feed.css', 'public/css', []);
 mix.postCss('resources/css/feed2.css', 'public/css', []);
