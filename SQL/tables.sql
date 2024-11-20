@@ -34,6 +34,14 @@ DROP TABLE IF EXISTS affinities;
 DROP TABLE IF EXISTS types_personalities;
 DROP TABLE IF EXISTS personalities;
 DROP TABLE IF EXISTS groups_personalities;
+DROP TABLE IF EXISTS reports_objects;
+
+-- report_object -----------------------------------------
+CREATE TABLE IF NOT EXISTS reports_objects (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    description VARCHAR(1000) NOT NULL
+)
+ENGINE = InnoDB;
 
 
 -- types_personalities -----------------------------------
@@ -301,6 +309,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS reports(
     id Int primary key auto_increment,
     id_user_send INT not null,
+    id_user_receive INT,
     id_object INT,
     id_type_object INT,
     FOREIGN KEY (id_user_send) REFERENCES users(id),
