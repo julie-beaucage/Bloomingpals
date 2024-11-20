@@ -14,7 +14,11 @@
     overflow-x: hide !important;
 }
 
+.errorMessage{
+    color:var(--error);
+    font-weight: bold;
 
+}
 .img_login_left {
     position: sticky;
     top: 0;

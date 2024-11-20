@@ -102,26 +102,7 @@
                 <div class="blue_button">Ajouter ami(2)</div>
             </a>
         @endif
-       <!-- <button 
-            class="friend-action-btn {{ strtolower($relation) }}" 
-            onclick="handleFriendAction('{{ $relation }}', {{ $user->id }})">
-            @if ($relation == "Friend")
-                ✅ Ami(e)
-            @elseif ($relation == "SendingInvitation")
-                📤 Annuler la demande
-            @elseif ($relation == "Invited")
-                ✉️ Invitation reçue
-            @elseif ($relation == "Blocked")
-                🚫 Bloqué(e)
-            @else
-                ➕ Ajouter ami(e)
-            @endif
-        </button>
-        <x-button-friend :user="$user" :relation="$relation" />-->
-
-
         <div class="containerOnglerMain">
-
             @if ($haveAccess)
                 <div class="listOnglet">
                     <ul class="nav nav-tabs justify-content-center" id="main-tabs">
