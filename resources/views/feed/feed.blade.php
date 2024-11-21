@@ -30,12 +30,18 @@
     let pageMeetup = 0;
     let pageEvent = 0;
 
+    let pageMeetup2 = 0;
+    let pageEvent2 = 0;
+
 
     const container = '#feed_container';
     const friend = '#feed_friend';
     let meetups = [];
     let events = [];
     let content = [];
+
+    let meetups2 = [];
+    let events2 = [];
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -56,7 +62,6 @@
         loading(friend);
 
         let data = await promise_fetchContent();
-        console.log(data);
         if (data.length > 0) {
             setTimeout(function () {
                 handleContent(data);
@@ -89,10 +94,32 @@
             });
         });
     }
+    function promise_fetchMeetups2() {
+        return new Promise(resolve => {
+            $.ajax({
+                url: 'feed/fetchMeetupsInterest/' + pageMeetup2,
+                method: 'GET',
+                success: function (data) {
+                    resolve(data)
+                }
+            });
+        });
+    }
     function promise_fetchEvents() {
         return new Promise(resolve => {
             $.ajax({
                 url: 'feed/fetchEvents/' + pageEvent,
+                method: 'GET',
+                success: function (data) {
+                    resolve(data)
+                }
+            });
+        });
+    }
+    function promise_fetchEvents2() {
+        return new Promise(resolve => {
+            $.ajax({
+                url: 'feed/fetchEventsInterest/' + pageEvent2,
                 method: 'GET',
                 success: function (data) {
                     resolve(data)
@@ -114,10 +141,10 @@
         return var_user;
     }
     function appendContent(users, meetups, feed) {
-        let action, meesage, user, image_content,noImage;
+        let action, meesage, user, image_content, noImage;
 
         for (let i = 0; i < feed.length; i++) {
-            noImage=false;
+            noImage = false;
             if (feed[i].type == 'Feed') {
                 user = searchById(users, feed[i].id_user);
                 image = user.image_profil ? 'storage/' + user.image_profil : window.location.origin + '/images/simple_flower.png';
@@ -143,8 +170,7 @@
                 }
                 else if (feed[i].name.includes('Personality')) {
                     if (feed[i].name == 'Personality Test') {
-                        noImage=true;
-                        console.log("perso");
+                        noImage = true;
                         message = user.first_name + ' à complété(e) le test de personnalité !';
                     }
                 }
@@ -165,7 +191,7 @@
                     </div>
                 </a>`;
 
-                if(noImage == true){
+                if (noImage == true) {
                     action = `<a class="feed-post hover_darker pointer" href="${link}">
                     <div class="feed-header">
                         <img class="profile-img" src="${image}" alt="Profile">
@@ -210,7 +236,6 @@
                 $(friend).append(event);
             }
             else if (feed[i].type == 'Meetup') {
-                console.log(feed[i]);
                 random = Math.floor(Math.random() * 3) + 1;
                 image = feed[i].image ? feed[i].image : "\\images\\meetup_default" + random + '.png';
 
@@ -276,7 +301,7 @@
             let userIds = {};
             let meetupIds = {};
             time = new Date().getTime();
-            
+
             for (var i in content) {
                 if (content[i].type == 'Feed') {
                     if (content[i].name == 'Meetup Create') {
@@ -287,7 +312,6 @@
             }
 
             let res = await getData(userIds, meetupIds);
-            console.log(res);
             appendContent(res[0], res[1], content);
 
 
@@ -296,6 +320,7 @@
         }
     }
     async function getContent() {
+        loading(friend);
         let content = [];
         let _actions = await promise_fetchContent();
 
@@ -305,29 +330,70 @@
         pageFeed++;
         content = content.concat(_actions);
 
-        while (meetups.length < 5) {
-            _meetups = await promise_fetchMeetups();
-            if (_meetups.length == 0) {
-                break;
+        if (meetups2.length < 1) {
+            while (meetups.length < 5) {
+                _meetups = await promise_fetchMeetups();
+                if (_meetups.length == 0) {
+                    _meetups = await promise_fetchMeetups2();
+                    _meetups.forEach(element => {
+                        element.type = 'Meetup';
+                    });
+                    meetups2 = meetups2.concat(_meetups);
+                    pageMeetup2++;
+                    break;
+                }
+                _meetups.forEach(element => {
+                    element.type = 'Meetup';
+                });
+                meetups = meetups.concat(_meetups);
+                pageMeetup++;
             }
-            _meetups.forEach(element => {
-                element.type = 'Meetup';
-            });
-            meetups = meetups.concat(_meetups);
-            pageMeetup++;
+        } else {
+            while (meetups2.length < 5) {
+                _meetups = await promise_fetchMeetups2();
+                if (_meetups.length == 0) {
+                    break;
+                }
+                _meetups.forEach(element => {
+                    element.type = 'Meetup';
+                });
+                meetups2 = meetups2.concat(_meetups);
+                pageMeetup2++;
+            }
         }
 
-        while (events.length < 5) {
-            let _events = await promise_fetchEvents();
-            if (_events.length == 0) {
-                break;
-            }
-            _events.forEach(element => {
-                element.type = 'Event';
-            });
-            events = events.concat(_events);
+        if (pageEvent2 < 1) {
+            while (events.length < 5) {
+                let _events = await promise_fetchEvents();
+                if (_events.length == 0) {
+                    _events = await promise_fetchEvents2();
+                    _events.forEach(element => {
+                        element.type = 'Event';
+                    });
+                    events2 = events2.concat(_events);
 
-            pageEvent++;
+                    pageEvent2++;
+                    break;
+                }
+                _events.forEach(element => {
+                    element.type = 'Event';
+                });
+                events = events.concat(_events);
+
+                pageEvent++;
+            }
+        }else{
+            while (events2.length < 5) {
+                _events = await promise_fetchEvents2();
+                if (_events.length == 0) {
+                    break;
+                }
+                _events.forEach(element => {
+                    element.type = 'Event';
+                });
+                events2 = events2.concat(_events);
+                pageEvent2++;
+            }
         }
 
         meetups.every(function (element, index) {
@@ -339,6 +405,15 @@
         });
         meetups = meetups.splice(4);
 
+        meetups2.every(function (element, index) {
+            if (index == 4) {
+                return false
+            }
+            content.push(element);
+            return true;
+        });
+        meetups2 = meetups2.splice(4);
+
         events.every(function (element, index) {
 
             if (index == 4) {
@@ -348,7 +423,17 @@
             return true;
         });
         events = events.splice(4);
-        console.log(events);
+
+        events2.every(function (element, index) {
+
+            if (index == 4) {
+                return false;
+            }
+            content.push(element);
+            return true;
+        });
+        events2 = events2.splice(4);
+
 
         for (var i = content.length - 1; i >= 0; i--) {
             var j = Math.floor(Math.random() * (i + 1));
@@ -358,7 +443,7 @@
         }
         //console.log(content);
         handleContent(content);
-        console.log(content.length > 0);
+        removeLoading();
         return content.length > 0;
     }
 
@@ -377,10 +462,9 @@
                 }
             });
         });
-        if (data.length > 0) {
+        if (data.length > 5) {
             let ids = [];
             data.forEach(user => {
-                console.log(user.id);
                 ids.push(user.id);
             });
 
@@ -418,16 +502,16 @@
                             friends.forEach(elem => {
                                 hasCommonFriend = searchById(_data, elem.id);
                                 if (hasCommonFriend != false) {
-                                    commonFriends.push(user);
+                                    commonFriends.push(elem);
                                 }
                             });
 
-                            let htmlCommonFriends="";
+                            let htmlCommonFriends = "";
                             if (commonFriends.length > 0) {
-                                image = commonFriends[0].image_profil ? 'storage/' + commonFriends[0].image_profil : window.location.origin + '/images/simple_flower.png';
-                                htmlCommonFriends = `<img src="${image}">`;
+                                image2 = commonFriends[0].image_profil ? 'storage/' + commonFriends[0].image_profil : window.location.origin + '/images/simple_flower.png';
+                                htmlCommonFriends = `<img src="${image2}">`;
                             }
-                            let htmlCommon=htmlCommonFriends == ""? "": `<div>${htmlCommonFriends}</div> <div>${commonFriends.length} ami(e)s en commun</div>`;
+                            let htmlCommon = htmlCommonFriends == "" ? "" : `<div>${htmlCommonFriends}</div> <div>${commonFriends.length} ami(e)s en commun</div>`;
 
 
 
@@ -459,9 +543,9 @@
                 });
 
             });
-        }else{
+        } else {
             ($(loading).children()[0]).remove();
-            $('#friends_suggestion').css('display','none');
+            $('#friends_suggestion').css('display', 'none');
         }
     }
 
@@ -469,18 +553,6 @@
     $(document).ready(async function () {
         loading(friend)
         fetchSuggestedUsers();
-         fetchSuggestedUsers();
-        fetchSuggestedUsers();
-        fetchSuggestedUsers();
-        // fetchSuggestedUsers();
-        // fetchSuggestedUsers();
-        // fetchSuggestedUsers();
-        // fetchSuggestedUsers();
-        // fetchSuggestedUsers();
-        // fetchSuggestedUsers();
-        // fetchSuggestedUsers();
-        // fetchSuggestedUsers();
-
 
         $('#content').scroll(async function () {
             //console.log($('#content').scrollTop() + $('#content').height() - $(friend).height());
@@ -494,8 +566,6 @@
                 }
 
             }
-            //console.log($('#content').scrollTop() + $('#content').height() - $(friend).height());
-            // console.log($('#content').scrollTop()+$('#content').height());
         });
         await getContent();
         removeLoading();
@@ -506,10 +576,6 @@
         //     //console.log(res);
         // }
         console.log(new Date().getTime() - time);
-
-
-
-
     });
     const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay))
 </script>

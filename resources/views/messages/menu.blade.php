@@ -35,7 +35,11 @@
         <div class="convo_info">
             <div class="convo_name">{{ $chatRoom['name'] }}</div> <!-- Name -->
             <div class="convo_last">
-                {{ $lastMessage }}
+                @if($chatRoom['last_message']->modify == 1)
+                    {{ "Fichier image" }}
+                @else
+                    {{ $lastMessage }}
+                @endif
             </div>
         </div>
     </div>
