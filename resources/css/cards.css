@@ -53,6 +53,45 @@
     background-color: var(--white);
     flex-shrink: 0;
 }
+.card {
+    position: relative; /* Nécessaire pour positionner le bouton absolument */
+}
+
+.meetup_btn_add {
+    position: absolute;
+    top: 10px; /* Distance du haut de la carte */
+    right: 10px; /* Distance du bord droit de la carte */
+    padding: 0.5rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #fff;
+    background-color: #4caf50; /* Vert agréable */
+    border: none;
+    border-radius: 50%; /* Bouton rond */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px; /* Dimensions du bouton rond */
+    height: 40px;
+}
+
+.meetup_btn_add:hover {
+    background-color: #45a049; /* Teinte légèrement plus sombre pour le hover */
+    transform: scale(1.1); /* Zoom léger pour effet de feedback */
+}
+
+.meetup_btn_add:active {
+    background-color: #3e8e41; /* Teinte encore plus sombre pour le clic */
+    transform: scale(0.9); /* Réduction légère pour effet de clic */
+}
+
+.meetup_btn_add:focus {
+    outline: 2px solid #4caf50;
+    outline-offset: 3px;
+}
 
 .cards_row > .card > .banner {
     height: 12em;
