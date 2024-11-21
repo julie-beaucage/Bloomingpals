@@ -1,5 +1,56 @@
 USE BloomingPals;
 
+-- Users --
+CALL creerUsager ('user1@email.com', 'Desroches', 'Caroline', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'femme');
+CALL creerUsager ('user2@email.com', 'Hétu', 'Adrien', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'homme');
+CALL creerUsager ('user3@email.com', 'Delmar', 'Mainville', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'non-genre');
+CALL creerUsager ('user4@email.com', 'Lefebvre', 'Julien', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'homme');
+CALL creerUsager ('user5@email.com', 'Gagnon', 'Sophie', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'femme');
+CALL creerUsager ('user6@email.com', 'Beaulieu', 'Maxime', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'homme');
+CALL creerUsager ('user7@email.com', 'Tremblay', 'Elodie', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'femme');
+CALL creerUsager ('user8@email.com', 'Roy', 'David', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'homme');
+CALL creerUsager ('user9@email.com', 'Caron', 'Chloé', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'femme');
+CALL creerUsager ('user10@email.com', 'Ménard', 'Antoine', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'homme');
+CALL creerUsager ('user11@email.com', 'Fortin', 'Léa', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'femme');
+CALL creerUsager ('user12@email.com', 'Rousseau', 'Thomas', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'homme');
+CALL creerUsager ('user13@email.com', 'Lambert', 'Emma', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'femme');
+CALL creerUsager ('user14@email.com', 'Lemieux', 'Gabriel', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'homme');
+CALL creerUsager ('user15@email.com', 'Boucher', 'Zoé', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'femme');
+CALL creerUsager ('user16@email.com', 'Noël', 'Luca', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'homme');
+CALL creerUsager ('user17@email.com', 'Pelletier', 'Amélie', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'femme');
+CALL creerUsager ('user18@email.com', 'Côté', 'Olivier', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'homme');
+CALL creerUsager ('user19@email.com', 'Bélanger', 'Inès', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'femme');
+CALL creerUsager ('user20@email.com', 'Brouillette', 'Louis', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'homme');
+CALL creerUsager ('user21@email.com', 'Charbonneau', 'Clara', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'femme');
+CALL creerUsager ('user22@email.com', 'Blanchard', 'Martin', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'homme');
+CALL creerUsager ('user23@email.com', 'Lachance', 'Anaïs', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'femme');
+CALL creerUsager ('user24@email.com', 'Gauthier', 'Nicolas', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'homme');
+
+INSERT INTO users (email, last_name, first_name, birthdate, password, gender, is_admin)
+    VALUES ('admin1@email.com', 'admin1', 'Gagner', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'non-genre', 1);
+INSERT INTO users (email, last_name, first_name, birthdate, password, gender, is_admin)
+    VALUES ('admin2@email.com', 'admin2', 'Berville', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'non-genre', 1);
+INSERT INTO users (email, last_name, first_name, birthdate, password, gender, is_admin)
+    VALUES ('admin3@email.com', 'admin3', 'Tayona', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'non-genre', 1);
+
+UPDATE users SET email_verified_at = NOW() WHERE id = 1 OR id = 2;
+
+-- Meetups --
+INSERT INTO meetups(name, description, id_owner, adress, date, nb_participant, public) 
+    VALUES("Nom de la rencontre", "Voici la description", 1, "1234 rue popcorn", DATE "2025-01-01", 100, 1);
+    
+INSERT INTO meetups(name, description, id_owner, adress, date, nb_participant, public) 
+    VALUES("Sortie au bar", "Voici la description", 2, "1234 rue popcorn", DATE "2025-07-11", 100, 1);
+    INSERT INTO meetups (name, description, id_owner, adress, date, nb_participant, public) 
+    VALUES("Badminton", "Ravis de vous revoir gang :)", 1, "1234 rue popcorn", DATE "2025-01-01", 100, 1);
+    INSERT INTO meetups(name, description, id_owner, adress, date, nb_participant, public) 
+    VALUES("Basket", "Oublier pas vos bouteilles d'eaus guys", 3, "1234 rue popcorn", DATE "2025-01-01", 100, 1);
+    INSERT INTO meetups(name, description, id_owner, adress, date, nb_participant, public) 
+    VALUES("Randonné", "Nous allons monté le Mont-Tremblant", 1, "1234 rue popcorn", DATE "2025-01-01", 100, 1);
+
+
+INSERT INTO meetups_requests (id_user, id_meetup) VALUES (2, 1);
+
 -- Interets --
 INSERT INTO categories_interests (name) VALUES 
 ('Sport'),
@@ -9,12 +60,22 @@ INSERT INTO categories_interests (name) VALUES
 ('Social'),
 ('Art');
 
+-- report objects --
+insert into objects_types (name) values ("hacker"), ("abus verbale"), ("image inaproprié"), ("contenu raciste");
+
 -- Notifications types
 Insert INTO types_notifications (name) Values('Meetup Request');
 Insert INTO types_notifications (name) Values('Friendship Request');
 Insert INTO types_notifications (name) Values('Meetup Interest');
 Insert INTO types_notifications (name) Values('Friendship Accept');
 
+-- Type Feed
+INSERT INTO types_actions(name) VALUES('Meetup Create');
+INSERT INTO types_actions (name) VALUES('Meetup Join');
+INSERT INTO types_actions (name) VALUES('Test Personnality');
+
+-- Feed
+CALL fillFeed(2);
 
 -- Sport
 INSERT INTO interests (name, id_category) VALUES ('Bowling', 1);

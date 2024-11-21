@@ -19,7 +19,7 @@ foreach ($meetups as $meetup) {
     for ($i = 0; $i < $count && $i < 2; $i++) {
 
         if ($count > 2 && $i == 1) {
-            $tags .= '<span class="tag square_tag">+' . $count - 1 . '</span>';
+            $tags .= '<span class="tag square_tag">+'.strval($count - 1). '</span>';
             break;
         }
 

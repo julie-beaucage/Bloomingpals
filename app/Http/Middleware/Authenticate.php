@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use Auth;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 
 class Authenticate extends Middleware
@@ -27,4 +28,5 @@ class Authenticate extends Middleware
 
         return $next($request);
     }
+    
 }
