@@ -142,6 +142,7 @@ class HomeController extends Controller
             $result = Meetup::whereIn('id', $meetupsSorted)->get();
             return $result;
         }
+        dd("false");
         return false;
     }
     public function fetchEvents($page)

@@ -151,7 +151,7 @@
                     </div>
                 @endif
             </div>
-            @include ('reports/reportUser')
+            @include('reports/reportUser')
         </div>
         @endsection()
 

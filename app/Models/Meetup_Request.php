@@ -87,4 +87,8 @@ class Meetup_Request extends Model
             'state' => 'Refused'
         ]);
     }
+
+    public static function RemoveAllRequests($userId) {
+        Meetup_Request::where("id_user", $userId)->delete();
+    }
 }

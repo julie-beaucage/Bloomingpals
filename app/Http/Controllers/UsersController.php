@@ -145,7 +145,7 @@ class UsersController extends Controller
         $request->session()->regenerateToken();
         return redirect('/login');
     }
-    public function profile($id,$modified =false)
+    public function profile($id, $modified =false)
     {
         Log::info("Appel du contrôleur profile pour l'utilisateur avec ID: " . $id);
 

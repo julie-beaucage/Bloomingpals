@@ -1,4 +1,4 @@
-<div class="report-overlay" id="reportPanel" style="display: none;">
+<div class="report-overlay custom-overlay" id="reportPanel" style="display: none;">
         <div class="report-modal">
             <h3 class="titreModalInteret">Signalement</h3>
             <form action="{{ route("ReportUser")}}" method="POST">
