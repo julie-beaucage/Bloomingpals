@@ -308,10 +308,12 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS reports(
     id Int primary key auto_increment,
     id_user_send INT not null,
+    id_user_receive INT not null,
     id_object INT,
     id_type_object INT,
     FOREIGN KEY (id_user_send) REFERENCES users(id),
-    FOREIGN KEY (id_type_object) REFERENCES objects_types(id)
+    FOREIGN KEY (id_type_object) REFERENCES objects_types(id),
+    FOREIGN KEY (id_user_receive) REFERENCES users(id)
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
