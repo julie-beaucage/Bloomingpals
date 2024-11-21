@@ -21,6 +21,7 @@ mix.postCss('resources/css/app.css', 'public/css', []);
 mix.postCss('resources/css/login.css', 'public/css', []);
 mix.postCss('resources/css/meetupForm.css', 'public/css', []);
 mix.postCss('resources/css/meetup.css', 'public/css', []);
+mix.postCss('resources/css/reports.css', 'public/css', []);
 mix.postCss('resources/css/event.css', 'public/css', []);
 mix.postCss('resources/css/search.css', 'public/css', []);
 mix.postCss('resources/css/profile.css', 'public/css', []);
