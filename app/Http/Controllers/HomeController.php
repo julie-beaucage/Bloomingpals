@@ -30,11 +30,11 @@ class HomeController extends Controller
         return view('partial_views.event_cards', ['events' => $meetups]);
     }
 
-   /* public function user_meetups()
-    {
-        $meetups = Event::all()->take(20);
-        return view('partial_views.meetup_cards', ['events' => $meetups]);
-    }*/
+    /* public function user_meetups()
+     {
+         $meetups = Event::all()->take(20);
+         return view('partial_views.meetup_cards', ['events' => $meetups]);
+     }*/
 
     public function top_events()
     {
@@ -42,11 +42,11 @@ class HomeController extends Controller
         return view('partial_views.event_cards', ['events' => $events]);
     }
 
-   /* public function recent_meetups()
-    {
-        $meetups = Meetup::orderBy('id', 'desc')->take(20)->get();
-        return view('partial_views.meetup_cards', ['meetups' => $meetups]);
-    }*/
+    /* public function recent_meetups()
+     {
+         $meetups = Meetup::orderBy('id', 'desc')->take(20)->get();
+         return view('partial_views.meetup_cards', ['meetups' => $meetups]);
+     }*/
 
     public function upcoming_events()
     {
@@ -74,7 +74,7 @@ class HomeController extends Controller
 
             $feed = DB::table('actions')
                 ->join('types_actions', 'type', '=', 'types_actions.id')
-                ->select('actions.id', 'name','id_user','content')->where('id_user','!=',Auth::user()->id)
+                ->select('actions.id', 'name', 'id_user', 'content')->where('id_user', '!=', Auth::user()->id)
                 ->offset(self::AMOUNT * $page)->take(self::AMOUNT)->orderByDesc('actions.id')
                 ->get();
             return $feed;
@@ -116,62 +116,61 @@ class HomeController extends Controller
         }
         return false;
     }
+    public function fetchMeetupsInterest($page)
+    {
+        $offset = 5;
+        if (Auth::user()->id != null) {
+
+            $userInterests = User_Interest::select('id_interest')->where('id_user', Auth::user()->id)->get();
+            $meetupsByInterest = DB::table('meetups')->join('meetups_interests', 'id', '=', 'id_meetup')
+                ->whereIn('id_interest', $userInterests)
+                ->orderBy('id', 'desc')->offset($offset * $page)->take($offset)->get();
+
+            return $meetupsByInterest;
+        }
+        return false;
+    }
     public function fetchMeetups($page)
     {
-        $offset = 30;
+        $offset = 5;
         if (Auth::user()->id != null) {
-            $meetupsSorted = [];
-            $meetups = Meetup::select('id')->orderBy('id', 'desc')->offset($offset * $page)->take($offset)->get();
             $userInterests = User_Interest::select('id_interest')->where('id_user', Auth::user()->id)->get();
+            $meetups = DB::table('meetups')->join('meetups_interests', 'id', '=', 'id_meetup')
+                ->whereNotIn('id_interest', $userInterests)
+                ->orderBy('id', 'desc')->offset($offset * $page)->take($offset)->get();
 
-
-            $meetupsByInterest = DB::table('meetups')->join('meetups_interests', 'id', '=', 'id_meetup')
-                ->select('id')->whereIn('id_interest', $userInterests)
-                ->whereIn('id', $meetups)->orderBy('id', 'desc')->get();
-
-            //enlever les doublons
-
-            $index = count($meetupsSorted);
-            foreach ($meetupsByInterest as $meetup) {
-                if (!(in_array($meetup->id, $meetupsSorted))) {
-                    $meetupsSorted[$index] = $meetup->id;
-                    $index++;
-                }
-            }
-            $result = Meetup::whereIn('id', $meetupsSorted)->get();
-            return $result;
+            return $meetups;
         }
         return false;
     }
-    public function fetchEvents($page)
+    public function fetchEventsInterest($page)
     {
-        $offset = 30;
+        $offset = 5;
         if (Auth::user()->id != null) {
-            $eventsSorted = [];
-            $events = Event::select('id')->orderBy('id', 'desc')->offset($offset * $page)->take($offset)->get();
             $userInterests = User_Interest::select('id_interest')->where('id_user', Auth::user()->id)->get();
-
 
             $eventsByInterest = DB::table('events')->join('events_interests', 'id', '=', 'id_event')
-                ->select('id')->whereIn('id_interest', $userInterests)
-                ->whereIn('id', $events)->orderBy('id', 'desc')->get();
+                ->whereIn('id_interest', $userInterests)->orderBy('id', 'desc')->offset($offset * $page)->take($offset)->get();
 
-            //enlever les doublons
-
-            $index = count($eventsSorted);
-            foreach ($eventsByInterest as $event) {
-                if (!(in_array($event->id, $eventsSorted))) {
-                    $eventsSorted[$index] = $event->id;
-                    $index++;
-                }
-            }
-
-            $result = Event::whereIn('id', $eventsSorted)->get();
-            return $result;
-
+            return $eventsByInterest;
         }
         return false;
     }
+
+    public function fetchEvents($page)
+    {
+        $offset = 5;
+        if (Auth::user()->id != null) {
+            $userInterests = User_Interest::select('id_interest')->where('id_user', Auth::user()->id)->get();
+
+            $events = DB::table('events')->join('events_interests', 'id', '=', 'id_event')
+                ->whereNotIn('id_interest', $userInterests)->orderBy('id', 'desc')->offset($offset * $page)->take($offset)->get();
+
+            return $events;
+        }
+        return false;
+    }
+
     public function suggestedUsers()
     {
         if (Auth::user()->id != null) {
@@ -233,7 +232,7 @@ class HomeController extends Controller
             foreach ($indexToDelete as $index) {
                 array_splice($similarUsers, $index, 1);
             }
-            if(count($similarUsers)<1 && count($friendListId)<1){
+            if (count($similarUsers) < 1 && count($friendListId) < 1) {
                 return false;
             }
             // calculate how many common interests
@@ -291,27 +290,30 @@ class HomeController extends Controller
             return User::select('id', 'first_name', 'last_name', 'image_profil')->whereIn('id', $SuggestedUsers)->get();
         }
     }
-        public function calculateAffinity(Request $req){
-            $affinities=[];
-            $index=0; $idUser=Auth::user()->id;
-            $USER=new User();
-            foreach($req->ids as $id){
-                $affinities[$index]=$USER->calculateAffinity($id,$idUser);
-                $index++;
-            }
-            return $affinities;
+    public function calculateAffinity(Request $req)
+    {
+        $affinities = [];
+        $index = 0;
+        $idUser = Auth::user()->id;
+        $USER = new User();
+        foreach ($req->ids as $id) {
+            $affinities[$index] = $USER->calculateAffinity($id, $idUser);
+            $index++;
         }
-        public function friends(Request $req){
-            $RELATION=new Relation();
-            $id= $req->id==-1 ?Auth::user()->id: $req->id;
-            
-            $friends=$RELATION->GetFriends($id);
-            //enlever info dangereuse
-            foreach($friends as $friend){
-                $friend->password=null;
-            }
-            return $friends;
-        }
+        return $affinities;
     }
-  
+    public function friends(Request $req)
+    {
+        $RELATION = new Relation();
+        $id = $req->id == -1 ? Auth::user()->id : $req->id;
+
+        $friends = $RELATION->GetFriends($id);
+        //enlever info dangereuse
+        foreach ($friends as $friend) {
+            $friend->password = null;
+        }
+        return $friends;
+    }
+}
+
 

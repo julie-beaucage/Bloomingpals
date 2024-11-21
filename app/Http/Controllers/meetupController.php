@@ -125,10 +125,7 @@ class MeetupController extends BaseController
                 $req->public
             ]);
 
-
-            if ($req->interests != "") {
-                $id_interests = explode(',', $req->interests);
-                $meetup = Meetup::where('image', $path)->where('date', date_create("$req->date" . " " . "$req->time"))
+            $meetup = Meetup::where('image', $path)->where('date', date_create("$req->date" . " " . "$req->time"))
                     ->where('name', $req->name)->where('adress', $req->adress)->where('id_owner', $id_owner)->get();
 
                 $id_meetup = 0;
@@ -138,25 +135,24 @@ class MeetupController extends BaseController
                     }
                 }
 
+            $obj = array('meetup' => $id_meetup,);
+            DB::statement("Call addAction(?,?,?)", [
+                $id_owner,
+                'Meetup Create',
+                json_encode($obj)
+            ]);
 
+            if ($req->interests != "") {
+                $id_interests = explode(',', $req->interests);
+                
                 foreach ($id_interests as $id) {
                     Meetup_Interest::insert([
                         'id_interest' => $id,
                         'id_meetup' => $id_meetup
                     ]);
                 }
-                // create Action for feed
-
-                $obj = array('meetup' => $id_meetup,);
-                DB::statement("Call addAction(?,?,?)", [
-                    $id_owner,
-                    'Meetup Create',
-                    json_encode($obj)
-                ]);
-
-                DB::commit();
             }
-
+            DB::commit();
         }
         //Artisan::call('storage:link'); // update les symLinks
 

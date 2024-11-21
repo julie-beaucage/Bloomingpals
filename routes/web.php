@@ -158,6 +158,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/fetchData', [HomeController::class, 'fetchData']);
         Route::get('/fetchMeetups/{page}', [HomeController::class, 'fetchMeetups']);
         Route::get('/fetchEvents/{page}', [HomeController::class, 'fetchEvents']);
+        Route::get('/fetchMeetupsInterest/{page}', [HomeController::class, 'fetchMeetupsInterest']);
+        Route::get('/fetchEventsInterest/{page}', [HomeController::class, 'fetchEventsInterest']);
         Route::get('/userSuggestion', [HomeController::class, 'suggestedUsers']);
         Route::get('/calculateAffinity', [HomeController::class, 'calculateAffinity']);
         Route::get('/friends', [HomeController::class, 'friends']);
