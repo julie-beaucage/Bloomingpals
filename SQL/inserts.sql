@@ -70,8 +70,9 @@ Insert INTO types_notifications (name) Values('Meetup Interest');
 Insert INTO types_notifications (name) Values('Friendship Accept');
 
 -- Type Feed
-INSERT INTO types_actions(name) VALUES('Meetup Search');
+INSERT INTO types_actions(name) VALUES('Meetup Create');
 INSERT INTO types_actions (name) VALUES('Meetup Join');
+INSERT INTO types_actions (name) VALUES('Test Personnality');
 
 -- Feed
 CALL fillFeed(2);

@@ -3,31 +3,31 @@
 
     foreach ($requestsData as $request) {
         $imageRequestHtml = "";
-        if (isset($request->image_profil)) {
-            $imageRequestHtml = <<<HTML
-                <div class="profile_icon no_select" style="background-image: url({$request->image_profil})">
-                            
-                </div>
-            HTML;
-        } else {
-            $imageRequestHtml = <<<HTML
-                <div class="profile_icon no_select" style="background-image: url(https://img.freepik.com/photos-gratuite/beaute-abstraite-automne-dans-motif-veines-feuilles-multicolores-genere-par-ia_188544-9871.jpg)">
-                            
-                </div>
-            HTML;
-        }
 
+        $userImage = $request->image_profil ? asset('storage/' . $request->image_profil) : asset('/images/simple_flower.png');
+
+        $imageRequestHtml = <<<HTML
+            <div class="profile_icon no_select" style="background-image: url($userImage)">
+                        
+            </div>
+        HTML;
         $acceptRouting = route("acceptRequest", ["meetupId" => $meetupData->id, "userId" => $request->id]);
         $denyRouting = route("denyRequest", ["meetupId" => $meetupData->id, "userId" => $request->id]);
 
+        $profileRoute = route("profile", ["id" => $request->id]);
+
         $requestHtml .= <<<HTML
-            <div class="sideHorizontalFlexInline">
-                <div class="profile">
-                    {$imageRequestHtml}
-                    <div class="username_container">
-                        <div>{$request->prenom}</div>
-                        <div class="grey_text">{$request->nom}</div>
-                    </div>
+            <div class="sideHorizontalFlexInline userContainer">
+                <div>
+                    <a href="{$profileRoute}">
+                        <div class="profile">
+                            {$imageRequestHtml}
+                            <div class="username_container">
+                                <div>{$request->first_name}</div>
+                                <div class="grey_text">{$request->last_name}</div>
+                            </div>
+                        </div>
+                    </a>
                 </div>
                 <div>
                     <a class="respondButton" href="{$acceptRouting}"> 
@@ -49,21 +49,20 @@
         $returnRouting = route("meetupPage", ["meetupId" => $meetupData->id]);
 
         $html = <<<HTML
-            <div class="row">
+            <div class="row titleBackground">
                 <div class="ibMax">
                     <a href="{$returnRouting}">     
-                        <div class="respondButton">
+                        <div class="biggerRespondButton">
                             retour
                         </div>
                     </a>
                 </div>
                 <div class="ibMax">
                     <div class="title1">
-                        Requête de la rencontre {$meetupData->nom}
+                        Requêtes de la rencontre {$meetupData->nom}
                     </div>
                 </div>
             </div>
-            <hr>
             <div class="profilesContainer">
                 $requestHtml
             </div>
@@ -78,6 +77,6 @@
 @endsection()
 
 @section("style")
-    <link rel="stylesheet" href="{{ asset('css/page/meetupRequests.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/page/meetup.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/meetupRequests.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/meetup.css') }}">
 @endsection()
