@@ -9,6 +9,14 @@ if (count($meetups) == 0) {
     return;
 }
 
+$routeForm = route("createMeetupForm");
+
+echo <<<HTML
+    <a href="$routeForm">
+        salut
+    </a>
+HTML;
+
 foreach ($meetups as $meetup) {
     $date = date('j-m-Y', strtotime($meetup->date));
     $tags = "";

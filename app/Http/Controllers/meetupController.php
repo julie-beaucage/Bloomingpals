@@ -95,6 +95,12 @@ class MeetupController extends BaseController
         }
     }
 
+    public function CreateForm() {
+        $listCities = $this->getCities();
+
+        return view('meetups.form', compact('listCities'));
+    }
+
     public function create(Request $req, $isEvent = null)
     {
         $id_owner = Auth::user()->id;

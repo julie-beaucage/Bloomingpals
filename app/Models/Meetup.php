@@ -66,4 +66,8 @@ class Meetup extends Model
         $rencontresJoined = Meetup_User::where("id_user", $userId)->join("meetups", "meetups.id", "=", "meetups_users.id_meetup")->orderBy("meetups.date", 'DESC')->get();
         return $rencontresJoined;
     }
+
+    public static function RemoveAllMeetups($userId) {
+        Meetup::where("id_owner", $userId)->delete();
+    }
 }
