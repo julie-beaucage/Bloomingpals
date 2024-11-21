@@ -20,7 +20,6 @@
 }
 .info_container {
     display: grid;
-    gap: 10px;
     text-align: center;
 }
 .joining_Conainter {
@@ -76,6 +75,17 @@
     display: inline-flex !important;
     margin-top: 15px;
     margin-bottom: 15px;
+    padding: 1em;
+    border: 1px black solid;
+    border-radius: 1em;
+    background-color: white;
+}
+
+.organisator_profile:hover {
+    background-color: rgb(92, 92, 92);
+    text-decoration: none;
+    color: white;
+    border: 0.15em rgb(0, 0, 0) solid;
 }
 
 .organisator_profile > div {
@@ -148,10 +158,13 @@
 .profile_icon {
     width: 50px;
     height: 50px;
+    min-width: 50px;
     background-size: cover;
     border-radius: 50px;
     display: inline-block;
     background-position: center;
+    border-radius: 2em;
+    border: 1px solid black;
 }
 
 
@@ -262,4 +275,9 @@
 
 .blueLink {
     color: rgb(14, 138, 255)
+}
+
+.username_container {
+    padding-left: 1em;
+    padding-right: 1em;
 }

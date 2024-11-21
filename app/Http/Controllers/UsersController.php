@@ -8,9 +8,11 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
 use App\Models\User;
+use App\Models\Report;
 use App\Models\Meetup;
 use App\Models\Event;
 use App\Models\Relation;
+use App\Models\Object_Type;
 use App\Models\Friendship_Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
@@ -111,10 +113,14 @@ class UsersController extends Controller
 
     public function login(Request $request)
     {
+        
         $data = array(
             "email" => $request['emailLogin'],
             "password" => $request['password']
         );
+        if (User::IsBanWithEmail($request['email'])) {
+            return back()->withErrors(['email' => 'Cet utilisateur a été bannie'])->onlyInput('email');
+        }
         if (auth()->attempt($data)) {
             $request->session()->regenerate();
             $id = auth()->user()->id;
@@ -186,6 +192,7 @@ class UsersController extends Controller
         $relation = Relation::GetRelationUsers(Auth::user()->id, $id);
         $haveAccess = false;
 
+        $reportsReasons = Object_Type::all();
         if ($user->confidentiality == "prive" && $user->id == Auth::user()->id) {
             $haveAccess = true;
         } else if ($user->confidentiality == "friends" && ($relation == "Friend" || $user->id == Auth::user()->id)) {
@@ -193,7 +200,9 @@ class UsersController extends Controller
         } else if ($user->confidentiality == "public") {
             $haveAccess = true;
         }
-        $relationRequest=null;
+
+
+
         if ($relation == 'GotBlocked') {
             return redirect()->back();
         } else if ($relation != "Friend") {
@@ -208,7 +217,7 @@ class UsersController extends Controller
                 
             
         }
-        return view('profile.profile', compact('user', 'profileCompletionPercentage', 'emailVerified', 'interestsSelected', 'personalityTestDone', 'relation','modified', 'haveAccess','relationRequest'));
+        return view('profile.profile', compact('user', 'profileCompletionPercentage', 'emailVerified', 'interestsSelected', 'personalityTestDone', 'relation','modified', 'haveAccess', 'reportsReasons'));
     }
 
 
@@ -364,6 +373,14 @@ class UsersController extends Controller
         return redirect()->back();
     }
 
+    public function ReportUser(Request $request) {
+        $object = "";
+        if ($request["object"] != null) {
+            $object = $request["object"];
+        }
+        Report::AddReport(Auth::user()->id, $request["userId"], $object, $request["objectTypeId"]);
+        return $this->profile($request["userId"]);
+    }
     public function events($id) {
         $eventsData = Event::GetEventsFromUser($id);
         return view("profile.events", ["eventsData" => $eventsData, "type" => "event"]);
