@@ -78,8 +78,22 @@ Route::middleware('auth')->group(function () {
     Route::get('/personality/results', [PersonalityController::class, 'results'])->name('personality.results');
     
     //meetupJUlie
-    Route::get('/meetups/meetupForm/{eventId}', [MeetupController::class, 'create'])->name('meetups.create');
-    Route::post('/meetups', [MeetupController::class, 'store'])->name('meetups.store');
+    Route::get('/meetups/meetupForm/{eventId}', [MeetupController::class, 'showMeetupForm'])->name('meetups.form');
+    Route::post('/meetups', [MeetupController::class, 'create'])->name('meetups.create');
+    Route::get('/my-meetups', [MeetupController::class, 'showMyMeetup'])->name('meetups.show');
+
+    // Route pour envoyer une demande de rejoindre un meetup
+    Route::post('/meetups/{meetupId}/request', [MeetupController::class, 'sendRequest'])->name('meetups.send_request');
+    
+    // Route pour annuler une demande de rejoindre un meetup
+    Route::delete('/meetups/{meetupId}/request', [MeetupController::class, 'cancelRequest'])->name('meetups.cancel_request');
+    
+    // Route pour accepter une demande (par le propriétaire du meetup)
+    Route::post('/meetups/{meetupId}/request/{userId}/accept', [MeetupController::class, 'acceptRequest'])->name('meetups.accept_request');
+    
+    // Route pour refuser une demande (par le propriétaire du meetup)
+    Route::post('/meetups/{meetupId}/request/{userId}/refuse', [MeetupController::class, 'refuseRequest'])->name('meetups.refuse_request');
+    Route::get('meetups/{id}/meetupManager', [MeetupController::class, 'manageRequests'])->name('meetup.manage');
 
 
     // Meetup

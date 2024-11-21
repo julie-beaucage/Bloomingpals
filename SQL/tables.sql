@@ -16,6 +16,8 @@ DROP TABLE IF EXISTS chatRooms;
 DROP TABLE IF EXISTS affinities_users;
 DROP TABLE IF EXISTS relations;
 DROP TABLE IF EXISTS meetups_users;
+select * from meetups_users;
+select * from meetups;
 DROP TABLE IF EXISTS events_users;
 DROP TABLE IF EXISTS friendships_requests;
 DROP TABLE IF EXISTS meetups_requests;
@@ -193,7 +195,7 @@ CREATE TABLE IF NOT EXISTS meetups(
   city Varchar(100),
   `date` DATETIME NOT NULL,
   nb_participant INT DEFAULT(2),
-  image varchar(1024),
+  image varchar(2048),
   public Bool DEFAULT(true),
 
   FOREIGN KEY (id_owner) REFERENCES users(id)

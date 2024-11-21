@@ -112,7 +112,6 @@ foreach ($users as $user) {
     ];
 }
 
-// Sort by affinity (current user first)
 usort($userDataList, function ($a, $b) use ($currentUser) {
     if ($a['user']->id === $currentUser->id) return -1;
     if ($b['user']->id === $currentUser->id) return 1;

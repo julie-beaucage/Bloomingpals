@@ -134,11 +134,7 @@ class UsersController extends Controller
     public function resend(Request $request)
     {
         $user = Auth::user();
-        Log::info("resend fonction");
-
         if ($user) {
-            Log::info("renvoie de courriel fait ");
-
             $user->sendEmailVerificationNotification();
             return redirect()->back()->with('message', 'Un lien de vérification a été renvoyé à votre adresse email.');
         }

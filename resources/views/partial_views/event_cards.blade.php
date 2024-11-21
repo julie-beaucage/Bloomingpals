@@ -74,8 +74,8 @@ foreach ($events as $event) {
 <script>
 document.querySelectorAll('.meetup_btn_add').forEach(button => {
     button.addEventListener('click', function(event) {
-        event.stopPropagation(); // Empêche l'événement de se propager au parent <a>
-        event.preventDefault(); // Empêche le comportement par défaut du bouton (facultatif)
+        event.stopPropagation(); 
+        event.preventDefault(); 
         
         const eventId = this.getAttribute('data-event-id');
         window.location.href = `/meetups/meetupForm/${eventId}`;
