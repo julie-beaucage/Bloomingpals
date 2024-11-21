@@ -12,6 +12,7 @@ use App\Http\Controllers\PersonalityController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\AdminController;
 use App\Models\Object_Type;
+use Illuminate\Support\Facades\View;
 
 
 

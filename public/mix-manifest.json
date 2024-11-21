@@ -1,6 +1,5 @@
 {
     "/js/app.js": "/js/app.js",
-    "/js/et.js": "/js/et.js",
     "/js/validationLogin.js": "/js/validationLogin.js",
     "/js/resendEmail.js": "/js/resendEmail.js",
     "/js/validationTestPersonality.js": "/js/validationTestPersonality.js",
@@ -12,11 +11,7 @@
     "/css/meetupForm.css": "/css/meetupForm.css",
     "/css/login.css": "/css/login.css",
     "/css/loading.css": "/css/loading.css",
-
     "/css/feed2.css": "/css/feed2.css",
-
-    "/css/reports.css": "/css/reports.css",
-
     "/css/feed.css": "/css/feed.css",
     "/css/notifications.css": "/css/notifications.css",
     "/css/home.css": "/css/home.css",
