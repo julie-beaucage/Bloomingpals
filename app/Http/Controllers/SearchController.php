@@ -127,15 +127,16 @@ class SearchController extends Controller
 
         $user = User::find(auth()->user()->id);
         $events = $events->sort(function($a, $b) use ($user) {
-            $interests_ids_a = Event_Category::select('id_interest')->where('id_event', '=', $a->id)->get();
+            $interests_ids_a = Event_Category::select('id_category')->where('id_event', '=', $a->id)->get();
             $affinity_a = $user->affinity($interests_ids_a) + rand(0, 30) / 100;
 
-            $interests_ids_b = Event_Category::select('id_interest')->where('id_event', '=', $b->id)->get();
+            $interests_ids_b = Event_Category::select('id_category')->where('id_event', '=', $b->id)->get();
             $affinity_b = $user->affinity($interests_ids_b) + rand(0, 30) / 100;
 
             $diff = $affinity_b - $affinity_a;
             return $diff * 100;
         });
+
 
         return view('partial_views.event_cards', ['events' => $events]);
     }
