@@ -97,8 +97,11 @@ class MeetupController extends BaseController
 
     public function CreateForm() {
         $listCities = $this->getCities();
+        $data = new Meetup();
+        $data['empty'] = true;
+        $data['isEvent'] = false;
 
-        return view('meetups.form', compact('listCities'));
+        return view('meetups.form', compact('listCities', "data"));
     }
 
     public function create(Request $req, $isEvent = null)

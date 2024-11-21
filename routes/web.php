@@ -97,7 +97,7 @@ Route::middleware('blockingAccess')->group(function () {
         Route::post('/meetup/edit/{id}', [MeetupController::class, 'edit'])->where('id', '[0-9]+');
         Route::get('/meetup', [MeetupController::class, 'index'])->name('meetup');
         Route::get('/meetup/delete/{id}', [MeetupController::class, 'delete'])->where('id', '[0-9]+');
-        Route::get('/meetup/form', [MeetupController::class, 'CreateForm'])->name("createMeetupForm");
+        Route::get('/meetup/form/create', [MeetupController::class, 'CreateForm'])->name("createMeetupForm");
         Route::get('/meetup/form/{id}', [MeetupController::class, 'form'])->name("meetupForm");
         Route::get('/meetup/form/event/{id}', [MeetupController::class, 'formEvent']);
         Route::get('/meetup/interests/{id}', [MeetupController::class, 'interests']);
