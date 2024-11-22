@@ -133,7 +133,7 @@
                                 </li>
                                 <li class="nav-item" title="Rencontres">
                                 <a class="nav-link tab-link {{ request()->is('my-meetups') ? 'active' : '' }}"
-                                  href="{{ route('meetups.show') }}"
+                                  href="{{ route('meetups.show', $user->id) }}"
                                    data-target="meetups/meetups">Rencontres</a>
 
                                 </li>
@@ -157,7 +157,24 @@
         <script src="{{ asset('/js/profileOnglet.js') }}"></script>
         <script src="{{ asset('/js/resendEmail.js') }}"></script>
         <script>
-        
+            /*const urlParams = new URLSearchParams(window.location.search);
+    const backToMeetupsButton = document.getElementById('backToMeetups');
+    if (backToMeetupsButton) {
+        backToMeetupsButton.addEventListener('click', function () {
+            console.log("click");
+            const targetTab = this.getAttribute('data-target');
+            if (targetTab) {
+                // Rechercher l'onglet correspondant
+                const tabLink = document.querySelector(`.tab-link[data-target="${targetTab}"]`);
+                if (tabLink) {
+                    // Simuler un clic sur l'onglet pour activer son contenu
+                    tabLink.click();
+                } else {
+                    console.error("Onglet cible introuvable : " + targetTab);
+                }
+            }
+        });
+    }*/
         </script>
         <script>
             function Confirmm() {
@@ -347,48 +364,7 @@
                 });
             });
         </script>
-        <script>
-            $(document).ready(function () {
-                var img = document.getElementById("background_img");
-                var color = document.getElementById("background_color");
+        <script src="{{asset('/js/flash.js')}}"></script>
+        <script src="{{ asset('/js/layout.js') }}"></script>
 
-                img.onload = function () {
-                    var rgb = getAverageRGB(img);
-                    color.style.background = 'rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ')';
-                }
-
-                var rgb = getAverageRGB(img);
-                color.style.background = 'rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ')';
-            });
-            function getAverageRGB(img) {
-                var canvas = document.createElement('canvas'),
-                    context = canvas.getContext && canvas.getContext('2d'),
-                    data, width, height, i = -4, length, rgb = { r: 0, g: 0, b: 0 }, count = 0;
-
-                height = canvas.height = img.naturalHeight || img.offsetHeight || img.height;
-                width = canvas.width = img.naturalWidth || img.offsetWidth || img.width;
-
-                context.drawImage(img, 0, 0);
-
-                try {
-                    data = context.getImageData(0, height - 5, width, 1);
-                } catch (e) {
-                    return { r: 0, g: 0, b: 0 };
-                }
-
-                length = data.data.length;
-                while ((i += 20) < length) {
-                    count++;
-                    rgb.r += data.data[i];
-                    rgb.g += data.data[i + 1];
-                    rgb.b += data.data[i + 2];
-                }
-
-                rgb.r = ~~(rgb.r / count);
-                rgb.g = ~~(rgb.g / count);
-                rgb.b = ~~(rgb.b / count);
-
-                return rgb;
-            }
-        </script>
         @endsection()

@@ -66,7 +66,10 @@ class Meetup extends Model
         return 'none';
     }
     
-
+    public function interests()
+    {
+        return $this->belongsToMany(Interest::class, 'meetups_interests', 'id_meetup', 'id_interest');
+    }
 
 
 

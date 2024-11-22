@@ -119,6 +119,73 @@
     color: #333;
 }
 
+/* Style de base pour les tags */
+/* Résultats de recherche */
+.search-result {
+    margin-top: 8px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.search-result p {
+    margin: 0;
+    padding: 5px 0;
+    color: #555;
+    cursor: pointer;
+}
+
+.search-result p:hover {
+    background-color: #f0f0f0;
+}
+
+/* Liste des intérêts sélectionnés */
+.tag-list {
+    margin-top: 12px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    min-height: 50px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tag-list .tag {
+    background-color: #007bff;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.tag-list .tag:hover {
+    background-color: #0056b3;
+}
+
+.tag-list .tag .remove-tag {
+    margin-left: 8px;
+    color: white;
+    cursor: pointer;
+}
+
+/* Style du champ caché */
+input[type="hidden"] {
+    display: none;
+}
+
+/* Ajouter des animations ou effets sur les éléments (optionnel) */
+.form-group label,
+.form-group input {
+    transition: all 0.3s ease;
+}
 /*meetup CARD*/
 /* Style de la carte meetup */
 .meetup-card {
@@ -132,6 +199,7 @@
     flex-direction: column;
     max-width: 25rem;
     transition: all 0.3s ease;
+    height: auto;
 }
 
 .meetup-card:hover {
@@ -217,9 +285,67 @@
     padding: 0;
     list-style-type: none;
 }
+.red {
+    color: red;
+    font-weight: bold;
+}
 
 .participants-list li {
     padding: 0.3125rem 0;
     font-size: 1rem;
 }
 
+/*CARTE DE USER POUR LES REQUEST*/
+.container_event{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 1em 1em 1em 1em;
+    z-index: 1;
+    border-radius: 2em 2em 0 0;
+   background-color: var(--background-50);
+
+}
+.request-list{
+    padding: 1rem;
+    border: 0.1rem solid #ddd;
+    border-radius: 0.5rem;
+    background-color: #f9f9f9;
+}
+.request_user_container{
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1rem;
+    border: 0.1rem solid #ddd;
+    border-radius: 0.5rem;
+    background-color: #f9f9f9;
+    margin-bottom: 1rem;
+
+}
+.request_user_container > .banner {
+    height: 4em;
+    width: 4em;
+    overflow: hidden;
+    margin: 0.75em;
+    border-radius: 4em;
+    flex-shrink: 0;
+    background-color: var(--personality-color-pale) !important;
+    border: 2px solid var(--personality-color);
+}
+
+.banner img {
+    width: 100%;
+    height: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+    -o-object-position: top;
+    object-position: top;
+}
+
+.btn_container_request{
+    display: flex;
+    gap: 1rem; 
+}

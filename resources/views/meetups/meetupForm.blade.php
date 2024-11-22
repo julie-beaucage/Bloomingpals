@@ -74,8 +74,18 @@
                     alt="Aperçu de l'image" />
             </div>
         </div>
+        <div class="form-group">
+            <label for="searchInterests" class="form-label">Rechercher des intérêts</label>
+            <input type="text" id="searchInterests" class="form-control" placeholder="Tapez pour rechercher des intérêts...">
+            <div id="searchResults" class="search-result"></div>
+        </div>
 
-
+        <div class="form-group">
+            <label for="interests" class="form-label">Intérêts sélectionnés</label>
+            <div id="selectedInterests" class="tag-list">
+            </div>
+            <input type="hidden" name="interests" id="interests">
+        </div>
         <div class="form-group form-check">            
             <input type="radio" name="public" value="1"><label>Public</label>
             <input type="radio" name="public" value="0"><label>Privé</label>
@@ -87,13 +97,95 @@
 @endsection
 @section('script')
 <script>
-    // Fonction pour afficher l'image sélectionnée par l'utilisateur
+    document.addEventListener('DOMContentLoaded', function () {
+        setupTagSelection();
+    });
+
+    function setupTagSelection() {
+        const tags = document.querySelectorAll('.interet-tag');
+
+        tags.forEach(function (tag) {
+            tag.addEventListener('click', function () {
+                this.classList.toggle('interet-selected');
+                updateSelectedInterets();
+            });
+        });
+    }
+
+    function updateSelectedInterets() {
+        const selectedIds = Array.from(document.querySelectorAll('.interet-tag.interet-selected'))
+                                 .map(tag => tag.getAttribute('data-id'));
+        document.getElementById('interetSelectedInterets').value = selectedIds.join(',');
+    }
+</script>
+<script>
     function previewImage(event, previewId) {
         const file = event.target.files[0];
         if (file) {
             const reader = new FileReader();
             reader.onload = function(e) {
-                // Met à jour l'aperçu avec la nouvelle image
+                document.getElementById(previewId).src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    const allInterests = @json($allInterest);
+    const searchInterestsInput = document.getElementById('searchInterests');
+    const searchResultsDiv = document.getElementById('searchResults');
+    const selectedInterestsDiv = document.getElementById('selectedInterests');
+    const interestsInput = document.getElementById('interests');
+
+    searchInterestsInput.addEventListener('input', function() {
+        const query = searchInterestsInput.value.toLowerCase();
+        searchResultsDiv.innerHTML = ''; 
+        if (query) {
+            const filteredInterests = allInterests.filter(interest =>
+                interest.name.toLowerCase().includes(query)
+            );
+            filteredInterests.forEach(interest => {
+                const resultDiv = document.createElement('div');
+                resultDiv.textContent = interest.name;
+                resultDiv.addEventListener('click', function() {
+                    addInterest(interest);
+                    searchResultsDiv.style.display = 'none';
+                });
+                searchResultsDiv.appendChild(resultDiv);
+            });
+            searchResultsDiv.style.display = 'block';
+        } else {
+            searchResultsDiv.style.display = 'none';
+        }
+    });
+
+    function addInterest(interest) {
+        const tagDiv = document.createElement('div');
+        tagDiv.classList.add('tag');
+        tagDiv.textContent = interest.name;
+        tagDiv.addEventListener('click', function() {
+            removeInterest(interest);
+        });
+        selectedInterestsDiv.appendChild(tagDiv);
+        const selectedInterests = Array.from(selectedInterestsDiv.getElementsByClassName('tag')).map(tag => tag.textContent);
+        interestsInput.value = selectedInterests.join(',');
+    }
+
+    function removeInterest(interest) {
+        const tags = Array.from(selectedInterestsDiv.getElementsByClassName('tag'));
+        const tagToRemove = tags.find(tag => tag.textContent === interest.name);
+        if (tagToRemove) {
+            selectedInterestsDiv.removeChild(tagToRemove);
+        }
+        const selectedInterests = Array.from(selectedInterestsDiv.getElementsByClassName('tag')).map(tag => tag.textContent);
+        interestsInput.value = selectedInterests.join(',');
+    }
+</script>
+<script>
+    function previewImage(event, previewId) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
                 document.getElementById(previewId).src = e.target.result;
             };
             reader.readAsDataURL(file);

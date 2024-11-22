@@ -80,20 +80,17 @@ Route::middleware('auth')->group(function () {
     //meetupJUlie
     Route::get('/meetups/meetupForm/{eventId}', [MeetupController::class, 'showMeetupForm'])->name('meetups.form');
     Route::post('/meetups', [MeetupController::class, 'create'])->name('meetups.create');
-    Route::get('/my-meetups', [MeetupController::class, 'showMyMeetup'])->name('meetups.show');
+    Route::post('/meetups/{id}/delete', [MeetupController::class, 'deleteMeetup'])->name('meetup.delete');
 
-    // Route pour envoyer une demande de rejoindre un meetup
-    Route::post('/meetups/{meetupId}/request', [MeetupController::class, 'sendRequest'])->name('meetups.send_request');
-    
-    // Route pour annuler une demande de rejoindre un meetup
-    Route::delete('/meetups/{meetupId}/request', [MeetupController::class, 'cancelRequest'])->name('meetups.cancel_request');
-    
-    // Route pour accepter une demande (par le propriétaire du meetup)
-    Route::post('/meetups/{meetupId}/request/{userId}/accept', [MeetupController::class, 'acceptRequest'])->name('meetups.accept_request');
-    
-    // Route pour refuser une demande (par le propriétaire du meetup)
-    Route::post('/meetups/{meetupId}/request/{userId}/refuse', [MeetupController::class, 'refuseRequest'])->name('meetups.refuse_request');
+    Route::get('/my-meetups/{id}', [MeetupController::class, 'showMyMeetup'])->name('meetups.show');
     Route::get('meetups/{id}/meetupManager', [MeetupController::class, 'manageRequests'])->name('meetup.manage');
+    Route::get('meetups/{id}', [MeetupController::class, 'meetup_detail'])->name('meetup.detail');
+
+    Route::post('/meetups/{meetupId}/request', [MeetupController::class, 'sendRequest'])->name('meetups.send_request');
+    Route::delete('/meetups/{meetupId}/request', [MeetupController::class, 'cancelRequest'])->name('meetups.cancel_request');
+    Route::post('/meetups/{meetupId}/request/{userId}/accept', [MeetupController::class, 'acceptRequest'])->name('meetups.accept_request');
+    Route::post('/meetups/{meetupId}/request/{userId}/refuse', [MeetupController::class, 'refuseRequest'])->name('meetups.refuse_request');
+
 
 
     // Meetup

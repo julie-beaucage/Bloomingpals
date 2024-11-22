@@ -152,7 +152,6 @@ class UsersController extends Controller
     public function profile($id,$modified =false)
     {
         if (Auth::guest()) {
-            // Si l'utilisateur n'est pas authentifié, redirigez vers la page de connexion avec un message d'erreur
             return redirect()->route('home')->with('error', 'Veuillez vous connecter pour accéder à votre profil.');
         }
         $user = User::find($id);

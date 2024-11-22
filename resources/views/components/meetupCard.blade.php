@@ -1,14 +1,23 @@
 <div class="meetup-card">
-    <div class="meetup-card-header" style="background-image: url('{{ $meetup->image }}'); background-size: cover; background-position: center;">
-        <div class="meetup-info">
+    <div class="banner meetup-card-header">
+            <img src="{{ $meetup->image }}" alt="Image de l'évènement">
+    </div>
+    <form id="deleteMeetupForm-{{ $meetup->id }}" action="{{ route('meetup.delete', ['id' => $meetup->id]) }}" method="POST" style="display: inline;">
+    @csrf
+    @method('POST')
+
+    <a href="#" onclick="return confirmDelete('{{ $meetup->name }}', '{{ $meetup->id }}')">
+        <div class="buttonn btn_accept no_select">Supprimer</div>
+    </a>
+</form>
+
+    <div class="meetup-card-body">
+    <div class="meetup-info">
             <h3>{{ $meetup->name }}</h3>
             <span class="meetup-date">{{ \Carbon\Carbon::parse($meetup->date)->format('d M Y') }}</span>
             <span class="meetup-creator">Organisé par {{ $meetup->owner->first_name }}</span>
             <span class="meetup-address">{{ $meetup->address }}</span>
         </div>
-    </div>
-    
-    <div class="meetup-card-body">
         <p>{{ Str::limit($meetup->description, 150) }}</p>
     </div>
 
@@ -33,8 +42,11 @@
             @endphp
 
             <div class="pending-requests">
-                <span class="requests-count">{{ $pendingRequestsCount }} demande(s) en attente</span>
+                <span class="requests-count {{ $pendingRequestsCount > 0 ? 'red' : '' }}">
+                    {{ $pendingRequestsCount }} demande(s) en attente
+                </span>
             </div>
+
             <div class="manage-requests-button">
                 <a href="{{ route('meetup.manage', $meetup->id) }}" class="btn btn-manage-requests">
                     Gérer les demandes
@@ -43,3 +55,4 @@
         @endif
     </div>
 </div>
+

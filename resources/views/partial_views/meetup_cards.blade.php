@@ -12,56 +12,9 @@ if (count($meetups) == 0) {
 
 $meetupDataList = [];
 
-function isRequestSend($userId, $meetupId)
-{
-    $request = DB::table('meetups_requests')
-        ->where('id_user', $userId)
-        ->where('id_meetup', $meetupId)
-        ->first();
-
-    return $request ? $request->status : 'none';
-}
-
-function btn_setUp($userId, $meetupId)
-{
-    $requestStatus = isRequestSend($userId, $meetupId);
-    $url = '';
-    $btn_txt = '';
-    $btn_class = '';
-
-    if ($requestStatus == 'none') {
-        $url = route("meetups.send_request", ["meetupId" => $meetupId]);
-        $btn_txt = "S'intéresser à joindre";
-        $btn_class = "btn_interesse";
-    } else {
-        if ($requestStatus == 'accepted') {
-            $url = route("meetups.cancel_request", ["meetupId" => $meetupId]);
-            $btn_txt = "Participant"; // Icône de crochet coché
-            $btn_class = "btn_friends";
-        } elseif ($requestStatus == 'pending') {
-            $btn_txt = "En attente";
-            $url = "#"; // Ne fait rien ici
-            $btn_class = "btn_pending";
-        } elseif ($requestStatus == 'refused') {
-            $url = "#";
-            $btn_txt = "Refusé";
-            $btn_class = "btn_refused";
-        }
-    }
-
-    return "
-        <form action='{$url}' method='POST'>
-            " . csrf_field() . "
-            <button class='{$btn_class} no_select' type='submit'>
-                <span>{$btn_txt}</span>
-            </button>
-        </form>";
-}
-
 foreach ($meetups as $meetup) {
     $date = date('j-m-Y', strtotime($meetup->date));
     $tags = "";
-
     $meetup_interests = Meetup_Interest::where('id_meetup', $meetup->id)->get();
     $count = count($meetup_interests);
 
@@ -85,10 +38,11 @@ foreach ($meetups as $meetup) {
     $maxParticipants = $meetup->nb_participant;
     $placesLeft = $maxParticipants - $currentParticipants;
 
-    $btnHTML = btn_setUp(auth()->user()->id, $meetup->id);
+    $btnHTML = btn_setUp(auth()->id(), $meetup);
+
 
     echo <<<HTML
-        <div class="card no_select hover_darker">
+        <a href="meetups/$meetup->id" class="card no_select hover_darker">
             <div class="banner">
                 <img src="{$image}" alt="Image de l'évènement">
             </div>
@@ -102,7 +56,7 @@ foreach ($meetups as $meetup) {
                     <span>{$meetup->adress}, {$meetup->city}</span>
                 </div>
                 <div class="creator">
-                    <span>Créé par: {$creator->name} (ID: {$creator->id})</span>
+                    <span>Créé par: {$creator->first_name} {$creator->last_name}</span>
                 </div>
                 <div class="tags_cntr">
                     {$tags}
@@ -115,7 +69,7 @@ foreach ($meetups as $meetup) {
                     </div>
                 </div>
             </div>
-        </div>
+        </a>
     HTML;
 }
 ?>
