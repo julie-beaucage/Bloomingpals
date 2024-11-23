@@ -77,24 +77,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/personality/submit', [PersonalityController::class, 'submitTest'])->name('personality.submit');
     Route::get('/personality/results', [PersonalityController::class, 'results'])->name('personality.results');
     
-    //meetupJUlie
-    Route::get('/meetups/meetupForm/{eventId}', [MeetupController::class, 'showMeetupForm'])->name('meetups.form');
-    Route::post('/meetups', [MeetupController::class, 'create'])->name('meetups.create');
-    Route::post('/meetups/{id}/delete', [MeetupController::class, 'deleteMeetup'])->name('meetup.delete');
-
-    Route::get('/my-meetups/{id}', [MeetupController::class, 'showMyMeetup'])->name('meetups.show');
-    Route::get('meetups/{id}/meetupManager', [MeetupController::class, 'manageRequests'])->name('meetup.manage');
-    Route::get('meetups/{id}', [MeetupController::class, 'meetup_detail'])->name('meetup.detail');
-
-    Route::post('/meetups/{meetupId}/request/send', [MeetupController::class, 'sendRequest'])->name('meetups.send_request');
-    Route::post('/meetups/{meetupId}/request/cancel', [MeetupController::class, 'cancelRequest'])->name('meetups.cancel_request');
-    Route::post('/meetups/{meetupId}/request/{userId}/accept', [MeetupController::class, 'acceptRequest'])->name('meetups.accept_request');
-    Route::post('/meetups/{meetupId}/request/{userId}/refuse', [MeetupController::class, 'refuseRequest'])->name('meetups.refuse_request');
-
-
 
     // Meetup
-   /* Route::post('/meetup/create', [MeetupController::class, 'create']);
+    Route::post('/meetup/create', [MeetupController::class, 'create']);
     Route::post('/meetup/create/{isEvent}', [MeetupController::class, 'create']);
     Route::post('/meetup/edit/{id}', [MeetupController::class, 'edit'])->where('id', '[0-9]+');
     Route::get('/meetup', [MeetupController::class, 'index'])->name('meetup');
@@ -111,7 +96,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/meetup/requests/{meetupId}', [MeetupController::class, 'MeetupRequests'])->name('meetupRequests');
     Route::get('/meetup/requests/accept/{meetupId}/{userId}', [MeetupController::class, 'AcceptRequest'])->name('acceptRequest');
     Route::get('/meetup/requests/deny/{meetupId}/{userId}', [MeetupController::class, 'DenyRequest'])->name('denyRequest');
-*/
+
     // Event
     Route::get('/event/{id}', [EventController::class, 'event'])->name('event');
     Route::get('/event/interests/{id}', [EventController::class, 'interests']);
@@ -146,7 +131,6 @@ Route::middleware('auth')->group(function () {
 
 
     //utilisateurs
-    
     Route::get("user/friend/request/send/{id}", [UsersController::class, "SendFriendRequest"])->name("SendFriendRequest");
     Route::get("user/friend/request/accept/{id}", [UsersController::class, "AcceptFriendRequest"])->name("AcceptFriendRequest");
     Route::get("user/friend/request/refuse/{id}", [UsersController::class, "RefuseFriendRequest"])->name("RefuseFriendRequest");
