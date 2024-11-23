@@ -11,7 +11,7 @@
 
 @endsection()
 @php
-    $userPersonality = $user->getPersonalityType();
+    $userPersonality = $user->getPersonalityGroup();
 @endphp
 
 @include('profile.settings-page')

@@ -188,7 +188,7 @@ class UsersController extends Controller
         } else if ($user->confidentiality == "public") {
             $haveAccess = true;
         }
-
+        $relationRequest=null;
         if ($relation == 'GotBlocked') {
             return redirect()->back();
         } 

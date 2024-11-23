@@ -12,12 +12,12 @@
 
         if (count($chatRoom['other_users']) > 1) {
             $image = $chatRoom['last_user']->image_profil ? asset('storage/' . $chatRoom['last_user']->image_profil) : asset('/images/simple_flower.png');
-            $personality = $chatRoom['last_user']->getPersonalityType();
+            $personality = $chatRoom['last_user']->getPersonalityGroup();
             $isOnline = $chatRoom['last_user']->isOnline();
         }
         else {
             $image = $chatRoom['other_users'][0] && $chatRoom['other_users'][0]->image_profil ? asset('storage/' . $chatRoom['other_users'][0]->image_profil) : asset('/images/simple_flower.png');
-            $personality = $chatRoom['other_users'][0] ? $chatRoom['other_users'][0]->getPersonalityType() : '';
+            $personality = $chatRoom['other_users'][0] ? $chatRoom['other_users'][0]->getPersonalityGroup() : '';
             $isOnline = $chatRoom['other_users'][0] ? $chatRoom['other_users'][0]->isOnline() : false;
         }
         
@@ -35,7 +35,11 @@
         <div class="convo_info">
             <div class="convo_name">{{ $chatRoom['name'] }}</div> <!-- Name -->
             <div class="convo_last">
-                {{ $lastMessage }}
+                @if($chatRoom['last_message']->modify == 1)
+                    {{ "Fichier image" }}
+                @else
+                    {{ $lastMessage }}
+                @endif
             </div>
         </div>
     </div>

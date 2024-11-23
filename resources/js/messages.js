@@ -225,25 +225,12 @@ function checkFile(file) {
         if (file.size > 2000000) {
             alert('Image trop lourde')
         } else {
-            //image is Ok
-          //console.log($('#inputImage').files);
           $('#form_img').submit();
-
-            //$('input[type="file"]').files=file;
-            // $('#imageFeedback').text("");
-            // let reader = new FileReader();
-
-            // reader.onloadend = function () {
-            //     displayImage($('#inputImage'), id);
-            // }
-            // reader.readAsDataURL(file);
-            // return true;
         }
     } else {
         alert("Le fichier doit être une image");
     }
     return false;
-
 }
 function previewFile() {
     var preview = $(".img-preview");
