@@ -41,9 +41,12 @@ foreach ($events as $event) {
         <a class="card no_select hover_darker" href="event/$event->id">
             <div class="banner">
                 <img src="{$event->image}" alt="Image de l'évènement">
-                <button class="meetup_btn_add" data-event-id="{$event->id}" aria-label="Créer un BlossomLink pour cet événement">
-                   <span class="material-symbols-rounded">add_reaction</span>
-                </button>
+                <div class="add-blossomlink">
+                    <button class="plus-icon" data-event-id="{$event->id}">
+                        <span class="material-symbols-rounded">add_reaction</span>
+                    </button>
+                    <div class="hover-text">Créer un BlossomLink</div>
+                </div>
             </div>
             <div class="content">
                 <div class="header">
@@ -72,15 +75,12 @@ foreach ($events as $event) {
 ?>
 
 <script>
-document.querySelectorAll('.meetup_btn_add').forEach(button => {
+document.querySelectorAll('.plus-icon').forEach(button => {
     button.addEventListener('click', function(event) {
-        event.stopPropagation(); 
-        event.preventDefault(); 
-        
+        event.preventDefault();
         const eventId = this.getAttribute('data-event-id');
-        window.location.href = `/meetups/meetupForm/${eventId}`;
+        window.location.href = `/meetup/form/${eventId}`;
     });
 });
-
 
 </script>

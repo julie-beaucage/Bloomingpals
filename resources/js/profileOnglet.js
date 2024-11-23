@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const urlParams = new URLSearchParams(window.location.search);
     const activeTabParam = urlParams.get('tab');
-    
 
     if (activeTabParam) {
         tabLinks.forEach(link => link.classList.remove('active'));
@@ -82,6 +81,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return interestsTabLink && interestsTabLink.classList.contains('active');
     }
 
+    // Fonction pour initialiser la barre de recherche
     function initSearchInterest() {
         const searchInput = document.getElementById('searchInterests');
         

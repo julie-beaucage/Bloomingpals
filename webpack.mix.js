@@ -20,8 +20,6 @@ mix.js('resources/js/Notifications.js', 'public/js');
 mix.js('resources/js/home-Overlay-login.js', 'public/js');
 mix.js('resources/js/flash.js', 'public/js');
 mix.js('resources/js/messages.js', 'public/js');
-mix.js('resources/js/layout.js', 'public/js');
-
 mix.postCss('resources/css/app.css', 'public/css', []);
 mix.postCss('resources/css/login.css', 'public/css', []);
 mix.postCss('resources/css/meetupForm.css', 'public/css', []);

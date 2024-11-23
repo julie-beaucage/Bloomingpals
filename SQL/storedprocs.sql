@@ -232,7 +232,7 @@ END
 -- ------------------------------------------------------------------------------------------------
 DROP PROCEDURE IF EXISTS creerRencontre;
 DELIMITER //
-CREATE PROCEDURE creerRencontre( _nom varchar(100), _description varchar(4096), _id_organisateur INT, _adresse Varchar(100), _ville Varchar(100), _date DATETIME ,_nb_participant INT, _image varchar(2048), _public Bool)
+CREATE PROCEDURE creerRencontre( _nom varchar(100), _description varchar(4096), _id_organisateur INT, _adresse Varchar(100), _ville Varchar(100), _date DATETIME ,_nb_participant INT, _image varchar(1024), _public Bool)
 BEGIN
 
 	START TRANSACTION;
@@ -247,7 +247,7 @@ END;
 DROP PROCEDURE IF EXISTS modifierRencontre;
 
 DELIMITER //
-CREATE PROCEDURE modifierRencontre (id_rencontre INT ,_nom varchar(100), _description varchar(4096),   _id_organisateur INT, _adresse Varchar(100), _ville Varchar(100), _date DATETIME ,_nb_participant INT, _image varchar(2048), _public Bool)
+CREATE PROCEDURE modifierRencontre (id_rencontre INT ,_nom varchar(100), _description varchar(4096),   _id_organisateur INT, _adresse Varchar(100), _ville Varchar(100), _date DATETIME ,_nb_participant INT, _image varchar(1024), _public Bool)
 BEGIN
 	START TRANSACTION;
 		  UPDATE meetups set name=_nom where id = id_rencontre;
@@ -281,93 +281,6 @@ BEGIN
 	
 END;
 // DELIMITER ;
-DROP PROCEDURE IF EXISTS send_meetup_request;
-DELIMITER //
-CREATE PROCEDURE send_meetup_request(IN p_user_id INT, IN p_meetup_id INT)
-BEGIN
-    DECLARE existing_request_count INT;
-    SELECT COUNT(*) INTO existing_request_count
-    FROM meetups_requests
-    WHERE id_user = p_user_id
-    AND id_meetup = p_meetup_id;
-
-    IF existing_request_count = 0 THEN
-        INSERT INTO meetups_requests (id_user, id_meetup, status)
-        VALUES (p_user_id, p_meetup_id, 'pending');
-    ELSE
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Request already sent';
-    END IF;
-END;
-// DELIMITER ;
-
-
-DROP PROCEDURE IF EXISTS cancel_meetup_request;
-DELIMITER //
-CREATE PROCEDURE cancel_meetup_request(IN p_user_id INT, IN p_meetup_id INT)
-BEGIN
-    DELETE FROM meetups_requests
-    WHERE id_user = p_user_id
-    AND id_meetup = p_meetup_id
-    AND status = 'pending';
-END;
-// DELIMITER ;
-
-
-DROP PROCEDURE IF EXISTS accept_meetup_request;
-DELIMITER //
-CREATE PROCEDURE accept_meetup_request(IN p_owner_id INT, IN p_user_id INT, IN p_meetup_id INT)
-BEGIN
-    DECLARE request_status ENUM('pending', 'accepted', 'refused');
-    
-    IF EXISTS (SELECT 1 FROM meetups WHERE id = p_meetup_id AND id_owner = p_owner_id) THEN
-        SELECT status INTO request_status
-        FROM meetups_requests
-        WHERE id_user = p_user_id
-        AND id_meetup = p_meetup_id;
-
-        IF request_status = 'pending' THEN
-            UPDATE meetups_requests
-            SET status = 'accepted'
-            WHERE id_user = p_user_id
-            AND id_meetup = p_meetup_id;
-
-            INSERT INTO meetups_users (id_meetup, id_user)
-            VALUES (p_meetup_id, p_user_id);
-        ELSE
-            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Request is not in pending status';
-        END IF;
-    ELSE
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'User is not the owner of the meetup';
-    END IF;
-END;
-// DELIMITER ;
-
-DROP PROCEDURE IF EXISTS refuse_meetup_request;
-DELIMITER //
-CREATE PROCEDURE refuse_meetup_request(IN p_owner_id INT, IN p_user_id INT, IN p_meetup_id INT)
-BEGIN
-    DECLARE request_status ENUM('pending', 'accepted', 'refused');
-    
-    IF EXISTS (SELECT 1 FROM meetups WHERE id = p_meetup_id AND id_owner = p_owner_id) THEN
-        SELECT status INTO request_status
-        FROM meetups_requests
-        WHERE id_user = p_user_id
-        AND id_meetup = p_meetup_id;
-
-        IF request_status = 'pending' THEN
-            UPDATE meetups_requests
-            SET status = 'refused'
-            WHERE id_user = p_user_id
-            AND id_meetup = p_meetup_id;
-        ELSE
-            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Request is not in pending status';
-        END IF;
-    ELSE
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'User is not the owner of the meetup';
-    END IF;
-END$$
-// DELIMITER ;
-
 -- -----------------------------------------------------
 
 -- Notificications

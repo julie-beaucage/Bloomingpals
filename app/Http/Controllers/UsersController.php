@@ -134,7 +134,11 @@ class UsersController extends Controller
     public function resend(Request $request)
     {
         $user = Auth::user();
+        Log::info("resend fonction");
+
         if ($user) {
+            Log::info("renvoie de courriel fait ");
+
             $user->sendEmailVerificationNotification();
             return redirect()->back()->with('message', 'Un lien de vérification a été renvoyé à votre adresse email.');
         }
@@ -152,6 +156,7 @@ class UsersController extends Controller
     public function profile($id,$modified =false)
     {
         if (Auth::guest()) {
+            // Si l'utilisateur n'est pas authentifié, redirigez vers la page de connexion avec un message d'erreur
             return redirect()->route('home')->with('error', 'Veuillez vous connecter pour accéder à votre profil.');
         }
         $user = User::find($id);
@@ -191,8 +196,19 @@ class UsersController extends Controller
         $relationRequest=null;
         if ($relation == 'GotBlocked') {
             return redirect()->back();
-        } 
-        return view('profile.profile', compact('user', 'profileCompletionPercentage', 'emailVerified', 'interestsSelected', 'personalityTestDone', 'relation','modified', 'haveAccess'));
+        } else if ($relation != "Friend") {
+            $relationRequest = Friendship_Request::GetUserRelationState(Auth::user()->id, $id);
+            if ($relationRequest == "sent") {
+                $relation = "SendingInvitation";
+            } else if ($relationRequest == "receive") {
+                $relation = "Invited";
+            } else if ($relationRequest == "refuse") {
+                $relation = "Refuse";
+            }
+                
+            
+        }
+        return view('profile.profile', compact('user', 'profileCompletionPercentage', 'emailVerified', 'interestsSelected', 'personalityTestDone', 'relation','modified', 'haveAccess','relationRequest'));
     }
 
 

@@ -158,19 +158,4 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return Cache::has('user-is-online-' . $this->id);
     }
-    public static function getRelationStatus($user1Id, $user2Id)
-    {
-        $relation = DB::table('relations')
-            ->where(function ($query) use ($user1Id, $user2Id) {
-                $query->where('id_user1', $user1Id)
-                      ->where('id_user2', $user2Id);
-            })
-            ->orWhere(function ($query) use ($user1Id, $user2Id) {
-                $query->where('id_user1', $user2Id)
-                      ->where('id_user2', $user1Id);
-            })
-            ->first();
-
-        return $relation ? $relation->type : null;
-    }
 }
