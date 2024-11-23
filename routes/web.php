@@ -146,6 +146,7 @@ Route::middleware('auth')->group(function () {
 
 
     //utilisateurs
+    
     Route::get("user/friend/request/send/{id}", [UsersController::class, "SendFriendRequest"])->name("SendFriendRequest");
     Route::get("user/friend/request/accept/{id}", [UsersController::class, "AcceptFriendRequest"])->name("AcceptFriendRequest");
     Route::get("user/friend/request/refuse/{id}", [UsersController::class, "RefuseFriendRequest"])->name("RefuseFriendRequest");

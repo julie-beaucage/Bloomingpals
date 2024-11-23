@@ -31,10 +31,9 @@
                 <h3>Organisé par {{ $meetup->owner->first_name }} {{ $meetup->owner->last_name }}</h3>
             </div>
             <div class="section">
-            <div class="meetup-btn">
-    {!! btn_setUp(auth()->id(), $meetup) !!}
-</div>
-
+                <div class="meetup-btn">
+                  {!! btn_setUp(auth()->id(), $meetup) !!}
+                </div>
                 <h2 class="title">Informations</h2>
                 <div class="showcase">
                     <div>

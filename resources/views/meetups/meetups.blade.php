@@ -1,4 +1,7 @@
 <body>
+@if(isset($message))
+    <div class="alert alert-info">{{ $message }}</div>
+@endif
     <link rel="stylesheet" href="{{ asset('css/meetupForm.css') }}">
     <div class="meetups-container">
         

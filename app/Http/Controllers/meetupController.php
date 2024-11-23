@@ -82,17 +82,35 @@ class meetupController extends BaseController
         $user = User::findOrFail($id);
         $meetups = Meetup::getMeetupsByOwner($user->id);  
         if ($meetups->isEmpty()) {
-            return view('meetups.meetups', ['message' => 'Aucune rencontre disponible']);
-        }
+            return view('meetups.meetups', [
+                'message' => 'Aucune rencontre disponible', 
+                'meetups' => $meetups,                     
+                'user' => $user                           
+            ]);
+        }        
         return view('meetups.meetups', ['meetups' => $meetups, 'user' => $user]);  
     }
 
     public function meetup_detail($id){
         $meetup = Meetup::findOrFail($id);
-        $btnHtml = btn_setUp(auth()->id(), $meetup);
         if($meetup != null)
-           return view('meetups.meetupDetail', compact('meetup','btnHtml'));
+           return view('meetups.meetupDetail', compact('meetup'));
         return back();
+    }
+    public function manageRequests($meetupId)
+    {
+        $meetup = Meetup::findOrFail($meetupId);
+        if (auth()->id() !== $meetup->owner->id) {
+            return redirect()->route('home')->with('error', 'Vous n\'êtes pas autorisé à gérer ce meetup.');
+        }
+        $pendingRequests = Meetup_Request::where('id_meetup', $meetupId)
+        ->where('status', 'pending')
+        ->get();
+
+        foreach ($pendingRequests as $request) {
+            $request->user_request = User::find($request->id_user);
+        }
+        return view('meetups.meetupManager', compact('meetup', 'pendingRequests'));
     }
 
     public function deleteMeetup($id)
@@ -134,22 +152,6 @@ class meetupController extends BaseController
         $request->delete();
         return redirect()->back()->with('success', 'Demande annulée.');
     } 
-    public function manageRequests($meetupId)
-    {
-        $meetup = Meetup::findOrFail($meetupId);
-        if (auth()->id() !== $meetup->owner->id) {
-            return redirect()->route('home')->with('error', 'Vous n\'êtes pas autorisé à gérer ce meetup.');
-        }
-        $pendingRequests = Meetup_Request::where('id_meetup', $meetupId)
-        ->where('status', 'pending')
-        ->get();
-
-        foreach ($pendingRequests as $request) {
-            $request->user_request = User::find($request->id_user);
-        }
-        //Log::info('Pending Requests with User Information:', ['pendingRequests' => $pendingRequests]);
-        return view('meetups.meetupManager', compact('meetup', 'pendingRequests'));
-    }
     public function acceptRequest($meetupId, $userId)
     {
         $meetup = Meetup::findOrFail($meetupId);

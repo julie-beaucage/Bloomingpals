@@ -191,17 +191,8 @@ class UsersController extends Controller
 
         if ($relation == 'GotBlocked') {
             return redirect()->back();
-        } else if ($relation != "Friend") {
-            $relationRequest = Friendship_Request::GetUserRelationState(Auth::user()->id, $id);
-            if ($relationRequest == "sent") {
-                $relation = "SendingInvitation";
-            } else if ($relationRequest == "receive") {
-                $relation = "Invited";
-            } else if ($relationRequest == "refuse") {
-                $relation = "Refuse";
-            }
-        }
-        return view('profile.profile', compact('user', 'profileCompletionPercentage', 'emailVerified', 'interestsSelected', 'personalityTestDone', 'relation','modified', 'haveAccess','relationRequest'));
+        } 
+        return view('profile.profile', compact('user', 'profileCompletionPercentage', 'emailVerified', 'interestsSelected', 'personalityTestDone', 'relation','modified', 'haveAccess'));
     }
 
 

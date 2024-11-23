@@ -30,6 +30,7 @@
 @section('script')
 
 <script>
+    
     document.getElementById('search_field').addEventListener('input', function () {
     document.getElementById('clear_btn').style.display = this.value ? 'inline' : 'none';
 });
