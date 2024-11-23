@@ -42,7 +42,6 @@ foreach ($users as $user) {
     ];
 }
 
-// Sort by affinity (current user first)
 usort($userDataList, function ($a, $b) use ($currentUser) {
     if ($a['user']->id === $currentUser->id) return -1;
     if ($b['user']->id === $currentUser->id) return 1;
@@ -70,8 +69,7 @@ usort($userDataList, function ($a, $b) use ($currentUser) {
                 <span>{{ $userData['affinity'] }}% d'affinité avec vous</span>
             </div>
             <div>
-              <span class="tag_perso {{ $userData['userPersonality'] }}">{{ $userData['userPersonalityType'] }}
-               </span>
+              {{--!<span class="tag_perso {{ $userData['userPersonality'] }}">{{ $userData['userPersonalityType'] }}</span>--}}
             </div>
 
         </div>

@@ -283,7 +283,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 
 -- friendships_requests -----------------------------------------
-select * from friendships_requests;
 CREATE TABLE IF NOT EXISTS friendships_requests(
     id_user_send INT NOT NULL,
     id_user_receive INT NOT NULL,
@@ -343,7 +342,7 @@ CREATE TABLE IF NOT EXISTS meetups_interests(
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
-select * from events_interests;
+
 -- events_interests --------------------------------------
 CREATE TABLE IF NOT EXISTS events_interests(
     id_interest INT not null,

@@ -11,6 +11,13 @@ class Friendship_Request extends Model
     protected $fillable = ["id_user_send", "id_user_receive", "status"];
     public $timestamps = false;
 
+    public static function getReceivedFriendRequests($userId)
+    {
+        return self::where('id_user_receive', $userId)
+                   ->where('status', 'pending')
+                   ->get();
+    }
+    /* CODE QUI NEST PAS UTILISER A 50% ?*/ 
     public static function AddFriendRequest($user1, $user2) {
         if (!Friendship_Request::IsRefuse($user1, $user2)) {
             if (Friendship_Request::IsRefuse($user2, $user1)) {

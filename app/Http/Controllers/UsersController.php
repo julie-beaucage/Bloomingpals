@@ -299,7 +299,12 @@ class UsersController extends Controller
     {
         $user = User::find($id);
         $users = Relation::GetFriends($id);
-        return view('profile.amis', compact('user', 'users'));
+        $pendingRequests = Friendship_Request::getReceivedFriendRequests($id);
+        $pendingUsers = [];
+        foreach ($pendingRequests as $request) {
+            $pendingUsers[] = User::find($request->id_user_send); 
+        }
+        return view('profile.amis', compact('user', 'users', 'pendingUsers'));
     }
 
     public function personnalite($id)

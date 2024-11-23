@@ -173,4 +173,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
         return $relation ? $relation->type : null;
     }
+    public function joinedMeetups()
+    {
+        return $this->belongsToMany(Meetup::class, 'meetups_users', 'id_user', 'id_meetup');
+    }
+
+
 }

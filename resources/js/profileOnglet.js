@@ -69,6 +69,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 } else {
                     console.error("Élément 'profile-content' introuvable.");
                 }
+                if (isFriendsTabActive()) {
+                    initSearchFriends();
+                }
                 if (isInterestsTabActive()) {
                     initSearchInterest(); 
                     setupTagSelection(); 
@@ -77,6 +80,34 @@ document.addEventListener('DOMContentLoaded', function () {
             .catch(error => console.error('Erreur lors du chargement de la section:', error));
     }
 
+    function isFriendsTabActive() {
+        const friendsTabLink = document.querySelector('.nav-link[data-target="profile/amis"]');
+        return friendsTabLink && friendsTabLink.classList.contains('active');
+    }
+    
+
+    function initSearchFriends() {
+        const searchInput = document.getElementById('searchFriends');
+        
+        if (searchInput) {
+            searchInput.addEventListener('input', function () {
+                const searchValue = searchInput.value.toLowerCase();
+                const userCards = document.querySelectorAll('.card_long'); 
+
+                userCards.forEach(function (card) {
+                    const name = card.querySelector('.name').textContent.toLowerCase();
+
+                    if (name.includes(searchValue)) {
+                        card.style.display = ''; 
+                    } else {
+                        card.style.display = 'none'; 
+                    }
+                });
+            });
+        } else {
+            console.error("L'élément #searchInput n'a pas été trouvé.");
+        }
+    }
     function isInterestsTabActive() {
         const interestsTabLink = document.querySelector('.tab-link[href*="interets/interets"]');
         return interestsTabLink && interestsTabLink.classList.contains('active');

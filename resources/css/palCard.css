@@ -588,6 +588,10 @@ hr {
     border: 2px solid var(--personality-color);
 }
 /*-----------------MINI PARTIE POUR LES USERS CARDS */
+
+.myPalContainer{
+    gap: 1em;
+}
 .containerPals .cards_list {
     gap: 1em;
 }
@@ -741,22 +745,6 @@ hr {
     transform: scale(1.05);
 }
 
-.btn_accept {
-    background-color: var(--primary-400);
-    color: var(--white);
-}
-.btn_accept:hover{
-    background-color:var(--secondary-300);
-}
-.btn_refuse {
-    background-color: var(--neutral-500);
-    color: black;
-}
-.btn_refuse:hover {
-    background-color: var(--primary-600);
-    color: var(--white);
-}
-
 /* ----------------- Media Queries ----------------- */
 @media (max-width: 800px) {
 .containerPals .card_long{
@@ -764,6 +752,8 @@ hr {
 }
 .containerPals .name{
     font-size: 1.2em;
+}.tags_cntr{
+    display: none!important;
 }
 }
 @media (max-width: 600px) {

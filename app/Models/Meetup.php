@@ -19,6 +19,7 @@ class Meetup extends Model
     use HasApiTokens, HasFactory, Notifiable;
     protected $table= 'meetups';
     protected $primaryKey = 'id';
+    
     public static function getMeetupsByOwner($userId)
     {
         return self::where('id_owner', $userId)->get();
