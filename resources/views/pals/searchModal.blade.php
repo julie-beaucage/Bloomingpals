@@ -2,7 +2,6 @@
     <div id="absolute_cntr">
         <div class="filters_cntr">
             <div class="header">
-                <span class="material-symbols-rounded no_select pointer">page_info</span>
                 <span class="title">Trier par personnalité: </span>
                 <span id="close_filter_btn_just" class="material-symbols-rounded no_select pointer">close</span>
             </div>

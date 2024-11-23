@@ -60,7 +60,7 @@ class PersonalityController extends Controller
         }
                 $request->session()->forget('answers');
         
-        DB::statement('Call addAction(?,?,?)',[$userId,'Personality Test',[]]);
+        DB::statement('Call addAction(?,?,?)',[$userId,'Personality Test',json_encode(['empty'])]);
 
         return view('test_personality.resultat_test', compact('personality'));
     }

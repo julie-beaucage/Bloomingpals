@@ -15,7 +15,7 @@
                 <input type="text" id="search_field" class="no_select" placeholder="Rechercher des pals">
                 <button id="clear_btn" class="clear-btn" type="button" onclick="clearSearch()">×</button>
                 <button id="filter_btn" class="hover_darker no_select" type="button">
-                    <span class="material-symbols-rounded">filter_vintage</span>
+                    <span class="material-symbols-rounded">page_info</span>
                 </button>
             </div>
             <div id="selected-info"></div>

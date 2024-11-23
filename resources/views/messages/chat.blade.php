@@ -53,7 +53,7 @@
     <div class="message {{ $message->id_user == Auth::id() ? 'sent' : 'received' }}">
         @if ($user->id != auth()->user()->id && $hasImage)
             <a class="message_user no_select" href="/profile/{{$user->id}}">
-                <img src="{{ $img }}" alt="" class="profile_image {{ $user->getPersonalityType() }}">
+                <img src="{{ $img }}" alt="" class="profile_image {{ $user->getPersonalityGroup() }}">
                 <span class="message_username">{{ $user->first_name }} {{ $user->last_name }}</span>
             </a>
         @endif

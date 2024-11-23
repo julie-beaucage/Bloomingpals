@@ -167,7 +167,7 @@ class MessagesController extends Controller
 
         $users = User::query()->where(DB::raw("CONCAT(`first_name`, ' ', `last_name`)"), 'LIKE', '%' . $query . '%')->where('id', '!=', auth()->user()->id)->orderBy('first_name')->get();
         $users = $users->map(function ($user) {
-            $user->personality = $user->getPersonalityType();
+            $user->personality = $user->getPersonalityGroup();
             return $user;
         });
         return response()->json($users->take(5));
