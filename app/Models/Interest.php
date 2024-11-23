@@ -14,6 +14,7 @@ class Interest extends Model
     use HasFactory, Notifiable;
     protected $table = 'interests';
     protected $primaryKey = 'id';
+
     public function categorie()
     {
         return $this->belongsTo(Category_Interest::class, 'id_category'); 
@@ -21,5 +22,13 @@ class Interest extends Model
     public function getTagsByCategory($categoryId) {
         $tags = Interest::where('id_category', $categoryId)->get(['id', 'name']);
         return response()->json($tags);
+    }
+    public function events()
+    {
+        return $this->belongsToMany(Event::class, 'events_interests', 'id_interest', 'id_event');
+    }
+    public function meetups()
+    {
+        return $this->belongsToMany(Meetup::class, 'meetups_interests', 'id_interest', 'id_meetup');
     }
 }

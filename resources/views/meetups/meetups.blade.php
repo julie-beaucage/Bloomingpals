@@ -1,79 +1,77 @@
-@extends("master")
-
-@section('style')
-<link rel="stylesheet" href="{{ asset('css/meetup.css') }}">
-@endsection
-@php
-$index=0;
-setlocale(LC_ALL, 'fr_FR');
-@endphp
-
-@section("content")
-
-<div class="container-meetups">
-
-    @foreach ($meetups as $meetup)
-    @if(!(Auth::user()->id != $meetup->id_organisateur and $meetup->public ==0 ))
-        <div class="container-meetup" id="{{$meetup->id}}">
-            <div>
-                @if($meetup->image != null)
-                <img class="image" src="{{$meetup->image}}">
-                @else
-                @php
-                $default_images=rand(1,3);
-                $image='\images\meetup_default'.$default_images.'.png'; 
-                @endphp
-                <img class="image" src="{{$image}}">
-                @endif
-            </div>
-            <div class="meetup-header">
-                {{$meetup->nom}}
-            </div>
-            
-            <div class="flex-row">
-                <img class="profile-picture" src="{{ $users[$index]->image_profil ? asset('storage/' . $users[$index]->image_profil) : asset('/images/simple_flower.png') }}"  id="{{$users[$index]->id}}">
-                <div sty>
-                    <div class="text">{{$users[$index]->prenom}} {{$users[$index]->nom}}</div>
-                    <div>Affinité: 50%</div>
-                </div>
-            </div>
-            <div class="flex-row" style="flex-direction:column; margin-bottom:1em;">
-                <div class="flex-row" style="justify-content:space-between; width:100%;">
-                   <div class="text">Date :</div>
-                   
-                   <div class="text">Ville :   </div>
-
-                </div>
-                <div class="flex-row" style="justify-content:space-between; width:100%;">
-                    <div>{{date("Y-m-d",strtotime($meetup->date));}}</div>
-                    <div style>{{$meetup->ville}}   </div>
-
-                </div>
-            </div>
-            
-
-        </div>
+<body>
+@if(isset($message))
+    <div class="alert alert-info">{{ $message }}</div>
+@endif
+    <link rel="stylesheet" href="{{ asset('css/meetupForm.css') }}">
+    <div class="meetups-container">
+        
+        @if ($user->id == Auth::user()->id)
+            <h1>Mes Meetups</h1>
+        @else
+            <h1>Les Meetups de {{ $user->first_name }} </h1>  
         @endif
-        @php
-        $index+=1;
-        @endphp
-    @endforeach
+
+        @if($meetups->isEmpty())
+            <p>Aucun meetup trouvé.</p>
+        @else
+            <div class="meetups-list">
+                @foreach($meetups as $meetup) 
+                <div class="meetup-card">
+                        <div class="banner meetup-card-header">
+                            <img src="{{ $meetup->image }}" alt="Image de l'évènement">
+                        </div>
+                        @if ($meetup->user_id == Auth::user()->id)
+                            <form id="deleteMeetupForm-{{ $meetup->id }}" action="{{ route('meetup.delete', ['id' => $meetup->id]) }}" method="POST" style="display: inline;">
+                                @csrf
+                                <a href="#" onclick="return confirmDelete('{{ $meetup->name }}', '{{ $meetup->id }}')">
+                                    <div class="buttonn btn_accept no_select">Supprimer</div>
+                                </a>
+                            </form>
+                        @endif
+                        <div class="meetup-card-body">
+                            <div class="meetup-info">
+                                <h3>{{ $meetup->name }}</h3>
+                                <span class="meetup-date">{{ \Carbon\Carbon::parse($meetup->date)->format('d M Y') }}</span>
+                                <span class="meetup-creator">Organisé par {{ $meetup->owner->first_name }}</span>
+                                <span class="meetup-address">{{ $meetup->address }}</span>
+                            </div>
+                                <p>{{ Str::limit($meetup->description, 150) }}</p>
+                        </div>
+                        <div class="meetup-card-footer">
+                            <div class="meetup-participants">
+                                <span class="participant-count">{{ $meetup->nb_participant }} participants</span>
+                                <div class="participants-list">
+                                    <ul>
+                                        @foreach($meetup->participants as $participant)
+                                            <li>
+                                                <img src="{{ $participant->image }}" alt="{{ $participant->first_name }}'s profile picture" class="participant-avatar">
+                                                <span>{{ $participant->first_name }} {{ $participant->last_name }}</span>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                            @if(auth()->id() == $meetup->owner->id)
+                                @php
+                                    $pendingRequestsCount = $meetup->requests()->where('status', 'pending')->count();
+                                @endphp
+                                <div class="pending-requests">
+                                    <span class="requests-count {{ $pendingRequestsCount > 0 ? 'red' : '' }}">
+                                        {{ $pendingRequestsCount }} demande(s) en attente
+                                    </span>
+                                </div>
+                                <div class="manage-requests-button">
+                                    <a href="{{ route('meetup.manage', $meetup->id) }}" class="btn btn-manage-requests">
+                                        Gérer les demandes
+                                    </a>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @endif
+    </div>
+</body>
 
 
-</div>
-
-@endsection
-@section("script")
-<script>
-    $(".profile-picture").on('click',function(){
-       window.location.href="#"+this.id;
-    });
-
-    $(".container-meetup").on('click',function(event){
-        if(event.target.className != 'profile-picture'){
-            window.location.href="meetup/page/"+ this.id;
-        }
-    });
-
-</script>
-@endsection
