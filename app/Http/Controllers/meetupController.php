@@ -97,6 +97,7 @@ class meetupController extends BaseController
            return view('meetups.meetupDetail', compact('meetup'));
         return back();
     }
+
     public function manageRequests($meetupId)
     {
         $meetup = Meetup::findOrFail($meetupId);
@@ -124,6 +125,7 @@ class meetupController extends BaseController
         return redirect()->route('profile', ['id' => $userId, 'tab' => 'meetups/meetups'])
             ->with('success', 'La rencontre a été supprimée avec succès.');
     }
+
     public function sendRequest($id)
     {
         $meetup = Meetup::find($id);
@@ -160,17 +162,18 @@ class meetupController extends BaseController
             return redirect()->route('meetups.index')->with('error', 'Vous n\'êtes pas le propriétaire de ce meetup.');
         }
         DB::statement('CALL accept_meetup_request(?, ?, ?)', [$meetup->id_owner, $userId, $meetupId]);
-        return redirect()->route('meetups.meetupManager', $meetupId)->with('success', 'Demande acceptée !');
+        return redirect()->route('meetup.manage', $meetupId)->with('success', 'Demande acceptée !');
     }
 
-    public function declineRequest($meetupId, $userId)
+    public function refuseRequest($meetupId, $userId)
     {
         $meetup = Meetup::findOrFail($meetupId);
         if (auth()->user()->id !== $meetup->id_owner) {
             return redirect()->route('meetups.index')->with('error', 'Vous n\'êtes pas le propriétaire de ce meetup.');
         }
-        $meetup->interestedUsers()->detach($userId);
-        return redirect()->route('meetups.meetupManager', $meetupId)->with('success', 'Demande refusée !');
+        DB::statement('CALL refuse_meetup_request(?, ?, ?)', [$meetup->id_owner, $meetupId, $userId,]);
+
+        return redirect()->route('meetup.manage', $meetupId)->with('success', 'Demande refusée !');
     }
 
 }

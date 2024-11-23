@@ -17,7 +17,7 @@ if (!function_exists('isFriendRequestSend')){
         ->first();
 
         return $request ? $request->status : 'none';
-        //CODE DE WILL BEGUIN COPIER COLLER()
+
        /* $relation = Friendship_Request::GetUserRelationState($userId, $currentUserId);
         if ($relation == 'GotBlocked') {
             return 'Blocked';
@@ -115,7 +115,7 @@ if (!function_exists('btn_setUpFriend')){
                     </button>";        
         }
         
-   //CODE DE WILL BEGUIN COPIER COLLER()
+
     /*$currentUser = Auth::user();
         $relation = Friendship_Request::GetUserRelationState($userId, $currentUserId);
 
@@ -185,34 +185,38 @@ if (!function_exists('btn_setUp')) {
         $url = '';
         $btn_txt = '';
         $btn_class = '';
+        $icon_symbol = '';
 
         if ($requestStatus == 'none') {
             $url = route("meetups.send_request", ["meetupId" => $meetupId]);
             $btn_txt = "Rejoindre";
             $btn_class = "btn_interesse";
+            $icon_symbol = "star";
         } else {
             if ($requestStatus == 'accepted') {
                 $url = route("meetups.cancel_request", ["meetupId" => $meetupId]);
                 $btn_txt = "Participant"; // Icône de crochet coché
                 $btn_class = "btn_friends";
+                $icon_symbol = "check_circle";
             } elseif ($requestStatus == 'pending') {
-                $btn_txt = "En attente";
+                $btn_txt = "Annuler la demande";
                 $url = "#"; // Ne fait rien ici
                 $btn_class = "btn_pending";
             } elseif ($requestStatus == 'refused') {
                 $url = "#";
                 $btn_txt = "Refusé";
                 $btn_class = "btn_refused";
+                $btn_disabled = "disabled"; 
             }
         }
 
         return "
             <form action='{$url}' method='POST'>
                 " . csrf_field() . "
-                <button class='{$btn_class} no_select btn_primary' type='submit'>
+                <button class='{$btn_class} no_select btn_primary' type='submit' {$btn_disabled}>
                     <span>{$btn_txt}</span>
                     <span class='material-symbols-rounded'>
-                        star
+                        {$icon_symbol}
                     </span>
                 </button>
             </form>";

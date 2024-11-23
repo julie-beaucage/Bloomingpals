@@ -1,4 +1,4 @@
--- DROP DATABASE IF EXISTS `BloomingPals`;
+ -- DROP DATABASE IF EXISTS `BloomingPals`;
 Create DATABASE IF NOT EXISTS `BloomingPals`  DEFAULT CHARACTER SET utf8mb4;
 USE BloomingPals;
 
@@ -16,14 +16,12 @@ DROP TABLE IF EXISTS chatRooms;
 DROP TABLE IF EXISTS affinities_users;
 DROP TABLE IF EXISTS relations;
 DROP TABLE IF EXISTS meetups_users;
-select * from meetups_users;
-select * from meetups;
 DROP TABLE IF EXISTS events_users;
 DROP TABLE IF EXISTS friendships_requests;
-DROP TABLE IF EXISTS meetups_requests;
 DROP TABLE IF EXISTS reports;
 DROP TABLE IF EXISTS notifications;
 DROP TABLE IF EXISTS new_notifications;
+DROP TABLE IF EXISTS meetups_requests;
 DROP TABLE IF EXISTS meetups;
 DROP TABLE IF EXISTS objects_types;
 DROP TABLE IF EXISTS answers;
@@ -40,7 +38,6 @@ DROP TABLE IF EXISTS groups_personalities;
 
 
 -- types_personalities -----------------------------------
-
 CREATE TABLE IF NOT EXISTS groups_personalities (
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(50) NOT NULL
@@ -82,7 +79,6 @@ CREATE TABLE IF NOT EXISTS answers (
 
 
 -- -----------------------------------------------------
-
 -- users -----------------------------------------
 CREATE TABLE IF NOT EXISTS users (
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -92,8 +88,8 @@ CREATE TABLE IF NOT EXISTS users (
     last_name VARCHAR(50) NOT NULL,
     birthdate DATE NOT NULL,
     personality INT DEFAULT NULL,
-    image_profil VARCHAR(2048),
-    background_image VARCHAR(2048), 
+    image_profil VARCHAR(2048) DEFAULT 'images/flower.png',
+    background_image VARCHAR(2048) DEFAULT 'images/R.jpg',
     gender ENUM('homme', 'femme', 'non-genre') NOT NULL,
     password CHAR(128) NOT NULL,
     email_verified_at TIMESTAMP NULL DEFAULT NULL,
@@ -184,7 +180,6 @@ CREATE TABLE IF NOT EXISTS objects_types(
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
-
 -- meetups -------------------------------------------
 CREATE TABLE IF NOT EXISTS meetups(
   id INT PRIMARY KEY auto_increment,
@@ -195,14 +190,14 @@ CREATE TABLE IF NOT EXISTS meetups(
   city Varchar(100),
   `date` DATETIME NOT NULL,
   nb_participant INT DEFAULT(2),
-  image varchar(2048),
+  image varchar(2048) NOT NULL,
   public Bool DEFAULT(true),
+  created_at datetime DEFAULT CURRENT_TIMESTAMP,
 
   FOREIGN KEY (id_owner) REFERENCES users(id)
   )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
-
 -- meetups_users -------------------------------
 CREATE TABLE IF NOT EXISTS meetups_users(
     id_meetup INT NOT NULL,
@@ -212,8 +207,19 @@ CREATE TABLE IF NOT EXISTS meetups_users(
     PRIMARY KEY pk_meetup_user (id_meetup, id_user)
 )
 ENGINE = InnoDB;
+-- ----------------------------------------------------
+-- meetups_requests -----------------------------------
+CREATE TABLE IF NOT EXISTS meetups_requests(
+    id INT PRIMARY KEY auto_increment,
+    id_user INT NOT NULL,
+    id_meetup INT NOT NULL,
+    status ENUM('pending', 'accepted', 'refused') DEFAULT 'pending',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_user) REFERENCES users(id),
+    FOREIGN KEY (id_meetup) REFERENCES meetups(id)
+)
+ENGINE = InnoDB;
 -- -----------------------------------------------------
-
 -- Notifications--------------------------------------
 CREATE TABLE IF NOT EXISTS notifications(
     id INT PRIMARY KEY auto_increment,
@@ -273,28 +279,18 @@ CREATE TABLE IF NOT EXISTS events_users(
 )
 ENGINE = InnoDB;
 
+
 -- -----------------------------------------------------
 
 -- friendships_requests -----------------------------------------
+select * from friendships_requests;
 CREATE TABLE IF NOT EXISTS friendships_requests(
     id_user_send INT NOT NULL,
     id_user_receive INT NOT NULL,
-    state ENUM('Sent','Accepted', 'Refused') NOT NULL,
+    status ENUM('pending', 'accepted', 'refused') DEFAULT 'pending',
     FOREIGN KEY (id_user_send) REFERENCES users(id),
     FOREIGN KEY (id_user_receive) REFERENCES users(id),
     PRIMARY KEY pk_friendships_requests (id_user_send, id_user_receive)
-)
-ENGINE = InnoDB;
--- -----------------------------------------------------
-
--- meetups_requests -----------------------------------
-CREATE TABLE IF NOT EXISTS meetups_requests(
-    id INT PRIMARY KEY auto_increment,
-    id_user INT NOT NULL,
-    id_meetup INT NOT NULL,
-    state ENUM('Sent','Accepted', 'Refused') NOT NULL,
-    FOREIGN KEY (id_user) REFERENCES users(id),
-    FOREIGN KEY (id_meetup) REFERENCES meetups(id)
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
@@ -347,7 +343,7 @@ CREATE TABLE IF NOT EXISTS meetups_interests(
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
-
+select * from events_interests;
 -- events_interests --------------------------------------
 CREATE TABLE IF NOT EXISTS events_interests(
     id_interest INT not null,

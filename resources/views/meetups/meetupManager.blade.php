@@ -80,11 +80,11 @@
                                 <p>{{ $request->user_request->first_name }} {{ $request->user_request->last_name }}</p>
                             </div>
                             <div class="btn_container_request">
-                                <form action="{{ route('meetups.accept_request', ['meetupId' => $meetup->id, 'userId' => $request->id]) }}" method="POST">
+                                <form action="{{ route('meetups.accept_request', ['meetupId' => $meetup->id, 'userId' => $request->user_request->id]) }}" method="POST">
                                     @csrf
                                     <button type="submit" class="btn btn-success">Accepter</button>
                                 </form>
-                                <form action="{{ route('meetups.refuse_request', ['meetupId' => $meetup->id, 'userId' => $request->id]) }}" method="POST">
+                                <form action="{{ route('meetups.refuse_request', ['meetupId' => $meetup->id, 'userId' => $request->user_request->id]) }}" method="POST">
                                     @csrf
                                     <button type="submit" class="btn btn-danger">Refuser</button>
                                 </form>

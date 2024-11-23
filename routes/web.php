@@ -86,8 +86,8 @@ Route::middleware('auth')->group(function () {
     Route::get('meetups/{id}/meetupManager', [MeetupController::class, 'manageRequests'])->name('meetup.manage');
     Route::get('meetups/{id}', [MeetupController::class, 'meetup_detail'])->name('meetup.detail');
 
-    Route::post('/meetups/{meetupId}/request', [MeetupController::class, 'sendRequest'])->name('meetups.send_request');
-    Route::delete('/meetups/{meetupId}/request', [MeetupController::class, 'cancelRequest'])->name('meetups.cancel_request');
+    Route::post('/meetups/{meetupId}/request/send', [MeetupController::class, 'sendRequest'])->name('meetups.send_request');
+    Route::post('/meetups/{meetupId}/request/cancel', [MeetupController::class, 'cancelRequest'])->name('meetups.cancel_request');
     Route::post('/meetups/{meetupId}/request/{userId}/accept', [MeetupController::class, 'acceptRequest'])->name('meetups.accept_request');
     Route::post('/meetups/{meetupId}/request/{userId}/refuse', [MeetupController::class, 'refuseRequest'])->name('meetups.refuse_request');
 
