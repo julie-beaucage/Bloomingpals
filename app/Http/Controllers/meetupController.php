@@ -27,11 +27,6 @@ class MeetupController extends BaseController
 {
     public function index($meetups = null)
     {
-        if ($meetups == null) {
-            $meetups = Meetup::whereRaw('id>0')->get();
-        }
-
-
         $users = [];
 
         foreach ($meetups as $meetup) {
@@ -126,16 +121,16 @@ class MeetupController extends BaseController
             ]);
 
             $meetup = Meetup::where('image', $path)->where('date', date_create("$req->date" . " " . "$req->time"))
-                    ->where('name', $req->name)->where('adress', $req->adress)->where('id_owner', $id_owner)->get();
+                ->where('name', $req->name)->where('adress', $req->adress)->where('id_owner', $id_owner)->get();
 
-                $id_meetup = 0;
-                foreach ($meetup as $meet) {
-                    if ($meet->id > $id_meetup) {
-                        $id_meetup = $meet->id;
-                    }
+            $id_meetup = 0;
+            foreach ($meetup as $meet) {
+                if ($meet->id > $id_meetup) {
+                    $id_meetup = $meet->id;
                 }
+            }
 
-            $obj = array('meetup' => $id_meetup,);
+            $obj = array('meetup' => $id_meetup, );
             DB::statement("Call addAction(?,?,?)", [
                 $id_owner,
                 'Meetup Create',
@@ -144,7 +139,7 @@ class MeetupController extends BaseController
 
             if ($req->interests != "") {
                 $id_interests = explode(',', $req->interests);
-                
+
                 foreach ($id_interests as $id) {
                     Meetup_Interest::insert([
                         'id_interest' => $id,
@@ -253,7 +248,6 @@ class MeetupController extends BaseController
     }
     public function interests($id_meetup)
     {
-
         return DB::table('interests')
             ->join('meetups_interests', 'id', '=', 'meetups_interests.id_interest')
             ->select('id', 'name', 'id_category')
@@ -359,8 +353,8 @@ class MeetupController extends BaseController
         Meetup_User::AddParticipant($userId, $meetupId);
         Meetup_Request::AcceptMeetupRequest($userId, $meetupId);
 
-        DB::statement('Call addAction(?,?,?)',[$userId,'Meetup Join',[$meetupId]]);
-        
+        DB::statement('Call addAction(?,?,?)', [$userId, 'Meetup Join', [$meetupId]]);
+
         return $this->MeetupRequests($meetupId);
     }
 
