@@ -232,7 +232,7 @@ END
 -- ------------------------------------------------------------------------------------------------
 DROP PROCEDURE IF EXISTS creerRencontre;
 DELIMITER //
-CREATE PROCEDURE creerRencontre( _nom varchar(100), _description varchar(4096), _id_organisateur INT, _adresse Varchar(100), _ville Varchar(100), _date DATETIME ,_nb_participant INT, _image varchar(2048), _public Bool,_interets VARCHAR(1000))
+CREATE PROCEDURE creerRencontre( _nom varchar(100), _description varchar(4096), _id_organisateur INT, _adresse Varchar(100), _ville Varchar(100), _date DATETIME ,_nb_participant INT, _image varchar(2048), _public Bool)
 BEGIN
    DECLARE meetupId INT;
 	START TRANSACTION;
@@ -249,10 +249,7 @@ END;
 // DELIMITER ; 
 DROP PROCEDURE IF EXISTS add_meetup_interests;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `add_meetup_interests`(
-    IN meetupId INT,
-    IN interetsParam VARCHAR(1000)
-)
+CREATE PROCEDURE modifierRencontre (id_rencontre INT ,_nom varchar(100), _description varchar(4096),   _id_organisateur INT, _adresse Varchar(100), _ville Varchar(100), _date DATETIME ,_nb_participant INT, _image varchar(2048), _public Bool)
 BEGIN
     DECLARE interetId INT;
     DECLARE interetList TEXT;
@@ -324,6 +321,7 @@ BEGIN
 END;
 // DELIMITER ;
 
+
 DROP PROCEDURE IF EXISTS accept_meetup_request;
 DELIMITER //
 CREATE PROCEDURE accept_meetup_request(IN p_owner_id INT, IN p_user_id INT, IN p_meetup_id INT)
@@ -355,7 +353,7 @@ END;
 
 DROP PROCEDURE IF EXISTS refuse_meetup_request;
 DELIMITER //
-CREATE PROCEDURE refuse_meetup_request(IN p_owner_id INT, IN p_meetup_id INT, IN p_user_id INT)
+CREATE PROCEDURE refuse_meetup_request(IN p_owner_id INT, IN p_user_id INT, IN p_meetup_id INT)
 BEGIN
     DECLARE request_status ENUM('pending', 'accepted', 'refused');
     
@@ -376,47 +374,9 @@ BEGIN
     ELSE
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'User is not the owner of the meetup';
     END IF;
-END;
+END$$
 // DELIMITER ;
 
--- !!!!!!!!!!!!!!!! PROCEDURE DE RENCONTRE/MEETUPS FAITES  WILLIAM!!!!!!!!!!--
-DROP PROCEDURE IF EXISTS modifierRencontre;
-
-DELIMITER //
-CREATE PROCEDURE modifierRencontre (id_rencontre INT ,_nom varchar(100), _description varchar(4096),   _id_organisateur INT, _adresse Varchar(100), _ville Varchar(100), _date DATETIME ,_nb_participant INT, _image varchar(2048), _public Bool)
-BEGIN
-	START TRANSACTION;
-		  UPDATE meetups set name=_nom where id = id_rencontre;
-          UPDATE meetups set meetups.`description`=_description where id = id_rencontre;
-          UPDATE meetups set adress=_adresse where id = id_rencontre;
-          UPDATE meetups set city=_ville where id = id_rencontre;
-          UPDATE meetups set meetups.`date`=_date where id = id_rencontre;
-          UPDATE meetups set nb_participant=_nb_participant where id = id_rencontre;
-          
-          IF(_image != '') THEN
-			IF(_image = 'delete') THEN
-				UPDATE meetups set image=null where id = id_rencontre;
-              else
-				UPDATE meetups set image=_image where id = id_rencontre;
-              END IF;
-          END IF;
-	
-          UPDATE meetups set public=_public where id = id_rencontre;
-	COMMIT;
-	
-END;
-// DELIMITER ;
-DROP PROCEDURE IF EXISTS effacerRencontre;
-DELIMITER //
-CREATE PROCEDURE effacerRencontre(id_rencontre INT)
-BEGIN
-	START TRANSACTION;
-		DELETE from meetups_requests where id_meetup=id_rencontre;
-		DELETE FROM meetups where meetups.id= id_rencontre;
-	COMMIT;
-	
-END;
-// DELIMITER ;
 -- -----------------------------------------------------
 
 -- Notificications

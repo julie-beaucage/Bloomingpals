@@ -11,7 +11,7 @@
 
         </div>
         <div class="inputContainer">
-            <div class="entryarea entryarealogin">
+            <div class="entryarea entryarealogin password_area">
                 <input type="password" class="inputSignup" id="passwordLogin" placeholder="Mot de passe" name="password" autocomplete="current-password"
                     required />
                 <span id="togglePassword" class="togglePassword" onclick="togglePasswordVisibilityLogin()">

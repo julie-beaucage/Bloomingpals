@@ -5,9 +5,9 @@
     @endphp
 
     <header id="header" class="header-nav">
-        <span class="title no_select">BloomingPals
+        <a class="title no_select" href="/home">BloomingPals
             <img src="{{ asset('/images/logo.png') }}" alt="Logo" class="logo">
-        </span>
+        </a>
 
         <div class="header_btns">
             <a class="navbar_notification pointer no_select" style="display:flex; align-items: center;">
@@ -22,6 +22,9 @@
             </a>
             <span class="material-symbols-rounded menu-icon no_select" id="menu-icon">menu</span>
             <div id="dropdown-menu" class="dropdown-menu">
+                <a href="{{ route('meetup.form') }}" class="navbar_logout pointer">
+                    <span class="material-symbols-rounded icon_md">add_circle</span>Nouvelle rencontre
+                </a>
                 <a href="{{ route('logout') }}" class="navbar_logout pointer">
                     <span class="material-symbols-rounded icon_md">logout</span>Déconnexion
                 </a>
