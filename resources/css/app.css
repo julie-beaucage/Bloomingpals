@@ -168,11 +168,12 @@ body {
     background-color: var(--background-50);
     margin: 0;
     width: 100vw;
-    height: 100vh;
+    height: 100svh;
     overflow: hidden;
     font-family: "Poppins", sans-serif !important;
     color: var(--text);
     font-size: 16px;
+    background-color: var(--white);
 }
 
 #main {
@@ -196,6 +197,7 @@ body {
     overflow-x: hidden;
     height: auto;
     max-width: 100%;
+    background-color: var(--background-50);
 }
 /* -------------------- Footer --------------------*/
 .pg-footer {
@@ -432,6 +434,9 @@ body {
     text-decoration: none;
     font-size: 0.875rem;
     transition: background-color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .profile-dropdown a:hover {
@@ -514,6 +519,10 @@ body {
         justify-content: space-around;
         border-right: none;
         width:  auto;
+    }
+
+    #navbar > #nav-form {
+        display: none;
     }
 
     #navbar .navbar_notification {
@@ -632,13 +641,13 @@ body {
     #dropdown-menu {
         display: none; 
         position: absolute;
-        right: 10px;
+        right: 0px;
         top: 50px;
         background-color: var(--white);
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         padding: 10px;
         border-radius: 5px;
-        z-index: 1000; 
+        z-index: 1000;
     }
 
     #dropdown-menu:hover {
@@ -660,7 +669,9 @@ body {
 
 
     #dropdown-menu.show {
-        display: block;
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
     }
 
     .icon_md {
@@ -686,7 +697,7 @@ body {
     .navbar_logout {
         display: flex;
         align-items: center; 
-        justify-content: center;
+        justify-content: flex-start;
         gap: 0.5em;  
     }
 
@@ -720,11 +731,15 @@ body {
     top:0;
     font-size: 0.8em;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-
 }
+
 .header-nav-guest .title{
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
     font-size: 2em;
-    margin-left:0.4em;
+    font-weight: 600;
+    margin-left: 0.5em;
 }
 .logo{
     width: 1.5em !important;
@@ -881,6 +896,9 @@ a {
     width: -moz-fit-content;
     width: fit-content;
     font-family: inherit;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
 }
 
 .btn_primary:hover {
@@ -1072,6 +1090,9 @@ a {
     to { top: -100px; }
 }
 
+.selections .tag {
+    cursor: pointer;
+}
 
 /* -------------------- Page FAQ--------------------*/
 
@@ -1118,10 +1139,3 @@ a {
 .accordion-item.active .accordion-body {
     display: block;
 }
-
-
-
-
-
-
-

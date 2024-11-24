@@ -33,7 +33,7 @@ foreach ($users as $user) {
 
     echo <<< HTML
         <a class="card_long no_select hover_darker $userPersonality" href="/profile/$user->id">
-        <div class="banner {$userPersonality}">
+            <div class="banner {$userPersonality}">
                 <img src="$image" alt="Image de profile de $user->first_name $user->last_name">
             </div>
             <div class="content">

@@ -1,5 +1,6 @@
 #content {
     overflow: hidden;
+    background-color: transparent;
 }
 
 #footer {
@@ -49,7 +50,7 @@
     box-sizing: border-box;
     width: 100%;
     padding: 1em 1em 1em 1em;
-    gap: 3em;
+    gap: 1em;
     z-index: 1;
     border-radius: 2em 2em 0 0;
     background-color: var(--background-50);
@@ -130,4 +131,80 @@
     display: flex;
     flex-direction: row;
     gap: 0.5em;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.owner_cntr {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5em;
+    align-items: center;
+}
+
+.owner_cntr .banner_owner {
+    height: 4em;
+    width: 4em;
+    overflow: hidden;
+    margin: 0.75em;
+    border-radius: 4em;
+    flex-shrink: 0;
+    background-color: var(--personality-color-pale) !important;
+    border: 2px solid var(--personality-color);
+}
+
+.owner_cntr {
+    width: fit-content;
+    align-self: flex-start;
+}
+
+.owner_cntr .banner_owner img {
+    width: 100%;
+    height: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+    -o-object-position: top;
+    object-position: top;
+}
+
+.owner_cntr .content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.owner_cntr .content .name {
+    font-size: 1.5em;
+    font-weight: 500;
+}
+.owner_cntr:has(.btn_container_request) {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.owner_cntr .cntr_row_btn {
+    display: flex;
+    align-self: flex-start;
+    flex-direction: row;
+    align-items: center;
+}
+
+.btn_container_request {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    align-items: center;
+}
+
+.btn_container_request form {
+    width: 100%;
+}
+.btn_c  {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }

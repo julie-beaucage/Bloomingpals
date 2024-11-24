@@ -1,4 +1,3 @@
-
 function confirmDelete(meetupName, meetupId) {
     const message = `Êtes-vous sûr de vouloir supprimer le meetup "${meetupName}" ?`;
 

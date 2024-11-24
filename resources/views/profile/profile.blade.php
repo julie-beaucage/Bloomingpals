@@ -84,6 +84,29 @@
                     </div>
                 </div>
             @endif
+        @elseif ($relation == "Friend")
+            <a href="{{ route("RemoveFriend", ["id" => $user->id])}}">
+                <div class="red_button no_select">Enlever l'amitier</div>
+            </a>
+        @elseif ($relation == "Blocked")
+            <div class="red_button no_select">You are blocked</div>
+        @elseif ($relation == "SendingInvitation")
+            <div class="acceptContainer">
+                <a href="{{ route("CancelFriendRequest", ["id" => $user->id])}}">
+                    <div class="red_button">annuler la demande d'amitier</div>
+                </a>
+            </div>
+        @elseif ($relation == "Invited")
+            <div class="acceptContainer">
+                <a href="{{ route("AcceptFriendRequest", ["id" => $user->id])}}">
+                    <div class="green_button">Accepter</div>
+                </a>
+                <a href="{{ route("RefuseFriendRequest", ["id" => $user->id])}}">
+                    <div class="red_button">Refuser</div>
+                </a>
+            </div>
+        @elseif ($relation == "Refuse")
+            <div class="grey_button">Vous avez été refusé</div>
         @else
             {!! btn_setUpFriend(Auth::user()->id, $user->id) !!}
             <br>
@@ -118,9 +141,9 @@
                                         data-target="profile/events">Événement</a>
                                 </li>
                                 <li class="nav-item" title="Rencontres">
-                                <a class="nav-link tab-link {{ request()->is('my-meetups') ? 'active' : '' }}"
-                                href="{{ route('meetups.show', $user->id) }}"
-                                data-target="meetups/meetups">Rencontres</a>
+                                    <a class="nav-link tab-link {{ request()->is('profile/rencontres') ? 'active' : '' }}"
+                                        href="{{ route('profile.rencontres', $user->id) }}"
+                                        data-target="profile/rencontres">Rencontres</a>
                                 </li>
                             </ul>
                         <li>
@@ -135,7 +158,8 @@
                 @endif
             </div>
         </div>
-@endsection()
+        @endsection()
+
 
 @section('script')
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> 
@@ -265,8 +289,9 @@
                         $("#password-enter").addClass('is-invalid').focus();
                         $('#feedback-account').addClass('invalid-feedback').text(data);
                     }
+                    reader.readAsDataURL(file);
                 }
-            });
+            }
 
         });*/
        
@@ -275,17 +300,20 @@
             let data = new FormData(e.target);
             e.preventDefault();
 
-            let error = false;
+                });
+                document.getElementById('account-settings-form').addEventListener('submit', async function (e) {
+                    let data = new FormData(e.target);
+                    e.preventDefault();
 
             if (data.get('email') !== '') {
                 try {
                     const result = await new Promise((resolve) => {
                         $.ajax({
-                            url: '/profile/checkEmail',
+                            url: '/profile/updateAccount',
                             type: "POST",
-                            data: { email: data.get('email'), _token: crsf },
+                            data: { email: $('#email').val(), password: $('#password-account').val(), _token: crsf },
                             success: function (res) {
-                                resolve(res);
+                                Confirmm();
                             }
                         });
                     });
@@ -430,26 +458,58 @@
     });
 */
 
-        $("#profile-content").on("DOMSubtreeModified", function () {
-            $(".close").each(function () {
-                $(this).click(function () {
-                    const modalId = $(this).data("modal-id");
-                    closeModal(modalId);
+                let arrows = document.querySelectorAll(".arrow");
+                arrows.forEach((elem) => {
+                    elem.addEventListener("click", function (event) {
+                        const arrow = event.target.parentNode.parentNode.lastElementChild;
+                        arrow.style.display = (arrow.style.display == "none") ? "block" : "none";
+                        event.target.innerHTML = (arrow.style.display == "block") ? "keyboard_arrow_down" : "keyboard_arrow_right";
+                    });
                 });
             });
-        });
+        </script>
+        <script>
+            $(document).ready(function () {
+                var img = document.getElementById("background_img");
+                var color = document.getElementById("background_color");
 
-        let arrows = document.querySelectorAll(".arrow");
-        arrows.forEach((elem) => {
-            elem.addEventListener("click", function (event) {
-                const arrow = event.target.parentNode.parentNode.lastElementChild;
-                arrow.style.display = (arrow.style.display == "none") ? "block" : "none";
-                event.target.innerHTML = (arrow.style.display == "block") ? "keyboard_arrow_down" : "keyboard_arrow_right";
+                img.onload = function () {
+                    var rgb = getAverageRGB(img);
+                    color.style.background = 'rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ')';
+                }
+
+                var rgb = getAverageRGB(img);
+                color.style.background = 'rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ')';
             });
-        });
-    });
-</script>
-<script src="{{asset('/js/flash.js')}}"></script>
-<script src="{{ asset('/js/layout.js') }}"></script>
+            function getAverageRGB(img) {
+                var canvas = document.createElement('canvas'),
+                    context = canvas.getContext && canvas.getContext('2d'),
+                    data, width, height, i = -4, length, rgb = { r: 0, g: 0, b: 0 }, count = 0;
 
-@endsection()
+                height = canvas.height = img.naturalHeight || img.offsetHeight || img.height;
+                width = canvas.width = img.naturalWidth || img.offsetWidth || img.width;
+
+                context.drawImage(img, 0, 0);
+
+                try {
+                    data = context.getImageData(0, height - 5, width, 1);
+                } catch (e) {
+                    return { r: 0, g: 0, b: 0 };
+                }
+
+                length = data.data.length;
+                while ((i += 20) < length) {
+                    count++;
+                    rgb.r += data.data[i];
+                    rgb.g += data.data[i + 1];
+                    rgb.b += data.data[i + 2];
+                }
+
+                rgb.r = ~~(rgb.r / count);
+                rgb.g = ~~(rgb.g / count);
+                rgb.b = ~~(rgb.b / count);
+
+                return rgb;
+            }
+        </script>
+        @endsection()

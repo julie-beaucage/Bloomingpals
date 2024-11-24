@@ -11,8 +11,10 @@
 
 @php
     $sections = [
-        "Évenements populaires" => "/home/top_events",
         "Évenements à venir" => "/home/upcoming_events",
+        "Évenements sportifs" => "/home/sport_events",
+        "Spectacles d'humour" => "/home/comedy_events",
+        "Concerts" => "/home/music_events",
     ];
 @endphp
 
@@ -103,7 +105,7 @@
     </div>
 
     @foreach($sections as $section => $url)
-        <div class="section" id="{{ str_replace(" ", "_", $section) }}" style="display: none;">
+        <div class="section" id="{{ str_replace([" ", "'"], "_", $section) }}" style="display: none;">
             <h2>{{ $section }}</h2>
             <div class="cards_scroller">
                 <button type="button" class="btn-primary scroll_btn scroll_left hover_darker pointer">
@@ -206,8 +208,8 @@
                     if (response == "")
                         return;
 
-                    $("#{{ str_replace(" ", "_", $section) }}").show();
-                    $("#{{ str_replace(" ", "_", $section) }}").find(".cards_row").html(response);
+                    $("#{{ str_replace([" ", "'"], "_", $section) }}").show();
+                    $("#{{ str_replace([" ", "'"], "_", $section) }}").find(".cards_row").html(response);
                 }
             });
         @endforeach

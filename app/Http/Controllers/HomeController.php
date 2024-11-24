@@ -53,6 +53,31 @@ class HomeController extends Controller
         $events = Event::where('date', '>', date('Y-m-d H:i:s'))->orderBy('date', 'asc')->take(20)->get();
         return view('partial_views.event_cards', ['events' => $events]);
     }
+    public function sport_events()
+    {
+        $events = Event::join('events_categories', 'events.id', '=', 'events_categories.id_event')
+            ->where('events_categories.id_category', 1)
+            ->where('events.date', '>', date('Y-m-d H:i:s'))
+            ->take(20)->get();
+        return view('partial_views.event_cards', ['events' => $events]);
+    }
+    public function comedy_events()
+    {
+        $events = Event::join('events_interests', 'events.id', '=', 'events_interests.id_event')
+            ->join('interests', 'events_interests.id_interest', '=', 'interests.id')
+            ->where('interests.name', 'Humour')
+            ->where('events.date', '>', date('Y-m-d H:i:s'))
+            ->take(20)->get();
+        return view('partial_views.event_cards', ['events' => $events]);
+    }
+    public function music_events()
+    {
+        $events = Event::join('events_categories', 'events.id', '=', 'events_categories.id_event')
+            ->where('events_categories.id_category', 3)
+            ->where('events.date', '>', date('Y-m-d H:i:s'))
+            ->take(20)->get();
+        return view('partial_views.event_cards', ['events' => $events]);
+    }
     public function fetchFeed($page)
     {
         if (Auth::user()->id != null) {
@@ -74,7 +99,7 @@ class HomeController extends Controller
 
             $feed = DB::table('actions')
                 ->join('types_actions', 'type', '=', 'types_actions.id')
-                ->select('actions.id', 'name', 'id_user', 'content')->where('id_user', '!=', Auth::user()->id)
+                ->select('actions.id', 'name', 'id_user', 'content')->where('id_user', '!=', Auth::user()->id)->groupBy('id')
                 ->offset(self::AMOUNT * $page)->take(self::AMOUNT)->orderByDesc('actions.id')
                 ->get();
             return $feed;
@@ -120,10 +145,11 @@ class HomeController extends Controller
     {
         $offset = 5;
         if (Auth::user()->id != null) {
+            $id_user=Auth::user()->id;
 
             $userInterests = User_Interest::select('id_interest')->where('id_user', Auth::user()->id)->get();
-            $meetupsByInterest = DB::table('meetups')->join('meetups_interests', 'id', '=', 'id_meetup')
-                ->whereIn('id_interest', $userInterests)
+            $meetupsByInterest = DB::table('meetups')->join('meetups_interests', 'id', '=', 'id_meetup')->where('id_owner','!=',$id_user)
+                ->whereIn('id_interest', $userInterests)->groupBy('id')
                 ->orderBy('id', 'desc')->offset($offset * $page)->take($offset)->get();
 
             return $meetupsByInterest;
@@ -132,12 +158,18 @@ class HomeController extends Controller
     }
     public function fetchMeetups($page)
     {
-        $offset = 5;
+        $offset = 5 * $page;
         if (Auth::user()->id != null) {
-            $userInterests = User_Interest::select('id_interest')->where('id_user', Auth::user()->id)->get();
-            $meetups = DB::table('meetups')->join('meetups_interests', 'id', '=', 'id_meetup')
-                ->whereNotIn('id_interest', $userInterests)
-                ->orderBy('id', 'desc')->offset($offset * $page)->take($offset)->get();
+            $id_user=Auth::user()->id;
+            $meetups = DB::select("SELECT *
+            FROM meetups 
+            WHERE id_owner != $id_user AND NOT EXISTS(
+                SELECT 1
+                FROM meetups_interests
+                WHERE meetups.id= meetups_interests.id_meetup AND id_interest IN ( select id_interest from users_interests where id_user=$id_user)  -- Replace with the IDs of the interests you want to exclude
+            )
+            AND meetups.date > NOW() 
+            LIMIT 5 offset $offset;");
 
             return $meetups;
         }
@@ -147,9 +179,10 @@ class HomeController extends Controller
     {
         $offset = 5;
         if (Auth::user()->id != null) {
+            $id_user=Auth::user()->id;
             $userInterests = User_Interest::select('id_interest')->where('id_user', Auth::user()->id)->get();
 
-            $eventsByInterest = DB::table('events')->join('events_interests', 'id', '=', 'id_event')
+            $eventsByInterest = DB::table('events')->join('events_interests', 'id', '=', 'id_event')->groupBy('id')
                 ->whereIn('id_interest', $userInterests)->orderBy('id', 'desc')->offset($offset * $page)->take($offset)->get();
 
             return $eventsByInterest;
@@ -159,12 +192,19 @@ class HomeController extends Controller
 
     public function fetchEvents($page)
     {
-        $offset = 5;
+        $offset = 5 * $page;
         if (Auth::user()->id != null) {
-            $userInterests = User_Interest::select('id_interest')->where('id_user', Auth::user()->id)->get();
+            $id_user=Auth::user()->id;
 
-            $events = DB::table('events')->join('events_interests', 'id', '=', 'id_event')
-                ->whereNotIn('id_interest', $userInterests)->orderBy('id', 'desc')->offset($offset * $page)->take($offset)->get();
+            $events = DB::select("SELECT *
+            FROM events 
+            WHERE  NOT EXISTS(
+                SELECT 1
+                FROM events_interests
+                WHERE events.id= events_interests.id_event AND id_interest IN ( select id_interest from users_interests where id_user=$id_user)  -- Replace with the IDs of the interests you want to exclude
+            )
+            AND events.date > NOW()
+            LIMIT 5 offset $offset;");
 
             return $events;
         }

@@ -158,6 +158,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return Cache::has('user-is-online-' . $this->id);
     }
+
     public static function getRelationStatus($user1Id, $user2Id)
     {
         $relation = DB::table('relations')
@@ -177,6 +178,4 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsToMany(Meetup::class, 'meetups_users', 'id_user', 'id_meetup');
     }
-
-
 }

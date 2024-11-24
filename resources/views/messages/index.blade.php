@@ -116,7 +116,7 @@
 
                 $("#settings_cntr").append(`
                     <div id="members_field">
-                        <span class="field_title">Membres du groupe (${info['users'].length + 1})</span>
+                        <span class="field_title">Membres du groupe</span>
                         <div id="members_cntr">
                             <div id="members">
                             </div>

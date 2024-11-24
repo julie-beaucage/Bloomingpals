@@ -83,21 +83,10 @@
             });
         });
     }
-    function promise_fetchMeetups() {
-        return new Promise(resolve => {
-            $.ajax({
-                url: 'feed/fetchMeetups/' + pageMeetup,
-                method: 'GET',
-                success: function (data) {
-                    resolve(data)
-                }
-            });
-        });
-    }
     function promise_fetchMeetups2() {
         return new Promise(resolve => {
             $.ajax({
-                url: 'feed/fetchMeetupsInterest/' + pageMeetup2,
+                url: 'feed/fetchMeetups/' + pageMeetup2,
                 method: 'GET',
                 success: function (data) {
                     resolve(data)
@@ -105,10 +94,10 @@
             });
         });
     }
-    function promise_fetchEvents() {
+    function promise_fetchMeetups() {
         return new Promise(resolve => {
             $.ajax({
-                url: 'feed/fetchEvents/' + pageEvent,
+                url: 'feed/fetchMeetupsInterest/' + pageMeetup,
                 method: 'GET',
                 success: function (data) {
                     resolve(data)
@@ -119,7 +108,18 @@
     function promise_fetchEvents2() {
         return new Promise(resolve => {
             $.ajax({
-                url: 'feed/fetchEventsInterest/' + pageEvent2,
+                url: 'feed/fetchEvents/' + pageEvent2,
+                method: 'GET',
+                success: function (data) {
+                    resolve(data)
+                }
+            });
+        });
+    }
+    function promise_fetchEvents() {
+        return new Promise(resolve => {
+            $.ajax({
+                url: 'feed/fetchEventsInterest/' + pageEvent,
                 method: 'GET',
                 success: function (data) {
                     resolve(data)
@@ -157,15 +157,15 @@
                     link = "meetup/" + meetup.id;
 
                     if (feed[i].name == 'Meetup Create') {
-                        message = user.first_name + ' à créé(e) un nouveau Meetup: <strong>' + meetup.name + '</strong>. Rejoignez !';
+                        message = user.first_name + ' à créé(e) un nouveau Meetup :<br> <div class="feed-truncate"><strong>' + meetup.name + '</strong></div> Rejoignez !';
                     }
                     if (feed[i].name == 'Meetup Join') {
-                        message = user.first_name + ' à rejoin un nouveau Meetup: <strong>' + meetup.name + '.</strong>';
+                        message = user.first_name + ' à rejoin un nouveau Meetup : <br> <div class="feed-truncate"><strong>' + meetup.name + '</strong></div>';
                     }
                 } else if (feed[i].name.includes('Event')) {
                     link = "event/"
                     if (feed[i].name == 'Event Join') {
-                        message = user.first_name + ' à rejoin un nouveau Meetup: <strong>' + meetup.name + '.</strong>';
+                        message = user.first_name + ' à rejoin un nouveau Meetup : <br> <div class="feed-truncate"><strong>' + meetup.name + '</strong></div>';
                     }
                 }
                 else if (feed[i].name.includes('Personality')) {
@@ -184,7 +184,7 @@
                         </div>
                     </div>
                     <div class="feed-content">
-                        <p>${message}</p>
+                        <div>${message}</div>
                         <div class="banner">
                             <img src="${image_content}" alt="Post image" class="feed-img">
                         </div>
@@ -229,7 +229,7 @@
                         <hr>
                         <div class="infos">
                             <span>${feed[i].date}</span>
-                            <span>Aucun participants</span>
+                            <span></span>
                         </div>
                     </div>
                 </a>`;
@@ -330,7 +330,7 @@
         pageFeed++;
         content = content.concat(_actions);
 
-        if (meetups2.length < 1) {
+        if (pageMeetup2 < 1) {
             while (meetups.length < 5) {
                 _meetups = await promise_fetchMeetups();
                 if (_meetups.length == 0) {
@@ -397,13 +397,15 @@
         }
 
         meetups.every(function (element, index) {
+            console.log("index: "+index);
+            console.log(element.name);
             if (index == 4) {
                 return false
             }
             content.push(element);
             return true;
         });
-        meetups = meetups.splice(4);
+        meetups = meetups.splice(5);
 
         meetups2.every(function (element, index) {
             if (index == 4) {
@@ -412,7 +414,7 @@
             content.push(element);
             return true;
         });
-        meetups2 = meetups2.splice(4);
+        meetups2 = meetups2.splice(5);
 
         events.every(function (element, index) {
 
@@ -422,7 +424,7 @@
             content.push(element);
             return true;
         });
-        events = events.splice(4);
+        events = events.splice(5);
 
         events2.every(function (element, index) {
 
@@ -432,7 +434,7 @@
             content.push(element);
             return true;
         });
-        events2 = events2.splice(4);
+        events2 = events2.splice(5);
 
 
         for (var i = content.length - 1; i >= 0; i--) {
@@ -489,7 +491,7 @@
                 });
             });
 
-            ($(loading).children()[0]).remove();
+             ($(loading).children()[0]).remove();
 
             data.forEach(async function (user, index) {
                 let friendsOffFriends = await new Promise(resolve => {
@@ -551,7 +553,7 @@
 
     let isLoading = true;
     $(document).ready(async function () {
-        loading(friend)
+        
         fetchSuggestedUsers();
 
         $('#content').scroll(async function () {

@@ -53,45 +53,6 @@
     background-color: var(--white);
     flex-shrink: 0;
 }
-.card {
-    position: relative; 
-}
-
-.meetup_btn_add {
-    position: absolute;
-    top: 10px; 
-    right: 10px; 
-    padding: 0.5rem;
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #fff;
-    background-color: #4caf50; 
-    border: none;
-    border-radius: 50%; 
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px; 
-    height: 40px;
-}
-
-.meetup_btn_add:hover {
-    background-color: #45a049; 
-    transform: scale(1.1); 
-}
-
-.meetup_btn_add:active {
-    background-color: #3e8e41; 
-    transform: scale(0.9); 
-}
-
-.meetup_btn_add:focus {
-    outline: 2px solid #4caf50;
-    outline-offset: 3px;
-}
 
 .cards_row > .card > .banner {
     height: 12em;

@@ -25,31 +25,27 @@ class SearchController extends Controller
         if ($page == null || $page < 1) 
             return response()->json(['error' => 'Invalid page number']);
 
-        $meetups = Meetup::all();
+
+        $meetups = Meetup::query();
 
         $query = $request->has('query') ? $request->get('query') : null;
         if ($query != null) {
-            $query_filter = Meetup::where('name', 'LIKE', '%' . $query . '%')->get();
-            $meetups = ($query == null) ? $meetups : $meetups->intersect($query_filter);
+            $meetups = $meetups->where('name', 'LIKE', '%' . $query . '%');
         }
 
         $city = $request->has('city') ? $request->get('city') : null;
         if ($city != null) {
-            $city_filter = Meetup::where(DB::raw('LOWER(`city`)'), 'LIKE', strtolower($city))->get();
-            $meetups = ($city == null) ? $meetups : $meetups->intersect($city_filter);
+            $meetups = $meetups->where(DB::raw('LOWER(`city`)'), 'LIKE', strtolower($city));
         }
 
         $interests = $request->has('interests') ? $request->get('interests') : null;
         if ($interests != null) {
             $interests =  explode(',', $interests);
 
-            $interests_filter = Meetup_Interest::select('meetups_interests.id_meetup', DB::raw("COUNT(meetups_interests.id_meetup) as count"))
+            $meetups = $meetups->join('meetups_interests', 'meetups.id', '=', 'meetups_interests.id_meetup')
                 ->whereIn('meetups_interests.id_interest', $interests)
-                ->groupBy('meetups_interests.id_meetup')
-                ->having('count', '>=', count($interests))
-                ->get();
-
-            $meetups = $meetups->whereIn('id', $interests_filter->map(function($int) { return $int->id_meetup; })->toArray());
+                ->groupBy('meetups.id')
+                ->havingRaw('COUNT(meetups_interests.id_interest) >= ?', [count($interests)]);
         }
 
         $categories = $request->has('categories') ? $request->get('categories') : null;
@@ -67,7 +63,7 @@ class SearchController extends Controller
         }
 
         // Take page requested
-        $meetups = $meetups->skip(($page - 1) * 30)->take(30);
+        $meetups = $meetups->skip(($page - 1) * 20)->take(20)->get();
         
         $user = User::find(auth()->user()->id);
         $meetups = $meetups->sort(function($a, $b) use ($user) {
@@ -81,9 +77,6 @@ class SearchController extends Controller
             return $diff * 100;
         });
 
-        // Take half and shuffle
-        if (count($meetups) > 15)
-            $meetups = $meetups->take(15)->shuffle();
         return view('partial_views.meetup_cards', ['meetups' => $meetups]);
     }
 
@@ -95,6 +88,8 @@ class SearchController extends Controller
 
         //$events = Event::all();
         $events = Event::query();
+
+        $events = $events->where('date', '>=', date('Y-m-d H:i:s'));
 
         $query = $request->has('query') ? $request->get('query') : null;
         if ($query != null) {

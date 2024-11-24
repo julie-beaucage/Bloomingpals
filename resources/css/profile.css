@@ -48,6 +48,7 @@ body {
 
 #content {
     overflow: hidden;
+    background-color: transparent;
 }
 
 #profile_cntr {
@@ -57,9 +58,7 @@ body {
     flex-direction: column;
     overflow-y: auto;
     overflow-x: hidden;
-    padding: 14em 2em 0em 2em;
-    margin-bottom: 1em;
-    
+    padding: 14em 2em 0em 2em;    
 }
 
 #info_cntr {
