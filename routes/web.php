@@ -78,26 +78,36 @@ Route::middleware('auth')->group(function () {
     Route::get('/personality/results', [PersonalityController::class, 'results'])->name('personality.results');
     
     //meetupJUlie
-    Route::get('/meetups/meetupForm/{eventId}', [MeetupController::class, 'showMeetupForm'])->name('meetups.form');
-    Route::post('/meetups', [MeetupController::class, 'create'])->name('meetups.create');
-    Route::post('/meetups/{id}/delete', [MeetupController::class, 'deleteMeetup'])->name('meetup.delete');
+    Route::get('/meetup/meetupForm/{eventId}', [MeetupController::class, 'showMeetupForm'])->name('meetups.form');
+    // Route::post('/meetup', [MeetupController::class, 'create'])->name('meetups.create');
+    // Route::post('/meetup/{id}/delete', [MeetupController::class, 'deleteMeetup'])->name('meetup.delete');
 
-    Route::get('/my-meetups/{id}', [MeetupController::class, 'showMyMeetup'])->name('meetups.show');
-    Route::get('meetups/{id}/meetupManager', [MeetupController::class, 'manageRequests'])->name('meetup.manage');
-    Route::get('meetups/{id}', [MeetupController::class, 'meetup_detail'])->name('meetup.detail');
+    Route::get('/my-meetup/{id}', [MeetupController::class, 'showMyMeetup'])->name('meetups.show');
+    Route::get('/meetup/{id}/meetupManager', [MeetupController::class, 'manageRequests'])->name('meetup.manage');
+    Route::get('/meetup/{id}', [MeetupController::class, 'meetup_detail'])->name('meetup.detail');
 
-    Route::post('/meetups/{meetupId}/request/send', [MeetupController::class, 'sendRequest'])->name('meetups.send_request');
-    Route::post('/meetups/{meetupId}/request/cancel', [MeetupController::class, 'cancelRequest'])->name('meetups.cancel_request');
-    Route::post('/meetups/{meetupId}/request/{userId}/accept', [MeetupController::class, 'acceptRequest'])->name('meetups.accept_request');
-    Route::post('/meetups/{meetupId}/request/{userId}/refuse', [MeetupController::class, 'refuseRequest'])->name('meetups.refuse_request');
+    Route::post('/meetup/{meetupId}/request/send', [MeetupController::class, 'sendRequest'])->name('meetups.send_request');
+    Route::post('/meetup/{meetupId}/request/cancel', [MeetupController::class, 'cancelRequest'])->name('meetups.cancel_request');
+    Route::post('/meetup/{meetupId}/request/leave', [MeetupController::class, 'leaveMeetup'])->name('meetups.leave');
+    Route::post('/meetup/{meetupId}/request/{userId}/accept', [MeetupController::class, 'acceptRequest'])->name('meetups.accept_request');
+    Route::post('/meetup/{meetupId}/request/{userId}/refuse', [MeetupController::class, 'refuseRequest'])->name('meetups.refuse_request');
+    Route::post('/meetup/{meetupId}/request/{userId}/remove', [MeetupController::class, 'removeRequest'])->name('meetups.remove_request');
 
+    Route::post('/meetup/create', [MeetupController::class, 'create']);
+    Route::post('/meetup/create/{isEvent}', [MeetupController::class, 'create']);
+    Route::post('/meetup/edit/{id}', [MeetupController::class, 'edit'])->where('id', '[0-9]+')->name("meetup.edit");
+    Route::post('/meetup/delete/{id}', [MeetupController::class, 'delete'])->where('id', '[0-9]+')->name("meetup.delete");
+    Route::get('/meetup/form/create', [MeetupController::class, 'form'])->name('meetup.form');
+    Route::get('/meetup/form/{id}', [MeetupController::class, 'form']);
+    Route::get('/meetup/form/event/{id}', [MeetupController::class, 'formEvent']);
+    Route::get('/meetup/interests/{id}', [MeetupController::class, 'interests']);
 
 
     // Meetup
    /* Route::post('/meetup/create', [MeetupController::class, 'create']);
     Route::post('/meetup/create/{isEvent}', [MeetupController::class, 'create']);
-    Route::post('/meetup/edit/{id}', [MeetupController::class, 'edit'])->where('id', '[0-9]+');
     Route::get('/meetup', [MeetupController::class, 'index'])->name('meetup');
+    Route::post('/meetup/edit/{id}', [MeetupController::class, 'edit'])->where('id', '[0-9]+');
     Route::get('/meetup/delete/{id}', [MeetupController::class, 'delete'])->where('id', '[0-9]+');
     Route::get('/meetup/form', [MeetupController::class, 'form']);
     Route::get('/meetup/form/{id}', [MeetupController::class, 'form']);

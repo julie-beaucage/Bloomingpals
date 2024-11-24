@@ -88,14 +88,14 @@ CREATE TABLE IF NOT EXISTS users (
     last_name VARCHAR(50) NOT NULL,
     birthdate DATE NOT NULL,
     personality INT DEFAULT NULL,
-    image_profil VARCHAR(2048) DEFAULT 'images/flower.png',
+    image_profil VARCHAR(2048),
     background_image VARCHAR(2048) DEFAULT 'images/R.jpg',
     gender ENUM('homme', 'femme', 'non-genre') NOT NULL,
     password CHAR(128) NOT NULL,
     email_verified_at TIMESTAMP NULL DEFAULT NULL,
     updated_at TIMESTAMP NULL DEFAULT NULL,
     remember_token VARCHAR(100) NULL,
-     daily_notification datetime,
+	daily_notification datetime,
     confidentiality enum('public','friends','prive') DEFAULT 'public',
     notification tinyint DEFAULT 1,
     FOREIGN KEY (personality) REFERENCES personalities (id)
@@ -283,7 +283,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 
 -- friendships_requests -----------------------------------------
-select * from friendships_requests;
 CREATE TABLE IF NOT EXISTS friendships_requests(
     id_user_send INT NOT NULL,
     id_user_receive INT NOT NULL,
@@ -343,7 +342,7 @@ CREATE TABLE IF NOT EXISTS meetups_interests(
 )
 ENGINE = InnoDB;
 -- -----------------------------------------------------
-select * from events_interests;
+
 -- events_interests --------------------------------------
 CREATE TABLE IF NOT EXISTS events_interests(
     id_interest INT not null,

@@ -179,45 +179,47 @@ if (!function_exists('btn_setUp')) {
     {
         $meetupId = $meetup->id;
         if ($userId == $meetup->id_owner) {
-            return ''; // Pas de bouton
+            $btn_txt = "Modifier";
+            $btn_class = "btn_interesse";
+
+            return "
+            <form action='/meetup/form/{$meetupId}' method='GET'>
+                " . csrf_field() . "
+                <button class='{$btn_class} no_select btn_primary' type='submit'>
+                    <span>{$btn_txt}</span>
+                </button>
+            </form>";
         }
         $requestStatus = isRequestSend($userId, $meetupId);
         $url = '';
         $btn_txt = '';
         $btn_class = '';
-        $icon_symbol = '';
+
+        if ($requestStatus == 'refused') {
+            return '';
+        }
 
         if ($requestStatus == 'none') {
             $url = route("meetups.send_request", ["meetupId" => $meetupId]);
             $btn_txt = "Rejoindre";
             $btn_class = "btn_interesse";
-            $icon_symbol = "star";
         } else {
             if ($requestStatus == 'accepted') {
-                $url = route("meetups.cancel_request", ["meetupId" => $meetupId]);
-                $btn_txt = "Participant"; // Icône de crochet coché
+                $url = route("meetups.leave", ["meetupId" => $meetupId]);
+                $btn_txt = "Se retirer"; // Icône de crochet coché
                 $btn_class = "btn_friends";
-                $icon_symbol = "check_circle";
             } elseif ($requestStatus == 'pending') {
                 $btn_txt = "Annuler la demande";
-                $url = "#"; // Ne fait rien ici
+                $url = route("meetups.cancel_request", ["meetupId" => $meetupId]);
                 $btn_class = "btn_pending";
-            } elseif ($requestStatus == 'refused') {
-                $url = "#";
-                $btn_txt = "Refusé";
-                $btn_class = "btn_refused";
-                $btn_disabled = "disabled"; 
             }
         }
 
         return "
             <form action='{$url}' method='POST'>
                 " . csrf_field() . "
-                <button class='{$btn_class} no_select btn_primary' type='submit' {$btn_disabled}>
+                <button class='{$btn_class} no_select btn_primary' type='submit'>
                     <span>{$btn_txt}</span>
-                    <span class='material-symbols-rounded'>
-                        {$icon_symbol}
-                    </span>
                 </button>
             </form>";
     }
