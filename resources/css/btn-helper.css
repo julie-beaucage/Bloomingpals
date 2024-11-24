@@ -1,0 +1,129 @@
+.ami.btn_primary {
+    background-color: var(--primary-400);
+    color: var(--white);
+    border: none;
+    border-radius: 0.8em;
+    padding: 0.5em 1em;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    width: -moz-fit-content;
+    width: fit-content;
+    font-family: inherit;
+}
+
+.ami.btn_primary:hover {
+    filter: brightness(1.1);
+}
+.ami.btn_accept_ {
+    background-color: var(--primary-400);
+    color: var(--white);
+}
+.ami.btn_accept:hover{
+    background-color:var(--secondary-300);
+}
+.ami.btn_refuse {
+    background-color: var(--neutral-500)!important;
+    color: black;
+}
+.ami.btn_refuse:hover {
+    background-color: var(--primary-600);
+    color: var(--white);
+}
+.grey_text {
+    color: rgb(168, 168, 168);
+}
+
+.friend-menu {
+    position: relative;
+}
+
+.btn-text {
+    margin-right: 8px;
+}
+
+.btn-text-remove {
+    display: none; 
+    margin-right: 8px;
+}
+
+.ami.material-symbols-rounded {
+    font-size: 18px;
+    vertical-align: middle;
+    transition: all 0.3s ease; 
+}
+
+.btn_friends:hover .btn-text {
+    display: none;  
+}
+
+.ami.btn_friends:hover .btn-text-remove {
+    display: inline-block; 
+}
+
+.ami.btn_friends:hover .material-symbols-rounded {
+    transform: rotate(45deg); 
+}
+
+.ami.btn-container {
+    margin: 1em;
+    box-sizing: border-box; 
+}
+
+.ami.btn_friends {
+    display: inline-block!important;
+    min-width: fit-content;
+    padding: 0.5em 1em;
+    font-size: 1em;
+    border: 2px solid var(--primary-color);
+    background-color: var(--primary-400);
+    color: var(--white);
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+
+.ami.btn_friends:hover {
+    filter: brightness(1.1);
+    color: var(--neutral-100);
+    transform: scale(1.05);
+}
+.ami.grey.btn_friends:hover {
+    background-color: var(--neutral-800)!important;
+    color: var(--neutral-100);
+    transform: scale(1.05);
+}
+.ami.btn_friends:active {
+    transform: scale(0.98);
+}
+
+.ami.btn_friends:disabled {
+    background-color: var(--neutral-200);
+    color: var(--neutral-500);
+    cursor: not-allowed;
+    border: 2px solid var(--neutral-300);
+}
+.acceptContainer {
+    display: flex;
+    gap: 2em;
+    font-size: 1em !important;
+}
+
+.buttonn {
+    text-decoration: none;
+    text-align: center;
+    padding: 0.4em;
+    width: 5em;
+    min-width: fit-content;
+    border: 2px solid var(--primary-color);
+    border-radius: 4px;
+    background-color: var(--primary-400);
+    color: var(--white);
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+
+.buttonn:hover {
+    background-color: var(--primary-200);
+    color: var(--neutral-100);
+    transform: scale(1.05);
+}

@@ -61,14 +61,14 @@ if (!function_exists('btn_setUpFriend')){
     
         if ($userId == $currentUserId) {
             return "
-                <button class='btn_primary no_select'>
+                <button class=' ami btn_primary no_select'>
                     <span>C'est moi</span>
                 </button>";
         }
         $requestStatus = isFriendRequestSend($currentUserId, $userId);
         $url = '';
         $btn_txt = '';
-        $btn_class = "btn_primary ";
+        $btn_class = "ami btn_primary ";
         $isSender =isSender ($currentUserId, $userId) ;
         $relation = areFriends($userId, $currentUserId);
         $icon_symbol = '';
@@ -79,7 +79,7 @@ if (!function_exists('btn_setUpFriend')){
             $icon_symbol="check_circle";
             return "
                 <div class='friend-menu'>
-                    <button class='grey btn_friends {$btn_class} no_select'>
+                    <button class='ami grey btn_friends {$btn_class} no_select'>
                         <span class='btn-text'>Ami(e)</span>
                         <span class='material-symbols-rounded'>{$icon_symbol}</span>
                         <span class='btn-text-remove'>Retirer l'ami(e)</span>
@@ -91,14 +91,14 @@ if (!function_exists('btn_setUpFriend')){
             switch ($requestStatus) {
                 case 'Blocked':
                     $btn_txt = "Vous êtes bloqué";
-                    $btn_class = "btn_blocked";
+                    $btn_class .= "btn_blocked";
                     break;
 
                 case 'pending':
                     if ($isSender) {
                         $url = route("CancelFriendRequest", ["id" => $userId]);
                         $btn_txt = "En attente";
-                        $btn_class = "btn_refuse btn_primary";
+                        $btn_class .= "btn_refuse btn_primary";
                         $removeText= 'Annuler la demande';
                         $txt_remove='btn-text';
                     } else {
@@ -109,10 +109,10 @@ if (!function_exists('btn_setUpFriend')){
                         return "
                         <div class='acceptContainer'>
                             <a href='{$url_accept}'>
-                                <div class='btn_friends btn_accept btn_primary no_select'>{$btn_txt_accept}</div>
+                                <div class='ami btn_friends btn_accept btn_primary no_select'>{$btn_txt_accept}</div>
                             </a>
                             <a href='{$url_refuse}'>
-                                <div class='btn_refuse btn_primary no_select btn_friends'>{$btn_txt_refuse}</div>
+                                <div class='ami btn_refuse btn_primary no_select btn_friends'>{$btn_txt_refuse}</div>
                             </a>
                         </div>";
                     }
@@ -120,7 +120,7 @@ if (!function_exists('btn_setUpFriend')){
 
                 case 'refused':
                     $btn_txt = "Vous avez été refusé";
-                    $btn_class = "btn_refuse btn_primary ";
+                    $btn_class = "ami btn_refuse btn_primary ";
                     break;
 
                 default: 
