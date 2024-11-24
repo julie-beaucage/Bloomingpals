@@ -32,7 +32,7 @@ function getRelationState($currentUserId, $userId) {
     }
 }
 
-function btn_setUp($relation, $userId) {
+function btn_setUpPal($relation, $userId) {
     $btn_txt = "";
     $url = "";
     $btn_class = "btn_friends";
@@ -145,7 +145,7 @@ usort($userDataList, function ($a, $b) use ($currentUser) {
 
         </div>
         <div class="btn-container">
-            {!! btn_setUp($userData['relation'], $userData['user']->id) !!}
+            {!! btn_setUpPal($userData['relation'], $userData['user']->id) !!}
         </div>
     </div>
 
