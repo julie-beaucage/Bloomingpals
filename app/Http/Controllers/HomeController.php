@@ -53,6 +53,31 @@ class HomeController extends Controller
         $events = Event::where('date', '>', date('Y-m-d H:i:s'))->orderBy('date', 'asc')->take(20)->get();
         return view('partial_views.event_cards', ['events' => $events]);
     }
+    public function sport_events()
+    {
+        $events = Event::join('events_categories', 'events.id', '=', 'events_categories.id_event')
+            ->where('events_categories.id_category', 1)
+            ->where('events.date', '>', date('Y-m-d H:i:s'))
+            ->take(20)->get();
+        return view('partial_views.event_cards', ['events' => $events]);
+    }
+    public function comedy_events()
+    {
+        $events = Event::join('events_interests', 'events.id', '=', 'events_interests.id_event')
+            ->join('interests', 'events_interests.id_interest', '=', 'interests.id')
+            ->where('interests.name', 'Humour')
+            ->where('events.date', '>', date('Y-m-d H:i:s'))
+            ->take(20)->get();
+        return view('partial_views.event_cards', ['events' => $events]);
+    }
+    public function music_events()
+    {
+        $events = Event::join('events_categories', 'events.id', '=', 'events_categories.id_event')
+            ->where('events_categories.id_category', 3)
+            ->where('events.date', '>', date('Y-m-d H:i:s'))
+            ->take(20)->get();
+        return view('partial_views.event_cards', ['events' => $events]);
+    }
     public function fetchFeed($page)
     {
         if (Auth::user()->id != null) {
@@ -142,7 +167,10 @@ class HomeController extends Controller
                 SELECT 1
                 FROM meetups_interests
                 WHERE meetups.id= meetups_interests.id_meetup AND id_interest IN ( select id_interest from users_interests where id_user=$id_user)  -- Replace with the IDs of the interests you want to exclude
-            ) order by id desc LIMIT 5 offset $offset;");
+            )
+            AND meetups.date > NOW() 
+            LIMIT 5 offset $offset;");
+
             return $meetups;
         }
         return false;
@@ -174,7 +202,9 @@ class HomeController extends Controller
                 SELECT 1
                 FROM events_interests
                 WHERE events.id= events_interests.id_event AND id_interest IN ( select id_interest from users_interests where id_user=$id_user)  -- Replace with the IDs of the interests you want to exclude
-            ) order by id desc LIMIT 5 offset $offset;");
+            )
+            AND events.date > NOW()
+            LIMIT 5 offset $offset;");
 
             return $events;
         }

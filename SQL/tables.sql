@@ -89,7 +89,7 @@ CREATE TABLE IF NOT EXISTS users (
     birthdate DATE NOT NULL,
     personality INT DEFAULT NULL,
     image_profil VARCHAR(2048),
-    background_image VARCHAR(2048) DEFAULT 'images/R.jpg',
+    background_image VARCHAR(2048),
     gender ENUM('homme', 'femme', 'non-genre') NOT NULL,
     password CHAR(128) NOT NULL,
     email_verified_at TIMESTAMP NULL DEFAULT NULL,

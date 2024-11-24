@@ -13,7 +13,7 @@
 }
 
 #content {
-    padding: 0 0 0 .9em;
+    padding: 0em 1em;
 }
 
 .feed-friend {
@@ -26,7 +26,6 @@
 
     background-color: inherit;
     max-width: 60em;
-    padding: 0px calc(3em - .9rem) 0px 3em;
     box-sizing: border-box;
 }
 
@@ -204,10 +203,10 @@
 }
 
 .feed-container {
-    width: 65%;
+    width: 100%;
     justify-content: space-between;
     gap: 20px;
-    max-width: 800px;
+    max-width: 600px;
 }
 
 .suggestions-sidebar {
@@ -289,14 +288,6 @@
 
     .feed-small {
         width: 100%;
-    }
-
-    .feed-friend {
-        padding: 10px;
-    }
-
-    .feed-container {
-        width: 95%;
     }
 
 }
