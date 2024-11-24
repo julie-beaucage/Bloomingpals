@@ -89,6 +89,8 @@
 .tags {
     display: flex;
     justify-content:flex-end;
+    flex-wrap: wrap;
+    justify-content: flex-end;
 }
 
 .tags > div {

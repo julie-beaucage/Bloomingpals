@@ -86,7 +86,6 @@
         <div id="categories_cntr">
             <button class="hover_darker no_select" value="meetups" type="button">Rencontres</button>
             <button class="hover_darker no_select" value="events" type="button">Évènements</button>
-            <button class="hover_darker no_select" value="users" type="button">Utilisateurs</button>
         </div>
     </div>
 

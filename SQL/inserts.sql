@@ -1,4 +1,5 @@
 USE BloomingPals;
+SELECT * FROM meetups_requests;
 
 -- Interets --
 INSERT INTO categories_interests (name) VALUES 
@@ -14,7 +15,6 @@ Insert INTO types_notifications (name) Values('Meetup Request');
 Insert INTO types_notifications (name) Values('Friendship Request');
 Insert INTO types_notifications (name) Values('Meetup Interest');
 Insert INTO types_notifications (name) Values('Friendship Accept');
-
 
 -- Sport
 INSERT INTO interests (name, id_category) VALUES ('Bowling', 1);
@@ -325,9 +325,6 @@ INSERT INTO users (email, last_name, first_name, birthdate, password, gender, pe
 ('user19@email.com', 'Scott', 'Jack', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'homme', 15, CURDATE()),
 ('user20@email.com', 'Torres', 'Grace', CURDATE(), '$2y$10$7jOPoIpOTPKYDYHlcJmZT.qBPSnD2fRiwWFlkxKSVmT9iTDrswOxi', 'femme', 16, CURDATE());
 
--- Feed
-CALL fillFeed(2);
-
 -- Meetups --
 INSERT INTO meetups(name, description, id_owner, adress, date, nb_participant, public) 
     VALUES("Nom de la rencontre", "Voici la description", 1, "1234 rue popcorn", DATE "2025-01-01", 100, 1);
@@ -340,9 +337,6 @@ INSERT INTO meetups(name, description, id_owner, adress, date, nb_participant, p
     VALUES("Basket", "Oublier pas vos bouteilles d'eaus guys", 3, "1234 rue popcorn", DATE "2025-01-01", 100, 1);
     INSERT INTO meetups(name, description, id_owner, adress, date, nb_participant, public) 
     VALUES("Randonné", "Nous allons monté le Mont-Tremblant", 1, "1234 rue popcorn", DATE "2025-01-01", 100, 1);
-
-
-INSERT INTO meetups_requests (id_user, id_meetup) VALUES (2, 1);
 
 -- Create Private Chats
 INSERT INTO chatRooms (name) VALUES (NULL), (NULL), (NULL), (NULL), (NULL), (NULL), (NULL), (NULL), (NULL), (NULL);

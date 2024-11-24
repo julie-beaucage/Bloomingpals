@@ -49,7 +49,8 @@
                         @php echo $tags @endphp
                     </div>
                 </div>
-                <a class="btn_primary no_select">Rejoindre</a>
+                
+                <a class="btn_primary no_select" href="/meetup/form/event/{{{ $event->id }}}">Créer une rencontre</a>
             </div>
 
             <div class="section">
@@ -88,22 +89,6 @@
                     <p>{{ $event['description'] }}</p>
                 </div>
             @endif
-
-            <div class="section">
-                <h2 class="title">Participants <span class="text_light">({{ count($attendees) }})</span></h2>
-                <div>
-                    @if (count($attendees) == 0)
-                        <span>Aucun participant pour le moment</span>
-                    @else
-                        @foreach ($attendees as $attendee)
-                            <div>
-                                <img src="{{ $attendee['photo'] }}" alt="Photo de profil de {{ $attendee['name'] }}">
-                                <span>{{ $attendee['name'] }}</span>
-                            </div>
-                        @endforeach
-                    @endif
-                </div>
-            </div>
         </div>
     </div>
 @endsection()

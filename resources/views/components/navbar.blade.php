@@ -15,16 +15,16 @@
                     'url' => route('home')
                 ],
                 [
+                    'id' => 'feed',
+                    'title' => "Fil d'actualité",
+                    'icon' => 'explore',
+                    'url' => route('feed')
+                ],
+                [
                     'id' => 'search',
                     'title' => 'Recherche',
                     'icon' => 'search',
                     'url' => route('search')
-                ],
-                [
-                    'id' => 'messages',
-                    'title' => 'Messages',
-                    'icon' => 'forum',
-                    'url' => route('messages')
                 ],
                 [
                     'id' => 'pals',
@@ -33,16 +33,22 @@
                     'url' => route('searchPals')
                 ],
                 [
+                    'id' => 'messages',
+                    'title' => 'Messages',
+                    'icon' => 'forum',
+                    'url' => route('messages')
+                ],
+                [
+                    'id' => 'form',
+                    'title' => 'Nouvelle rencontre',
+                    'icon' => 'add_circle',
+                    'url' => route('meetup.form')
+                ],
+                [
                     'id' => 'notification',
                     'title' => 'Notifications',
                     'icon' => 'notifications',
                     'url' => "#"
-                ],
-                [
-                    'id' => 'feed',
-                    'title' => "Fil d'actualité",
-                    'icon' => 'explore',
-                    'url' => route('feed')
                 ],
                 [
                     'id' => 'profile',
@@ -131,7 +137,7 @@
                             </span>
                         </a>';
                 } else {
-                    echo '<a class="' . $class . '" href="' . $url . '">
+                    echo '<a id="nav-'. $id .'" class="' . $class . '" href="' . $url . '">
                             <div class="shrinked_title shrinked_only">
                                 <span class="title">' . $title . '</span>
                             </div>

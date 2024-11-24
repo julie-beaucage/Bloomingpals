@@ -23,6 +23,7 @@ mix.js('resources/js/messages.js', 'public/js');
 mix.postCss('resources/css/app.css', 'public/css', []);
 mix.postCss('resources/css/login.css', 'public/css', []);
 mix.postCss('resources/css/meetupForm.css', 'public/css', []);
+mix.postCss('resources/css/meetupForm_julie.css', 'public/css', []);
 mix.postCss('resources/css/meetup.css', 'public/css', []);
 mix.postCss('resources/css/event.css', 'public/css', []);
 mix.postCss('resources/css/search.css', 'public/css', []);

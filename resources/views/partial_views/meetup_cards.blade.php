@@ -29,7 +29,18 @@ foreach ($meetups as $meetup) {
     }
 
     srand($meetup->id);
-    $image = $meetup->image ?? '\images\meetup_default'.rand(1,3).'.png';
+    $image = $meetup->image ? $meetup->image : '\images\meetup_default'.rand(1,3).'.png';
+
+    $participants = $meetup->participants()->count();
+
+    if ($participants == 0) {
+        $participants = 'Aucun participant';
+    }
+    else if ($participants == 1) {
+        $participants = '1 participant';
+    } else {
+        $participants = $participants . ' participants';
+    }
 
     echo <<< HTML
         <a class="card no_select hover_darker" href="meetup/$meetup->id">
@@ -54,7 +65,7 @@ foreach ($meetups as $meetup) {
                 <hr>
                 <div class="row infos">
                     <span>{$date}</span>
-                    <span>Aucun participants</span>
+                    <span>$participants</span>
                 </div>
             </div>
         </a>
