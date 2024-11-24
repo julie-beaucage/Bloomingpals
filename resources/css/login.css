@@ -1,11 +1,12 @@
 .pageContainerLogin {
     display:  flex; 
     flex-direction:  row; 
+    justify-content: center;
+    align-items:  center;
     width:  auto; 
     height:  fit-content !important; 
     margin:  auto auto; 
     border-radius:  4px; 
-    box-shadow:  0px 2px 6px -1px rgba(0,0,0,.12);
     min-height: fit-content;
 }
 
@@ -69,6 +70,10 @@ input[type="text"], input[type="password"], input[type="email"], input[type="dat
     position: relative;
 }
 
+.password_area {
+    text-align: left;
+}
+
 .togglePassword {
     position: absolute;
     right: 10px;
@@ -76,6 +81,9 @@ input[type="text"], input[type="password"], input[type="email"], input[type="dat
     transform: translateY(-50%);
     cursor: pointer;
     color: #aaa; 
+    height: fit-content;
+    display: flex;
+    align-items: center;
 }
 header h1 {
     font-size: 2em;

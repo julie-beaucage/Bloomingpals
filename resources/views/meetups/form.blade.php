@@ -115,13 +115,13 @@
 
     <div class="form-flex-col spaced" style=" flex-direction:row !important;">
         <div class="form-title">Image</div>
-        <div class="image-close cursor" style="display:none;"><span class="material-symbols-rounded">
+        <div class="image-close pointer" style="display:none;"><span class="material-symbols-rounded">
                 close
             </span></div>
     </div>
 
 
-    <div class="fileUploader cursor drop" id="dragArea">
+    <div class="fileUploader pointer drop" id="dragArea">
         <img class="img-preview" style="display:none;" src="{{$data['image'] != null ? asset($data['image']) : ''}}">
         <div class="fileUploader-content drop" style="margin-top:.5em;">
             <span class="material-symbols-rounded drop">add_photo_alternate</span>
@@ -134,9 +134,9 @@
     <div class="form-flex-col spaced" style="margin: 3em 0 .5em 0; ">
         <div class="form-flex-col flex-600">
             <button class="btn-meetup green expand center" id="submit" type="submit">Enregistrer</button>
-            <button class="btn-meetup gray expand center" onclick='window.location.replace("/home");'>Retour</button>
+            <button class="btn-meetup gray expand center" onclick='window.location.replace("{{$data["empty"] ? "/home" : "/meetup/".$data["id"]}}");'>Retour</button>
         </div>
-        @if($action != "/meetup/create")
+        @if(!$data['empty'])
             <div class="btn-meetup red expand center" onclick="Confirm('/meetup/delete/{{$data['id']}}')">Effacer le Meetup
             </div>
         @endif
@@ -195,11 +195,11 @@
     function removeMeetup(location) {
         $('#deleteMeetup').click(function (e) {
             $.ajax({
-                type: "DELETE",
+                type: "POST",
                 url: location,
                 data: { _token: crsf }
             }).done(() => {
-                window.location.href = "/meetup";
+                window.location.href = "/home";
             });
         });
     }
@@ -212,8 +212,8 @@
             '</div>' +
             '<div> Êtes-vous certain de vouloir effacer le Meetup ?</div>' +
             '<div style=" display:flex; justify-content:flex-end; gap:.5em; ">' +
-            "<button class='btn-primary gray'style='color:white !important;' onclick='removePop()'>Annuler</button> " +
-            "<button class='btn-primary red' id='deleteMeetup'>Effacer</button> " +
+            "<button class='btn-meetup gray'style='color:white !important;' onclick='removePop()'>Annuler</button> " +
+            "<button class='btn-meetup red' id='deleteMeetup'>Effacer</button> " +
 
             "</div>" +
             "</div>";
@@ -457,7 +457,7 @@
 
             // ville
             if (!listCities.includes(data.get('city').toLocaleLowerCase())) {
-                showError($('#city'), data.get('city') + "n'est pas une ville");
+                showError($('#city'), data.get('city') + " n'est pas une ville");
             }
 
             //date
