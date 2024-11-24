@@ -11,7 +11,7 @@ $(document).ready(function () {
         parsedData = JSON.parse(data);
         let notification = document.createElement("div");
         notification.classList.add("notification-container");
-        
+
         let htmlElement;
         let img_src = "";
         let profile_link = "";
@@ -26,7 +26,7 @@ $(document).ready(function () {
 
             case 'Meetup Request':
                 image = parsedData.user_send.image_profil == null ? 'images/simple_flower.png' : 'storage/' + parsedData.user_send.image_profil;
-                img_src = img + image;
+
                 profile_link = '/profile/' + parsedData.user_send.id;
                 header_text = parsedData.user_send.first_name + ' ' + parsedData.user_send.last_name;
                 linking = '/meetup/' + parsedData.meetup.id;
@@ -35,7 +35,6 @@ $(document).ready(function () {
             case 'Friendship Request':
                 image = parsedData.user_send.image_profil == null ? 'images/simple_flower.png' : 'storage/' + parsedData.user_send.image_profil;
 
-                img_src = img + image;
                 profile_link = '/profile/' + parsedData.user_send.id;
                 header_text = truncatee(parsedData.user_send.first_name + ' ' + parsedData.user_send.last_name, 40);
                 linking = '/profile/' + parsedData.user_send.id;
@@ -45,7 +44,6 @@ $(document).ready(function () {
             case 'Friendship Accept':
                 image = parsedData.user_send.image_profil == null ? 'images/simple_flower.png' : 'storage/' + parsedData.user_send.image_profil;
 
-                img_src = img + image;
                 profile_link = '/profile/' + parsedData.user_send.id;
                 header_text = truncatee(parsedData.user_send.first_name + ' ' + parsedData.user_send.last_name, 40);
                 linking = '/profile/' + parsedData.user_send.id;
@@ -55,13 +53,13 @@ $(document).ready(function () {
             case 'Meetup Interest':
                 image = parsedData.meetup.image == null ? 'images/meetup_default' + Math.floor((Math.random() * 3) + 1) + '.png' : parsedData.meetup.image;
 
-                img_src = img + image;
                 header_text = parsedData.header;
                 linking = "/meetup/" + parsedData.meetup.id;
                 profile_link = linking;
                 content = parsedData.message;
                 break;
         }
+        img_src = img + image;
 
         htmlElement = '<div class="notification-container" id="' + parsedData.id_notification + '" linking="' + linking + '">' +
             '<div class="center-content"><a id="profile-notif" href="' + profile_link + '""><img class="profile-picture-notif ' + img_square + '" id="notification-profile-picture" src="' +
@@ -102,15 +100,21 @@ $(document).ready(function () {
             //checker plusieurs fois apres 15 sec
             window.setTimeout(setInterval(CheckNewNotifications, 15 * 1000), 15 * 1000);
         }
-
     });
+    $('.notification-container-page').on('click', function (e) {
+        if(!(e.target.closest('a').length)){
+            window.location.href = $(this).attr('linking');
+        }
+    });
+    //handleNewNotification();
 
     function handleNewNotification() {
         $('.notification-container').on('click', function (event) {
-            window.location.href = $(this).attr('linking');
+            if(e.target.tagName !='A'){
+                window.location.href = $(this).attr('linking');
+            }
         });
         let notification_read = false;
-
         $("#close-notification").on('click', function () {
             $(".notification-container").remove();
             notification_read = true;
@@ -139,23 +143,26 @@ $(document).ready(function () {
                         url: '/notifications/delete',
                         data: { id: $(this).attr('id'), _token: crsf }
                     });
-                    $(this).closest('.notification-container').remove();
+                    $(this).off();
+                    let container = $(this).closest('.notification-container-page');
+                    container.addClass('border-red');
+                    setTimeout(function () {
+                        container.remove();
+                    }, 500);;
                 });
             }, 2 * 1000);
         }
     });
 
     $('#menu-icon').on('click', function (e) {
-        e.stopPropagation();  
+        e.stopPropagation();
         $('#dropdown-menu').toggleClass('show');
     });
 
     $(document).on('click', function (e) {
-        if (!$(e.target).closest('.navbar_notification').length) {
+        let hide = false;
+        if (!$(e.target).closest('#container-notification-toggle').length) {
             $('#container-notification-toggle').hide();
-        }
-        if (!$(e.target).closest('.menu-icon').length) {
-            $('#container-menu-toggle').hide();
         }
     });
 
@@ -165,9 +172,11 @@ $(document).ready(function () {
             url: '/notifications/delete',
             data: { id: $(this).attr('id'), _token: crsf }
         });
-        $(this).closest('.notification-container').addClass('border-red');
+        $(this).off();
+        let container = $(this).closest('.notification-container-page');
+        container.addClass('border-red');
         setTimeout(function () {
-            $(this).closest('.notification-container').remove();
+            container.remove();
         }, 500);
     });
 });
