@@ -10,7 +10,7 @@
     "/js/messages.js": "/js/messages.js",
     "/css/profile.css": "/css/profile.css",
     "/css/app.css": "/css/app.css",
-    "/css/meetup.css": "/css/meetup.css",
+    "/css/meetupForm_julie.css": "/css/meetupForm_julie.css",
     "/css/meetupForm.css": "/css/meetupForm.css",
     "/css/login.css": "/css/login.css",
     "/css/loading.css": "/css/loading.css",
@@ -24,6 +24,7 @@
     "/css/interets.css": "/css/interets.css",
     "/css/search.css": "/css/search.css",
     "/css/event.css": "/css/event.css",
+    "/css/meetup.css": "/css/meetup.css",
     "/css/palCard.css": "/css/palCard.css",
     "/css/cards.css": "/css/cards.css"
 }
