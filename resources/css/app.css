@@ -167,11 +167,12 @@ body {
     background-color: var(--background-50);
     margin: 0;
     width: 100vw;
-    height: 100vh;
+    height: 100svh;
     overflow: hidden;
     font-family: "Poppins", sans-serif !important;
     color: var(--text);
     font-size: 16px;
+    background-color: var(--white);
 }
 
 #main {
@@ -195,6 +196,7 @@ body {
     overflow-x: hidden;
     height: auto;
     max-width: 100%;
+    background-color: var(--background-50);
 }
 
 #footer {

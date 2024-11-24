@@ -229,7 +229,7 @@
                         <hr>
                         <div class="infos">
                             <span>${feed[i].date}</span>
-                            <span>Aucun participants</span>
+                            <span></span>
                         </div>
                     </div>
                 </a>`;

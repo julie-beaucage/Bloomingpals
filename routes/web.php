@@ -22,6 +22,9 @@ Route::get('/home/user_meetups', [HomeController::class, 'user_meetups'])->name(
 Route::get('/home/top_events', [HomeController::class, 'top_events'])->name('top_events');
 Route::get('/home/recent_meetups', [HomeController::class, 'recent_meetups'])->name('recent_meetups');
 Route::get('/home/upcoming_events', [HomeController::class, 'upcoming_events'])->name('upcoming_events');
+Route::get('/home/sport_events', [HomeController::class, 'sport_events'])->name('sport_events');
+Route::get('/home/comedy_events', [HomeController::class, 'comedy_events'])->name('comedy_events');
+Route::get('/home/music_events', [HomeController::class, 'music_events'])->name('music_events');
 
 Route::get('/about', function () {
     return view('about'); 

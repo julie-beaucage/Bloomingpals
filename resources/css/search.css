@@ -134,13 +134,13 @@
 
 @media only screen and (max-width: 600px) {
     #absolute_cntr {
-        height: calc(100vh - 8em);
-        align-items: end;
+        height: calc(100vh - 9em);
+        align-items: start;
     }
 
     .filters_cntr {
         width: 100%;
-        border-radius: 1em 1em 0 0;
+        border-radius: 0 0 1em 1em;
     }
 }
 
