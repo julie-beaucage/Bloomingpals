@@ -38,6 +38,7 @@
     flex-direction: row;
     background-color: var(--white);
     align-items: center;
+    margin-bottom: 1em;
 }
 
 .cards_list > .card {

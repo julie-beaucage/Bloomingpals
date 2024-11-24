@@ -31,6 +31,10 @@ Route::get('/personality-info', function () {
     return view('test_personality.info-personality'); 
 })->name('personality-info');
 
+Route::get('/FAQ', function () {
+    return view('faq'); 
+})->name('faq');
+
 // Authentification
 Route::get('/email/verify/{id}/{hash}', [CustomVerificationController::class, 'verify'])->name('verification.verify');
 Route::get('/email/verify', function () {

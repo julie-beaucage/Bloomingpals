@@ -36,10 +36,5 @@ use Illuminate\Support\Facades\Auth;
               {!! btn_setUpFriend(auth()->id(), $user->id) !!}
             @endif
         </div>
-        <div id="friend-options" class="friend-options-dropdown">
-            <ul>
-                <li><a href="{{ route('RemoveFriend', ['id' => $user->id]) }}">Retirer l'ami(e)</a></li>
-            </ul>
-        </div>
     </div>
 </div>

@@ -72,27 +72,14 @@ if (!function_exists('btn_setUpFriend')){
         $isSender =isSender ($currentUserId, $userId) ;
         $relation = areFriends($userId, $currentUserId);
         $icon_symbol = '';
-       /* if ($relation) {
-            $icon_symbol="check_circle";
-            return "
-                <div class='friend-menu'>
-                    <button class='{$btn_class} no_select'>
-                        <span>Ami(e)</span>
-                        <span class='material-symbols-rounded'>{$icon_symbol}</span> 
-                    </button>
-                    <div class='dropdown-menu-btn'>
-                        <a class='{$btn_class} no_select href='" . route("RemoveFriend", ["id" => $userId]) . "'>
-                            <span>Retirer l'ami(e)</span>
-                            <span class='material-symbols-rounded'>{$icon_symbol}</span>                        
-                       </a>
-                    </div>
-                </div>";
-        }*/
+        $removeText= '';
+        $remove="";
+        $txt_remove="";
         if ($relation) {
             $icon_symbol="check_circle";
             return "
                 <div class='friend-menu'>
-                    <button class='{$btn_class} btn_friends no_select'>
+                    <button class='grey btn_friends {$btn_class} no_select'>
                         <span class='btn-text'>Ami(e)</span>
                         <span class='material-symbols-rounded'>{$icon_symbol}</span>
                         <span class='btn-text-remove'>Retirer l'ami(e)</span>
@@ -110,8 +97,10 @@ if (!function_exists('btn_setUpFriend')){
                 case 'pending':
                     if ($isSender) {
                         $url = route("CancelFriendRequest", ["id" => $userId]);
-                        $btn_txt = "Annuler la demande";
+                        $btn_txt = "En attente";
                         $btn_class = "btn_refuse btn_primary";
+                        $removeText= 'Annuler la demande';
+                        $txt_remove='btn-text';
                     } else {
                         $url_accept = route("AcceptFriendRequest", ["id" => $userId]);
                         $url_refuse = route("RefuseFriendRequest", ["id" => $userId]);
@@ -120,10 +109,10 @@ if (!function_exists('btn_setUpFriend')){
                         return "
                         <div class='acceptContainer'>
                             <a href='{$url_accept}'>
-                                <div class='btn_accept btn_primary no_select'>{$btn_txt_accept}</div>
+                                <div class='btn_friends btn_accept btn_primary no_select'>{$btn_txt_accept}</div>
                             </a>
                             <a href='{$url_refuse}'>
-                                <div class='btn_refuse btn_primary no_select'>{$btn_txt_refuse}</div>
+                                <div class='btn_refuse btn_primary no_select btn_friends'>{$btn_txt_refuse}</div>
                             </a>
                         </div>";
                     }
@@ -137,17 +126,17 @@ if (!function_exists('btn_setUpFriend')){
                 default: 
                     $url = route("SendFriendRequest", ["id" => $userId]);
                     $btn_txt = "Ajouter un ami(e)";
-                    $btn_class = "btn_primary";
                     break;
             }
         }
         
-        if (!empty($extra_html)) {
-            return $extra_html;
+        if (!empty($removeText)) {
+            $remove = "<span class='btn-text-remove'>{$removeText}</span>";
         }
         return "
-            <button class='{$btn_class} no_select ' onclick=\"window.location.href='{$url}'\">
-                <span>{$btn_txt}</span>
+            <button class='btn_friends {$btn_class} no_select ' onclick=\"window.location.href='{$url}'\">
+                <span class='{$txt_remove}'>{$btn_txt}</span>
+                {$remove}
             </button>";        
     }       
 }

@@ -14,7 +14,7 @@
 @endphp
 <body>
     <div id="main">
-    <x-header />
+        <x-header />
         @if (isset($view))
             <x-navbar active="$view" />
         @else
@@ -27,8 +27,8 @@
               <x-notifications :notifications="$notifications" />
             @endif
             @yield("content", "")
+            <x-footer />
         </div>
-        <x-footer />
     </div>
     @include("bundles.scriptsBundle")
     @yield("script", "")

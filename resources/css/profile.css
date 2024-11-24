@@ -277,9 +277,7 @@ body {
     flex-grow: 1;
 }
 
-#footer {
-    display: none;
-}
+
 
 #profile_name {
     font-size: 2em;
@@ -419,53 +417,8 @@ body {
     }
 }
 
-.blue_button {
-    background-color: blue;
-    color: white;
-    width: -moz-max-content;
-    width: max-content;
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-bottom: 5px;
-    padding-top: 5px;
-    border-radius: 15px;
-}
 
-.grey_button {
-    background-color: grey;
-    color: white;
-    width: -moz-max-content;
-    width: max-content;
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-bottom: 5px;
-    padding-top: 5px;
-    border-radius: 15px;
-}
 
-.green_button {
-    background-color: green;
-    color: white;
-    width: -moz-max-content;
-    width: max-content;
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-bottom: 5px;
-    padding-top: 5px;
-    border-radius: 15px;
-}
-
-.red_button {
-    background-color: red;
-    color: white;
-    width: -moz-max-content;
-    width: max-content;
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-bottom: 5px;
-    padding-top: 5px;
-    border-radius: 15px;
-}
 
 .acceptContainer {
     display: flex;
