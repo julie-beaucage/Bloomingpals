@@ -1,13 +1,13 @@
-<div class="custom-overlay" id="overlaySetting" style="display: none;">
-    <div class="container-custom-modal">
-        <div class="header">
-            <span class="title no_wrap">Paramètres</span>
+<div id="overlaySetting" class="overlay">
+    <div class="modal">
+        <div class="modal-header">
+            <h5 class="modal-title">Paramètres</h5>
             <span class="close_icon" style="cursor:pointer;" onclick="closeModal('overlaySetting')">✖</span>
         </div>
-        <div class="body">
+        <div class="modal-body">
             <div id="showFormProfile" class="flex-roww" onclick="showModal('overlayProfile')">
                 <span class="material-symbols-rounded">person</span>
-                <div>Modifier mon profil</div>
+                <div>Profil</div>
             </div>
             <hr>
             <div class="flex-roww" onclick="showModal('overlayConfidentiality')">

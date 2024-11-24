@@ -109,6 +109,10 @@ body {
     Top: -5em;
     aspect-ratio: 1 / 1;
 }
+#profile-friends-section p {
+    display: flex;
+    align-items: center;
+}
 
 /* CSS OVERLAY FORM EDIT PROFILE*/
 .modifImage {

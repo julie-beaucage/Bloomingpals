@@ -68,7 +68,7 @@ class Friendship_Request extends Model
         return $requests;
     }
 
-    public static function GetUserRelationstatus($user1, $user2) {
+    /*public static function GetUserRelationstatus($user1, $user2) {
         $status = Friendship_Request::where("id_user_send", $user2)->where("id_user_receive", $user1)->where("status", "pending");
         $message = null;
         if ($status->count() > 0) {
@@ -84,13 +84,14 @@ class Friendship_Request extends Model
             }
         }
 
-        return $message;
-    }
+        return $message;*/
+   // }
 
     public static function AcceptFriendRequest($user1, $user2) {
         $status = ["status" => "accepted"];
-        Friendship_Request::where("id_user_send", $user1)->where("id_user_receive", $user2)->update($status);
+        Friendship_Request::where("id_user_send", $user2)->where("id_user_receive", $user1)->update($status);
     }
+
     public static function RefuseFriendRequest($user1, $user2) {
         $request = Friendship_Request::where("id_user_send", $user2)->where("id_user_receive", $user1);
         if ($request->count() > 0) {

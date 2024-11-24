@@ -16,10 +16,10 @@
 
 @include('profile.settings-page')
 @include('profile.confidentiality')
-@include('profile.account-settings-password')
 @include('profile.account-settings')
 
 @section('content')
+<x-flash-message />
     <div id="profile-overlay-cntr" class="overlay-cntr">
         @if ($user->id == Auth::user()->id)
             <x-email-verification-modal />
@@ -41,12 +41,23 @@
 
             <h1 id="profile_name">{{ $user->first_name }} {{ $user->last_name }}
                 @if ($user->id == Auth::user()->id)
-                    <button class="icon-btn hover_darker" id="openProfileOverlay" title="Modifier profile"
-                        data-bs-toggle="modal" data-bs-target="#settings">
-                        <span class="material-symbols-rounded">settings</span>
+                    <button class="icon-btn hover_darker" id="openProfileOverlay" title="Modifier profil"
+                       onclick="showModal('overlaySetting')">
+                       <span class="material-symbols-rounded">settings</span>
                     </button>
                 @endif
             </h1>
+            <div id="profile-friends-section">
+                    <p>
+                      <strong>  {{ $listFriends->count() }} amis</strong>
+                    @if ($user->id !== Auth::user()->id)
+                        <span class="material-symbols-rounded">
+                          fiber_manual_record
+                        </span>
+                        <strong> {{ $mutualFriendsCount }} en commun </strong>
+                    </p>
+                    @endif
+            </div>
         @if (Auth::user()->id == $user->id)
             @if ($profileCompletionPercentage < 100)
                 <div class="alert alert-warning mt-3">
@@ -77,6 +88,7 @@
             @endif
         @else
             {!! btn_setUpFriend(Auth::user()->id, $user->id) !!}
+            <br>
         @endif
         <div class="containerOnglerMain">
             @if ($haveAccess)
@@ -129,9 +141,16 @@
 
 @section('script')
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> 
+<script src="{{ mix('js/app.js') }}"></script>
 <script src="{{ asset('/js/profileOnglet.js') }}"></script>
 <script src="{{ asset('/js/resendEmail.js') }}"></script>
 <script>
+    const friendButton = document.querySelector('.btn_friends');
+    const friendOptions = document.getElementById('friend-options');
+
+    friendButton.addEventListener('click', function() {
+        friendOptions.classList.toggle('show-options');
+    });
     function Confirmm() {
         var pop_up_box = "<div class='pop-up-overlay'>" +
             "<div class='pop-up'>" +
@@ -164,6 +183,8 @@
         $("#email").removeClass('is-invalid').val("");
         $('#feedback-account-email').removeClass('invalid-feedback').text("");
     }
+
+    /*
     function showModal(modalId) {
         document.getElementById(modalId).style.display = 'flex';
     }
@@ -171,7 +192,7 @@
     function closeModal(modalId) {
         document.getElementById(modalId).style.display = 'none';
     }
-
+*/
     function handlePersonalityTestClick() {
         @if (!$emailVerified)
             showModal('emailVerificationModal');
@@ -230,12 +251,13 @@
     }
 
     $(document).ready(function () {
-        $("#account-settings-password-form").submit(function (event) {
+        /*
+        $("#overlayPassword").submit(function (event) {
             event.preventDefault();
             $.ajax({
                 url: 'checkPassword',
                 type: "POST",
-                data: $("#account-settings-password-form").serialize(),
+                data: $("#overlayPassword").serialize(),
                 success: function (data) {
                     if (data == 1) {
                         $("#account-settings-password").modal('hide');
@@ -248,19 +270,14 @@
                 }
             });
 
-        });
-        document.getElementById('account-settings-form').addEventListener('submit', async function (e) {
+        });*/
+       
+       
+       /* document.getElementById('account-settings-form').addEventListener('submit', async function (e) {
             let data = new FormData(e.target);
             e.preventDefault();
 
             let error = false;
-
-            if (data.get('password') != data.get('password2')) {
-                const msg = "Les mots de passe sont différents";
-                $("#password-account, #password-account2").addClass('is-invalid');
-                $('#feedback-new-password, #feedback-new-password2').addClass('invalid-feedback').text(msg);
-                error = true;
-            }
 
             if (data.get('email') !== '') {
                 try {
@@ -274,8 +291,6 @@
                             }
                         });
                     });
-
-                    // Vérifier le résultat
                     if (result == 1) {
                         $("#email").addClass('is-invalid');
                         $('#feedback-account-email').addClass('invalid-feedback').text("Email déjà utilisé");
@@ -286,7 +301,6 @@
                     }
                 } catch (er) { }
             }
-
             if (!error) {
                 $("#account-settings").modal('hide');
                 $.ajax({
@@ -298,7 +312,125 @@
                     }
                 });
             }
+        });*/
+        $(document).ready(function () {
+    $('#account-settings-form').on('submit', function (e) {
+        e.preventDefault(); 
+
+        const email = $('#email').val() || null; 
+        const passwordOld = $('#old-password').val();
+        const password = $('#password-account').val();
+        const passwordConfirmation = $('#password-account2').val();
+
+        const formData = {
+            email: email,
+            password_old: passwordOld,
+            password: password,
+            password_confirmation: passwordConfirmation,
+            _token: $('meta[name="csrf-token"]').attr('content')
+        };
+
+        $.ajax({
+            url: '/profile/updateAccount', 
+            type: 'POST',
+            data: formData, 
+            success: function (response) {
+                console.log('Réponse du serveur : ', response);
+                alert('Modifications enregistrées avec succès.');
+                location.reload(); 
+            },
+            error: function (xhr) {
+                console.log("allo");
+                console.log(xhr.responseJSON);
+                const errors = xhr.responseJSON.errors;
+                console.log('Erreurs de validation : ', errors);
+
+                if (errors.email) {
+                    $('#feedback-account-email').text(errors.email[0]).css('color', 'red');
+                } else {
+                    $('#feedback-account-email').text('');
+                }
+
+                if (errors.password_old) {
+                    $('#feedback-old-password').text(errors.password_old[0]).css('color', 'red');
+                } else {
+                    $('#feedback-old-password').text('');
+                }
+
+                if (errors.password) {
+                    $('#feedback-new-password').text(errors.password[0]).css('color', 'red');
+                } else {
+                    $('#feedback-new-password').text('');
+                }
+
+                if (errors.password_confirmation) {
+                    $('#feedback-new-password2').text(errors.password_confirmation[0]).css('color', 'red');
+                } else {
+                    $('#feedback-new-password2').text('');
+                }
+            }
         });
+    });
+});
+/*
+        document.getElementById('account-settings-form').addEventListener('submit', async function (e) {
+            e.preventDefault(); 
+
+            let data = new FormData(e.target);
+            let error = false;
+
+        if (data.get('email') !== '') {
+            try {
+                const result = await new Promise((resolve) => {
+                    $.ajax({
+                        url: '/profile/checkEmail',
+                        type: "POST",
+                        data: { email: data.get('email'), _token: crsf },
+                        success: function (res) {
+                            resolve(res);
+                        }
+                    });
+                });
+                if (result == 1) {
+                    $("#email").addClass('is-invalid');
+                    $('#feedback-account-email').addClass('invalid-feedback').text("Email déjà utilisé");
+                    error = true;
+                } else {
+                    $("#email").removeClass('is-invalid');
+                    $('#feedback-account-email').removeClass('invalid-feedback').text("");
+                }
+            } catch (er) { }
+        }
+
+        if (!error) {
+            $("#account-settings").modal('hide');
+            $.ajax({
+                url: '/profile/updateAccount',
+                type: "POST",
+                data: {
+                    email: $('#email').val(),
+                    password_old: $('#password_old').val(),
+                    password: $('#password-account').val(),
+                    password_confirmation: $('#password-confirmation').val(), 
+                    _token: crsf
+                },
+                success: function (res) {
+                    Confirmm();
+                },
+                error: function (xhr) {
+                // Vérifier la réponse JSON du serveur
+                if (xhr.responseJSON) {
+                    console.log('Erreur de validation:', xhr.responseJSON.errors);
+                    alert('Erreur : ' + xhr.responseJSON.message); // Affiche un message d'erreur générique
+                } else {
+                    console.log('Erreur inconnue:', xhr);
+                    alert('Une erreur inconnue s\'est produite');
+                }
+            }
+            });
+        }
+    });
+*/
 
         $("#profile-content").on("DOMSubtreeModified", function () {
             $(".close").each(function () {

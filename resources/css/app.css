@@ -160,6 +160,7 @@
 
 .material-symbols-rounded {
     flex-shrink: 0;
+    vertical-align: middle; 
 }
 
 /* -------------------- Master page layout --------------------*/
@@ -887,6 +888,100 @@ a {
 .btn_back:active {
     transform: scale(0.95);
 }
+/* Style du bouton d'ami */
+.friend-menu {
+    position: relative;
+}
+
+
+.btn-text {
+    margin-right: 8px;
+}
+
+
+.btn-text-remove {
+    display: none; 
+    margin-right: 8px;
+}
+
+.material-symbols-rounded {
+    font-size: 18px;
+    vertical-align: middle;
+    transition: all 0.3s ease; 
+}
+
+.btn_friends:hover .btn-text {
+    display: none;  
+}
+
+.btn_friends:hover .btn-text-remove {
+    display: inline-block; 
+}
+
+.btn_friends:hover .material-symbols-rounded {
+    transform: rotate(45deg); 
+}
+
+.btn-container {
+    margin: 1em;
+    box-sizing: border-box; 
+}
+
+.btn_friends {
+    display: inline-block!important;
+    min-width: fit-content;
+    padding: 0.5em 1em;
+    width: 15em;
+    font-size: 1em;
+    border: 2px solid var(--primary-color);
+    border-radius: 4px;
+    background-color: var(--primary-400);
+    color: var(--white);
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+
+.btn_friends:hover {
+    background-color: var(--primary-200);
+    color: var(--neutral-100);
+    transform: scale(1.05);
+}
+
+.btn_friends:active {
+    transform: scale(0.98);
+}
+
+.btn_friends:disabled {
+    background-color: var(--neutral-200);
+    color: var(--neutral-500);
+    cursor: not-allowed;
+    border: 2px solid var(--neutral-300);
+}
+.acceptContainer {
+    display: flex;
+    gap: 2em;
+    font-size: 1em !important;
+}
+
+/*.buttonn {
+    text-decoration: none;
+    text-align: center;
+    padding: 0.4em;
+    width: 5em;
+    min-width: fit-content;
+    border: 2px solid var(--primary-color);
+    border-radius: 4px;
+    background-color: var(--primary-400);
+    color: var(--white);
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+
+.buttonn:hover {
+    background-color: var(--primary-200);
+    color: var(--neutral-100);
+    transform: scale(1.05);
+}*/
 
 /*-----------------------------*/
 

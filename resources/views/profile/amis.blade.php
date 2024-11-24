@@ -14,9 +14,9 @@ use Illuminate\Support\Facades\Auth;
         @endif 
         @foreach ($pendingUsers as $pending)
             @php
-                $actionButtons = '<button class="btn_primary btn_accept ">Accepter</button><button class="btn_primary btn_refuse">Refuser</button>';
+                //$actionButtons = '<button class="btn_primary btn_accept ">Accepter</button><button class="btn_primary btn_refuse">Refuser</button>';
             @endphp
-            @include('partial_views.user_card', ['user' => $pending, 'actionButtons' => $actionButtons])
+            @include('partial_views.user_card', ['user' => $pending])
         @endforeach
         <hr>  
     @endif
@@ -30,7 +30,7 @@ use Illuminate\Support\Facades\Auth;
     @endif
     @foreach ($users as $user)
         @php
-            $actionButtons = '<button class="btn_refuse btn_primary">Retirer de mes amis</button>';
+           // $actionButtons = '<button class="btn_refuse btn_primary">Retirer de mes amis</button>';
         @endphp
-        @include('partial_views.user_card', ['user' => $user, 'actionButtons' => $actionButtons])
+        @include('partial_views.user_card', ['user' => $user])
     @endforeach

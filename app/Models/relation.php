@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use App\Models\User;
 
 
@@ -15,13 +16,27 @@ class Relation extends Model
 
     public $timestamps = false;
 
+    public static function areFriends($user1Id, $user2Id)
+    {
+        return self::where(function ($query) use ($user1Id, $user2Id) {
+            $query->where('id_user1', $user1Id)
+                  ->where('id_user2', $user2Id);
+        })
+        ->orWhere(function ($query) use ($user1Id, $user2Id) {
+            $query->where('id_user1', $user2Id)
+                  ->where('id_user2', $user1Id);
+        })
+        ->where('type', 'Friend')
+        ->exists();
+    }
+
     public static function AddFriendRequest($user1, $user2) {
         $userCount = Friendship_Request::where("id_user_send", $user1)->where("id_user_receive", $user2)->count();
         if ($userCount == 0) {
             $request = [
                 "id_user_send" => $user1,
                 "id_user_receive" => $user2,
-                "state" => 'Sent'
+                "status" => 'pending'
             ];
             Friendship_Request::Create($request);
         }
@@ -29,7 +44,6 @@ class Relation extends Model
 
     public static function GetRelationUsers($user1, $user2) {
         $relation = null;
-
         if (!Relation::GetIfBlocked($user2, $user1)) {
             $relationData = Relation::where('id_user1', $user1)->where('id_user2', $user2);
 
@@ -39,11 +53,10 @@ class Relation extends Model
         } else {
             $relation = "GotBlocked";
         }
-
         return $relation;
     }
 
-    public static function GetFriends($userId) {
+   /* public static function GetFriends($userId) {
         $friends = [];
         $relationsData = Relation::where('id_user1', $userId)->where("type", "Friend");
 
@@ -56,6 +69,44 @@ class Relation extends Model
             }
         }
         return $friends;
+    }*/
+    public static function GetFriends($userId) {
+        $friends = [];
+        $relationsDataUser1 = Relation::where('id_user1', $userId)->where("type", "Friend");
+        $relationsDataUser2 = Relation::where('id_user2', $userId)->where("type", "Friend");
+    
+        if ($relationsDataUser1->count() > 0) {
+            foreach ($relationsDataUser1->get() as $relationData) {
+                if (!Relation::GetIfBlocked($relationData->id_user2, $userId)) {
+                    $user = User::where("id", $relationData->id_user2)->get()->first();
+                    array_push($friends, $user);
+                }
+            }
+        }
+    
+        if ($relationsDataUser2->count() > 0) {
+            foreach ($relationsDataUser2->get() as $relationData) {
+                if (!Relation::GetIfBlocked($relationData->id_user1, $userId)) {
+                    $user = User::where("id", $relationData->id_user1)->get()->first();
+                    array_push($friends, $user);
+                }
+            }
+        }
+    
+        return $friends;
+    }
+    
+
+    public static function GetFriendsProfile($userId)
+    {
+        return DB::table('relations')
+            ->selectRaw('CASE WHEN id_user1 = ? THEN id_user2 ELSE id_user1 END AS friend_id', [$userId])
+            ->where(function ($query) use ($userId) {
+                $query->where('id_user1', $userId)
+                      ->orWhere('id_user2', $userId);
+            })
+            ->where('type', 'Friend')
+            ->get();
     }
 
     public static function GetIfBlocked($user1, $user2) {

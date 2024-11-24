@@ -27,8 +27,8 @@
               <x-notifications :notifications="$notifications" />
             @endif
             @yield("content", "")
-            <x-footer />
         </div>
+        <x-footer />
     </div>
     @include("bundles.scriptsBundle")
     @yield("script", "")
