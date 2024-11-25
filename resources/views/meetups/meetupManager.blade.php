@@ -38,8 +38,8 @@
                         @endphp
                         <a class="owner_cntr" href="/profile/{{$request->user_request->id}}">
                             <div class="cntr_row_btn">
-                                <div class="banner_owner {{ $request->user_request->getPersonalityGroup(); }}">
-                                    <img src="{{ $request->user_request->image_profil ? asset('storage/' . $request->user_request->image_profil) : asset('/images/simple_flower.png'); }}">
+                                <div class="banner_owner {{ $request->user_request->getPersonalityGroup()}}">
+                                    <img src="{{ $request->user_request->image_profil ? asset('storage/' . $request->user_request->image_profil) : asset('/images/simple_flower.png') }}">
                                 </div>
                                 <div class="content">
                                     <span class="name">{{ $request->user_request->full_name }}</span>

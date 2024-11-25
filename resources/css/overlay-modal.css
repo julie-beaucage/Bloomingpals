@@ -36,7 +36,14 @@
     margin: 2em;
     overflow: hidden;
 }
+#overlayAccountSettings .container-custom-modal {
+    overflow-y: auto;
 
+}
+#overlaySetting .container-custom-modal {
+    width: 50%;
+
+}
 
 .container-custom-modal > .header {
     display: flex;

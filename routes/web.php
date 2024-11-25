@@ -51,9 +51,9 @@ Route::post('/login', [UsersController::class, 'login'])->name('login');
 Route::get('/logout', [UsersController::class, 'logout'])->name('logout');
 
 //more profile cuz cors dont work
-Route::post('profile/checkPassword', [UsersController::class, 'checkPassword']);
+/*Route::post('profile/checkPassword', [UsersController::class, 'checkPassword']);
 Route::post('/profile/checkEmail', [UsersController::class, 'isEmailTaken']);
-Route::post('/profile/updateAccount', [UsersController::class, 'updateAccount']);
+Route::post('/profile/updateAccount', [UsersController::class, 'updateAccount']);*/
 
 
 
@@ -66,14 +66,14 @@ Route::middleware('auth')->group(function () {
     Route::get('profile/personnalite/{id}', [UsersController::class, 'personnalite'])->name('profile.personnalite');
    // Route::get('profile/events/{id}', [UsersController::class, 'events'])->name('profile.events');
     Route::get('profile/information/{id}', [UsersController::class, 'info_show'])->name('profile.info');
-    Route::patch('/user/{id}/bio', [UserController::class, 'updateBio'])->name('user.updateBio');
+    Route::patch('/user/{id}/bio', [UsersController::class, 'updateBio'])->name('user.updateBio');
 
     Route::get('profile/rencontres/{id}', [UsersController::class, 'rencontres'])->name('profile.rencontres');
     Route::post('/verification/resend', [UsersController::class, 'resend'])->name('verification.resend');
     Route::post('profile/update/confidentiality/{id}', [UsersController::class, 'updateConfidentiality'])->name('profile.update.confidentiality');
     Route::post('profile/checkPassword', [UsersController::class, 'checkPassword'])->name('profile.checkPassword');
     Route::post('/profile/checkEmail', [UsersController::class, 'isEmailTaken']);
-    Route::post('/profile/updateAccount', [UsersController::class, 'updateAccount']);
+    Route::post('/profile/updateAccount', [UsersController::class, 'updateAccount'])->name('profile.updateAccount');;
     
 
     //INTERET

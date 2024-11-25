@@ -84,29 +84,6 @@
                     </div>
                 </div>
             @endif
-        {{--!!@elseif ($relation == "Friend")
-            <a href="{{ route("RemoveFriend", ["id" => $user->id])}}">
-                <div class="red_button no_select">Enlever l'amitier</div>
-            </a>
-        @elseif ($relation == "Blocked")
-            <div class="red_button no_select">You are blocked</div>
-        @elseif ($relation == "SendingInvitation")
-            <div class="acceptContainer">
-                <a href="{{ route("CancelFriendRequest", ["id" => $user->id])}}">
-                    <div class="red_button">annuler la demande d'amitier</div>
-                </a>
-            </div>
-        @elseif ($relation == "Invited")
-            <div class="acceptContainer">
-                <a href="{{ route("AcceptFriendRequest", ["id" => $user->id])}}">
-                    <div class="green_button">Accepter</div>
-                </a>
-                <a href="{{ route("RefuseFriendRequest", ["id" => $user->id])}}">
-                    <div class="red_button">Refuser</div>
-                </a>
-            </div>
-        @elseif ($relation == "Refuse")
-            <div class="grey_button">Vous avez été refusé</div>--}}
         @else
             {!! btn_setUpFriend(Auth::user()->id, $user->id) !!}
         @endif
@@ -157,62 +134,47 @@
                 @endif
             </div>
         </div>
-        @endsection()
-
-        @section('script')
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> 
-<script src="{{ mix('js/app.js') }}"></script>
-<script src="{{ asset('/js/profileOnglet.js') }}"></script>
-<script src="{{ asset('/js/resendEmail.js') }}"></script>
-<script>
-    const friendButton = document.querySelector('.btn_friends');
-    const friendOptions = document.getElementById('friend-options');
-
-    friendButton.addEventListener('click', function() {
-        friendOptions.classList.toggle('show-options');
-    });
+@endsection()
+@section('script')
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> 
+    <script src="{{ mix('js/app.js') }}"></script>
+    <script src="{{ asset('/js/profileOnglet.js') }}"></script>
+    <script src="{{ asset('/js/resendEmail.js') }}"></script>
+    <script>
     function Confirmm() {
-        var pop_up_box = "<div class='pop-up-overlay'>" +
-            "<div class='pop-up'>" +
-            "<div style='display:flex; justify-content: space-between; align-items:center; border-bottom: 1px solid black;'>" +
-            '<div><strong> Profile</strong></div> <a onclick="removePop()" id="close-pop" style="cursor:pointer;"><span class="close_icon">close</span></a>' +
-            '</div>' +
-            '<div>Votre profile à été mis à jour</div>' +
-
-            "</div>" +
-            "</div>";
-
+        var pop_up_box = `
+            <div class='pop-up-overlay'>
+                <div class='pop-up'>
+                    <div style='display:flex; justify-content: space-between; align-items:center; border-bottom: 1px solid black;'>
+                        <div><strong>Profile</strong></div>
+                        <a onclick="removePop()" id="close-pop" style="cursor:pointer;">
+                            <span class="close_icon">close</span>
+                        </a>
+                    </div>
+                    <div>Votre profile a été mis à jour</div>
+                </div>
+            </div>
+        `;
         $('body').append(pop_up_box);
     }
+
     const crsf = $('meta[name="csrf-token"]').attr('content');
+
     function removePop() {
         $('.pop-up-overlay').remove();
     }
+
     function refreshFormFields() {
         $("#password-enter").removeClass('is-invalid').val("");
         $('#feedback-account').removeClass('invalid-feedback').text("Entrez votre mot de passe pour accéder à vos informations");
-
-        // Reset the new password input
         $("#password-account").removeClass('is-invalid').val("");
         $('#feedback-new-password').removeClass('invalid-feedback').text("");
-
-        // Reset the confirm password input
         $("#password-account2").removeClass('is-invalid').val("");
-        $('#feedback-new-password2').removeClass('invalid-feedback').val("");
-
+        $('#feedback-new-password2').removeClass('invalid-feedback').text("");
         $("#email").removeClass('is-invalid').val("");
         $('#feedback-account-email').removeClass('invalid-feedback').text("");
     }
 
-    /*
-    function showModal(modalId) {
-        document.getElementById(modalId).style.display = 'flex';
-    }
-
-    function closeModal(modalId) {
-        document.getElementById(modalId).style.display = 'none';
-    }
-*/
     function handlePersonalityTestClick() {
         @if (!$emailVerified)
             showModal('emailVerificationModal');
@@ -221,6 +183,7 @@
             window.location.href = "{{ route('personality.test') }}";
         @endif
     }
+
     function handlePersonalityInteretClick() {
         @if (!$emailVerified)
             showModal('emailVerificationModal');
@@ -245,16 +208,15 @@
             },
             body: JSON.stringify({})
         })
-            .then(response => {
-                if (response.ok) {
-                    document.getElementById('originalMessage').style.display = 'none';
-                    document.getElementById('successMessage').style.display = 'block';
-                    console.log("Email de vérification renvoyé avec succès.");
-                } else {
-                    console.error("Échec de l'envoi de l'email de vérification.");
-                }
-            })
-            .catch(error => console.error("Erreur réseau:", error));
+        .then(response => {
+            if (response.ok) {
+                document.getElementById('originalMessage').style.display = 'none';
+                document.getElementById('successMessage').style.display = 'block';
+            } else {
+                console.error("Échec de l'envoi de l'email de vérification.");
+            }
+        })
+        .catch(error => console.error("Erreur réseau:", error));
     }
 
     function previewImage(event, previewId) {
@@ -265,139 +227,36 @@
             const reader = new FileReader();
             reader.onload = function (e) {
                 preview.src = e.target.result;
-            }
+            };
             reader.readAsDataURL(file);
         }
     }
 
-    $(document).ready(function () {
-        /*
-        $("#overlayPassword").submit(function (event) {
-            event.preventDefault();
-            $.ajax({
-                url: 'checkPassword',
-                type: "POST",
-                data: $("#overlayPassword").serialize(),
-                success: function (data) {
-                    if (data == 1) {
-                        $("#account-settings-password").modal('hide');
-                        $("#account-settings").modal('show');
-                    }
-                    else {
-                        $("#password-enter").addClass('is-invalid').focus();
-                        $('#feedback-account').addClass('invalid-feedback').text(data);
-                    }
-                }
-            });
-
-        });*/
-       
-       
-       /* document.getElementById('account-settings-form').addEventListener('submit', async function (e) {
-            let data = new FormData(e.target);
-            e.preventDefault();
-
-            let error = false;
-
-            if (data.get('email') !== '') {
-                try {
-                    const result = await new Promise((resolve) => {
-                        $.ajax({
-                            url: '/profile/checkEmail',
-                            type: "POST",
-                            data: { email: data.get('email'), _token: crsf },
-                            success: function (res) {
-                                resolve(res);
-                            }
-                        });
-                    });
-                    if (result == 1) {
-                        $("#email").addClass('is-invalid');
-                        $('#feedback-account-email').addClass('invalid-feedback').text("Email déjà utilisé");
-                        error = true;
-                    } else {
-                        $("#email").removeClass('is-invalid');
-                        $('#feedback-account-email').removeClass('invalid-feedback').text("");
-                    }
-                } catch (er) { }
-            }
-            if (!error) {
-                $("#account-settings").modal('hide');
-                $.ajax({
-                    url: '/profile/updateAccount',
-                    type: "POST",
-                    data: { email: $('#email').val(), password: $('#password-account').val(), _token: crsf },
-                    success: function (res) {
-                        Confirmm();
-                    }
-                });
-            }
-        });*/
-        $(document).ready(function () {
-    $('#account-settings-form').on('submit', function (e) {
-        e.preventDefault(); 
-
-        const email = $('#email').val() || null; 
+     document.getElementById('account-settings-form').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const email = $('#email').val() || null;
         const passwordOld = $('#old-password').val();
-        const password = $('#password-account').val();
-        const passwordConfirmation = $('#password-account2').val();
+        const passwordNew = $('#password-account').val()|| null;
+        const passwordNewConfirm = $('#password-account2').val();
+        console.log(passwordNew );
+        if (passwordNew !== null && passwordNew !== passwordNewConfirm) {
+            const msg = "Les mots de passe sont différents";
+            $("#password-account, #password-account2").addClass('is-invalid');
+            $('#feedback-new-password, #feedback-new-password2').addClass('invalid-feedback').text(msg);
+            error = true;
+        } else {
+            $("#password-account, #password-account2").removeClass('is-invalid');
+            $('#feedback-new-password, #feedback-new-password2').removeClass('invalid-feedback').text("");
+        }
+        
+        if (!passwordOld) {
+            $('#feedback-old-password').text("L'ancien mot de passe est obligatoire.").css('color', 'red');
+            return; 
+        }
+        let data = new FormData(e.target);
+        e.preventDefault();
 
-        const formData = {
-            email: email,
-            password_old: passwordOld,
-            password: password,
-            password_confirmation: passwordConfirmation,
-            _token: $('meta[name="csrf-token"]').attr('content')
-        };
-
-        $.ajax({
-            url: '/profile/updateAccount', 
-            type: 'POST',
-            data: formData, 
-            success: function (response) {
-                console.log('Réponse du serveur : ', response);
-                alert('Modifications enregistrées avec succès.');
-                location.reload(); 
-            },
-            error: function (xhr) {
-                console.log("allo");
-                console.log(xhr.responseJSON);
-                const errors = xhr.responseJSON.errors;
-                console.log('Erreurs de validation : ', errors);
-
-                if (errors.email) {
-                    $('#feedback-account-email').text(errors.email[0]).css('color', 'red');
-                } else {
-                    $('#feedback-account-email').text('');
-                }
-
-                if (errors.password_old) {
-                    $('#feedback-old-password').text(errors.password_old[0]).css('color', 'red');
-                } else {
-                    $('#feedback-old-password').text('');
-                }
-
-                if (errors.password) {
-                    $('#feedback-new-password').text(errors.password[0]).css('color', 'red');
-                } else {
-                    $('#feedback-new-password').text('');
-                }
-
-                if (errors.password_confirmation) {
-                    $('#feedback-new-password2').text(errors.password_confirmation[0]).css('color', 'red');
-                } else {
-                    $('#feedback-new-password2').text('');
-                }
-            }
-        });
-    });
-});
-/*
-        document.getElementById('account-settings-form').addEventListener('submit', async function (e) {
-            e.preventDefault(); 
-
-            let data = new FormData(e.target);
-            let error = false;
+        let error = false;
 
         if (data.get('email') !== '') {
             try {
@@ -411,6 +270,7 @@
                         }
                     });
                 });
+
                 if (result == 1) {
                     $("#email").addClass('is-invalid');
                     $('#feedback-account-email').addClass('invalid-feedback').text("Email déjà utilisé");
@@ -427,50 +287,33 @@
             $.ajax({
                 url: '/profile/updateAccount',
                 type: "POST",
-                data: {
-                    email: $('#email').val(),
-                    password_old: $('#password_old').val(),
-                    password: $('#password-account').val(),
-                    password_confirmation: $('#password-confirmation').val(), 
-                    _token: crsf
-                },
+                data: { email: $('#email').val(), password: $('#password-account').val(), _token: crsf },
                 success: function (res) {
                     Confirmm();
-                },
-                error: function (xhr) {
-                // Vérifier la réponse JSON du serveur
-                if (xhr.responseJSON) {
-                    console.log('Erreur de validation:', xhr.responseJSON.errors);
-                    alert('Erreur : ' + xhr.responseJSON.message); // Affiche un message d'erreur générique
-                } else {
-                    console.log('Erreur inconnue:', xhr);
-                    alert('Une erreur inconnue s\'est produite');
                 }
-            }
             });
         }
     });
-*/
-
-        $("#profile-content").on("DOMSubtreeModified", function () {
-            $(".close").each(function () {
-                $(this).click(function () {
-                    const modalId = $(this).data("modal-id");
-                    closeModal(modalId);
-                });
-            });
-        });
-
-        let arrows = document.querySelectorAll(".arrow");
-        arrows.forEach((elem) => {
-            elem.addEventListener("click", function (event) {
-                const arrow = event.target.parentNode.parentNode.lastElementChild;
-                arrow.style.display = (arrow.style.display == "none") ? "block" : "none";
-                event.target.innerHTML = (arrow.style.display == "block") ? "keyboard_arrow_down" : "keyboard_arrow_right";
+    $("#profile-content").on("DOMSubtreeModified", function () {
+        $(".close").each(function () {
+            $(this).click(function () {
+                const modalId = $(this).data("modal-id");
+                closeModal(modalId);
             });
         });
     });
+
+    let arrows = document.querySelectorAll(".arrow");
+    arrows.forEach((elem) => {
+        elem.addEventListener("click", function (event) {
+            const arrow = event.target.parentNode.parentNode.lastElementChild;
+            arrow.style.display = (arrow.style.display == "none") ? "block" : "none";
+            event.target.innerHTML = (arrow.style.display == "block") ? "keyboard_arrow_down" : "keyboard_arrow_right";
+        });
+    });
+
 </script>
+
 <script src="{{asset('/js/flash.js')}}"></script>
 <script src="{{ asset('/js/layout.js') }}"></script>
 

@@ -12,12 +12,8 @@
                     <div class="flex-coll" style="margin-bottom:.5em;">
                         <div class="flex-roww" style="align-items:center;">
                             <h5 class="title">Modifier votre email</h5>
-                            <span class="material-symbols-rounded arrow"
-                                  style="font-size:1.5em; cursor:pointer;" onclick="toggleVisibility('email-field')">
-                                  keyboard_arrow_right
-                            </span>
                         </div>
-                        <div id="email-field" style="display:none; margin-top:.5em;">
+                        <div id="email-field" style=" margin-top:.5em;">
                             <label for="email" class="form-label">Nouvelle adresse courriel</label>
                             <input type="email" class="form-control" id="email" name="email" style="margin-bottom:.5em;">
                             <span style="font-size:.8em;" id="feedback-account-email"></span>
@@ -30,12 +26,8 @@
                     <div class="flex-coll" style="margin-bottom:1.3em;">
                         <div class="flex-roww" style="align-items:center;">
                             <h5 class="title">Modifier votre mot de passe</h5>
-                            <span class="material-symbols-rounded arrow"
-                                  style="font-size:1.5em; cursor:pointer;" onclick="toggleVisibility('password-field')">
-                                  keyboard_arrow_right
-                            </span>
                         </div>
-                        <div id="password-field" style="display:none; margin-top:.5em;">
+                        <div id="password-field" style=" margin-top:.5em;">
                             <label for="password-account" class="form-label">Nouveau mot de passe</label>
                             <input type="password" class="form-control" id="password-account" name="password" style="margin-bottom:.5em;">
                             <span style="font-size:.8em;" id="feedback-new-password"></span>
