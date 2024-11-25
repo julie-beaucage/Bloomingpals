@@ -193,11 +193,11 @@ if (!function_exists('btn_setUp')) {
             } elseif ($requestStatus == 'pending') {
                 $btn_txt = "Annuler la demande";
                 $url = "#"; // Ne fait rien ici
-                $btn_class = "btn_refuse";
+                $btn_class = "btn_interesse";
             } elseif ($requestStatus == 'refused') {
                 $url = "#";
                 $btn_txt = "Refusé";
-                $btn_class = "btn_refuse";
+                $btn_class = "btn_interesse";
                 $btn_disabled = "disabled"; 
                 $url = route("meetups.cancel_request", ["meetupId" => $meetupId]);
                 $btn_class = "btn_pending";
