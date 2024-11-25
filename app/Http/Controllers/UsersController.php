@@ -93,7 +93,6 @@ class UsersController extends Controller
             }
             DB::commit();
             return view('auth.verify');
-
         } catch (QueryException $e) {
             DB::rollBack();
             Log::error('Erreur lors de la création de l\'utilisateur : ' . $e->getMessage());
@@ -198,8 +197,6 @@ class UsersController extends Controller
         } else if ($user->confidentiality == "public") {
             $haveAccess = true;
         }
-        Log::info('Le résultat de l\'accès est : ' . $haveAccess);
-
         return view('profile.profile', compact(
         'user', 'profileCompletionPercentage', 
         'emailVerified', 'interestsSelected', 
@@ -289,6 +286,8 @@ class UsersController extends Controller
             }
         }
     }
+
+
     public function updateAccount(Request $req)
     {
         $user = Auth::user();
@@ -345,7 +344,6 @@ class UsersController extends Controller
     {
         $user = User::find($id);
         $users = Relation::GetFriends($id);
-        Log::info($users);
         $pendingRequests = Friendship_Request::getReceivedFriendRequests($id);
         $pendingUsers = [];
         foreach ($pendingRequests as $request) {
