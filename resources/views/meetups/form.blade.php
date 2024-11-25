@@ -156,7 +156,7 @@
     function add_interest(tab) {
         interest_ids = [];
     }
-    console.log(MeetupId);
+
     if (MeetupId != "") {
         fetch(url=window.location.href.indexOf('event') == -1 ? (window.location.origin + '/meetup/interests/' + MeetupId): (window.location.origin + '/event/interests/' + MeetupId)).then(response => {
             if (response.ok) {
@@ -257,7 +257,7 @@
         });
 
         $("option").on('click', function () {
-            console.log($(this).attr("selected"));
+
             if (selectedOption == null) {
                 $(this).attr("selected", "selected");
                 $(this).addClass("selected");
@@ -328,7 +328,7 @@
             $('fileUploader').removeClass('active');
 
             let files = event.originalEvent.dataTransfer.files;
-            console.log(files.length);
+
             if (files.length > 1) {
                 $('#imageFeedback').text("Vous ne pouvez pas mettre plusieurs images");
                 $('.fileUploader').removeClass('active');
@@ -489,7 +489,7 @@
             }
 
             if ($('.img-preview').attr('src') == "") {
-                console.log("submit");
+
                 //e.preventDefault();
                 //document.querySelector('input[type=file]').value = "";
                 document.querySelector('input[type=file]').remove();

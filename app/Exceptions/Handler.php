@@ -39,13 +39,15 @@ class Handler extends ExceptionHandler
         });
     }
     public function render($request, Throwable $exception)
-{
-    if ($exception instanceof \Symfony\Component\HttpKernel\Exception\HttpException && $exception->getStatusCode() === 500) {
-        return response()->view('errors.500', [], 500);
-    }
+    {
+        if ($exception instanceof \Symfony\Component\HttpKernel\Exception\HttpException && $exception->getStatusCode() === 500) {
+            return response()->view('errors.500', [], 500);
+        }
 
-    return parent::render($request, $exception);
-}
+        return redirect('/home')->with('error', $exception->getMessage());
+
+        //return parent::render($request, $exception);
+    }
 
 
 }

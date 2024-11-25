@@ -14,7 +14,7 @@
 @endphp
 <body>
     <div id="main">
-    <x-header />
+        <x-header />
         @if (isset($view))
             <x-navbar active="$view" />
         @else

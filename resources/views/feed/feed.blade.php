@@ -397,8 +397,6 @@
         }
 
         meetups.every(function (element, index) {
-            console.log("index: "+index);
-            console.log(element.name);
             if (index == 4) {
                 return false
             }
@@ -577,7 +575,6 @@
         //     res = await getContent();
         //     //console.log(res);
         // }
-        console.log(new Date().getTime() - time);
     });
     const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay))
 </script>

@@ -7,10 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Friendship_Request extends Model
 {
-    protected $table= 'Friendships_Requests';
-    protected $fillable = ["id_user_send", "id_user_receive", "state"];
+    protected $table= 'friendships_requests';
+    protected $fillable = ["id_user_send", "id_user_receive", "status"];
     public $timestamps = false;
 
+    public static function getReceivedFriendRequests($userId)
+    {
+        return self::where('id_user_receive', $userId)
+                   ->where('status', 'pending')
+                   ->get();
+    }
+    /* CODE QUI NEST PAS UTILISER A 50% ?*/ 
     public static function AddFriendRequest($user1, $user2) {
         if (!Friendship_Request::IsRefuse($user1, $user2)) {
             if (Friendship_Request::IsRefuse($user2, $user1)) {
@@ -21,7 +28,7 @@ class Friendship_Request extends Model
                 $request = [
                     "id_user_send" => $user1,
                     "id_user_receive" => $user2,
-                    "state" => 'Sent'
+                    "status" => 'pending'
                 ];
                 Friendship_Request::Create($request);
             }
@@ -31,7 +38,7 @@ class Friendship_Request extends Model
     public static function IsRefuse($user1, $user2) {
         $receive = Friendship_Request::where("id_user_send", $user1)->where("id_user_receive", $user2);
         if ($receive->count() > 0) {
-            if ($receive->get()->first()->state == "Refused") {
+            if ($receive->get()->first()->status == "refused") {
                 return true;
             }
         }
@@ -40,7 +47,7 @@ class Friendship_Request extends Model
 
     public static function GetFriendRequestReceive($userId) {
         $requests = [];
-        $requestsData = Friendship_Request::where("id_user_receive", $userId)->where("state", "Sent")->get();
+        $requestsData = Friendship_Request::where("id_user_receive", $userId)->where("status", "pending")->get();
         if ($requestsData->count() > 0) {
             foreach ($requestsData as $requestData) {
                 $user = User::where("id", $requestData->id_user_send)->get()->first();
@@ -49,9 +56,9 @@ class Friendship_Request extends Model
         }
         return $requests;
     }
-    public static function GetFriendRequestSent($userId) {
+    public static function GetFriendRequestpending($userId) {
         $requests = [];
-        $requestsData = Friendship_Request::where("id_user_send", $userId)->where("state", "Sent")->get();
+        $requestsData = Friendship_Request::where("id_user_send", $userId)->where("status", "pending")->get();
         if ($requestsData->count() > 0) {
             foreach ($requestsData as $requestData) {
                 $user = User::where("id", $requestData->id_user_receive)->get()->first();
@@ -61,51 +68,48 @@ class Friendship_Request extends Model
         return $requests;
     }
 
-    public static function GetUserRelationState($user1, $user2) {
-        $state = Friendship_Request::where("id_user_send", $user2)->where("id_user_receive", $user1)->where("state", "Sent");
+    /*public static function GetUserRelationstatus($user1, $user2) {
+        $status = Friendship_Request::where("id_user_send", $user2)->where("id_user_receive", $user1)->where("status", "pending");
         $message = null;
-        if ($state->count() > 0) {
+        if ($status->count() > 0) {
             $message = "receive";
             return $message;
         }
-        $state = Friendship_Request::where("id_user_send", $user1)->where("id_user_receive", $user2);
-        if ($state->count() > 0) {
-            if ($state->get()->first()->state == "Refused") {
+        $status = Friendship_Request::where("id_user_send", $user1)->where("id_user_receive", $user2);
+        if ($status->count() > 0) {
+            if ($status->get()->first()->status == "refused") {
                 $message = "refuse";
-            } else if ($state->get()->first()->state == "Sent") {
-                $message = "sent";
+            } else if ($status->get()->first()->status == "pending") {
+                $message = "pending";
             }
         }
 
-        return $message;
-    }
+        return $message;*/
+   // }
 
     public static function AcceptFriendRequest($user1, $user2) {
-        $state = ["state" => "Accepted"];
-        Friendship_Request::where("id_user_send", $user1)->where("id_user_receive", $user2)->update($state);
+        $status = ["status" => "accepted"];
+        Friendship_Request::where("id_user_send", $user2)->where("id_user_receive", $user1)->update($status);
     }
+
     public static function RefuseFriendRequest($user1, $user2) {
         $request = Friendship_Request::where("id_user_send", $user2)->where("id_user_receive", $user1);
         if ($request->count() > 0) {
-            $state = ["state" => "Refused"];
-            Friendship_Request::where("id_user_send", $user2)->where("id_user_receive", $user1)->update($state);
+            $status = ["status" => "refused"];
+            Friendship_Request::where("id_user_send", $user2)->where("id_user_receive", $user1)->update($status);
         }
     }
 
     public static function CancelFriendRequest($user1, $user2) {
         $other_request = Friendship_Request::where("id_user_send", $user2)->where("id_user_receive", $user1)->get();
         if ($other_request->count() > 0) {
-            if (!$other_request->first()->state == "Refused") {
+            if (!$other_request->first()->status == "refused") {
                 Friendship_Request::where("id_user_send", $user1)->where("id_user_receive", $user2)->delete();
                 return;
             }
         } else {
             Friendship_Request::where("id_user_send", $user1)->where("id_user_receive", $user2)->delete();
         }
-        /*$other_request = Friendship_Request::where("id_user_send", $user1)->where("id_user_receive", $user2)->get();
-        if (!($other_request->count() > 0 && $other_request->first()->state == "Refused")) {
-            Friendship_Request::where("id_user_send", $user1)->where("id_user_receive", $user2)->delete();
-        }*/
     }
 
     public static function RemoveFriendRequest($user1, $user2) {

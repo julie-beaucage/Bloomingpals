@@ -38,6 +38,7 @@
     flex-direction: row;
     background-color: var(--white);
     align-items: center;
+    margin-bottom: 1em;
 }
 
 .cards_list > .card {
@@ -182,85 +183,7 @@
 .containerPals .tag {
     font-size: 0.7em;
 }
-/*BOUTONS */
-.btn-container {
-    margin: 1em;
-    box-sizing: border-box; 
-}
 
-.btn_friends {
-    display: inline-block!important;
-    min-width: fit-content;
-    padding: 0.5em 1em;
-    width: 15em;
-    font-size: 1em;
-    border: 2px solid var(--primary-color);
-    border-radius: 4px;
-    background-color: var(--primary-400);
-    color: var(--white);
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
-}
-
-.btn_friends:hover {
-    background-color: var(--primary-200);
-    color: var(--neutral-100);
-    transform: scale(1.05);
-}
-
-.btn_friends:active {
-    transform: scale(0.98);
-}
-
-.btn_friends:disabled {
-    background-color: var(--neutral-200);
-    color: var(--neutral-500);
-    cursor: not-allowed;
-    border: 2px solid var(--neutral-300);
-}
-
-/*BOUTONS ACCEPTER/REFUSER*/
-.acceptContainer {
-    display: flex;
-    gap: 2em;
-    font-size: 1em !important;
-}
-
-.buttonn {
-    text-decoration: none;
-    text-align: center;
-    padding: 0.4em;
-    width: 5em;
-    min-width: fit-content;
-    border: 2px solid var(--primary-color);
-    border-radius: 4px;
-    background-color: var(--primary-400);
-    color: var(--white);
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
-}
-
-.buttonn:hover {
-    background-color: var(--primary-200);
-    color: var(--neutral-100);
-    transform: scale(1.05);
-}
-
-.btn_accept {
-    background-color: var(--primary-400);
-    color: var(--white);
-}
-.btn_accept:hover{
-    background-color:var(--secondary-300);
-}
-.btn_refuse {
-    background-color: var(--neutral-500);
-    color: black;
-}
-.btn_refuse:hover {
-    background-color: var(--primary-600);
-    color: var(--white);
-}
 
 /* ----------------- Media Queries ----------------- */
 @media (max-width: 800px) {
@@ -493,7 +416,9 @@ hr {
         overflow-x: auto;
         scrollbar-width: none;
     }
-}@import 'profile.css';
+}
+/*
+@import 'profile.css';
 :root {
     --personality-color: #ffffff; 
     --personality-color-pale: #ffffff; 
@@ -588,6 +513,10 @@ hr {
     border: 2px solid var(--personality-color);
 }
 /*-----------------MINI PARTIE POUR LES USERS CARDS */
+/*
+.myPalContainer{
+    gap: 1em;
+}
 .containerPals .cards_list {
     gap: 1em;
 }
@@ -607,6 +536,7 @@ hr {
     justify-content: space-between;  
   }
   /* IMAGE USER*/
+  /*
 .containerPals .card_long .banner {
     display: flex;
     height: 6em;
@@ -627,7 +557,7 @@ hr {
     object-fit: cover;
     border-radius: 50%;
 }
-/* INFORMATION USER*/
+/* INFORMATION USER
 .card_long .content_user {
     width: 50%;
     margin-left: 0;
@@ -677,7 +607,7 @@ hr {
 .containerPals .tag {
     font-size: 0.7em;
 }
-/*BOUTONS */
+/*BOUTONS 
 .btn-container {
     margin: 1em;
     box-sizing: border-box; 
@@ -714,7 +644,7 @@ hr {
     border: 2px solid var(--neutral-300);
 }
 
-/*BOUTONS ACCEPTER/REFUSER*/
+/*BOUTONS ACCEPTER/REFUSER
 .acceptContainer {
     display: flex;
     gap: 2em;
@@ -741,23 +671,8 @@ hr {
     transform: scale(1.05);
 }
 
-.btn_accept {
-    background-color: var(--primary-400);
-    color: var(--white);
-}
-.btn_accept:hover{
-    background-color:var(--secondary-300);
-}
-.btn_refuse {
-    background-color: var(--neutral-500);
-    color: black;
-}
-.btn_refuse:hover {
-    background-color: var(--primary-600);
-    color: var(--white);
-}
-
 /* ----------------- Media Queries ----------------- */
+/*
 @media (max-width: 800px) {
 .containerPals .card_long{
     width: 15em;
@@ -835,7 +750,7 @@ hr {
 
 
 /*--------------------------------------------------*/
-.banner img {
+/*.banner img {
     width: 100%;
     height: 100%;
     -o-object-fit: cover;
@@ -988,4 +903,4 @@ hr {
         overflow-x: auto;
         scrollbar-width: none;
     }
-}
+}*/

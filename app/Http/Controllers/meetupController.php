@@ -80,15 +80,17 @@ class meetupController extends BaseController
     // }
     public function showMyMeetup($id){
         $user = User::findOrFail($id);
-        $meetups = Meetup::getMeetupsByOwner($user->id);  
-        if ($meetups->isEmpty()) {
+        $meetups = Meetup::getMeetupsByOwner($user->id); 
+        $joinedMeetups = $user->joinedMeetups;
+        if ($meetups->isEmpty() && $joinedMeetups->isEmpty()) {
             return view('meetups.meetups', [
                 'message' => 'Aucune rencontre disponible', 
-                'meetups' => $meetups,                     
-                'user' => $user                           
+                'meetups' => $meetups,
+                'joinedMeetups' => collect(), 
+                'user' => $user,
             ]);
-        }        
-        return view('meetups.meetups', ['meetups' => $meetups, 'user' => $user]);  
+        }     
+        return view('meetups.meetups', ['meetups' => $meetups, 'user' => $user, 'joinedMeetups' => $joinedMeetups ]);  
     }
 
     public function meetup_detail($id){
@@ -117,7 +119,6 @@ class meetupController extends BaseController
     public function deleteMeetup($id)
     {
         if (!Auth::check()) {
-            Log::info("Utilisateur non authentifié. Redirection...");
             return redirect()->route('home')->with('error', 'Vous devez être connecté pour effectuer cette action.');
         }
         DB::statement('CALL DeleteMeetup(?)', [$id]);

@@ -17,21 +17,6 @@ if (!function_exists('isFriendRequestSend')){
         ->first();
 
         return $request ? $request->status : 'none';
-
-       /* $relation = Friendship_Request::GetUserRelationState($userId, $currentUserId);
-        if ($relation == 'GotBlocked') {
-            return 'Blocked';
-        }
-        if ($relation == 'Friend') {
-            return 'Friend';
-        }
-        $relationRequest = Friendship_Request::GetUserRelationState($currentUserId, $userId);
-        switch ($relationRequest) {
-            case 'sent': return 'SendingInvitation';
-            case 'receive': return 'Invited';
-            case 'refuse': return 'Refuse';
-            default: return 'None';
-        }*/
         }
 }
 
@@ -47,119 +32,113 @@ if (!function_exists('isSender')) {
     }
 }
 
+
+if (!function_exists('areFriends')) {
+    /**
+     * Vérifie si deux utilisateurs sont amis.
+     *
+     * @param int $currentUserId
+     * @param int $userId
+     * @return bool
+     */
+    function areFriends($currentUserId, $userId) {
+        return DB::table('relations')
+            ->where(function ($query) use ($currentUserId, $userId) {
+                $query->where('id_user1', $currentUserId)
+                      ->where('id_user2', $userId)
+                      ->where('type', 'Friend');
+            })
+            ->orWhere(function ($query) use ($currentUserId, $userId) {
+                $query->where('id_user1', $userId)
+                      ->where('id_user2', $currentUserId)
+                      ->where('type', 'Friend');
+            })
+            ->exists();
+    }
+}
 if (!function_exists('btn_setUpFriend')){
     function btn_setUpFriend($currentUserId, $userId) {
     
         if ($userId == $currentUserId) {
-            return ''; // Pas de bouton
+            return "
+                <button class=' ami btn_primary no_select'>
+                    <span>C'est moi</span>
+                </button>";
         }
         $requestStatus = isFriendRequestSend($currentUserId, $userId);
         $url = '';
         $btn_txt = '';
-        $btn_class = "btn_friends";
+        $btn_class = "ami btn_primary ";
         $isSender =isSender ($currentUserId, $userId) ;
-
-        switch ($requestStatus) {
-            case 'accepted':
-                $url = route("RemoveFriend", ["id" => $userId]);
-                $btn_txt = "Enlever l'amitié";
-                $btn_class = "btn_friends";
-                break;
-
-            case 'Blocked':
-                $btn_txt = "Vous êtes bloqué";
-                $btn_class = "btn_blocked";
-                break;
-
-            case 'pending':
-                if ($isSender) {
-                    $url = route("CancelFriendRequest", ["id" => $userId]);
-                    $btn_txt = "Annuler la demande";
-                    $btn_class = "btn_refuse";
-                } else {
-                    $url_accept = route("AcceptFriendRequest", ["id" => $userId]);
-                    $url_refuse = route("RefuseFriendRequest", ["id" => $userId]);
-                    $btn_txt_accept = "Accepter";
-                    $btn_txt_refuse = "Refuser";
-                    return "
-                    <div class='acceptContainer'>
-                        <a href='{$url_accept}'>
-                            <div class='buttonn btn_accept no_select'>{$btn_txt_accept}</div>
-                        </a>
-                        <a href='{$url_refuse}'>
-                            <div class='buttonn btn_refuse no_select'>{$btn_txt_refuse}</div>
-                        </a>
-                    </div>";
-                }
-                break;
-
-            case 'refused':
-                $btn_txt = "Vous avez été refusé";
-                $btn_class = "btn_refused";
-                break;
-
-            default: 
-                $url = route("SendFriendRequest", ["id" => $userId]);
-                $btn_txt = "Ajouter un ami(e)";
-                $btn_class = "btn_primary";
-                break;
-            }
-        
-                if (!empty($extra_html)) {
-                    return $extra_html;
-                }
-
-                return "
-                    <button class='{$btn_class} no_select btn_friends ' onclick=\"window.location.href='{$url}'\">
-                        <span>{$btn_txt}</span>
-                    </button>";        
-        }
-        
-
-    /*$currentUser = Auth::user();
-        $relation = Friendship_Request::GetUserRelationState($userId, $currentUserId);
-
-        if ($currentUser->id === $userId) {
-            return '';
-        }
-        $btn_txt = "";
-        $url = "";
-        $btn_class = "btn_friends";
-
-        if ($relation == "Friend") {
-            $url = route("RemoveFriend", ["id" => $userId]);
-            $btn_txt = "Enlever l'amitié";
-        } elseif ($relation == "Blocked") {
-            $btn_txt = "Vous êtes bloqué";
-        } elseif ($relation == "SendingInvitation") {
-            $url = route("CancelFriendRequest", ["id" => $userId]);
-            $btn_txt = "Annuler la demande";
-        } elseif ($relation == "Invited") {
-            $url_accept = route("AcceptFriendRequest", ["id" => $userId]);
-            $url_refuse = route("RefuseFriendRequest", ["id" => $userId]);
-            $btn_txt_accept = "Accepter";
-            $btn_txt_refuse = "Refuser";
+        $relation = areFriends($userId, $currentUserId);
+        $icon_symbol = '';
+        $removeText= '';
+        $remove="";
+        $txt_remove="";
+        if ($relation) {
+            $icon_symbol="check_circle";
             return "
-            <div class='acceptContainer'>
-                <a href='{$url_accept}'>
-                    <div class='buttonn btn_accept no_select'>{$btn_txt_accept}</div>
-                </a>
-                <a href='{$url_refuse}'>
-                    <div class='buttonn btn_refuse no_select'>{$btn_txt_refuse}</div>
-                </a>
-            </div>";
-        } elseif ($relation == "Refuse") {
-            $btn_txt = "Vous avez été refusé";
-        } else {
-            $url = route("SendFriendRequest", ["id" => $userId]);
-            $btn_txt = "Ajouter un ami(e)";
+                <div class='friend-menu'>
+                    <button class='ami grey btn_friends {$btn_class} no_select'>
+                        <span class='btn-text'>Ami(e)</span>
+                        <span class='material-symbols-rounded'>{$icon_symbol}</span>
+                        <span class='btn-text-remove'>Retirer l'ami(e)</span>
+                    </button>
+                </div>";
+        }
+        
+        else {
+            switch ($requestStatus) {
+                case 'Blocked':
+                    $btn_txt = "Vous êtes bloqué";
+                    $btn_class .= "btn_blocked";
+                    break;
+
+                case 'pending':
+                    if ($isSender) {
+                        $url = route("CancelFriendRequest", ["id" => $userId]);
+                        $btn_txt = "En attente";
+                        $btn_class .= "btn_refuse btn_primary";
+                        $removeText= 'Annuler la demande';
+                        $txt_remove='btn-text';
+                    } else {
+                        $url_accept = route("AcceptFriendRequest", ["id" => $userId]);
+                        $url_refuse = route("RefuseFriendRequest", ["id" => $userId]);
+                        $btn_txt_accept = "Accepter";
+                        $btn_txt_refuse = "Refuser";
+                        return "
+                        <div class='acceptContainer'>
+                            <a href='{$url_accept}'>
+                                <div class='ami btn_friends btn_accept btn_primary no_select'>{$btn_txt_accept}</div>
+                            </a>
+                            <a href='{$url_refuse}'>
+                                <div class='ami btn_refuse btn_primary no_select btn_friends'>{$btn_txt_refuse}</div>
+                            </a>
+                        </div>";
+                    }
+                    break;
+
+                case 'refused':
+                    $btn_txt = "Vous avez été refusé";
+                    $btn_class = "ami btn_refuse btn_primary ";
+                    break;
+
+                default: 
+                    $url = route("SendFriendRequest", ["id" => $userId]);
+                    $btn_txt = "Ajouter un ami(e)";
+                    break;
+            }
+        }
+        
+        if (!empty($removeText)) {
+            $remove = "<span class='btn-text-remove'>{$removeText}</span>";
         }
         return "
-        <button class='{$btn_class} no_select' onclick=\"window.location.href='{$url}'\">
-          <span>{$btn_txt}</span>
-        </button>";*/
-    
-    
+            <button class='btn_friends {$btn_class} no_select ' onclick=\"window.location.href='{$url}'\">
+                <span class='{$txt_remove}'>{$btn_txt}</span>
+                {$remove}
+            </button>";        
+    }       
 }
 
 if (!function_exists('isRequestSend')) {
@@ -194,10 +173,12 @@ if (!function_exists('btn_setUp')) {
         $url = '';
         $btn_txt = '';
         $btn_class = '';
+        $icon_symbol = '';
+        $btn_disabled  = '';
+
 
         if ($requestStatus == 'refused') {
             return '';
-        }
 
         if ($requestStatus == 'none') {
             $url = route("meetups.send_request", ["meetupId" => $meetupId]);
@@ -210,6 +191,13 @@ if (!function_exists('btn_setUp')) {
                 $btn_class = "btn_friends";
             } elseif ($requestStatus == 'pending') {
                 $btn_txt = "Annuler la demande";
+                $url = "#"; // Ne fait rien ici
+                $btn_class = "btn_refuse";
+            } elseif ($requestStatus == 'refused') {
+                $url = "#";
+                $btn_txt = "Refusé";
+                $btn_class = "btn_refuse";
+                $btn_disabled = "disabled"; 
                 $url = route("meetups.cancel_request", ["meetupId" => $meetupId]);
                 $btn_class = "btn_pending";
             }
@@ -223,4 +211,5 @@ if (!function_exists('btn_setUp')) {
                 </button>
             </form>";
     }
+   }
 }

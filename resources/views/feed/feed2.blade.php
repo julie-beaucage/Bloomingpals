@@ -238,7 +238,6 @@
         }
 
         removeLoading(friend);
-        console.log(new Date().getTime() - time);
     }
     function getData(list_users, list_meetups, feed) {
         //console.log(list_users);
@@ -282,7 +281,6 @@
                 fetchContent();
 
             }
-            console.log($('#content').scrollTop() + $('#content').height() - $(friend).height());
             // console.log($('#content').scrollTop()+$('#content').height());
         });
         fetchContent();

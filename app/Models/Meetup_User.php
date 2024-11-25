@@ -9,6 +9,14 @@ class Meetup_User extends Model
     protected $table= 'meetups_users';
 
     public $timestamps = false;
+
+    public static function getMeetupsByUser($userId)
+    {
+        return self::where('id_user', $userId)
+            ->join('meetups', 'meetups_users.id_meetup', '=', 'meetups.id')
+            ->get(['meetups.*']);
+    }
+
     public static function AddParticipant($userId, $meetupId) 
     {
         if (!Meetup_User::IsInRencontre($meetupId, $userId)) {

@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use App\Models\User_Interest;
 use App\Events\NewNotif;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 use Symfony\Component\HttpKernel\Profiler\Profile;
@@ -155,7 +156,6 @@ class UsersController extends Controller
             return redirect()->route('home')->with('error', 'Veuillez vous connecter pour accéder à votre profil.');
         }
         $user = User::find($id);
-
         if (!$user) {
             return redirect()->route('home')->with('error', 'Utilisateur non trouvé.');
         }
@@ -178,21 +178,33 @@ class UsersController extends Controller
         $profileCompletionPercentage = ($profileCompletion / 3) * 100;
         $profileCompletionPercentage = round($profileCompletionPercentage);
 
-        $relation = Relation::GetRelationUsers(Auth::user()->id, $id);
+        $relation = Relation::areFriends(Auth::user()->id, $id);
+        $mutualFriendsCount = 0;
+        $listFriends = Relation::GetFriendsProfile($id);
+        $currentUserFriends = Relation::GetFriendsProfile(Auth::user()->id);
+        foreach ($currentUserFriends as $friend) {
+            if ($listFriends->contains('friend_id', $friend->friend_id)) {
+                $mutualFriendsCount++;
+            }
+        }
         $haveAccess = false;
-
+        if($user->id == Auth::user()->id){
+            $haveAccess = true;
+        }
         if ($user->confidentiality == "prive" && $user->id == Auth::user()->id) {
             $haveAccess = true;
-        } else if ($user->confidentiality == "friends" && ($relation == "Friend" || $user->id == Auth::user()->id)) {
+        } else if ($user->confidentiality == "friends" && ($relation) ) {
             $haveAccess = true;
         } else if ($user->confidentiality == "public") {
             $haveAccess = true;
         }
-        $relationRequest=null;
-        if ($relation == 'GotBlocked') {
-            return redirect()->back();
-        } 
-        return view('profile.profile', compact('user', 'profileCompletionPercentage', 'emailVerified', 'interestsSelected', 'personalityTestDone', 'relation','modified', 'haveAccess'));
+        Log::info('Le résultat de l\'accès est : ' . $haveAccess);
+
+        return view('profile.profile', compact(
+        'user', 'profileCompletionPercentage', 
+        'emailVerified', 'interestsSelected', 
+        'personalityTestDone', 'relation',
+        'modified', 'haveAccess', 'listFriends','mutualFriendsCount'));
     }
 
 
@@ -258,7 +270,8 @@ class UsersController extends Controller
         if ($req->confidentiality != null and $id != null and $req->notification != null) {
             DB::table('users')->where('id', '=', $id)->update(['confidentiality' => $req->confidentiality, 'notification' => $req->notification]);
             DB::commit();
-            return redirect('/profile/'.Auth::user()->id);
+            return redirect('/profile/'.Auth::user()->id)->with('message', 'La confidentialité de votre profile à été changer');;
+
         }
     }
 
@@ -276,7 +289,39 @@ class UsersController extends Controller
     }
     public function updateAccount(Request $req)
     {
-        if ($req->password == null) {
+        $user = Auth::user();
+        $formFields = $req->validate([
+            'email' => ['nullable','email', 'max:100', Rule::unique('users', 'email')],
+            'password_old' => 'required',
+            'password' => 'nullable|min:8|confirmed',
+        ], [
+            'password_old.required' => 'L\'ancien mot de passe est obligatoire.',
+            'password.confirmed' => 'La confirmation du mot de passe ne correspond pas.',
+            'password.min' => 'Le mot de passe doit contenir au moins :min caractères.',
+        ]);
+        if (!empty($formFields['password_old']) && !Hash::check($formFields['password_old'], $user->password)) {
+            return response()->json([
+                'message' => "L'ancien mot de passe est incorrect.",
+                'errors' => ['password_old' => ["L'ancien mot de passe est incorrect."]],
+            ], 422);
+        }
+
+        $newPassword = !empty($formFields['password']) ? bcrypt($formFields['password']) : $user->password;
+        $newEmail = !empty($formFields['email']) ? $formFields['email'] : $user->email;
+        DB::statement("CALL updateAccount(?, ?, ?)", [
+            $user->id,
+            $newPassword,
+            $newEmail
+        ]);
+    
+        if (!empty($formFields['email']) && $formFields['email'] !== $user->email) {
+            $user->sendEmailVerificationNotification();
+        }
+    
+        return response()->json(['message' => 'Compte mis à jour avec succès.'], 200);
+    }
+        
+       /* if ($req->password == null) {
             $req->password = "";
         } else {
             $req->password = bcrypt($req->password);
@@ -292,14 +337,19 @@ class UsersController extends Controller
         if ($req->email != "") {
             Auth::user()->sendEmailVerificationNotification();
         }
-        return http_response_code(200);
-    }
+        return http_response_code(200);*/
 
     public function amis($id)
     {
         $user = User::find($id);
         $users = Relation::GetFriends($id);
-        return view('profile.amis', compact('user', 'users'));
+        Log::info($users);
+        $pendingRequests = Friendship_Request::getReceivedFriendRequests($id);
+        $pendingUsers = [];
+        foreach ($pendingRequests as $request) {
+            $pendingUsers[] = User::find($request->id_user_send); 
+        }
+        return view('profile.amis', compact('user', 'users', 'pendingUsers'));
     }
 
     public function personnalite($id)
