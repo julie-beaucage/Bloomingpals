@@ -179,6 +179,7 @@ if (!function_exists('btn_setUp')) {
 
         if ($requestStatus == 'refused') {
             return '';
+        }
 
         if ($requestStatus == 'none') {
             $url = route("meetups.send_request", ["meetupId" => $meetupId]);
@@ -210,6 +211,5 @@ if (!function_exists('btn_setUp')) {
                     <span>{$btn_txt}</span>
                 </button>
             </form>";
-    }
    }
 }
