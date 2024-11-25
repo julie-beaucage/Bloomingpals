@@ -205,7 +205,6 @@ async function changeChat(id, immediate = false) {
 
 async function displayImage(formData, id) {
     if (formData != null) {
-        console.log(formData);
         formData.append('_token',$('meta[name="csrf-token"]').attr('content'));
          $.ajax({
             url: "/saveImage",

@@ -159,8 +159,6 @@ $(document).ready(function () {
     function handleSearch() {
         const query = $('#search_field').val();
         const personalityGroups = getSelectedGroups();
-        console.log("Groupes sélectionnés finale:", personalityGroups);
-        console.log("Personnalités sélectionnées finale:", selectedPersonalities);
         updateSelectedInfo();
         searchUsers(query, personalityGroups, selectedPersonalities);
     }

@@ -205,6 +205,7 @@ body {
     font-family: Arial, sans-serif;
 }
 #footer{
+    margin-top: auto;
     background-color: var(--background-600);
     text-align: center;
     width: 100%;
@@ -215,11 +216,8 @@ body {
     height: 100px;
 }
 .menu__link:hover {
-    opacity: 1;
-    background-color: var(--primary-400);
-    padding:0.5em;
-    border-radius: 6px;
-  }
+    text-decoration: underline;
+}
 #footer{
     background-color: var(--background-600);
     text-align: center;
@@ -247,16 +245,8 @@ body {
     margin: 0 10px;
     display: inline-block;
     transition: 0.5s;
-    text-decoration: none!important;
     opacity: 0.75;
     font-weight: 300;
-  }
-  
-  .menu__link:hover {
-    opacity: 1;
-    background-color: var(--primary-400);
-    padding:0.5em;
-    border-radius: 6px;
   }
 /* -------------------- Navigation layout --------------------*/
 
@@ -966,12 +956,6 @@ a {
 .btn-text-remove {
     display: none; 
     margin-right: 8px;
-}
-
-.material-symbols-rounded {
-    font-size: 18px;
-    vertical-align: middle;
-    transition: all 0.3s ease; 
 }
 
 .btn_friends:hover .btn-text {

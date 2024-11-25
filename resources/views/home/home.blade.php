@@ -30,7 +30,7 @@
         <div class="carousel-wrapper" id="carousel-wrapper">
             <div class="carousel-card card-1" id="test">
                 <div class="carousel-text">
-                    <h2>Blooming Pals: Une expérience magique pour créer de nouveaux lieux</h2>
+                    <h2>BloomingPals: Une expérience magique pour créer de nouveaux lieux</h2>
                 </div>
                 <div class="image_login">
                     <img src="{{asset("../images/logoBloom.png")}}" alt="logo" class="imgLogo" />

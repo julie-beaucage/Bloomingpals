@@ -9,7 +9,7 @@
 @section("content")
 
 <div class="container_info_perso">
-    <h1>Les Types de Personnalité</h1>
+    <h1>Les types de personnalité</h1>
     <div class="category-perso analystes">
         <h2>Analystes</h2>
         <div class="accordion">

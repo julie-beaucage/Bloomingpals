@@ -162,7 +162,6 @@
                         },
                         success: function(data) {
                             $("#chat_title").text(name);
-                            console.log(data);
                         },
                         error: function(err) {
                             console.log(err);
@@ -180,7 +179,6 @@
                         "_token": $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(data) {
-                        console.log(data);
                         $("#chat_settings_cntr").hide();
                         $('#chat_cntr').css('display', 'none');
                         $('#menu_cntr').addClass('active');
