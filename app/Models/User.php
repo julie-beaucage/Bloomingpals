@@ -178,6 +178,4 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsToMany(Meetup::class, 'meetups_users', 'id_user', 'id_meetup');
     }
-
-
 }

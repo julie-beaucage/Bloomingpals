@@ -173,7 +173,15 @@ if (!function_exists('btn_setUp')) {
         $url = '';
         $btn_txt = '';
         $btn_class = '';
+<<<<<<<<< Temporary merge branch 1
         $icon_symbol = '';
+        $btn_disabled  = '';
+=========
+
+        if ($requestStatus == 'refused') {
+            return '';
+        }
+>>>>>>>>> Temporary merge branch 2
 
         if ($requestStatus == 'none') {
             $url = route("meetups.send_request", ["meetupId" => $meetupId]);
@@ -186,15 +194,21 @@ if (!function_exists('btn_setUp')) {
                 $btn_class = "btn_friends";
             } elseif ($requestStatus == 'pending') {
                 $btn_txt = "Annuler la demande";
+<<<<<<<<< Temporary merge branch 1
                 $url = "#"; // Ne fait rien ici
-                $btn_class = "btn_pending";
+                $btn_class = "btn_refuse";
             } elseif ($requestStatus == 'refused') {
                 $url = "#";
                 $btn_txt = "Refusé";
-                $btn_class = "btn_refused";
+                $btn_class = "btn_refuse";
                 $btn_disabled = "disabled"; 
+=========
+                $url = route("meetups.cancel_request", ["meetupId" => $meetupId]);
+                $btn_class = "btn_pending";
+>>>>>>>>> Temporary merge branch 2
             }
         }
+
         return "
             <form action='{$url}' method='POST'>
                 " . csrf_field() . "
