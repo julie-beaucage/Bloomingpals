@@ -8,12 +8,15 @@
 <link rel="stylesheet" href="{{ asset('css/interets.css') }}">
 <link rel="stylesheet" href="{{ asset('css/personality.css') }}">
 <link rel="stylesheet" href="{{ asset('css/palCard.css') }}">
+<link rel="stylesheet" href="{{ asset('css/information.css') }}">
 
 @endsection()
 @php
     $userPersonality = $user->getPersonalityGroup();
 @endphp
-
+@include('profile.settings-page')
+@include('profile.confidentiality')
+@include('profile.account-settings')
 @section('content')
     <div id="profile-overlay-cntr" class="overlay-cntr">
         @if ($user->id == Auth::user()->id)
@@ -36,12 +39,23 @@
 
             <h1 id="profile_name">{{ $user->first_name }} {{ $user->last_name }}
                 @if ($user->id == Auth::user()->id)
-                    <button class="icon-btn hover_darker" id="openProfileOverlay" title="Modifier profile"
-                        data-bs-toggle="modal" data-bs-target="#settings">
-                        <span class="material-symbols-rounded">settings</span>
+                    <button class="icon-btn hover_darker" id="openProfileOverlay" title="Modifier profil"
+                       onclick="showModal('overlaySetting')">
+                       <span class="material-symbols-rounded">settings</span>
                     </button>
                 @endif
             </h1>
+            <div id="profile-friends-section">
+                    <p>
+                      <strong>  {{ $listFriends->count() }} amis</strong>
+                    @if ($user->id !== Auth::user()->id)
+                        <span class="material-symbols-rounded">
+                          fiber_manual_record
+                        </span>
+                        <strong> {{ $mutualFriendsCount }} en commun </strong>
+                    </p>
+                    @endif
+            </div>
         @if (Auth::user()->id == $user->id)
             @if ($profileCompletionPercentage < 100)
                 <div class="alert alert-warning mt-3">
@@ -70,7 +84,7 @@
                     </div>
                 </div>
             @endif
-        @elseif ($relation == "Friend")
+        {{--!!@elseif ($relation == "Friend")
             <a href="{{ route("RemoveFriend", ["id" => $user->id])}}">
                 <div class="red_button no_select">Enlever l'amitier</div>
             </a>
@@ -92,7 +106,7 @@
                 </a>
             </div>
         @elseif ($relation == "Refuse")
-            <div class="grey_button">Vous avez été refusé</div>
+            <div class="grey_button">Vous avez été refusé</div>--}}
         @else
             {!! btn_setUpFriend(Auth::user()->id, $user->id) !!}
         @endif
@@ -121,14 +135,14 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="moreDropdown">
                                 <li class="nav-item" title="Events">
-                                    <a class="nav-link tab-link {{ request()->is('profile/events') ? 'active' : '' }}"
-                                        href="{{ route('profile.events', $user->id) }}"
-                                        data-target="profile/events">Événement</a>
+                                    <a class="nav-link tab-link {{ request()->is('profile/information') ? 'active' : '' }}"
+                                        href="{{ route('profile.info', $user->id) }}"
+                                        data-target="profile/biographie">Information</a>
                                 </li>
                                 <li class="nav-item" title="Rencontres">
-                                    <a class="nav-link tab-link {{ request()->is('profile/rencontres') ? 'active' : '' }}"
-                                        href="{{ route('profile.rencontres', $user->id) }}"
-                                        data-target="profile/rencontres">Rencontres</a>
+                                <a class="nav-link tab-link {{ request()->is('my-meetups') ? 'active' : '' }}"
+                                href="{{ route('meetups.show', $user->id) }}"
+                                data-target="meetups/meetups">Rencontres</a>
                                 </li>
                             </ul>
                         <li>
@@ -145,11 +159,18 @@
         </div>
         @endsection()
 
-@section('script')
+        @section('script')
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> 
+<script src="{{ mix('js/app.js') }}"></script>
 <script src="{{ asset('/js/profileOnglet.js') }}"></script>
 <script src="{{ asset('/js/resendEmail.js') }}"></script>
 <script>
+    const friendButton = document.querySelector('.btn_friends');
+    const friendOptions = document.getElementById('friend-options');
+
+    friendButton.addEventListener('click', function() {
+        friendOptions.classList.toggle('show-options');
+    });
     function Confirmm() {
         var pop_up_box = "<div class='pop-up-overlay'>" +
             "<div class='pop-up'>" +
@@ -158,30 +179,32 @@
             '</div>' +
             '<div>Votre profile à été mis à jour</div>' +
 
-                    "</div>" +
-                    "</div>";
+            "</div>" +
+            "</div>";
 
-                $('body').append(pop_up_box);
-            }
-            const crsf = $('meta[name="csrf-token"]').attr('content');
-            function removePop() {
-                $('.pop-up-overlay').remove();
-            }
-            function refreshFormFields() {
-                $("#password-enter").removeClass('is-invalid').val("");
-                $('#feedback-account').removeClass('invalid-feedback').text("Entrez votre mot de passe pour accéder à vos informations");
+        $('body').append(pop_up_box);
+    }
+    const crsf = $('meta[name="csrf-token"]').attr('content');
+    function removePop() {
+        $('.pop-up-overlay').remove();
+    }
+    function refreshFormFields() {
+        $("#password-enter").removeClass('is-invalid').val("");
+        $('#feedback-account').removeClass('invalid-feedback').text("Entrez votre mot de passe pour accéder à vos informations");
 
-                // Reset the new password input
-                $("#password-account").removeClass('is-invalid').val("");
-                $('#feedback-new-password').removeClass('invalid-feedback').text("");
+        // Reset the new password input
+        $("#password-account").removeClass('is-invalid').val("");
+        $('#feedback-new-password').removeClass('invalid-feedback').text("");
 
-                // Reset the confirm password input
-                $("#password-account2").removeClass('is-invalid').val("");
-                $('#feedback-new-password2').removeClass('invalid-feedback').val("");
+        // Reset the confirm password input
+        $("#password-account2").removeClass('is-invalid').val("");
+        $('#feedback-new-password2').removeClass('invalid-feedback').val("");
 
         $("#email").removeClass('is-invalid').val("");
         $('#feedback-account-email').removeClass('invalid-feedback').text("");
     }
+
+    /*
     function showModal(modalId) {
         document.getElementById(modalId).style.display = 'flex';
     }
@@ -189,7 +212,7 @@
     function closeModal(modalId) {
         document.getElementById(modalId).style.display = 'none';
     }
-
+*/
     function handlePersonalityTestClick() {
         @if (!$emailVerified)
             showModal('emailVerificationModal');
@@ -206,53 +229,55 @@
         @endif
     }
 
-            function closeVerificationModal() {
-                closeModal('emailVerificationModal');
-                document.getElementById('originalMessage').style.display = 'block';
-                document.getElementById('successMessage').style.display = 'none';
-            }
+    function closeVerificationModal() {
+        closeModal('emailVerificationModal');
+        document.getElementById('originalMessage').style.display = 'block';
+        document.getElementById('successMessage').style.display = 'none';
+    }
 
-            function handleSubmit(event) {
-                event.preventDefault();
-                fetch("{{ route('verification.resend') }}", {
-                    method: "POST",
-                    headers: {
-                        "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({})
-                })
-                    .then(response => {
-                        if (response.ok) {
-                            document.getElementById('originalMessage').style.display = 'none';
-                            document.getElementById('successMessage').style.display = 'block';
-                        } else {
-                            console.error("Échec de l'envoi de l'email de vérification.");
-                        }
-                    })
-                    .catch(error => console.error("Erreur réseau:", error));
-            }
-
-            function previewImage(event, previewId) {
-                const file = event.target.files[0];
-                const preview = document.getElementById(previewId);
-
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function (e) {
-                        preview.src = e.target.result;
-                    }
-                    reader.readAsDataURL(file);
+    function handleSubmit(event) {
+        event.preventDefault();
+        fetch("{{ route('verification.resend') }}", {
+            method: "POST",
+            headers: {
+                "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({})
+        })
+            .then(response => {
+                if (response.ok) {
+                    document.getElementById('originalMessage').style.display = 'none';
+                    document.getElementById('successMessage').style.display = 'block';
+                    console.log("Email de vérification renvoyé avec succès.");
+                } else {
+                    console.error("Échec de l'envoi de l'email de vérification.");
                 }
+            })
+            .catch(error => console.error("Erreur réseau:", error));
+    }
+
+    function previewImage(event, previewId) {
+        const file = event.target.files[0];
+        const preview = document.getElementById(previewId);
+
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                preview.src = e.target.result;
             }
+            reader.readAsDataURL(file);
+        }
+    }
 
     $(document).ready(function () {
-        $("#account-settings-password-form").submit(function (event) {
+        /*
+        $("#overlayPassword").submit(function (event) {
             event.preventDefault();
             $.ajax({
                 url: 'checkPassword',
                 type: "POST",
-                data: $("#account-settings-password-form").serialize(),
+                data: $("#overlayPassword").serialize(),
                 success: function (data) {
                     if (data == 1) {
                         $("#account-settings-password").modal('hide');
@@ -265,19 +290,14 @@
                 }
             });
 
-        });
-        document.getElementById('account-settings-form').addEventListener('submit', async function (e) {
+        });*/
+       
+       
+       /* document.getElementById('account-settings-form').addEventListener('submit', async function (e) {
             let data = new FormData(e.target);
             e.preventDefault();
 
             let error = false;
-
-            if (data.get('password') != data.get('password2')) {
-                const msg = "Les mots de passe sont différents";
-                $("#password-account, #password-account2").addClass('is-invalid');
-                $('#feedback-new-password, #feedback-new-password2').addClass('invalid-feedback').text(msg);
-                error = true;
-            }
 
             if (data.get('email') !== '') {
                 try {
@@ -291,8 +311,6 @@
                             }
                         });
                     });
-
-                    // Vérifier le résultat
                     if (result == 1) {
                         $("#email").addClass('is-invalid');
                         $('#feedback-account-email').addClass('invalid-feedback').text("Email déjà utilisé");
@@ -303,7 +321,6 @@
                     }
                 } catch (er) { }
             }
-
             if (!error) {
                 $("#account-settings").modal('hide');
                 $.ajax({
@@ -315,69 +332,146 @@
                     }
                 });
             }
+        });*/
+        $(document).ready(function () {
+    $('#account-settings-form').on('submit', function (e) {
+        e.preventDefault(); 
+
+        const email = $('#email').val() || null; 
+        const passwordOld = $('#old-password').val();
+        const password = $('#password-account').val();
+        const passwordConfirmation = $('#password-account2').val();
+
+        const formData = {
+            email: email,
+            password_old: passwordOld,
+            password: password,
+            password_confirmation: passwordConfirmation,
+            _token: $('meta[name="csrf-token"]').attr('content')
+        };
+
+        $.ajax({
+            url: '/profile/updateAccount', 
+            type: 'POST',
+            data: formData, 
+            success: function (response) {
+                console.log('Réponse du serveur : ', response);
+                alert('Modifications enregistrées avec succès.');
+                location.reload(); 
+            },
+            error: function (xhr) {
+                console.log("allo");
+                console.log(xhr.responseJSON);
+                const errors = xhr.responseJSON.errors;
+                console.log('Erreurs de validation : ', errors);
+
+                if (errors.email) {
+                    $('#feedback-account-email').text(errors.email[0]).css('color', 'red');
+                } else {
+                    $('#feedback-account-email').text('');
+                }
+
+                if (errors.password_old) {
+                    $('#feedback-old-password').text(errors.password_old[0]).css('color', 'red');
+                } else {
+                    $('#feedback-old-password').text('');
+                }
+
+                if (errors.password) {
+                    $('#feedback-new-password').text(errors.password[0]).css('color', 'red');
+                } else {
+                    $('#feedback-new-password').text('');
+                }
+
+                if (errors.password_confirmation) {
+                    $('#feedback-new-password2').text(errors.password_confirmation[0]).css('color', 'red');
+                } else {
+                    $('#feedback-new-password2').text('');
+                }
+            }
+        });
+    });
+});
+/*
+        document.getElementById('account-settings-form').addEventListener('submit', async function (e) {
+            e.preventDefault(); 
+
+            let data = new FormData(e.target);
+            let error = false;
+
+        if (data.get('email') !== '') {
+            try {
+                const result = await new Promise((resolve) => {
+                    $.ajax({
+                        url: '/profile/checkEmail',
+                        type: "POST",
+                        data: { email: data.get('email'), _token: crsf },
+                        success: function (res) {
+                            resolve(res);
+                        }
+                    });
+                });
+                if (result == 1) {
+                    $("#email").addClass('is-invalid');
+                    $('#feedback-account-email').addClass('invalid-feedback').text("Email déjà utilisé");
+                    error = true;
+                } else {
+                    $("#email").removeClass('is-invalid');
+                    $('#feedback-account-email').removeClass('invalid-feedback').text("");
+                }
+            } catch (er) { }
+        }
+
+        if (!error) {
+            $("#account-settings").modal('hide');
+            $.ajax({
+                url: '/profile/updateAccount',
+                type: "POST",
+                data: {
+                    email: $('#email').val(),
+                    password_old: $('#password_old').val(),
+                    password: $('#password-account').val(),
+                    password_confirmation: $('#password-confirmation').val(), 
+                    _token: crsf
+                },
+                success: function (res) {
+                    Confirmm();
+                },
+                error: function (xhr) {
+                // Vérifier la réponse JSON du serveur
+                if (xhr.responseJSON) {
+                    console.log('Erreur de validation:', xhr.responseJSON.errors);
+                    alert('Erreur : ' + xhr.responseJSON.message); // Affiche un message d'erreur générique
+                } else {
+                    console.log('Erreur inconnue:', xhr);
+                    alert('Une erreur inconnue s\'est produite');
+                }
+            }
+            });
+        }
+    });
+*/
+
+        $("#profile-content").on("DOMSubtreeModified", function () {
+            $(".close").each(function () {
+                $(this).click(function () {
+                    const modalId = $(this).data("modal-id");
+                    closeModal(modalId);
+                });
+            });
         });
 
-                $("#profile-content").on("DOMSubtreeModified", function () {
-                    $(".close").each(function () {
-                        $(this).click(function () {
-                            const modalId = $(this).data("modal-id");
-                            closeModal(modalId);
-                        });
-                    });
-                });
-
-                let arrows = document.querySelectorAll(".arrow");
-                arrows.forEach((elem) => {
-                    elem.addEventListener("click", function (event) {
-                        const arrow = event.target.parentNode.parentNode.lastElementChild;
-                        arrow.style.display = (arrow.style.display == "none") ? "block" : "none";
-                        event.target.innerHTML = (arrow.style.display == "block") ? "keyboard_arrow_down" : "keyboard_arrow_right";
-                    });
-                });
+        let arrows = document.querySelectorAll(".arrow");
+        arrows.forEach((elem) => {
+            elem.addEventListener("click", function (event) {
+                const arrow = event.target.parentNode.parentNode.lastElementChild;
+                arrow.style.display = (arrow.style.display == "none") ? "block" : "none";
+                event.target.innerHTML = (arrow.style.display == "block") ? "keyboard_arrow_down" : "keyboard_arrow_right";
             });
-        </script>
-        <script>
-            $(document).ready(function () {
-                var img = document.getElementById("background_img");
-                var color = document.getElementById("background_color");
+        });
+    });
+</script>
+<script src="{{asset('/js/flash.js')}}"></script>
+<script src="{{ asset('/js/layout.js') }}"></script>
 
-                img.onload = function () {
-                    var rgb = getAverageRGB(img);
-                    color.style.background = 'rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ')';
-                }
-
-                var rgb = getAverageRGB(img);
-                color.style.background = 'rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ')';
-            });
-            function getAverageRGB(img) {
-                var canvas = document.createElement('canvas'),
-                    context = canvas.getContext && canvas.getContext('2d'),
-                    data, width, height, i = -4, length, rgb = { r: 0, g: 0, b: 0 }, count = 0;
-
-                height = canvas.height = img.naturalHeight || img.offsetHeight || img.height;
-                width = canvas.width = img.naturalWidth || img.offsetWidth || img.width;
-
-                context.drawImage(img, 0, 0);
-
-                try {
-                    data = context.getImageData(0, height - 5, width, 1);
-                } catch (e) {
-                    return { r: 0, g: 0, b: 0 };
-                }
-
-                length = data.data.length;
-                while ((i += 20) < length) {
-                    count++;
-                    rgb.r += data.data[i];
-                    rgb.g += data.data[i + 1];
-                    rgb.b += data.data[i + 2];
-                }
-
-                rgb.r = ~~(rgb.r / count);
-                rgb.g = ~~(rgb.g / count);
-                rgb.b = ~~(rgb.b / count);
-
-                return rgb;
-            }
-        </script>
-        @endsection()
+@endsection()

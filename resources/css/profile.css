@@ -148,12 +148,7 @@ body {
     text-align: right;
 }
 
-.onglet_profile {
-    padding: 1em;
-    background-color: white;
-    overflow-y: auto;
-    flex-grow: 1;
-}
+
 
 .btnProfile {
     background: rgba(255, 255, 255, 0.2);
@@ -203,12 +198,14 @@ body {
     align-items: end;
     justify-content: center;
     gap: 0.5em;
+    
 }
 
 .nav-tabs {
     border-bottom: 0.0625em solid var(--neutral-200);
     align-items: center;
     flex-wrap: nowrap !important;
+    
 }
 
 .nav-tabs .nav-item {
@@ -222,6 +219,7 @@ body {
     font-size: 1em;
     border: none;
     border-bottom: 0.1875em solid transparent;
+    background-color: var(--white);
 }
 
 .nav-tabs .nav-link:hover {
@@ -363,8 +361,6 @@ body {
     padding: 0.5em 1em;
     cursor: pointer;
 }
-
-
 
 /* Mobile Styles */
 

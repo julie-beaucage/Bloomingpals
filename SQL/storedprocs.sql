@@ -89,7 +89,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE updateUserProfile(IN p_user_id INT,
      IN p_nom VARCHAR(50), 
      IN p_image_profil VARCHAR(500), 
      IN p_background_image VARCHAR(500), 
-     IN p_sexe ENUM('homme', 'femme', 'non-genre')
+     IN p_sexe ENUM('homme', 'femme', 'non-genre'),
+     IN p_bio VARCHAR(2000)
 )
 BEGIN
     UPDATE users

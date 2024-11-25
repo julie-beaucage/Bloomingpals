@@ -32,7 +32,11 @@
                         </option>
                     </select>
                 </div>
-
+                <div class="field">
+                    <label for="biographie">Biographie</label>
+                    <textarea id="biographie" name="bio" class="textarea-input_profile" rows="5"
+                        placeholder="Entrez votre biographie ici...">{{ Auth::user()->bio }}</textarea>
+                </div>
                 <div class="field image-container">
                     <label>Image de profil</label>
                     <input type="file" class="form-control" id="image_profile" name="image_profile"

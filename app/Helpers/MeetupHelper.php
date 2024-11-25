@@ -98,7 +98,7 @@ if (!function_exists('btn_setUpFriend')){
                     if ($isSender) {
                         $url = route("CancelFriendRequest", ["id" => $userId]);
                         $btn_txt = "En attente";
-                        $btn_class .= "btn_refuse btn_primary";
+                        $btn_class .= "btn_annuler btn_primary";
                         $removeText= 'Annuler la demande';
                         $txt_remove='btn-text';
                     } else {
@@ -120,7 +120,7 @@ if (!function_exists('btn_setUpFriend')){
 
                 case 'refused':
                     $btn_txt = "Vous avez été refusé";
-                    $btn_class = "ami btn_refuse btn_primary ";
+                    $btn_class = "ami btn_annuler btn_primary ";
                     break;
 
                 default: 

@@ -8,6 +8,7 @@
     "/js/home-Overlay-login.js": "/js/home-Overlay-login.js",
     "/js/flash.js": "/js/flash.js",
     "/js/messages.js": "/js/messages.js",
+    "/js/layout.js": "/js/layout.js",
     "/css/profile.css": "/css/profile.css",
     "/css/app.css": "/css/app.css",
     "/css/meetupForm_julie.css": "/css/meetupForm_julie.css",
@@ -27,6 +28,7 @@
     "/css/search.css": "/css/search.css",
     "/css/event.css": "/css/event.css",
     "/css/meetup.css": "/css/meetup.css",
+    "/css/information.css": "/css/information.css",
     "/css/palCard.css": "/css/palCard.css",
     "/css/cards.css": "/css/cards.css"
 }

@@ -5,8 +5,6 @@
                 <span class="title">Trier par personnalité: </span>
                 <span id="close_filter_btn_just" class="material-symbols-rounded no_select pointer">close</span>
             </div>
-            <div class="container_reset_btn">
-            </div>
             <div class="content">
                 <div class="filter_cntr selection_grid" data-param="group-personality">
                     <div class="selection_cell no_select hover_darker analystes" style="background-color: var(--personality-text-color)" data-id="analystes">

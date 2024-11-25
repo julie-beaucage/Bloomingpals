@@ -107,6 +107,24 @@ form {
     background-position-y: 50%;
 }
 
+.textarea-input_profile{
+    width: 100%;
+    padding: 0.5em 1em;
+    border-radius: 0.75em;
+    background-color: var(--white);
+    border: 1px solid var(--neutral-200);
+    font-size: 1em;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif !important;
+    cursor: pointer;
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+
+    background-position-x: calc(100% - 0.5em);
+    background-position-y: 50%;
+}
+
 .select-input:focus {
     outline: none;
     border: 1px solid var(--neutral-600);

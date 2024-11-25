@@ -98,9 +98,9 @@ CREATE TABLE IF NOT EXISTS users (
 	daily_notification datetime,
     confidentiality enum('public','friends','prive') DEFAULT 'public',
     notification tinyint DEFAULT 1,
+    bio VARCHAR(2000) NULL,
     FOREIGN KEY (personality) REFERENCES personalities (id)
 ) ENGINE=InnoDB;
-
 -- -----------------------------------------------------
 
 -- search_history --------------------------------

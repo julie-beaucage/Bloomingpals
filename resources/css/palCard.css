@@ -6,9 +6,114 @@
     --personality-text-color: #000000; 
     --personality-text-color-button: #ffffff; 
 }
-
-.cards_list {
+.containerPals{
+    width: 100%;
     display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.containerPals .filters_cntr{
+    max-height: fit-content !important;
+    height: 90%;
+    overflow: auto;
+}
+
+.containerPals .filters_cntr .content{
+    min-height: fit-content!important;
+    height: 100% !important;
+    max-height: 100% !important;
+    border-radius: 8px;
+    min-height: 70%;
+    background-color: rgba(245, 244, 244, 0.799);
+
+}
+.containerPals #absolute_cntr {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+}
+
+.containerPals #absolute_cntr::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.368);
+    opacity: 0.5;
+    z-index: -1;
+}
+.containerPals #inputs_cntr {
+    position: relative;
+}
+
+.containerPals #search_field {
+    padding-right: 25px; 
+}
+.containerPals .container_reset_btn{
+    padding:5px;
+    min-height: fit-content;
+    height: 2em;
+    color:#888;
+    margin-bottom:1em;
+}
+
+.containerPals .container_reset_btn .button{
+    border:solid 2px rgb(172, 171, 171);
+    font-family:"Poppins", sans-serif !important;
+    margin-left:4em;
+    padding:0.5em;
+    border-radius: 8px;
+}
+
+.containerPals .container_reset_btn .button:hover{
+ background-color: var(--primary-400);
+ color:var(--white)
+}
+
+.containerPals .clear-btn {
+  /*  position: absolute;
+    right: 4em; 
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none !important;
+    color: #888;
+    font-size: 16px;
+    cursor: pointer;
+    display: none; */
+}
+.containerPals #search_field:not(:placeholder-shown) + .clear-btn {
+    display: inline; 
+}
+
+.containerPals .selection_grid {
+    display: flex;
+    grid-template-columns: 1fr 1fr;
+}
+
+.containerPals .selection_grid>div {
+    height: auto;
+    min-height: fit-content;
+    display: block;
+}
+.containerPals::-webkit-scrollbar {
+    width: 12px;
+}
+
+.containerPals::-webkit-scrollbar-track {
+    background: rgba(149, 26, 26, 0.2) !important;
+    border-radius: 10px !important;
+}
+
+.containerPals::-webkit-scrollbar-thumb {
+    background-color: rgba(100, 100, 100, 0.5) !important; 
+    border-radius: 10px !important; 
+    border: 3px solid rgba(200, 200, 200, 0.2) !important; 
+}
+.cards_list {
+    /*display: flex;*/
     flex-direction: row;
     flex-wrap: wrap;
     gap: 2em;
@@ -28,7 +133,7 @@
 }
 
 .card_long {
-    width: 100%;
+    width: 80%;
     height: fit-content;
     border: 1px solid var(--neutral-200);
     border-radius: 1em;
@@ -39,6 +144,7 @@
     background-color: var(--white);
     align-items: center;
     margin-bottom: 1em;
+    margin-left: 2em;
 }
 
 .cards_list > .card {
@@ -67,16 +173,9 @@
     flex-shrink: 0;
 }
 
-@media only screen and (max-width: calc(800px)) {    
-    .cards_list > .card {
-        width: 100% !important;
-    }
-}
-
 .banner {
     background-color: var(--neutral-200);
 }
-
 .card > .banner {
     height: 18em;
     overflow: hidden;
@@ -100,10 +199,10 @@
 .containerPals .card_long{
     justify-content: flex-start;
     display: flex; 
-    flex-direction: column;
+   /* flex-direction: column;*/
     background-color: var(--personality-color-pale-more) !important;
-    height: 18em;
-    width: 20em;
+   /* height: 18em;
+    width: 20em;*/
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
 }
@@ -170,7 +269,7 @@
 }
 .containerPals .infos {
     color: var(--neutral-800) !important;
-    font-size: 0.8em !important;
+    font-size: 1em !important;
 }
 
 .tag_perso {
@@ -185,81 +284,6 @@
 }
 
 
-/* ----------------- Media Queries ----------------- */
-@media (max-width: 800px) {
-.containerPals .card_long{
-    width: 15em;
-}
-.containerPals .name{
-    font-size: 1.2em;
-}
-}
-@media (max-width: 600px) {
-    .containerPals .card_long {
-        height: 7.8em;
-        gap:0.2rem;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        flex-direction: row;
-    }
-    .containerPals .card_long > div:nth-child(2) {
-        width: 50%;
-    }
-    
-    .containerPals .card_long > div:nth-child(3) {
-        width: 40%; 
-    }
-    .containerPals .card_long .banner {
-        height: 4em;
-        width: 4em;
-    } 
-    .containerPals .name {
-        font-size: unset;
-    }
-    .card_long .content_user {
-        margin-left: 0;
-        display: flex;
-        flex-direction: column; 
-        justify-content: space-between; 
-        text-align: center;
-        gap:0.4rem;
-        align-items: center;
-    }
-    .tag_perso {
-        border-radius: 0.6em;
-        padding: 0.2em;
-        width: 1em;
-    }
-    .containerPals .card_long .btn-container {
-        margin-left: 0; 
-        width: 100%;
-        text-align: center;
-        justify-content: center;
-        align-items: center; 
-        margin:0.75em;
-    }
-    .containerPals  .btn_friends{
-        max-width: fit-content;
-        width: 100%!important;
-        height: 50%;
-
-    }
-    .acceptContainer {
-        display: block;
-        gap:0.2em;
-    }
-    .acceptContainer a {
-        margin-bottom: 10px;
-        width: 100%;
-        height: 100%;
-        box-sizing: border-box;
-    }
-    .buttonn{
-        margin-bottom: 10px;
-        width: -webkit-fill-available;
-    }
-}
 
 
 /*--------------------------------------------------*/
@@ -338,11 +362,7 @@
     display: block;
 }
 
-@media screen and (max-width: 600px) {
-    .card_long .header > .tag {
-        display: none;
-    }
-}
+
 
 .name {
     font-size: 1.5em;
@@ -406,7 +426,94 @@ hr {
 .cards_scroller:hover .scroll_btn {
     display: flex;
 }
+/* ----------------- Media Queries ----------------- */
+@media (max-width: 600px) {
+    .containerPals #absolute_cntr {
+        height: calc(100vh - 5em);
+        align-items: start;
+        overflow: scroll;
+    }
+   .filters_cntr {
+        width: 100%;
+        border-radius: 0 0 1em 1em;
+    }
 
+    .containerPals .card_long{
+        width: 100%;
+        margin-left:0;
+    }
+    .containerPals .name{
+        font-size: 1.2em;
+    }
+    }
+    @media (max-width: 300px) {
+
+        .containerPals .card_long {
+            height: 7.8em;
+            gap:0.2rem;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            flex-direction: row;
+        }
+        .containerPals .card_long > div:nth-child(2) {
+            width: 50%;
+        }
+        
+        .containerPals .card_long > div:nth-child(3) {
+            width: 40%; 
+        }
+        .containerPals .card_long .banner {
+            height: 4em;
+            width: 4em;
+        } 
+        .containerPals .name {
+            font-size: unset;
+        }
+        .card_long .content_user {
+            margin-left: 0;
+            display: flex;
+            flex-direction: column; 
+            justify-content: space-between; 
+            text-align: center;
+            gap:0.4rem;
+            align-items: center;
+        }
+        .tag_perso {
+            border-radius: 0.6em;
+            padding: 0.2em;
+            width: 1em;
+        }
+        .containerPals .card_long .btn-container {
+            margin-left: 0; 
+            width: 100%;
+            text-align: center;
+            justify-content: center;
+            align-items: center; 
+            margin:0.75em;
+        }
+        .containerPals  .btn_friends{
+            max-width: fit-content;
+            width: 100%!important;
+            height: 50%;
+    
+        }
+        .acceptContainer {
+            display: block;
+            gap:0.2em;
+        }
+        .acceptContainer a {
+            margin-bottom: 10px;
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+        }
+        .buttonn{
+            margin-bottom: 10px;
+            width: -webkit-fill-available;
+        }
+    }
+    
 @media (pointer:none), (pointer:coarse) {
     .scroll_btn {
         display: none !important;
@@ -417,6 +524,13 @@ hr {
         scrollbar-width: none;
     }
 }
+@media only screen and (max-width: calc(800px)) {    
+    .cards_list > .card {
+        width: 100% !important;
+    }
+}
+
+
 /*
 @import 'profile.css';
 :root {

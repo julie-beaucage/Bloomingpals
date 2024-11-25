@@ -214,6 +214,7 @@ class UsersController extends Controller
             'lastname' => ['required', 'min:3', 'max:20'],
             'firstname' => ['required', 'min:3', 'max:20'],
             'genre' => ['required', 'in:femme,homme,non-genre'],
+            'bio' => ['nullable', 'string', 'max:2000'],
         ]);
 
         DB::beginTransaction();
@@ -237,13 +238,14 @@ class UsersController extends Controller
                 $formFields['background_image'] = $user->background_image;
             }
 
-            DB::statement("CALL updateUserProfile(?, ?, ?, ?, ?, ?)", [
+            DB::statement("CALL updateUserProfile(?, ?, ?, ?, ?, ?,? )", [
                 $user->id,
                 $formFields['firstname'],
                 $formFields['lastname'],
                 $formFields['image_profile'],
                 $formFields['background_image'],
-                $formFields['genre']
+                $formFields['genre'],
+                $formFields['bio'],
             ]);
             DB::commit();
             return redirect()->route('profile', ['id' => $user->id])->with('success', 'Profil mis à jour avec succès!');
@@ -356,6 +358,29 @@ class UsersController extends Controller
     {
         return view('profile.personnalite', ['user' => User::findOrFail($id)]);
     }
+
+    public function info_show($id)
+    {
+        return view('profile.biographie', ['user' => User::findOrFail($id)]);
+    }
+    public function updateBio(Request $request, $id)
+    {
+        $user = Auth::user();
+    
+        if ($user->id == $id) {
+            $request->validate([
+                'bio' => 'nullable|string|max:1000',
+            ]);
+    
+            $user->bio = $request->input('bio');
+            $user->save();
+    
+            return redirect()->back()->with('success', 'Biographie mise à jour avec succès.');
+        }
+    
+        return redirect()->back()->with('error', 'Vous n\'êtes pas autorisé à modifier cette biographie.');
+    }
+    
 
     public function SendFriendRequest($id)
     {

@@ -187,7 +187,9 @@ class SearchController extends Controller
             if ($request->allFilters) {
                 $userAfficher = User::all();
             } 
-            return view('partial_views.user_cards', ['users' => $userAfficher])->render();   
+            //return view('partial_views.user_cards', ['users' => $userAfficher])->render();   
+            return view('partial_views.pal_card', ['users' => $userAfficher])->render();   
+
         }
         $users = User::all();
         return view('pals.pals', ['users' => $users]);

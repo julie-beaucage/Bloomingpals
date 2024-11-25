@@ -1,0 +1,27 @@
+@import 'profile.css';
+:root {
+    --personality-color: #ffffff; 
+    --personality-color-pale: #ffffff; 
+    --personality-color-pale-more: #ffffff; 
+    --personality-text-color: #000000; 
+    --personality-text-color-button: #ffffff; 
+}
+.profile-container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: var(--personality-color-pale-more) !important;
+}
+
+.biography {
+    margin-top: 20px;
+}
+.biography_profile{
+    background-color: white;
+    border-radius: 10px;
+    width: 100%;
+    padding:1em;
+    
+}

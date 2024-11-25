@@ -21,7 +21,7 @@ foreach ($users as $user) {
     $user_interests = User_Interest::where('id_user', $user->id)->get();
     $count = count($user_interests);
 
-    for ($i = 0; $i < $count && $i < 2; $i++) {
+   /* for ($i = 0; $i < $count && $i < 2; $i++) {
         $interest = Interest::find($user_interests[$i]->id_interest);
         if ($interest == null)
             continue;
@@ -30,7 +30,7 @@ foreach ($users as $user) {
 
     if ($count > 2) {
         $tags .= '<span class="tag square_tag">+' . ($count - 2) . '</span>';
-    }
+    }*/
 
     $userDataList[] = [
         'user' => $user,
@@ -69,7 +69,7 @@ usort($userDataList, function ($a, $b) use ($currentUser) {
                 <span>{{ $userData['affinity'] }}% d'affinité avec vous</span>
             </div>
             <div>
-              {{--!<span class="tag_perso {{ $userData['userPersonality'] }}">{{ $userData['userPersonalityType'] }}</span>--}}
+              <span class="tag_perso {{ $userData['userPersonality'] }}">{{ $userData['userPersonalityType'] }}</span>
             </div>
 
         </div>
@@ -77,8 +77,6 @@ usort($userDataList, function ($a, $b) use ($currentUser) {
              {!! btn_setUpFriend(auth()->id(), $userData['user']->id) !!}
         </div>
     </div>
-
-
 
     @if ($userData['user']->id === $currentUser->id)
         <hr>

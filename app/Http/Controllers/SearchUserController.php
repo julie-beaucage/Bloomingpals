@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Log;
 
 class SearchUserController extends Controller
 {
-    public function pals_index(Request $request)
+    /*public function pals_index(Request $request)
     {
         if ($request->ajax()) {
             $searchTerm = $request->get('search', '');
@@ -48,6 +48,6 @@ class SearchUserController extends Controller
         }
         $users = User::all();
         return view('pals.pals', ['users' => $users]);
-    }
+    }*/
 
 }
