@@ -232,11 +232,7 @@ END
 -- ------------------------------------------------------------------------------------------------
 DROP PROCEDURE IF EXISTS creerRencontre;
 DELIMITER //
-<<<<<<<<< Temporary merge branch 1
-CREATE PROCEDURE creerRencontre( _nom varchar(100), _description varchar(4096), _id_organisateur INT, _adresse Varchar(100), _ville Varchar(100), _date DATETIME ,_nb_participant INT, _image varchar(2048), _public Bool,_interets VARCHAR(1000))
-=========
 CREATE PROCEDURE creerRencontre( _nom varchar(100), _description varchar(4096), _id_organisateur INT, _adresse Varchar(100), _ville Varchar(100), _date DATETIME ,_nb_participant INT, _image varchar(1024), _public Bool)
->>>>>>>>> Temporary merge branch 2
 BEGIN
 
 	START TRANSACTION;
