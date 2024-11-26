@@ -59,6 +59,7 @@ switch($notification->name){
     
     case('Meetup Interest'):
         $linking='/meetup/'.$content->meetup->id;
+        $profil_link='/meetup/'.$content->meetup->id;
         $img_src=$content->meetup->image != null ? asset($content->meetup->image): asset('images\meetup_default'.rand(1,3).'.png');
         $header_text= truncate($content->header,35);
         $content_text=$content->message;

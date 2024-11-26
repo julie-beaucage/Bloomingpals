@@ -26,16 +26,17 @@
 
             $tags .= '<span class="tag" style="background-color: var(--category-'. $interest->id_category .')">' . $interest->name . '</span>';
         }
+        $meetImg= asset('images\meetup_default'.rand(1,3).'.png');
 
     @endphp
 
     <div class="background_cntr no_select">
         <div id="background_color"></div>
-        <img id="background_img" src="{{ $meetup['image'] ? "/".$meetup->image : asset('/images/R.jpg') }}" crossorigin="anonymous">
+        <img id="background_img" src="{{ $meetup['image'] ? "/".$meetup->image :$meetImg }}" crossorigin="anonymous">
     </div>
     <div id="event_cntr">
         <div class="banner">
-            <img id="banner_img" src="{{ $meetup['image'] ? "/".$meetup->image : asset('/images/R.jpg') }}" crossorigin="anonymous">
+            <img id="banner_img" src="{{ $meetup['image'] ? "/".$meetup->image : $meetImg }}" crossorigin="anonymous">
         </div>
         <div class="container_event">
             <div class="section">

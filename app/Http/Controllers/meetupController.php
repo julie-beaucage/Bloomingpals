@@ -22,7 +22,6 @@ use App\Models\User;
 use App\Models\Event;
 use App\Models\Meetup_Interest;
 use Illuminate\Support\Facades\Log;
-
 use Route;
 
 class MeetupController extends BaseController
@@ -244,6 +243,7 @@ class MeetupController extends BaseController
                 $data['isEvent'] = false;
             }
             $listCities = $this->getCities();
+            
 
             return view('meetups.form', compact('data', 'listCities'));
         }
@@ -315,7 +315,6 @@ class MeetupController extends BaseController
     }
     public function edit($id = null, Request $req)
     {
-
         if ($id != null) {
 
             $id_owner = Auth::user()->id;

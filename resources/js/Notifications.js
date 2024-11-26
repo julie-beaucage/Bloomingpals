@@ -51,7 +51,7 @@ $(document).ready(function () {
                 break;
 
             case 'Meetup Interest':
-                image = parsedData.meetup.image == null ? 'images/meetup_default' + Math.floor((Math.random() * 3) + 1) + '.png' : parsedData.meetup.image;
+                image = parsedData.meetup.image == "" ? 'images/meetup_default' + Math.floor((Math.random() * 3) + 1) + '.png' : parsedData.meetup.image;
 
                 header_text = parsedData.header;
                 linking = "/meetup/" + parsedData.meetup.id;
@@ -102,14 +102,15 @@ $(document).ready(function () {
         }
     });
     $('.notification-container-page').on('click', function (e) {
-        if(!(e.target.closest('a').length)){
+        console.log(e.target.tagName);
+        if(e.target.tagName !='A'){
             window.location.href = $(this).attr('linking');
         }
     });
     //handleNewNotification();
 
     function handleNewNotification() {
-        $('.notification-container').on('click', function (event) {
+        $('.notification-container').on('click', function (e) {
             if(e.target.tagName !='A'){
                 window.location.href = $(this).attr('linking');
             }
@@ -119,7 +120,7 @@ $(document).ready(function () {
             $(".notification-container").remove();
             notification_read = true;
         })
-        window.setTimeout(function () { if (!notification_read) { $(".notification-container").remove(); } }, 10 * 1000);
+       // window.setTimeout(function () { if (!notification_read) { $(".notification-container").remove(); } }, 10 * 1000);
     }
 
     let notif_read = false;

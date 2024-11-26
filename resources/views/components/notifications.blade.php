@@ -15,7 +15,7 @@
     <div class="container-notif" id="container-notification-toggle">
         @php
 
-            echo  count($notifications) < 1 ? '<div class="header-title text_center" style="margin-top:2em;"><b>Aucunes notifications</b></div>' : "";
+            echo  count($notifications) < 1 ? '<div class="header-title text_center" style="margin-top:2em;font-size:1.5em;"><b>Aucunes notifications</b></div>' : "";
         @endphp
         @foreach ($notifications as $notification)
             <x-notification :notification="$notification" />

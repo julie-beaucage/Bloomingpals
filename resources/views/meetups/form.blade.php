@@ -313,6 +313,7 @@
             });
 
             $('.fileUploader').removeClass('active-image');
+            $('.fileUploader').removeClass('active');
             $(this).hide();
         });
 
@@ -355,7 +356,7 @@
             $('.image-close').show();
         }
         function checkFile(file) {
-            const allowedMimes = ['image/jpeg', 'image/jpg', 'image/png'];
+            const allowedMimes = ['image/jpeg', 'image/jpg', 'image/png','image/bmp','image/webp'];
 
             if (allowedMimes.includes(file.type)) {
                 if (file.size > 2000000) {
