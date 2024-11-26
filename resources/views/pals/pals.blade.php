@@ -34,12 +34,6 @@
     document.getElementById('clear_btn').style.display = this.value ? 'inline' : 'none';
 });
 
-function clearSearch() {
-    const searchField = document.getElementById('search_field');
-    searchField.value = '';
-    searchField.focus();
-    document.getElementById('clear_btn').style.display = 'none';
-}
 
     function toggleCheckboxes(radio) {
     const checkboxContainer = radio.closest('.selection_cell').querySelector('.checkbox-container');
@@ -50,7 +44,6 @@ function clearSearch() {
     }
 }
 
-
 $(document).ready(function () {
     const selectionCells = $('.selection_cell[data-id]');
     let groupStates = {}; 
@@ -58,9 +51,12 @@ $(document).ready(function () {
     let selectedPersonalities = []; 
     let allFilters = false;
 
+
     $("#reset_btn").on('click', function () {
-        allFilters = true;
+        /*allFilters = true;
         const selectionCells = $('.selection_cell[data-id]');
+        const searchField = document.getElementById('search_field');
+        searchField.value = '';
         selectedGroups = []; 
         selectedPersonalities = []; 
         selectionCells.each(function () {
@@ -73,7 +69,8 @@ $(document).ready(function () {
           cell.find('input[type="radio"][value="tous"]').prop('checked', true);
           cell.find('.checkbox-container').hide(); 
           cell.find('input[type="checkbox"]').prop('checked', false); 
-        });
+        });*/
+        resetAll();
         updateSelectedInfo();
         fetchUsers(allFilters);
         allFilters = false;
@@ -127,6 +124,33 @@ $(document).ready(function () {
             handleSearch();
         });
     });
+    function resetAll() {
+        allFilters = true;
+        const selectionCells = $('.selection_cell[data-id]');
+        const searchField = document.getElementById('search_field');
+        searchField.value = '';
+        selectedGroups = []; 
+        selectedPersonalities = []; 
+        selectionCells.each(function () {
+          const cell = $(this);
+          const group = cell.data('id');
+          groupStates[group] = true;
+          selectedGroups.push(group); 
+          cell.addClass('selected'); 
+          cell.find('.containerRadioSelect').show();
+          cell.find('input[type="radio"][value="tous"]').prop('checked', true);
+          cell.find('.checkbox-container').hide(); 
+          cell.find('input[type="checkbox"]').prop('checked', false); 
+        });
+
+    }
+    function clearSearch() {
+        const searchField = document.getElementById('search_field');
+        searchField.value = '';
+        searchField.focus();
+        document.getElementById('clear_btn').style.display = 'none';
+        resetAll();
+    }
 
     function updateCellSelection(cell, group) {
         const checkboxContainer = cell.find('.checkbox-container');
@@ -159,6 +183,9 @@ $(document).ready(function () {
     function handleSearch() {
         const query = $('#search_field').val();
         const personalityGroups = getSelectedGroups();
+        if(personalityGroups.length==4){
+          allFilters=true;
+        }
         updateSelectedInfo();
         searchUsers(query, personalityGroups, selectedPersonalities);
     }

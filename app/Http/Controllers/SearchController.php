@@ -10,6 +10,7 @@ use App\Models\Event_Interest;
 use App\Models\Event_Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class SearchController extends Controller
 {
@@ -160,34 +161,38 @@ class SearchController extends Controller
     public function pals_index(Request $request)
     {
         if ($request->ajax()) {
-            $searchTerm = $request->get('search', '');
-            $users = User::where('first_name', 'like', '%' . $searchTerm . '%')->get();
-            $selectedGroups = $request->input('group_personality', []);
-            $typePersonality = $request->input('type_personality', []);
-            $userAfficher = collect();
+                $searchTerm = $request->get('search', '');
+                $selectedGroups = $request->input('group_personality', []);
+                $typePersonality = $request->input('type_personality', []);
+                $userAfficher = collect();
+                $users = User::all(); 
 
+            if (!empty($searchTerm)) {
+                $users = $users->filter(function ($user) use ($searchTerm) {
+                    return stripos($user->first_name, $searchTerm) !== false || stripos($user->last_name, $searchTerm) !== false;
+                });
+            }
+            $includeAll = $request->get('allFilters', false);
             if (!empty($selectedGroups)) {
                 $groupUsers = $users->filter(function ($user) use ($selectedGroups) {
                     $group = $user->getPersonalityGroup();
-                    return in_array($group, $selectedGroups);
+                    return in_array($group, $selectedGroups) || $user->personality == null; // Inclure les utilisateurs sans personnalité
                 });
                 $userAfficher = $userAfficher->merge($groupUsers);
             }
-
+    
             if (!empty($typePersonality)) {
                 $typeUsers = $users->filter(function ($user) use ($typePersonality) {
                     $type = $user->getPersonalityType();
-                    return in_array($type, $typePersonality);
-               
+                    return in_array($type, $typePersonality) || $user->personality == null; // Inclure les utilisateurs sans personnalité
                 });
-                $userAfficher = $userAfficher->merge($typeUsers);            
-             }
+                $userAfficher = $userAfficher->merge($typeUsers);
+            }
             $userAfficher = $userAfficher->unique('id');
             
             if ($request->allFilters) {
                 $userAfficher = User::all();
             } 
-            //return view('partial_views.user_cards', ['users' => $userAfficher])->render();   
             return view('partial_views.pal_card', ['users' => $userAfficher])->render();   
 
         }

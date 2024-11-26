@@ -970,11 +970,6 @@ a {
     transform: rotate(45deg); 
 }
 
-.btn-container {
-    margin: 1em;
-    box-sizing: border-box; 
-}
-
 .btn_friends {
     display: inline-block!important;
     min-width: fit-content;

@@ -206,6 +206,7 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
 }
+
 .banner, .content_user{
     display: flex;
     align-items: center;  
@@ -427,7 +428,72 @@ hr {
     display: flex;
 }
 /* ----------------- Media Queries ----------------- */
+@media (max-width: 860px) {
+    .containerPals .card_long{
+        width: 90%;
+    }
+    .containerPals .btn-container {
+        width: fit-content;
+        flex-direction: column; 
+        margin: 0.5em;
+      }
+      .containerPals .btn-container {
+        width: fit-content;
+        flex-direction: column; 
+      }
+      .ami.btn_friends{
+
+      }
+}
+@media (max-width: 700px) {
+    .containerPals .card_long{
+        width: 100%;
+    }
+    .containerPals .card_long{
+        width: 100%;
+        margin-left:0;
+        height: 10em;
+    }
+    .containerPals .card_long .btn-container {
+        margin-left: 0; 
+        width: 40%;
+        text-align: center;
+        justify-content: center;
+        align-items: center; 
+        margin:0.75em;
+    }
+    .containerPals  .btn_friends{
+        max-width: fit-content;
+         width: 40%!important;
+        height: 50%;
+
+    }
+    .acceptContainer {
+        display: block;
+        gap:0.2em;
+    }
+    .acceptContainer a {
+        margin-bottom: 10px;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+    }
+    .buttonn{
+        margin-bottom: 10px;
+        width: -webkit-fill-available;
+    }
+}
+
 @media (max-width: 600px) {
+    .containerPals  .btn_friends{
+        max-width: fit-content;
+        width: 80%!important;
+        height: 50%;
+
+    }
+    .containerPals{
+        background-color: rgb(192, 243, 255);
+    }
     .containerPals #absolute_cntr {
         height: calc(100vh - 5em);
         align-items: start;
@@ -437,15 +503,11 @@ hr {
         width: 100%;
         border-radius: 0 0 1em 1em;
     }
-
-    .containerPals .card_long{
-        width: 100%;
-        margin-left:0;
-    }
     .containerPals .name{
         font-size: 1.2em;
     }
-    }
+
+}
     @media (max-width: 300px) {
 
         .containerPals .card_long {
@@ -484,34 +546,8 @@ hr {
             padding: 0.2em;
             width: 1em;
         }
-        .containerPals .card_long .btn-container {
-            margin-left: 0; 
-            width: 100%;
-            text-align: center;
-            justify-content: center;
-            align-items: center; 
-            margin:0.75em;
-        }
-        .containerPals  .btn_friends{
-            max-width: fit-content;
-            width: 100%!important;
-            height: 50%;
-    
-        }
-        .acceptContainer {
-            display: block;
-            gap:0.2em;
-        }
-        .acceptContainer a {
-            margin-bottom: 10px;
-            width: 100%;
-            height: 100%;
-            box-sizing: border-box;
-        }
-        .buttonn{
-            margin-bottom: 10px;
-            width: -webkit-fill-available;
-        }
+
+
     }
     
 @media (pointer:none), (pointer:coarse) {

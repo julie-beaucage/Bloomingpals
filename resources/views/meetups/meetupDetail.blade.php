@@ -2,67 +2,38 @@
 
 @section('style')
     <link rel="stylesheet" href="{{ asset('css/event.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/meetupForm_julie.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/meetupForm.css') }}">
 @endsection()
 
 @section('content')
     @php
-        use App\Helpers\MeetupHelper;
-        use App\Models\Meetup_Interest;
-        use App\Models\Interest;
-
         $user = Auth::user();
         $currentParticipants = $meetup->participants()->count();
         $maxParticipants = $meetup->nb_participant;
         $placesLeft = $maxParticipants - $currentParticipants;
-
-        $btn = btn_setUp($user->id, $meetup);
-
-        $tags = "";
-        $meetup_interests = Meetup_Interest::where('id_meetup', $meetup->id)->get();
-        foreach ($meetup_interests as $meetup_interest) {
-            $interest = Interest::find($meetup_interest->id_interest);
-            if ($interest == null) continue;
-
-            $tags .= '<span class="tag" style="background-color: var(--category-'. $interest->id_category .')">' . $interest->name . '</span>';
-        }
-
     @endphp
-
     <div class="background_cntr no_select">
+        <button onclick="window.location.href='{{ route('profile', ['id' => $user->id]) }}?tab=meetups/meetups'" class="btn btn-primary">
+          Retour à Rencontres
+        </button>
         <div id="background_color"></div>
-        <img id="background_img" src="{{ $meetup['image'] ? "/".$meetup->image : asset('/images/R.jpg') }}" crossorigin="anonymous">
+        <img id="background_img" src="{{ $meetup['image'] }}" alt="Bannière de l'événement" crossorigin="anonymous">
     </div>
     <div id="event_cntr">
         <div class="banner">
-            <img id="banner_img" src="{{ $meetup['image'] ? "/".$meetup->image : asset('/images/R.jpg') }}" crossorigin="anonymous">
+            <img id="banner_img" src="{{ $meetup['image'] }}" alt="Bannière de l'événement" crossorigin="anonymous">
         </div>
         <div class="container_event">
             <div class="section">
                 <div id="event_header">
                     <h1 class="event_name">{{ $meetup->name }}</h1>
-                    <div class="tags">
-                        @php echo $tags @endphp
-                    </div>
                 </div>
-                {!! $btn !!}
+                <h3>Organisé par {{ $meetup->owner->first_name }} {{ $meetup->owner->last_name }}</h3>
             </div>
             <div class="section">
-                <h2 class="title">Organisateur</h2>
-                <a class="owner_cntr" href="/profile/{{$meetup->owner->id}}">
-                    <div class="banner_owner {{ $meetup->owner->getPersonalityGroup(); }}">
-                        <img src="{{ $meetup->owner->image_profil ? asset('storage/' . $meetup->owner->image_profil) : asset('/images/simple_flower.png'); }}">
-                    </div>
-                    <div class="content">
-                        <span class="name">{{ $meetup->owner->full_name }}</span>
-                        @if ($user->id != $meetup->owner->id)
-                            <span>{{ $user->calculateAffinity($meetup->owner->id, $user->id); }}% d'affinité avec vous</span>
-                        @endif()
-                    </div>
-                </a>
-            </div>
-            
-            <div class="section">
+                <div class="meetup-btn">
+                  {!! btn_setUp(auth()->id(), $meetup) !!}
+                </div>
                 <h2 class="title">Informations</h2>
                 <div class="showcase">
                     <div>
@@ -80,35 +51,33 @@
                         </span>
                         <span class="text_center">
                             {{ $meetup["city"] }}
-                        </span>
+                        </span>4
+                    </div>
+                    <div>
+                        <b>Participant(s)</b>
+                        <span class="text_center no_wrap">
+                        {{ $currentParticipants }}/{{ $maxParticipants }}
+                    </span>
                     </div>
                 </div>
             </div>
-            <div class="section">
-                <div class="header_linked">
-                    <h2 class="title">Participants <span class="text_light">({{ count($meetup->participants) }})</span></h2>
-                    @if ($user->id == $meetup->owner->id)
-                        <a class="link_grey" href="/meetup/{{$meetup->id}}/meetupManager">Voir les demandes</a>
-                    @endif()
+            <div class="request-list">
+                <h3>Participant(s):</h3>
+                <div class="accepted_participants">
+                @forelse($meetup->participants as $participant)
+                    <div class="request_user_container card_long no_select hover_darker" onclick="window.location.href = '{{ route('profile', ['id' => $participant->id]) }}';">
+                        <div class="banner {{ $participant->userPersonality }}">
+                            <img src="{{ asset('storage/' . $participant->image_profil) }}" alt="Image de profil de {{ $participant->first_name }} {{ $participant->last_name }}">
+                        </div>
+                        <div class="info_name">
+                            <p>{{ $participant->first_name }} {{ $participant->last_name }}</p>
+                        </div>
+                    </div>
+                @empty
+                    <p>Aucun participant</p>
+                @endforelse
                 </div>
-                <div>
-                    @if (count($meetup->participants) == 0)
-                        <span>Aucun participant pour le moment</span>
-                    @else
-                        @foreach ($meetup->participants as $participant)
-                            <a class="owner_cntr" href="/profile/{{$participant->id}}">
-                                <div class="banner_owner {{ $participant->getPersonalityGroup(); }}">
-                                    <img src="{{ $participant->image_profil ? asset('storage/' . $participant->image_profil) : asset('/images/simple_flower.png'); }}">
-                                </div>
-                                <div class="content">
-                                    <span class="name">{{ $participant->full_name }}</span>
-                                    <span>{{ $user->calculateAffinity($participant->id, $user->id); }}% d'affinité avec vous</span>
-                                </div>
-                            </a>
-                        @endforeach
-                    @endif
-                </div>
-            </div>
+           </div>
         </div>
     </div>
 @endsection()
