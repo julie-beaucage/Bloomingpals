@@ -79,17 +79,18 @@ class MeetupController extends BaseController
     // }
     public function showMyMeetup($id){
         $user = User::findOrFail($id);
-        $meetups = Meetup::getMeetupsByOwner($user->id); 
-        $joinedMeetups = $user->joinedMeetups;
-        if ($meetups->isEmpty() && $joinedMeetups->isEmpty()) {
-            return view('meetups.meetups', [
-                'message' => 'Aucune rencontre disponible', 
-                'meetups' => $meetups,
-                'joinedMeetups' => collect(), 
-                'user' => $user,
-            ]);
-        }     
-        return view('meetups.meetups', ['meetups' => $meetups, 'user' => $user, 'joinedMeetups' => $joinedMeetups ]);  
+        $meetups = Meetup::join('meetups_users', 'meetups.id', '=', 'meetups_users.id_meetup')
+        ->where('meetups.id_owner', $id)
+        ->orWhere('meetups_users.id_user', $id)
+        ->get();
+        
+        $view = view('partial_views.meetup_cards', ['meetups' => $meetups]);
+
+        return <<< HTML
+            <div class="cards_list">
+                $view
+            </div>
+        HTML;
     }
 
     public function meetup_detail($id){
