@@ -178,15 +178,12 @@ $(document).ready(function () {
     getNotifications();
 
     function getNotifications() {
-        console.log("get");
         $.ajax({
             type: "GET",
             url: '/notifications',
             contentType: "application/json"
         }).done((data) => {
-            console.log(data);
             FillNotifications(data);
-            
         });
     }
     function timeDifference(startDate, endDate) {

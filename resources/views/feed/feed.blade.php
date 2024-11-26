@@ -178,10 +178,10 @@
                     }
                 }
 
-                action = `<a class="feed-post hover_darker pointer" href="${link}">
-                    <div class="feed-header" href="${"profile/" + user.id}">
-                        <img class="profile-img" src="${image}" alt="Profile" location="${"profile/" + user.id}">
-                        <div class="feed-user-info">
+                action = `<a class="feed-post hover_darker pointer" linking="${link}">
+                    <div class="feed-header" >
+                        <img class="profile-img" src="${image}" alt="Profile" location="${"/profile/" + user.id}">
+                        <div class="feed-user-info" location="${"/profile/" + user.id}">
                             <strong>${name}</strong>
                             <div></div>
                         </div>
@@ -195,10 +195,10 @@
                 </a>`;
 
                 if (noImage == true) {
-                    action = `<a class="feed-post hover_darker pointer" href="${link}">
-                    <div class="feed-header" href="${"profile/" + user.id}">
-                        <img class="profile-img" src="${image}" alt="Profile" location="${"profile/" + user.id}">
-                        <div class="feed-user-info" location="${"profile/" + user.id}">
+                    action = `<a class="feed-post hover_darker pointer" linking="${link}">
+                    <div class="feed-header">
+                        <img class="profile-img" src="${image}" alt="Profile" location="${"/profile/" + user.id}">
+                        <div class="feed-user-info" location="${"/profile/" + user.id}">
                             <strong>${name}</strong>
                             <div></div>
                         </div>
@@ -215,12 +215,17 @@
                     </div>
                 </a>`;
                 }
+                action=$(action);
                 $(friend).append(action);
-                console.log($(action).find('img'));
-                $(action).find('img').on('click',function () {
+                $(friend).find(action).on('click',function(e){
+                    if(!e.target.hasAttribute('location') && !e.target.parentNode.hasAttribute('location')){
+                        window.location.href=$(this).attr('linking');
+                    }
+                });
+                action.find('img').on('click',function () {
                     window.location.href=$(this).attr('location');                    
                 });
-                $(action).find('.feed-user-info').on('click',function(){
+                action.find('.feed-user-info').on('click',function(){
                     window.location.href=$(this).attr('location');
                 });
             } else if (feed[i].type == 'Event') {
