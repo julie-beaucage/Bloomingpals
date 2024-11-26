@@ -194,7 +194,10 @@ textarea {
     font-size: 1em;
     font-family: inherit;
     width: 100%;
+    -webkit-appearance: none;
+    background-color: var(--white);
 }
+input
 
 .radio-flex {
     width: -moz-fit-content;
