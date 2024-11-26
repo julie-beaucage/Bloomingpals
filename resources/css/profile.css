@@ -268,6 +268,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 40em;
+    margin-top: .5em;
 }
 
 .onglet_profile {
@@ -293,6 +294,7 @@ body {
 
 #profile_name > button > span {
     font-size: 1em;
+    color: black;
 }
 
 .profile-settings{

@@ -12,7 +12,7 @@
         <div class="header_btns">
             <a class="navbar_notification pointer no_select" style="display:flex; align-items: center;">
                 @if($notif_count != 0)
-                    <div class="notification-container">
+                    <div class="">
                         <span class="notification-badge">
                             <span class="notif-count">{{$notif_count}}</span>
                         </span>

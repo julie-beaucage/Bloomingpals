@@ -1,5 +1,4 @@
 <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
-
 @if (is_null($personality))
 
 <div class="personality-container-empty">

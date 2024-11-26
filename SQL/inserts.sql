@@ -595,7 +595,93 @@ INSERT INTO types_actions (name) VALUES('Meetup Join');
 INSERT INTO types_actions (name) VALUES('Personality Test');
 
 -- Feed
-CALL fillFeed(2);
+-- CALL fillFeed(2);
+INSERT INTO meetups(name, description, id_owner, adress,city, date, nb_participant, public,image) 
+    VALUES("Badminton au Tennis 13", "Vener me rejoindre pour jouer avec moi du badminton au tennis 13. Joueur avancé svp",
+    20, "1013 Autoroute 13",'Laval', DATE '2024-12-04', 4, 1,'images//tennis13.png');
+
+INSERT INTO meetups_interests (id_interest, id_meetup) VALUES (23, 6);
+
+INSERT INTO meetups(name, description, id_owner, adress,city, date, nb_participant, public,image) 
+    VALUES("Marche dans le parc La Fontaine", "Le parc La Fontaine, situé au cœur de Montréal, est un véritable havre de paix.
+    Avec ses vastes espaces verts, ses lacs et ses sentiers, 
+    il invite à la détente et aux activités en plein air. Ce parc offre aussi des aires de jeux, 
+    des sculptures et des événements culturels.", 
+    19, "3819 Av. Calixa-Lavallée",'Montréal', DATE '2024-12-12', 3, 1,'images//parc.jpg');
+
+INSERT INTO meetups_interests (id_interest, id_meetup) VALUES (113, 7);
+INSERT INTO meetups_interests (id_interest, id_meetup) VALUES (109, 7);
+
+INSERT INTO meetups(name, description, id_owner, adress,city, date, nb_participant, public,image) 
+    VALUES("Baignade", "Bonjour à tous, je invite à me rejoindre dans la piscine du collège Laval pour construire dans fort flottant et faire des sauts de tremplin", 
+    20, "1275 Av. du Collège",'Laval', DATE '2024-12-01', 6, 1,'images//piscine.jpeg');
+    
+INSERT INTO meetups_interests (id_interest, id_meetup) VALUES (7, 8);
+INSERT INTO meetups_interests (id_interest, id_meetup) VALUES (8, 8);
+
+INSERT INTO meetups(name, description, id_owner, adress,city, date, nb_participant, public,image) 
+    VALUES("Escape Game", "Penser-vous êtres assez malin pour venir avec faire une escape game et gagner. Rejoignez moi au Cube Secret !",
+    18, "4289 Laurentian Autoroute",'Laval', DATE '2024-12-04', 6, 1,'images//escape.jpg');
+
+INSERT INTO meetups_interests (id_interest, id_meetup) VALUES (109, 9);
+
+INSERT INTO meetups(name, description, id_owner, adress,city, date, nb_participant, public,image) 
+    VALUES("Concert de musique baroque et ancienne", "Avec Blessed Echoes (« échos bénis »), 
+    l’ensemble Près de votre oreille propose un riche parcours dans la
+    musique vocale élisabéthaine. Une véritable incursion dans un genre qui fut très prisé à l’époque : la « lute song » (chanson avec luth).",
+    18, "1380, rue Sherbrooke Ouest",'Montréal', DATE '2024-12-10', 2, 1,'images//baroque.webp');
+
+INSERT INTO meetups_interests (id_interest, id_meetup) VALUES (53, 10);
+INSERT INTO meetups_interests (id_interest, id_meetup) VALUES (76, 10);
+INSERT INTO meetups_interests (id_interest, id_meetup) VALUES (77, 10);
+
+INSERT INTO meetups(name, description, id_owner, adress,city, date, nb_participant, public,image) 
+    VALUES("Biodôme de Montréal", "Le Biodôme de Montréal, situé dans le Parc Olympic, est un musée vivant qui reproduit différents écosystèmes du continent américain. Les visiteurs peuvent y découvrir des forêts tropicales, des récifs marins, des régions subarctiques et des forêts laurentiennes, offrant une immersion unique dans la faune et la flore. Grâce à ses installations interactives et ses expositions éducatives, le Biodôme sensibilise à la conservation de la biodiversité et à l'importance de la protection de l'environnement. Un lieu fascinant pour les familles, les passionnés de nature et les curieux, alliant découverte, éducation et respect de l'écosystème.",
+    17, "4777 Pierre-de Coubertin Ave",'Montréal', DATE '2024-12-15', 4, 1,'images//biodome.jpeg');
+    
+INSERT INTO meetups_interests (id_interest, id_meetup) VALUES (97, 11);
+INSERT INTO meetups_interests (id_interest, id_meetup) VALUES (44, 11);
+
+INSERT INTO meetups(name, description, id_owner, adress,city, date, nb_participant, public,image) 
+    VALUES("Chez Lionel", "c'est un super bon restaurent ! Venez souper avec moi, on vas passer une superbe soirée et on vas se régaler",
+    17, "4777 Pierre-de Coubertin Ave",'Montréal', DATE '2024-11-29', 3, 1,'images//lionel.jpeg');
+    
+INSERT INTO meetups_interests (id_interest, id_meetup) VALUES (100, 12);
+INSERT INTO meetups_interests (id_interest, id_meetup) VALUES (104, 12);
+
+INSERT INTO meetups(name, description, id_owner, adress,city, date, nb_participant, public,image) 
+    VALUES("Bâton Rouge", "Bâton Rouge à Laval est un restaurant populaire connu pour sa cuisine grillée, notamment ses steaks, côtes levées et poissons. L’ambiance chaleureuse et moderne en fait un endroit idéal pour des repas entre amis ou en famille. Le service est attentionné, et le menu propose une variété de plats savoureux.",
+    19, "1600, boulevard Laval",'Laval', DATE '2024-11-30', 3, 1,'images//baton_rouge.jpg');
+    
+INSERT INTO meetups_interests (id_interest, id_meetup) VALUES (100, 13);
+
+
+-- feed
+Call addAction(20,'Meetup Create',json_object('meetup',6));
+Call addAction(19,'Meetup Create',json_object('meetup',7));
+Call addAction(20,'Meetup Create',json_object('meetup',8));
+Call addAction(18,'Meetup Create',json_object('meetup',9));
+Call addAction(18,'Meetup Create',json_object('meetup',10));
+Call addAction(17,'Meetup Create',json_object('meetup',11));
+Call addAction(17,'Meetup Create',json_object('meetup',12));
+Call addAction(19,'Meetup Create',json_object('meetup',13));
+
+Call addActionPerso(1,'Personality Test',1);
+Call addActionPerso(3,'Personality Test',2);
+Call addActionPerso(4,'Personality Test',3);
+Call addActionPerso(5,'Personality Test',4);
+Call addActionPerso(7,'Personality Test',5);
+Call addActionPerso(8,'Personality Test',6);
+Call addActionPerso(9,'Personality Test',7);
+Call addActionPerso(11,'Personality Test',8);
+Call addActionPerso(12,'Personality Test',9);
+Call addActionPerso(13,'Personality Test',10);
+Call addActionPerso(14,'Personality Test',11);
+Call addActionPerso(15,'Personality Test',12);
+Call addActionPerso(16,'Personality Test',13);
+Call addActionPerso(18,'Personality Test',14);
+Call addActionPerso(19,'Personality Test',15);
+Call addActionPerso(20,'Personality Test',16);
 
 -- Evenement --
 CALL addEvent ('Tori Kelly', '', 'Musique', 'Montreal', '59 St Catherine Est', '2024-10-22 00:00:00', 'Paid', '//images.ctfassets.net/3yxl57nu0yl4/ZvkgASpWsMVv5Xr3RLNEz/e4b9c537ee8c00f15fef16a71b0c8e93/tori_kelly_2024.jpg');

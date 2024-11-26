@@ -190,9 +190,14 @@ textarea {
     border-radius: 4px;
     height: 1.5em;
     max-width: calc(100% - .5em);
-    max-height: 10em;
+    max-height: 15em;
     font-size: 1em;
+    font-family: inherit;
+    width: 100%;
+    -webkit-appearance: none;
+    background-color: var(--white);
 }
+input
 
 .radio-flex {
     width: -moz-fit-content;
@@ -214,6 +219,7 @@ input:focus,textarea:focus{
 }
 textarea {
     min-height: 3em;
+    resize:vertical;
 }
 
 

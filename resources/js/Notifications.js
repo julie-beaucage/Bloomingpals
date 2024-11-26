@@ -102,8 +102,7 @@ $(document).ready(function () {
         }
     });
     $('.notification-container-page').on('click', function (e) {
-        console.log(e.target.tagName);
-        if(e.target.tagName !='A'){
+        if (e.target.tagName != 'A' && !($(e.target).hasClass('close_icon-page'))) {
             window.location.href = $(this).attr('linking');
         }
     });
@@ -111,7 +110,7 @@ $(document).ready(function () {
 
     function handleNewNotification() {
         $('.notification-container').on('click', function (e) {
-            if(e.target.tagName !='A'){
+            if (e.target.tagName != 'A') {
                 window.location.href = $(this).attr('linking');
             }
         });
@@ -120,7 +119,7 @@ $(document).ready(function () {
             $(".notification-container").remove();
             notification_read = true;
         })
-       // window.setTimeout(function () { if (!notification_read) { $(".notification-container").remove(); } }, 10 * 1000);
+        // window.setTimeout(function () { if (!notification_read) { $(".notification-container").remove(); } }, 10 * 1000);
     }
 
     let notif_read = false;
@@ -139,11 +138,11 @@ $(document).ready(function () {
                 $('.notification-badge').hide();
                 $(".close_icon-page").off();
                 $(".close_icon-page").on('click', function () {
-                    $.ajax({
-                        type: "DELETE",
-                        url: '/notifications/delete',
-                        data: { id: $(this).attr('id'), _token: crsf }
-                    });
+                    // $.ajax({
+                    //     type: "DELETE",
+                    //     url: '/notifications/delete',
+                    //     data: { id: $(this).attr('id'), _token: crsf }
+                    // });
                     $(this).off();
                     let container = $(this).closest('.notification-container-page');
                     container.addClass('border-red');
@@ -168,11 +167,11 @@ $(document).ready(function () {
     });
 
     $(".close_icon-page").on('click', function () {
-        $.ajax({
-            type: "DELETE",
-            url: '/notifications/delete',
-            data: { id: $(this).attr('id'), _token: crsf }
-        });
+        // $.ajax({
+        //     type: "DELETE",
+        //     url: '/notifications/delete',
+        //     data: { id: $(this).attr('id'), _token: crsf }
+        // });
         $(this).off();
         let container = $(this).closest('.notification-container-page');
         container.addClass('border-red');

@@ -54,6 +54,8 @@
     background-color: var(--white);
     border: 1px solid var(--neutral-200);
     border-radius: 0.75em;
+    color: black;
+    
 }
 
 #categories_cntr {
@@ -77,6 +79,7 @@
     background-color: var(--white);
     border: 1px solid var(--neutral-200);
     border-radius: 0.75em;
+    color: black;
 }
 
 #categories_cntr>.selected {
