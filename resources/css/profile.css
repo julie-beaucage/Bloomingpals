@@ -1,3 +1,6 @@
+#footer {
+    display: none;
+}
 
 .analystes {
     --personality-color: #c3b0cd !important;
