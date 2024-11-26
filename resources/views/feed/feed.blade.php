@@ -3,6 +3,7 @@
 @section('style')
 <link rel="stylesheet" href="{{ asset('css/loading.css') }}">
 <link rel="stylesheet" href="{{ asset('css/feed2.css') }}">
+<link rel="stylesheet" href="{{ asset('css/personality.css') }}">
 @endsection()
 
 @section('content')
@@ -172,6 +173,8 @@
                     if (feed[i].name == 'Personality Test') {
                         noImage = true;
                         message = user.first_name + ' à complété(e) le test de personnalité !';
+                        feed[i].content=JSON.parse(feed[i].content);
+                        feed[i].content=feed[i].content[0];
                     }
                 }
 
@@ -202,6 +205,13 @@
                     </div>
                     <div class="feed-content">
                         <p>${message}</p>
+                        <div class="personality-card ${feed[i].content.group_name}">
+                            <p>Groupe de personnalité : <strong>${String(feed[i].content.group_name).charAt(0).toUpperCase() + String(feed[i].content.group_name).slice(1)}</strong></p>
+                            <p>Nom : <strong>${feed[i].content.name}</strong></p>
+                            <p>Type : <strong>${feed[i].content.type}</strong></p>
+                            <p>${feed[i].content.nameDescription}</p>
+                
+                        </div>
                     </div>
                 </a>`;
                 }

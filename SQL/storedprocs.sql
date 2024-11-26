@@ -513,3 +513,23 @@ BEGIN
     INSERT INTO actions (id_user,type,content) values(_id_user,type_id,_content);
 END;
 // DELIMITER ;
+
+Drop procedure if exists addActionPerso;
+DELIMITER //
+Create procedure addActionPerso(_id_user INT, type varchar(40),_content INT)
+BEGIN 
+	DECLARE type_id INT;
+    DECLARE thecontent JSON;
+    
+    SELECT JSON_ARRAYAGG(JSON_OBJECT('personnality',users.personality, 'type',personalities.type,
+		'name',personalities.name,'nameDescription',personalities.nameDescription,'group_name',groups_personalities.name))
+		from users
+        INNER JOIN personalities on users.personality=personalities.id
+         INNER JOIN groups_personalities on personalities.group_perso =groups_personalities.id
+        where users.id= _content into thecontent;
+    
+    Select id from types_actions where name = type into type_id;
+    
+    INSERT INTO actions (id_user,type,content) values(_id_user,type_id,thecontent);
+END;
+// DELIMITER ;

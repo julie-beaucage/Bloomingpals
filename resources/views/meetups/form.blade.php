@@ -230,7 +230,7 @@
 
         }
 
-        document.querySelectorAll('input[type="radio"]')[$('.radio-flex').attr('toCheck')].checked = true;
+        //document.querySelectorAll('input[type="radio"]')[$('.radio-flex').attr('toCheck')].checked = true;
 
         $(document).on("click", function (event) {
             let dropContent = document.getElementById("city-dropdown-content");
@@ -307,6 +307,7 @@
         $('.image-close').on('click', function () {
 
             $('.img-preview').attr('src', '');
+            
 
             $(".fileUploader-content").each(function () {
                 $(this).show();
