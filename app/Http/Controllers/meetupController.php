@@ -142,7 +142,7 @@ class meetupController extends BaseController
         $meetupRequest->status = 'pending'; 
         $meetupRequest->save();
 
-        return back()->with('success', 'Votre demande a été envoyée.');
+        return redirect('/meetup/'.$id);
     }
 
     public function cancelRequest($meetupId, Request $request)
@@ -157,7 +157,7 @@ class meetupController extends BaseController
             return redirect()->back()->with('error', 'Aucune demande trouvée.');
         }
         $request->delete();
-        return redirect()->back()->with('success', 'Demande annulée.');
+        return redirect('/meetup/'.$meetupId);
     } 
     public function acceptRequest($meetupId, $userId)
     {
@@ -190,7 +190,7 @@ class meetupController extends BaseController
 
         Meetup_Request::where('id_user', $user->id)->where('id_meetup', $meetup->id)->delete();
         Meetup_User::where('id_user', $user->id)->where('id_meetup', $meetup->id)->delete();
-        return redirect('/home');
+        return redirect('/meetup/'.$meetupId);
     }
     public function removeRequest($meetupId, $userId) {
         $meetup = Meetup::findOrFail($meetupId);
