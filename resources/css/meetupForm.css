@@ -350,6 +350,7 @@ label {
         flex-direction: column;
         gap: 1em;
         justify-content: center;
+        box-sizing: border-box;
     }
     .expand{
         width: 100%;

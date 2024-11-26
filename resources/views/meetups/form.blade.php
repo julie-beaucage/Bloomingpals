@@ -132,7 +132,7 @@
                 onclick='window.location.replace("{{$data["empty"] ? "/home" : "/meetup/" . $data["id"]}}");'>Retour</button>
         </div>
         @if(!$data['empty'])
-            <div class="btn-meetup red expand center" onclick="Confirm('/meetup/delete/{{$data['id']}}')">Effacer le Meetup
+            <div class="btn-meetup red expand center flex-600" onclick="Confirm('/meetup/delete/{{$data['id']}}')">Effacer le Meetup
             </div>
         @endif
 
