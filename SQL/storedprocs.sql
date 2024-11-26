@@ -1,12 +1,11 @@
-
-USE blooosog_bloomingpals;
+USE BloomingPals;
 
 -- ------------------------------------------------------------------------------------------------
 -- --------------Test Personalité
 -- ------------------------------------------------------------------------------------------------
 DROP PROCEDURE IF EXISTS insertTablePersonality;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE insertTablePersonality(
+CREATE PROCEDURE insertTablePersonality(
     IN p_group_perso INT,
     IN p_type VARCHAR(4),
     IN p_name VARCHAR(50),
@@ -29,7 +28,7 @@ DELIMITER ;
 
 DROP PROCEDURE IF EXISTS update_user_personality;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `update_user_personality`(
+CREATE  PROCEDURE `update_user_personality`(
 IN p_user_id INT, 
 IN p_type VARCHAR(4))
 BEGIN
@@ -60,7 +59,7 @@ END
 -- ------------------------------------------------------------------------------------------------
 DROP PROCEDURE IF EXISTS creerUsager;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `creerUsager`(
+CREATE  PROCEDURE `creerUsager`(
     IN p_courriel VARCHAR(255),
     IN p_nom VARCHAR(50),
     IN p_prenom VARCHAR(50),
@@ -84,7 +83,7 @@ END
 -- ------------------------------------------------------------------------------------------------
 DROP PROCEDURE IF EXISTS updateUserProfile;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE updateUserProfile(IN p_user_id INT,
+CREATE  PROCEDURE updateUserProfile(IN p_user_id INT,
      IN p_prenom VARCHAR(50), 
      IN p_nom VARCHAR(50), 
      IN p_image_profil VARCHAR(500), 
@@ -183,7 +182,7 @@ END;
 -- PROCEDURE POUR UTILISRE POUR FAIRE ROULER LE SCRIPT D'INSERTION D'INTERETS DE LA TABLE
 DROP PROCEDURE IF EXISTS ajouterInterets;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ajouterInterets`(
+CREATE  PROCEDURE `ajouterInterets`(
     IN p_nom_interet VARCHAR(50),
     IN p_id_category INT
 )
@@ -205,7 +204,7 @@ END;
 -- PROCEDURE POUR AJOUTER/MODIF INTERET DE USER
 DROP PROCEDURE IF EXISTS add_user_interests;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `add_user_interests`(
+CREATE  PROCEDURE `add_user_interests`(
     IN utilisateurId INT,
     IN interetsParam VARCHAR(1000)
 )
@@ -245,7 +244,7 @@ END;
 // DELIMITER ; 
 DROP PROCEDURE IF EXISTS add_meetup_interests;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `add_meetup_interests`(
+CREATE  PROCEDURE `add_meetup_interests`(
     IN meetupId INT,
     IN interetsParam VARCHAR(1000)
 )
