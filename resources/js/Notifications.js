@@ -137,10 +137,13 @@ $(document).ready(function () {
                 $.ajax({
                     type: "GET",
                     url: '/ReadAll',
+                    succes: (data)=>{
+                        getNotifications();
+                    }
                 });
                 notif_read = true;
                 $('.notification-badge').hide();
-                initClose();
+                getNotifications();
             }, 2 * 1000);
         }
     });
@@ -216,7 +219,7 @@ $(document).ready(function () {
             $('#container-notification-toggle').append('<div style="margin-top:15%; font-size:1.5em; text-align:center;"><strong>Aucune notifications</strong></div>');
         } else {
             let img = window.location.origin + '/';
-            for (let i = Object.keys(notifications).length -1; i > 0; i--) {
+            for (let i = Object.keys(notifications).length -1; i >= 0; i--) {
                 notifications[i].content = JSON.parse(notifications[i].content);
                 let n = notifications[i];
 
