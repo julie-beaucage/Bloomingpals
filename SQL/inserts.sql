@@ -1,4 +1,4 @@
-USE BloomingPals;
+USE blooosog_bloomingpals;
 SELECT * FROM meetups_requests;
 
 -- Interets --

@@ -21,10 +21,12 @@
             $isOnline = $chatRoom['other_users'][0] ? $chatRoom['other_users'][0]->isOnline() : false;
         }
         
+        $modified = false;
         $lastMessage = "";
         if ($chatRoom['last_message']) {
             $lastMessage .= ($chatRoom['last_user']->id == Auth::id()) ? 'Vous: ' : (count($chatRoom['other_users']) > 1 ? $chatRoom['last_user']->first_name . ': ' : '');
             $lastMessage .= $chatRoom['last_message']->content;
+            $modified = $chatRoom['last_message']->modify == 1;
         }
     @endphp
 
@@ -35,7 +37,7 @@
         <div class="convo_info">
             <div class="convo_name">{{ $chatRoom['name'] }}</div> <!-- Name -->
             <div class="convo_last">
-                @if($chatRoom['last_message']->modify == 1)
+                @if($modified)
                     {{ "Fichier image" }}
                 @else
                     {{ $lastMessage }}

@@ -1123,3 +1123,7 @@ a {
 .accordion-item.active .accordion-body {
     display: block;
 }
+
+#loginOverlay .container-custom-modal {
+    width: fit-content;
+}
