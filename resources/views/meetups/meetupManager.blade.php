@@ -3,6 +3,7 @@
 @section('style')
     <link rel="stylesheet" href="{{ asset('css/event.css') }}">
     <link rel="stylesheet" href="{{ asset('css/meetupForm.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/meetupForm_julie.css') }}">
 @endsection()
 
 @section('content')

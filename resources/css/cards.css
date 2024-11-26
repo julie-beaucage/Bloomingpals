@@ -75,6 +75,16 @@
     overflow: hidden;
     flex-shrink: 0;
 }
+.my.banner {
+    height: 10em;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.meetup-card-footer{
+    padding:1em;
+
+}
 
 .card_long > .banner {
     height: 4em;

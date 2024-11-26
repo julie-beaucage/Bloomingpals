@@ -103,10 +103,6 @@ class meetupController extends BaseController
     public function manageRequests($meetupId)
     {
         $meetup = Meetup::findOrFail($meetupId);
-        Log::info('Vérification d\'accès Meetup', [
-            'utilisateur_connecté' => auth()->id(),
-            'propriétaire_meetup' => $meetup->owner->id,
-        ]);
         if (auth()->id() !== $meetup->owner->id) {
             return redirect()->route('home')->with('error', 'Vous n\'êtes pas autorisé à gérer ce meetup.');
         }

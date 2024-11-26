@@ -19,7 +19,7 @@
             <div class="cards_list">
                 @foreach($meetups as $meetup) 
                     <div class="card no_select hover_darker">
-                        <div class="banner meetup-card-header">
+                        <div class="my banner meetup-card-header">
                             <img src="{{ $meetup->image }}" alt="Image de l'évènement">
                         </div>
                         @if ($meetup->user_id == Auth::user()->id)
@@ -49,16 +49,6 @@
                         <div class="meetup-card-footer">
                             <div class="meetup-participants">
                                 <span class="participant-count">{{ $meetup->nb_participant }} participants</span>
-                                <div class="participants-list">
-                                    <ul>
-                                        @foreach($meetup->participants as $participant)
-                                            <li>
-                                                <img src="{{ $participant->image }}" alt="{{ $participant->first_name }}'s profile picture" class="participant-avatar">
-                                                <span>{{ $participant->first_name }} {{ $participant->last_name }}</span>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </div>
                             </div>
                             @if(auth()->id() == $meetup->owner->id)
                                 @php
@@ -70,10 +60,11 @@
                                     </span>
                                 </div>
                                 <div class="manage-requests-button">
-                                    <a href="{{ route('meetup.manage', $meetup->id) }}" class="btn_primary">
+                                    <a  href="/meetup/{{ $meetup->id }}/meetupManager" class="btn_primary">
                                         Gérer les demandes
                                     </a>
                                 </div>
+                                <br>
                             @endif
                         </div>
                     </div>
