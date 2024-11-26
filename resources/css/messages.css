@@ -41,6 +41,11 @@
     scrollbar-width: none;
 }
 
+.no_convo_text {
+    text-align: center;
+    color: var(--background-800);
+}
+
 #convos_cntr::-webkit-scrollbar {
     width: 12px;
 }

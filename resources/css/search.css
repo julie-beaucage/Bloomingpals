@@ -304,11 +304,10 @@ font-family:"Poppins", sans-serif !important;
     display: none;
 }
 .containerPals{
-   /* height: 100%;
     width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;*/
+    align-items: center;
 }
 .containerPals .filters_cntr{
     max-height: fit-content !important;
