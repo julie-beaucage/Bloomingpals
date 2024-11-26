@@ -150,7 +150,7 @@
                 user = searchById(users, feed[i].id_user);
                 image = user.image_profil ? 'storage/' + user.image_profil : window.location.origin + '/images/simple_flower.png';
                 name = user.first_name + ' ' + user.last_name;
-                link = "user/" + user.id;
+                link = "profile/" + user.id;
                 if (feed[i].name.includes('Meetup')) {
                     meetup = searchById(meetups, (JSON.parse(feed[i].content)).meetup);
                     random = Math.floor(Math.random() * 3) + 1;
@@ -179,8 +179,8 @@
                 }
 
                 action = `<a class="feed-post hover_darker pointer" href="${link}">
-                    <div class="feed-header">
-                        <img class="profile-img" src="${image}" alt="Profile">
+                    <div class="feed-header" href="${"profile/" + user.id}">
+                        <img class="profile-img" src="${image}" alt="Profile" location="${"profile/" + user.id}">
                         <div class="feed-user-info">
                             <strong>${name}</strong>
                             <div></div>
@@ -196,9 +196,9 @@
 
                 if (noImage == true) {
                     action = `<a class="feed-post hover_darker pointer" href="${link}">
-                    <div class="feed-header">
-                        <img class="profile-img" src="${image}" alt="Profile">
-                        <div class="feed-user-info">
+                    <div class="feed-header" href="${"profile/" + user.id}">
+                        <img class="profile-img" src="${image}" alt="Profile" location="${"profile/" + user.id}">
+                        <div class="feed-user-info" location="${"profile/" + user.id}">
                             <strong>${name}</strong>
                             <div></div>
                         </div>
@@ -216,6 +216,13 @@
                 </a>`;
                 }
                 $(friend).append(action);
+                console.log($(action).find('img'));
+                $(action).find('img').on('click',function () {
+                    window.location.href=$(this).attr('location');                    
+                });
+                $(action).find('.feed-user-info').on('click',function(){
+                    window.location.href=$(this).attr('location');
+                });
             } else if (feed[i].type == 'Event') {
                 let event = `<a class="card no_select hover_darker pointer" href="event/${feed[i].id}">
                     <div class="card-banner">
@@ -244,6 +251,7 @@
                     </div>
                 </a>`;
                 $(friend).append(event);
+                
             }
             else if (feed[i].type == 'Meetup') {
                 random = Math.floor(Math.random() * 3) + 1;

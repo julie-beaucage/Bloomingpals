@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Artisan;
+use App\Events\NewNotif;
 use Illuminate\Support\Facades\File;
 use App\Models\User;
 use App\Models\Event;
@@ -136,6 +137,8 @@ class MeetupController extends BaseController
         $meetupRequest->id_meetup = $meetup->id;
         $meetupRequest->status = 'pending'; 
         $meetupRequest->save();
+
+        event(new NewNotif($meetup->id_owner,$user->id,'Meetup Request',['id'=>$meetup->id]));
 
         return redirect('/meetup/'.$id);
     }
