@@ -126,12 +126,6 @@
     font-size: 1.2em;
 }
 
-@media screen and (max-width: 800px) {
-    #home_cntr {
-        font-size: 0.9em;
-    }
-}
-
 @media screen and (max-width: 600px) {
     #showcase {
         font-size: 1em;

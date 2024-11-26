@@ -1,6 +1,6 @@
- -- DROP DATABASE IF EXISTS `BloomingPals`;
-Create DATABASE IF NOT EXISTS `BloomingPals`  DEFAULT CHARACTER SET utf8mb4;
-USE BloomingPals;
+ -- DROP DATABASE IF EXISTS `blooosog_bloomingpals`;
+Create DATABASE IF NOT EXISTS `blooosog_bloomingpals`  DEFAULT CHARACTER SET utf8mb4;
+USE blooosog_bloomingpals;
 
 DROP TABLE IF EXISTS canadacities;
 DROP TABLE IF EXISTS meetups_interests;

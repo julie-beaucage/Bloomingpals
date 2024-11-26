@@ -1,5 +1,3 @@
-const { error } = require("laravel-mix/src/Log");
-
 var urlId = null;
 var page = 0;
 var etag = 0;
@@ -58,8 +56,15 @@ async function updateChat(id) {
         url: '/update/' + id + '/' + etag,
         type: 'GET',
         success: async function (data) {
+
             newEtag = parseInt(data['etag']);
             chatroom = data['chatroom'];
+
+            if (chatroom == "deleted") {
+                window.history.pushState("", "", '/messages');
+                updateMenu();
+                return;
+            }
 
             if (newEtag == undefined || chatroom == undefined) {
                 return;

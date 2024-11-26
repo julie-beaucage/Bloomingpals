@@ -47,7 +47,7 @@
                         </span>
                     </div>
                     <div class="selection_cell no_select hover_darker" style="background-color: var(--category-2)" data-id="2">
-                        Culture
+                        Culturel
                         <span class="material-symbols-rounded icon">
                             things_to_do
                         </span>

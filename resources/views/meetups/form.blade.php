@@ -49,12 +49,6 @@
                 value="{{$data['nb_participant']}}">
             <i class="feedback is-wrong"></i>
         </div>
-        <div class="form-flex-col radio-flex" style="gap:.5em; flex-direction:row !important;" toCheck="{{$checked}}">
-            <input type="radio" name="public" value="1"><label>Public</label>
-            <input type="radio" name="public" value="0"><label>Privé</label>
-        </div>
-
-
     </div>
 
     <div class="form-title">Lieu et date</div>
