@@ -1,9 +1,10 @@
 .img-preview {
     width: -moz-fit-content;
-    width: fit-content;
+    
     max-height: 15em;
     -o-object-position: 50% 50%;
     object-position: 50% 50%;
+    max-width: 100%
 }
 
 /* drop down css */
@@ -17,12 +18,11 @@
     width: 100%;
     border: 1px solid var(--neutral-400);
     z-index: 1;
-    max-height: 15em;
+    height: 15em;
     border-radius: 0.5em;
     box-sizing: border-box;
     overflow-x: hidden;
-    top: 3.8em;
-
+    top: 3.5em;
 }
 
 .city-dropdown-content::-webkit-scrollbar-thumb {
@@ -42,10 +42,10 @@
     overflow: overlay;
 }
 
-.city-dropdown-content option:hover {
+.city-dropdown-content div:hover {
     background-color: var(--secondary-300);
 }
-.city-dropdown-content option {
+.city-dropdown-content div {
     color: #495057;
     display: block;
     padding: 12px 16px;
@@ -170,10 +170,11 @@ input[type="file"] {
 .form-meetup>.form-section {
     display: flex;
     flex-direction: column;
-    padding: .5em;
+    padding:.5em 0 .5em .5em;
     background-color: var(--neutral-150);
     border-radius: 5px;
     gap: 1em;
+    
 
 }
 
@@ -193,11 +194,14 @@ textarea {
     max-height: 15em;
     font-size: 1em;
     font-family: inherit;
+    box-sizing: border-box;
     width: 100%;
     -webkit-appearance: none;
     background-color: var(--white);
+    color: black;
+    height: 1.6em;
 }
-input
+
 
 .radio-flex {
     width: -moz-fit-content;
@@ -218,6 +222,7 @@ input:focus,textarea:focus{
     border-color: black;
 }
 textarea {
+    height: 4em;
     min-height: 3em;
     resize:vertical;
 }
@@ -345,8 +350,23 @@ label {
         flex-direction: column;
         gap: 1em;
         justify-content: center;
+        box-sizing: border-box;
     }
     .expand{
-        flex:3;
+        width: 100%;
+    }
+    input{
+        height: 2em;
+    }
+    .city-dropdown-content{
+        top:4.3em;
     }
 }
+
+@media screen and (-webkit-min-device-pixel-ratio:0) { 
+    select,
+    textarea,
+    input {
+      font-size: 16px;
+    }
+  }

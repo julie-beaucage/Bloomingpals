@@ -516,7 +516,7 @@ END;
 
 Drop procedure if exists addActionPerso;
 DELIMITER //
-Create procedure addActionPerso(_id_user INT, type varchar(40),_content INT)
+Create procedure addActionPerso(_id_user INT, type varchar(40))
 BEGIN 
 	DECLARE type_id INT;
     DECLARE thecontent JSON;
@@ -526,7 +526,7 @@ BEGIN
 		from users
         INNER JOIN personalities on users.personality=personalities.id
          INNER JOIN groups_personalities on personalities.group_perso =groups_personalities.id
-        where users.id= _content into thecontent;
+        where users.id= _id_user into thecontent;
     
     Select id from types_actions where name = type into type_id;
     

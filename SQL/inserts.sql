@@ -658,30 +658,30 @@ INSERT INTO meetups_interests (id_interest, id_meetup) VALUES (100, 13);
 
 -- feed
 Call addAction(20,'Meetup Create',json_object('meetup',6));
+Call addActionPerso(12,'Personality Test');
+Call addActionPerso(13,'Personality Test');
 Call addAction(19,'Meetup Create',json_object('meetup',7));
 Call addAction(20,'Meetup Create',json_object('meetup',8));
+Call addActionPerso(19,'Personality Test');
+Call addActionPerso(20,'Personality Test');
 Call addAction(18,'Meetup Create',json_object('meetup',9));
+Call addActionPerso(7,'Personality Test');
+Call addActionPerso(8,'Personality Test');
+Call addActionPerso(9,'Personality Test');
 Call addAction(18,'Meetup Create',json_object('meetup',10));
 Call addAction(17,'Meetup Create',json_object('meetup',11));
+Call addActionPerso(15,'Personality Test');
+Call addActionPerso(16,'Personality Test');
+Call addActionPerso(18,'Personality Test');
 Call addAction(17,'Meetup Create',json_object('meetup',12));
 Call addAction(19,'Meetup Create',json_object('meetup',13));
 
-Call addActionPerso(1,'Personality Test',1);
-Call addActionPerso(3,'Personality Test',2);
-Call addActionPerso(4,'Personality Test',3);
-Call addActionPerso(5,'Personality Test',4);
-Call addActionPerso(7,'Personality Test',5);
-Call addActionPerso(8,'Personality Test',6);
-Call addActionPerso(9,'Personality Test',7);
-Call addActionPerso(11,'Personality Test',8);
-Call addActionPerso(12,'Personality Test',9);
-Call addActionPerso(13,'Personality Test',10);
-Call addActionPerso(14,'Personality Test',11);
-Call addActionPerso(15,'Personality Test',12);
-Call addActionPerso(16,'Personality Test',13);
-Call addActionPerso(18,'Personality Test',14);
-Call addActionPerso(19,'Personality Test',15);
-Call addActionPerso(20,'Personality Test',16);
+Call addActionPerso(1,'Personality Test');
+Call addActionPerso(3,'Personality Test');
+Call addActionPerso(4,'Personality Test');
+Call addActionPerso(5,'Personality Test');
+Call addActionPerso(11,'Personality Test');
+Call addActionPerso(14,'Personality Test');
 
 -- Evenement --
 CALL addEvent ('Tori Kelly', '', 'Musique', 'Montreal', '59 St Catherine Est', '2024-10-22 00:00:00', 'Paid', '//images.ctfassets.net/3yxl57nu0yl4/ZvkgASpWsMVv5Xr3RLNEz/e4b9c537ee8c00f15fef16a71b0c8e93/tori_kelly_2024.jpg');

@@ -15,12 +15,6 @@ function truncate($str,$maxlength){
 @endphp
 @section('content')
 
-@if($notifications->first() == null)
-        <div style="margin-top:20%; font-size:1.5em;"><strong>Aucune notifications</strong></div>
-@else
-
-@endif
-
 @endsection()
 
 @section('script')
@@ -33,10 +27,6 @@ function truncate($str,$maxlength){
                 url: '/ReadAll',
             });
         }, 2 * 1000);
-
-       
-
-
     });
 </script>
 
