@@ -250,7 +250,7 @@
                         </div>
                         <hr>
                         <div class="infos">
-                            <span>${feed[i].date}</span>
+                            <span>${new Date(feed[i].date.split(' ')[0]).toLocaleDateString('fr-CA')}</span>
                             <span></span>
                         </div>
                     </div>
@@ -285,7 +285,7 @@
                         </div>
                         <hr>
                         <div class="infos">
-                            <span>${feed[i].date}</span>
+                            <span>${new Date(feed[i].date.split(' ')[0]).toLocaleDateString('fr-CA')}</span>
                             <span>Aucun participants</span>
                         </div>
                     </div>
