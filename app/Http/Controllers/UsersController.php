@@ -152,6 +152,7 @@ class UsersController extends Controller
     }
     public function profile($id,$modified =false)
     {
+
         if (Auth::guest()) {
             return redirect()->route('home')->with('error', 'Veuillez vous connecter pour accéder à votre profil.');
         }

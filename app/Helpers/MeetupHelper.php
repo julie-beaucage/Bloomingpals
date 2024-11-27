@@ -159,7 +159,7 @@ if (!function_exists('btn_setUp')) {
         $meetupId = $meetup->id;
         if ($userId == $meetup->id_owner) {
             $btn_txt = "Modifier";
-            $btn_class = "btn_interesse";
+            $btn_class = "";
 
             return "
             <form action='/meetup/form/{$meetupId}' method='GET'>
@@ -179,27 +179,28 @@ if (!function_exists('btn_setUp')) {
 
         if ($requestStatus == 'refused') {
             return '';
+        }
 
         if ($requestStatus == 'none') {
             $url = route("meetups.send_request", ["meetupId" => $meetupId]);
             $btn_txt = "Rejoindre";
-            $btn_class = "btn_interesse";
+            $btn_class = "";
         } else {
             if ($requestStatus == 'accepted') {
                 $url = route("meetups.leave", ["meetupId" => $meetupId]);
                 $btn_txt = "Se retirer"; // Icône de crochet coché
-                $btn_class = "btn_friends";
+                $btn_class = "";
             } elseif ($requestStatus == 'pending') {
                 $btn_txt = "Annuler la demande";
-                $url = "#"; // Ne fait rien ici
-                $btn_class = "btn_refuse";
+                $url = route("meetups.cancel_request", ["meetupId" => $meetupId]);
+                $btn_class = "";
             } elseif ($requestStatus == 'refused') {
                 $url = "#";
                 $btn_txt = "Refusé";
-                $btn_class = "btn_refuse";
+                $btn_class = "";
                 $btn_disabled = "disabled"; 
-                $url = route("meetups.cancel_request", ["meetupId" => $meetupId]);
-                $btn_class = "btn_pending";
+                $url = "#";
+                $btn_class = "";
             }
         }
 
@@ -210,6 +211,5 @@ if (!function_exists('btn_setUp')) {
                     <span>{$btn_txt}</span>
                 </button>
             </form>";
-    }
    }
 }

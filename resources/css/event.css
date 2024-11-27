@@ -109,15 +109,16 @@
 }
 
 .banner {
-    height: 20em;
+    height: 20em; 
 }
 
 .banner img {
     flex: 0;
-    width: 100%;
     height: 100%;
     object-fit: cover;
     border-radius: 2em;
+    
+
 }
 
 .text_light {

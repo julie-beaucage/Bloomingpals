@@ -49,12 +49,6 @@
                 value="{{$data['nb_participant']}}">
             <i class="feedback is-wrong"></i>
         </div>
-        <div class="form-flex-col radio-flex" style="gap:.5em; flex-direction:row !important;" toCheck="{{$checked}}">
-            <input type="radio" name="public" value="1"><label>Public</label>
-            <input type="radio" name="public" value="0"><label>Privé</label>
-        </div>
-
-
     </div>
 
     <div class="form-title">Lieu et date</div>
@@ -134,10 +128,11 @@
     <div class="form-flex-col spaced" style="margin: 3em 0 .5em 0; ">
         <div class="form-flex-col flex-600">
             <button class="btn-meetup green expand center" id="submit" type="submit">Enregistrer</button>
-            <button class="btn-meetup gray expand center" onclick='window.location.replace("{{$data["empty"] ? "/home" : "/meetup/".$data["id"]}}");'>Retour</button>
+            <button class="btn-meetup gray expand center"
+                onclick='window.location.replace("{{$data["empty"] ? "/home" : "/meetup/" . $data["id"]}}");'>Retour</button>
         </div>
         @if(!$data['empty'])
-            <div class="btn-meetup red expand center" onclick="Confirm('/meetup/delete/{{$data['id']}}')">Effacer le Meetup
+            <div class="btn-meetup red expand center flex-600" onclick="Confirm('/meetup/delete/{{$data['id']}}')">Effacer le Meetup
             </div>
         @endif
 
@@ -158,7 +153,7 @@
     }
 
     if (MeetupId != "") {
-        fetch(url=window.location.href.indexOf('event') == -1 ? (window.location.origin + '/meetup/interests/' + MeetupId): (window.location.origin + '/event/interests/' + MeetupId)).then(response => {
+        fetch(url = window.location.href.indexOf('event') == -1 ? (window.location.origin + '/meetup/interests/' + MeetupId) : (window.location.origin + '/event/interests/' + MeetupId)).then(response => {
             if (response.ok) {
                 return response.json();
             }
@@ -236,7 +231,7 @@
 
         }
 
-        document.querySelectorAll('input[type="radio"]')[$('.radio-flex').attr('toCheck')].checked = true;
+        //document.querySelectorAll('input[type="radio"]')[$('.radio-flex').attr('toCheck')].checked = true;
 
         $(document).on("click", function (event) {
             let dropContent = document.getElementById("city-dropdown-content");
@@ -245,9 +240,9 @@
             if (!(event.target.closest('div') == dropContent) && event.target != inputDropdown) {
                 $('#city-dropdown-content').hide();
 
-                if (selectedOption != null) {
-                    $("#city").prop("value", selectedOption.val());
-                }
+                // if (selectedOption != null) {
+                //     $("#city").prop("value", selectedOption.val());
+                // }
             }
         });
         // derouler le dropdown
@@ -255,8 +250,7 @@
             $('#city-dropdown-content').show();
 
         });
-
-        $("option").on('click', function () {
+        $("#city-dropdown-content").children().on('click', function () {
 
             if (selectedOption == null) {
                 $(this).attr("selected", "selected");
@@ -271,15 +265,17 @@
                     $(this).addClass("selected");
                 }
             }
-            $("#city").prop("value", selectedOption.val());
+            console.log(selectedOption[0].getAttribute('value'));
+            $("#city").prop('value', selectedOption[0].getAttribute('value'));
+
+
         })
 
         $("#city").on("keyup", function () {
             let texte = $(this).val().toUpperCase();
-            let options = document.getElementById("city-dropdown-content").getElementsByTagName("option");
-
+            let options = document.getElementById("city-dropdown-content").getElementsByTagName("div");
             for (let i = 0; i < options.length; i++) {
-                if (options[i].value.toUpperCase().indexOf(texte) < 0) {
+                if (options[i].getAttribute('value').toUpperCase().indexOf(texte) < 0) {
                     options[i].style.display = "none";
                 } else {
                     options[i].style.display = "";
@@ -313,12 +309,15 @@
         $('.image-close').on('click', function () {
 
             $('.img-preview').attr('src', '');
+            $('.img-preview').hide();
+
 
             $(".fileUploader-content").each(function () {
                 $(this).show();
             });
 
             $('.fileUploader').removeClass('active-image');
+            $('.fileUploader').removeClass('active');
             $(this).hide();
         });
 
@@ -361,7 +360,7 @@
             $('.image-close').show();
         }
         function checkFile(file) {
-            const allowedMimes = ['image/jpeg', 'image/jpg', 'image/png'];
+            const allowedMimes = ['image/jpeg', 'image/jpg', 'image/png', 'image/bmp', 'image/webp'];
 
             if (allowedMimes.includes(file.type)) {
                 if (file.size > 2000000) {
@@ -398,13 +397,7 @@
         }
 
         let errors;
-        let listCities = [];
 
-        let cities = $('#city-dropdown-content').find('option');
-
-        cities.each(function () {
-            listCities.push($(this).val().toLowerCase());
-        });
 
 
         // verification data     
@@ -423,7 +416,13 @@
             });
         }
         $('form').on('submit', function (e) {
+            let listCities = [];
 
+            let cities = $('#city-dropdown-content').find('div');
+
+            cities.each(function () {
+                listCities.push(($(this).text().toLowerCase()).trim());
+            });
 
             let data = new FormData(e.target);
             errors = false;
@@ -486,15 +485,15 @@
                 str = str.substring(0, str.length - 1);
 
                 $(this).append($('<input>').attr('name', 'interests').attr('style', 'display:none;').val(str));
-            }
 
-            if ($('.img-preview').attr('src') == "") {
+                if ($('.img-preview').attr('src') == "") {
 
-                //e.preventDefault();
-                //document.querySelector('input[type=file]').value = "";
-                document.querySelector('input[type=file]').remove();
+                    //e.preventDefault();
+                    //document.querySelector('input[type=file]').value = "";
+                    document.querySelector('input[type=file]').remove();
 
-                $(this).append($('<input>').attr('name', 'image').attr('style', 'display:none;').val("delete"));
+                    $(this).append($('<input>').attr('name', 'image').attr('style', 'display:none;').val("delete"));
+                }
             }
         });
 

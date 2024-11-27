@@ -43,7 +43,7 @@ foreach ($meetups as $meetup) {
     }
 
     echo <<< HTML
-        <a class="card no_select hover_darker" href="meetup/$meetup->id">
+        <a class="card no_select hover_darker" href="/meetup/$meetup->id">
             <div class="banner">
                 <img src="{$image}" alt="Image de l'évènement">
             </div>

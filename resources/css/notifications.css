@@ -63,15 +63,16 @@
 
 @media only screen and (max-width: 600px) {
     .notification-container{
-        top: .5em;
-        width: 97%;
+        top: 4.5em;
+        width: 90%;
         padding: .5em;
-        margin-left: 1em;
-        margin-right: 1em;
+        margin: auto;
+        left: 0;
+        right: 0;
     }
     .profile-picture-notif {
-        width: 2em;
-        height: 2em;
+        width: 3em;
+        height: 3em;
         border-radius: 50%;
         border: .1em solid white;
     }

@@ -149,7 +149,7 @@ class HomeController extends Controller
 
             $userInterests = User_Interest::select('id_interest')->where('id_user', Auth::user()->id)->get();
             $meetupsByInterest = DB::table('meetups')->join('meetups_interests', 'id', '=', 'id_meetup')->where('id_owner','!=',$id_user)
-                ->whereIn('id_interest', $userInterests)->groupBy('id')
+                ->whereIn('id_interest', $userInterests)->whereRaw('meetups.date > NOW()')->groupBy('id')
                 ->orderBy('id', 'desc')->offset($offset * $page)->take($offset)->get();
 
             return $meetupsByInterest;
@@ -183,7 +183,7 @@ class HomeController extends Controller
             $userInterests = User_Interest::select('id_interest')->where('id_user', Auth::user()->id)->get();
 
             $eventsByInterest = DB::table('events')->join('events_interests', 'id', '=', 'id_event')->groupBy('id')
-                ->whereIn('id_interest', $userInterests)->orderBy('id', 'desc')->offset($offset * $page)->take($offset)->get();
+                ->whereIn('id_interest', $userInterests)->whereRaw('events.date > NOW()')->orderBy('id', 'desc')->offset($offset * $page)->take($offset)->get();
 
             return $eventsByInterest;
         }

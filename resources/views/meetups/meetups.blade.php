@@ -1,17 +1,9 @@
-@extends("master")
-
-@section('style')
-<link rel="stylesheet" href="{{ asset('css/meetup.css') }}">
-@endsection
 @php
-$index=0;
-setlocale(LC_ALL, 'fr_FR');
+    $index=0;
+    setlocale(LC_ALL, 'fr_FR');
 @endphp
 
-@section("content")
-
 <div class="container-meetups">
-
     @foreach ($meetups as $meetup)
     @if(!(Auth::user()->id != $meetup->id_organisateur and $meetup->public ==0 ))
         <div class="container-meetup" id="{{$meetup->id}}">
@@ -31,9 +23,9 @@ setlocale(LC_ALL, 'fr_FR');
             </div>
             
             <div class="flex-row">
-                <img class="profile-picture" src="{{ $users[$index]->image_profil ? asset('storage/' . $users[$index]->image_profil) : asset('/images/simple_flower.png') }}"  id="{{$users[$index]->id}}">
+                <img class="profile-picture" src="{{ $meetup->image_profil ? asset('storage/' . $meetup->image_profil) : asset('/images/simple_flower.png') }}"  id="{{$meetup->owner_id}}">
                 <div sty>
-                    <div class="text">{{$users[$index]->prenom}} {{$users[$index]->nom}}</div>
+                    <div class="text">{{$meetup->first_name}} {{$meetup->last_name}}</div>
                     <div>Affinité: 50%</div>
                 </div>
             </div>
@@ -58,22 +50,4 @@ setlocale(LC_ALL, 'fr_FR');
         $index+=1;
         @endphp
     @endforeach
-
-
 </div>
-
-@endsection
-@section("script")
-<script>
-    $(".profile-picture").on('click',function(){
-       window.location.href="#"+this.id;
-    });
-
-    $(".container-meetup").on('click',function(event){
-        if(event.target.className != 'profile-picture'){
-            window.location.href="meetup/page/"+ this.id;
-        }
-    });
-
-</script>
-@endsection

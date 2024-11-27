@@ -17,15 +17,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Artisan;
+use App\Events\NewNotif;
 use Illuminate\Support\Facades\File;
 use App\Models\User;
 use App\Models\Event;
 use App\Models\Meetup_Interest;
 use Illuminate\Support\Facades\Log;
-
 use Route;
 
-class meetupController extends BaseController
+class MeetupController extends BaseController
 {
 
     public function showMeetupForm($eventId)
@@ -80,17 +80,18 @@ class meetupController extends BaseController
     // }
     public function showMyMeetup($id){
         $user = User::findOrFail($id);
-        $meetups = Meetup::getMeetupsByOwner($user->id); 
-        $joinedMeetups = $user->joinedMeetups;
-        if ($meetups->isEmpty() && $joinedMeetups->isEmpty()) {
-            return view('meetups.meetups', [
-                'message' => 'Aucune rencontre disponible', 
-                'meetups' => $meetups,
-                'joinedMeetups' => collect(), 
-                'user' => $user,
-            ]);
-        }     
-        return view('meetups.meetups', ['meetups' => $meetups, 'user' => $user, 'joinedMeetups' => $joinedMeetups ]);  
+        $meetups = Meetup::join('meetups_users', 'meetups.id', '=', 'meetups_users.id_meetup')
+        ->where('meetups.id_owner', $id)
+        ->orWhere('meetups_users.id_user', $id)
+        ->get();
+        
+        $view = view('partial_views.meetup_cards', ['meetups' => $meetups]);
+
+        return <<< HTML
+            <div class="cards_list">
+                $view
+            </div>
+        HTML;
     }
 
     public function meetup_detail($id){
@@ -103,7 +104,7 @@ class meetupController extends BaseController
     public function manageRequests($meetupId)
     {
         $meetup = Meetup::findOrFail($meetupId);
-        if (auth()->id() !== $meetup->owner->id) {
+        if (auth()->id() != $meetup->owner->id) {
             return redirect()->route('home')->with('error', 'Vous n\'êtes pas autorisé à gérer ce meetup.');
         }
         $pendingRequests = Meetup_Request::where('id_meetup', $meetupId)
@@ -138,7 +139,9 @@ class meetupController extends BaseController
         $meetupRequest->status = 'pending'; 
         $meetupRequest->save();
 
-        return back()->with('success', 'Votre demande a été envoyée.');
+        event(new NewNotif($meetup->id_owner,$user->id,'Meetup Request',['id'=>$meetup->id]));
+
+        return redirect('/meetup/'.$id);
     }
 
     public function cancelRequest($meetupId, Request $request)
@@ -153,13 +156,13 @@ class meetupController extends BaseController
             return redirect()->back()->with('error', 'Aucune demande trouvée.');
         }
         $request->delete();
-        return redirect()->back()->with('success', 'Demande annulée.');
+        return redirect('/meetup/'.$meetupId);
     } 
     public function acceptRequest($meetupId, $userId)
     {
         $meetup = Meetup::findOrFail($meetupId);
         $user = User::findOrFail($userId);
-        if (auth()->user()->id !== $meetup->id_owner) {
+        if (auth()->user()->id != $meetup->id_owner) {
             return redirect('/home')->with('error', 'Vous n\'êtes pas le propriétaire de ce meetup.');
         }
         DB::statement('CALL accept_meetup_request(?, ?, ?)', [$meetup->id_owner, $userId, $meetupId]);
@@ -169,7 +172,7 @@ class meetupController extends BaseController
     public function refuseRequest($meetupId, $userId)
     {
         $meetup = Meetup::findOrFail($meetupId);
-        if (auth()->user()->id !== $meetup->id_owner) {
+        if (auth()->user()->id != $meetup->id_owner) {
             return redirect('/home')->with('error', 'Vous n\'êtes pas le propriétaire de ce meetup.');
         }
 
@@ -180,17 +183,17 @@ class meetupController extends BaseController
     public function leaveMeetup($meetupId) {
         $meetup = Meetup::findOrFail($meetupId);
         $user = auth()->user();
-        if ($user->id === $meetup->id_owner) {
+        if ($user->id == $meetup->id_owner) {
             return redirect('/home')->with('error', 'Vous ne pouvez pas quitter votre propre meetup.');
         }
 
         Meetup_Request::where('id_user', $user->id)->where('id_meetup', $meetup->id)->delete();
         Meetup_User::where('id_user', $user->id)->where('id_meetup', $meetup->id)->delete();
-        return redirect('/home');
+        return redirect('/meetup/'.$meetupId);
     }
     public function removeRequest($meetupId, $userId) {
         $meetup = Meetup::findOrFail($meetupId);
-        if (auth()->user()->id !== $meetup->id_owner) {
+        if (auth()->user()->id != $meetup->id_owner) {
             return redirect('/home')->with('error', 'Vous n\'êtes pas le propriétaire de ce meetup.');
         }
         
@@ -244,6 +247,7 @@ class meetupController extends BaseController
                 $data['isEvent'] = false;
             }
             $listCities = $this->getCities();
+            
 
             return view('meetups.form', compact('data', 'listCities'));
         }
@@ -276,7 +280,7 @@ class meetupController extends BaseController
                 date_create("$req->date" . " " . "$req->time"),
                 $req->nb_participant,
                 $path,
-                $req->public
+                1
             ]);
 
             $meetup = Meetup::where('image', $path)->where('date', date_create("$req->date" . " " . "$req->time"))
@@ -315,7 +319,6 @@ class meetupController extends BaseController
     }
     public function edit($id = null, Request $req)
     {
-
         if ($id != null) {
 
             $id_owner = Auth::user()->id;
@@ -387,6 +390,8 @@ class meetupController extends BaseController
                     File::delete($rencontre->image);
                 }
 
+                Meetup_Request::where('id_meetup', $id)->delete();
+                Meetup_User::where('id_meetup', $id)->delete();
                 Meetup_Interest::where('id_meetup', $id)->delete();
                 Meetup::where('id', $id)->delete();
             }

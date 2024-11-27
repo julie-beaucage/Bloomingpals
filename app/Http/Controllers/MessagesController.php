@@ -7,6 +7,7 @@ use App\Models\Message;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Mockery\Undefined;
 use PHPUnit\TextUI\XmlConfiguration\Group;
 use Storage;
 
@@ -115,6 +116,15 @@ class MessagesController extends Controller
     }
 
     public function update($id, $etag) {
+
+        $chat = ChatRoom::query()->where('id', '=', $id)->first();
+        if ($chat == null) {
+            return response()->json([
+                'chatroom' => "deleted",
+                'etag' => 0
+            ]);
+        }
+
         $users = User::query()->join('chatRooms_users', 'users.id', '=', 'chatRooms_users.id_user')->where('id_chatRoom', '=', $id)->get();
 
         if (!$users->contains('id', auth()->user()->id)) {
