@@ -408,6 +408,8 @@ BEGIN
 	START TRANSACTION;
 		DELETE from meetups_requests where id_meetup=id_rencontre;
 		DELETE FROM meetups where meetups.id= id_rencontre;
+        DELETE FROM meetups_interests where meetup_id=id_rencontre;
+        DELETE FROM actions  WHERE JSON_EXTRACT(content,'$.meetup') = id_rencontre;
 	COMMIT;
 	
 END;
