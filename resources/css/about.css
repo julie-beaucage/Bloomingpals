@@ -1,0 +1,241 @@
+@import url(https://fonts.googleapis.com/css?family=Amatic+SC:400);
+/*  ---- PARTIE ORANGE AVEC LE LOGO---- */
+.cover-container{
+    background-color: var(--accent-400);
+    width: 100%;
+    height: 50%;
+    display: flex;
+    padding:1em;
+    color:var(--white);
+    justify-content: space-evenly;
+}
+h1{
+  font-size:1em;
+}
+.icecream {
+  float: left;
+  shape-outside: url('/images/logoBloom.png');
+  height: 100%;
+}
+.imgContainer{
+  width: 30%;
+  height: 100%;
+}
+.container-cover-text{
+  font-size: 2em;
+  max-height: fit-content;
+}
+/*  ---- PARTIE DE L'HISTOIRE ET CITATION---- */
+.container{
+  display: flex!important;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding:1em;
+}
+.container div{
+  flex:1;
+}
+.text {
+  font-size: 42px;
+  margin: 0;
+  padding-left: 20px;
+  padding-top: 20px;
+}
+.img_beg{
+  padding:1em;
+  border-radius: 1em;
+}
+.citation {
+  font-size: 32px;
+  top: 20px;
+  position: relative;
+}
+.histoire{
+    flex:1;  
+}
+
+/*  ---- COMMENT CA MARCHE ET VIDEO---- */
+.Fonctionnement_container{
+    background-color: var(--white);
+    padding:1em;
+    width: 100%;
+    display: flex;   
+}
+iframe{
+ flex:1;
+ width:100%;
+ height:100%;
+ min-height: -moz-fit-content;
+ min-height: fit-content;
+}
+/*  ---- PARTIE DES CARTE AVEC CHOSES A FAIRE---- */
+.container_action{
+    align-items: center;
+    text-align: center;
+
+}
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    justify-content: center;
+  }
+  
+  .cards__item {
+    display: flex;
+    padding: 1rem;
+    @media(min-width: 40rem) {
+      width: 50%;
+    }
+    @media(min-width: 56rem) {
+      width: 33.3333%;
+    }
+  }
+.card {
+    background-color: white;
+    border-radius: 0.25rem;
+    box-shadow: 0 20px 40px -14px rgba(0,0,0,0.25);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    &:hover {
+      .card__image {
+        filter: contrast(100%);
+      }
+    }
+  }
+  
+  .card__content {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+.card__image {
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+    filter: contrast(70%);
+    filter: saturate(180%);
+    overflow: hidden;
+    position: relative;
+    transition: filter 0.5s cubic-bezier(.43,.41,.22,.91);;
+    &::before {
+      content: "";
+        display: block;
+        padding-top: 56.25%; 
+    }
+    @media(min-width: 40rem) {
+      &::before {
+        padding-top: 66.6%; 
+      }
+    }
+  }
+
+.card__image--meetups {
+    background-image: url('/images/meet.avif');
+  }
+  
+  .card__image--perso {
+    background-image: url('/images/personality.png');
+  }
+  
+  .card__image--chat {
+    background-image: url('/images/chat.png');
+  }
+  
+  .card__image--fence {
+    background-image: url('/images/event.png');
+  }
+  .card__title {
+    font-size: 1.25rem;
+    font-weight: 300;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+  @media (max-width: 1100px) {
+    h1{
+      font-size: 1.6em;
+    }
+    h2{
+      font-size: 1em;
+    }
+    .Fonctionnement_container {
+      flex-direction: column;
+      align-items: center;
+      height: -moz-fit-content;
+      height: fit-content;
+      padding: 1em;
+      width: 100%;
+    }
+    .Fonctionnement_container div {
+      width: 80%;
+      margin-bottom: 1em;
+      height: 100%;
+      padding: 1em;
+    }
+    .video_container{
+      width: 80%;
+    }
+    iframe {
+      margin-bottom: 10em;
+      width: 100%;
+    }
+  }
+@media (max-width: 800px) {
+  h1{
+    font-size: 1em;
+  }
+  .container {
+    flex-direction: column;
+    padding:1em;
+  }
+  .container div {
+    width: 100%; 
+    margin-bottom: 1em; 
+  }
+  .text {
+    font-size: 2em;
+    margin: 0;
+    padding-left: 20px;
+    padding-top: 20px;
+  }
+  .faq-container{
+    width: 100%; /* Valeur par défaut */
+    width: -webkit-fill-available; /* Pour les navigateurs WebKit */
+    width: -moz-available; /* Pour Firefox */
+  }
+}
+  @media (max-width: 600px) {
+    .cover-container{
+      width: 100%;
+      height: 30%;
+      justify-content: space-evenly;
+  }
+    .cover-container {
+      flex-direction: row;
+      justify-content: space-evenly;
+    }
+    .container-cover-text{
+      font-size: 1em;
+    }
+
+    .text {
+      font-size: 2em;
+    }
+    .citation {
+      font-size: 1em;
+
+    }
+    .icecream {
+      float: left;
+      shape-outside: url('/images/logoBloom.png');
+      height: 100%;
+    }
+  }
