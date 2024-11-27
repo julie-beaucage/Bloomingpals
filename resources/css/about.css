@@ -55,19 +55,30 @@ h1{
 }
 
 /*  ---- COMMENT CA MARCHE ET VIDEO---- */
-.Fonctionnement_container{
-    background-color: var(--white);
-    padding:1em;
-    width: 100%;
-    display: flex;   
+.Fonctionnement_container {
+  flex-direction: column;
+  align-items: center;
+  height: -moz-fit-content;
+  background-color: var(--white);
+  height: fit-content;
+  padding: 1em;
+  width: 100%;
 }
-iframe{
- flex:1;
- width:100%;
- height:100%;
- min-height: -moz-fit-content;
- min-height: fit-content;
+.Fonctionnement_container div {
+  width: 80%;
+  margin-bottom: 1em;
+  height: 100%;
+  padding: 1em;
 }
+.video_container{
+  width: 80%;
+}
+iframe {
+  margin-bottom: 1em;
+  width: 100%;
+  height: 30em;
+}
+
 /*  ---- PARTIE DES CARTE AVEC CHOSES A FAIRE---- */
 .container_action{
     align-items: center;
@@ -166,38 +177,21 @@ iframe{
     h2{
       font-size: 1em;
     }
-    .Fonctionnement_container {
-      flex-direction: column;
-      align-items: center;
-      height: -moz-fit-content;
-      height: fit-content;
-      padding: 1em;
-      width: 100%;
-    }
-    .Fonctionnement_container div {
-      width: 80%;
-      margin-bottom: 1em;
-      height: 100%;
-      padding: 1em;
-    }
-    .video_container{
-      width: 80%;
-    }
-    iframe {
-      margin-bottom: 10em;
-      width: 100%;
-    }
+ 
   }
 @media (max-width: 800px) {
   h1{
     font-size: 1em;
+  }
+  iframe {
+    height: 20em;
   }
   .container {
     flex-direction: column;
     padding:1em;
   }
   .container div {
-    width: 100%; 
+   /* width: 100%; */
     margin-bottom: 1em; 
   }
   .text {
@@ -224,6 +218,9 @@ iframe{
     }
     .container-cover-text{
       font-size: 1em;
+    }
+    iframe {
+      height: 20em;
     }
 
     .text {

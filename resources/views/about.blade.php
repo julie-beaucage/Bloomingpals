@@ -84,10 +84,14 @@
         <div class="histoire">
             <h2>Comment ça marche ?</h2>
             <ol>
-                <li>Inscrivez-vous et remplissez votre profil à 100%. Confirmez votre courriel pour accéder à toutes les fonctionnalités, complétez le test de personnalité et choisissez vos intérêts.</li>
-                <li>Explorez les événements disponibles dans votre région.</li>
-                <li>Créez un meetup pour rencontrer de futurs amis ! Vous pouvez choisir un événement ou en organiser un vous-même, comme aller à la plage ou assister à un spectacle.</li>
+                <li>Inscrivez-vous et remplissez votre profil à 100%. </li>
+                <li>Confirmez votre adresse courriel pour accéder à toutes les fonctionnalités</li>
+                <li>Complétez le test de personnalité et choisissez vos centres d'intérêt.</li>
+                <li>Notre algorithme d'affinité prend en compte les intérêts communs et le type de personnalité. Il est donc important de remplir ces informations pour obtenir des correspondances plus précises.</li>
+                <li>Explorez les événements disponibles dans votre région pour vous inspirer et créer votre propre rencontre avec de nouveaux amis.</li>
+                <li>Créez un meetup pour rencontrer de futurs amis ! Vous pouvez rejoindre un événement existant ou en organiser un vous-même, comme aller à la plage ou assister à un spectacle. L'organisateur a le contrôle sur qui peut rejoindre son événement.</li>
             </ol>
+
             <a href="{{ route('faq') }}" class="btn_primary">En savoir plus</a>
         </div>
         <div clas="video_container">
